@@ -12,18 +12,18 @@
     :root {
       --srg-green: #06372d;
       --srg-gold: #b19053;
-      --srg-bg: #fdfaf0; 
+      --srg-bg-gold: #fdfaf0; 
     }
 
     body { 
       font-family: 'Plus Jakarta Sans', sans-serif; 
-      background-color: var(--srg-bg);
+      background-color: var(--srg-bg-gold);
       color: #1a2e2a;
       overflow-x: hidden;
       position: relative;
     }
 
-    /* BACKGROUND PATTERN - DOTS (IDENTIK image_a523da.png) */
+    /* BACKGROUND PATTERN - DOTS */
     body::before {
       content: "";
       position: fixed;
@@ -39,7 +39,7 @@
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
       background-image: url('https://www.transparenttextures.com/patterns/batik-ideal.png');
-      opacity: 0.18; 
+      opacity: 0.15; 
       background-size: 450px; 
       filter: sepia(100%) saturate(220%) hue-rotate(5deg) brightness(85%); 
       pointer-events: none; z-index: -1;
@@ -84,8 +84,7 @@
     .nav-btn-active { background-color: #06372d !important; color: #b19053 !important; box-shadow: 0 8px 15px rgba(6, 55, 45, 0.3); }
     .nav-btn-inactive { color: #94a3b8 !important; }
 
-    /* MODAL */
-    .srg-modal-overlay { position: fixed; inset: 0; background: rgba(4, 38, 31, 0.75); backdrop-filter: blur(12px); z-index: 2000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; }
+    .srg-modal-overlay { position: fixed; inset: 0; background: rgba(4, 38, 31, 0.75); backdrop-filter: blur(8px); z-index: 2000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; }
     .srg-modal-overlay.active { display: flex; opacity: 1; }
     .srg-modal-content { width: 90%; max-width: 420px; background: #f1f0e8; border-radius: 4rem; padding: 4rem 2.5rem 2rem 2.5rem; position: relative; text-align: center; box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3); }
     .modal-logo-circle { position: absolute; top: -45px; left: 50%; transform: translateX(-50%); width: 90px; height: 90px; background: #f1f0e8; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
@@ -94,7 +93,6 @@
     .loader { border-radius: 50%; border: 4px solid #f3f3f3; border-top: 4px solid var(--srg-gold); width: 40px; height: 40px; animation: spinner 1.2s linear infinite; }
     @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-    /* PRINT HANDLING */
     #report-kop { display: none; }
     @media print {
       .no-print { display: none !important; }
@@ -102,7 +100,7 @@
       body::before, body::after { display: none !important; }
       #appSection, #page-rekap { display: block !important; visibility: visible !important; opacity: 1 !important; }
       .capsule-card { border: none !important; box-shadow: none !important; border-radius: 0 !important; background: transparent !important; }
-      #report-kop { display: block !important; width: 100%; margin-bottom: 20px; border-bottom: 3px double #06372d; padding-bottom: 15px; text-align: center; }
+      #report-kop { display: block !important; width: 100%; margin-bottom: 25px; border-bottom: 3.5px double #06372d; padding-bottom: 15px; text-align: center; }
       table { width: 100% !important; border-collapse: collapse !important; font-size: 8pt !important; }
       th, td { border: 0.5pt solid #333 !important; padding: 4px !important; }
       #dashboardStats, #adminFilter, #rekapSummary { display: none !important; }
@@ -111,21 +109,22 @@
 </head>
 <body class="min-h-screen">
 
-  <!-- MODAL ELEMENT -->
+  <!-- MODAL -->
   <div id="srgModal" class="srg-modal-overlay no-print">
     <div class="srg-modal-content">
       <div class="modal-logo-circle"><div class="modal-logo-inner">SRG</div></div>
       <h3 id="modalTitle" class="text-3xl font-black text-slate-800 italic uppercase mb-3 tracking-tighter text-center">INFO</h3>
       <p id="modalMessage" class="text-base text-slate-500 italic mb-12 px-6 text-center"></p>
-      <div class="flex flex-col space-y-4 text-center">
+      <div class="flex flex-col space-y-4">
         <button id="modalConfirmBtn" class="w-full py-6 rounded-full bg-[#06372d] text-[#b19053] font-black uppercase text-sm tracking-[0.2em] shadow-2xl active:scale-95 transition-all">OK</button>
-        <button id="modalCancelBtn" onclick="closeSRGModal()" class="w-full py-3 text-slate-400 font-bold uppercase text-[10px] tracking-widest text-center hover:text-slate-600 transition-all hidden">BATAL</button>
+        <button id="modalCancelBtn" onclick="closeSRGModal()" class="w-full py-3 text-slate-400 font-bold uppercase text-[10px] tracking-widest text-center hidden">BATAL</button>
       </div>
-      <div class="mt-14 mb-3 w-full h-[1px] bg-slate-200 opacity-40 mx-auto text-center"></div>
+      <div class="mt-14 mb-3 w-full h-[1px] bg-slate-200 opacity-40 mx-auto"></div>
       <p class="text-[8px] text-slate-300 font-black tracking-[0.4em] uppercase text-center px-4">PT SUBUR RAYA GROUP OFFICIAL SYSTEM</p>
     </div>
   </div>
 
+  <!-- LOADING OVERLAY -->
   <div id="loadingOverlay" class="fixed inset-0 bg-white/80 z-[1100] flex items-center justify-center hidden backdrop-blur-sm no-print text-center">
     <div class="flex flex-col items-center">
       <div class="loader"></div>
@@ -140,14 +139,16 @@
           <div class="bg-[#06372d] w-28 h-28 rounded-full flex items-center justify-center mx-auto shadow-2xl border-[3px] border-[#b19053] mb-8 relative">
               <span class="text-[#b19053] font-black text-4xl italic text-center">SRG</span>
           </div>
-          <h1 class="text-2xl font-black text-[#06372d] italic tracking-tight uppercase leading-none text-center">PT SUBUR RAYA GROUP</h1>
-          <p class="text-[#b19053] text-[10px] font-black tracking-[0.4em] uppercase mt-3 italic text-center">ELITE FINANCIAL SYSTEM</p>
+          <h1 class="text-2xl font-black text-[#06372d] italic tracking-tight uppercase leading-none">PT SUBUR RAYA GROUP</h1>
+          <p class="text-[#b19053] text-[10px] font-black tracking-[0.4em] uppercase mt-3 italic">ELITE FINANCIAL SYSTEM</p>
       </div>
       <div class="space-y-7 text-left px-2">
         <div><label class="block text-[9px] font-black text-slate-400 uppercase mb-3 ml-4 italic tracking-widest text-left">ID PENGGUNA</label><input type="text" id="userInput" class="capsule-input w-full px-8 py-5 text-sm font-semibold text-slate-700 shadow-sm outline-none" placeholder="username"></div>
         <div><label class="block text-[9px] font-black text-slate-400 uppercase mb-3 ml-4 italic tracking-widest text-left">KATA SANDI</label><div class="relative">
             <input type="password" id="passInput" class="capsule-input w-full px-8 py-5 text-sm font-semibold text-slate-700 shadow-sm pr-14 outline-none" placeholder="password">
-            <button type="button" onclick="togglePass()" class="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 hover:text-srg-gold transition-all"><i id="passIcon" class="fas fa-eye-slash"></i></button>
+            <button type="button" onclick="togglePass()" class="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 hover:text-srg-gold transition-all">
+                <i id="passIcon" class="fas fa-eye-slash"></i>
+            </button>
         </div></div>
         <div class="flex items-center space-x-3 ml-1 pt-1 text-left"><input type="checkbox" id="rememberMe" class="w-4 h-4 text-srg-green border-slate-300 rounded focus:ring-srg-gold cursor-pointer"><label for="rememberMe" class="text-[9px] font-black text-slate-400 uppercase tracking-widest cursor-pointer text-nowrap">SIMPAN ID & KATA SANDI</label></div>
         <button onclick="handleLogin()" class="btn-premium w-full font-black py-6 text-xs tracking-[0.3em] uppercase mt-8 shadow-xl">MASUK SISTEM</button>
@@ -156,7 +157,7 @@
     </div>
   </div>
 
-  <!-- APP SECTION -->
+  <!-- MAIN APP SECTION -->
   <div id="appSection" class="hidden text-left">
     <div class="fixed top-8 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-2xl no-print">
         <nav class="nav-main-pill p-2 flex justify-between items-center px-4 md:px-8">
@@ -191,7 +192,6 @@
                     <select id="mitraFilter" onchange="refreshDashboard()" class="capsule-input px-6 py-2 bg-slate-50 border-none font-bold text-[11px] uppercase text-srg-green cursor-pointer text-left outline-none"></select>
                 </div>
                 <div class="flex items-center space-x-4 bg-white p-3 rounded-full shadow-2xl border border-white">
-                  <!-- AVATAR (BG HIJAU, TEKS EMAS) -->
                   <div id="userAvatar" style="background-color: #06372d; color: #b19053;" class="w-14 h-14 rounded-full flex items-center justify-center font-black italic text-lg border-2 shadow-inner text-center">A</div>
                   <div class="pr-8 text-left text-wrap"><p id="userDisplay" class="text-sm font-black text-[#06372d] uppercase leading-none"></p><p id="roleDisplay" class="text-[10px] text-[#b19053] uppercase font-black italic tracking-widest mt-1 text-left"></p></div>
                 </div>
@@ -248,24 +248,24 @@
 
       <!-- REKAP (ADMIN ONLY) -->
       <div id="page-rekap" class="page-content hidden space-y-12 text-left">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-8 px-6 no-print text-left text-wrap text-left"><div class="border-l-4 border-srg-green pl-8 text-left text-wrap text-left"><h2 class="text-5xl font-black text-srg-green italic uppercase tracking-tighter text-left text-wrap text-left">REKAPITULASI LAPORAN</h2><p class="text-[11px] text-slate-400 font-bold uppercase tracking-[0.5em] mt-2 text-left text-nowrap text-left">Dokumen Formal Per Periode</p></div><button onclick="window.print()" class="no-print btn-premium px-12 py-5 text-xs shadow-2xl text-center text-nowrap text-center text-gold">UNDUH / CETAK PDF</button></div>
-        <div class="no-print capsule-card p-12 bg-white/90 border-white shadow-2xl mx-4 text-left text-wrap text-left text-left">
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-end text-left text-wrap text-left text-left">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-8 px-6 no-print text-left text-wrap text-left"><div class="border-l-4 border-srg-green pl-8 text-left text-wrap text-left"><h2 class="text-5xl font-black text-srg-green italic uppercase tracking-tighter text-left text-wrap text-left">REKAPITULASI LAPORAN</h2><p class="text-[11px] text-slate-400 font-bold uppercase tracking-[0.5em] mt-2 text-left text-nowrap text-left text-left">Dokumen Formal Per Periode</p></div><button onclick="window.print()" class="no-print btn-premium px-12 py-5 text-xs shadow-2xl text-center text-nowrap text-center text-gold">UNDUH / CETAK PDF</button></div>
+        <div class="no-print capsule-card p-12 bg-white/90 border-white shadow-2xl mx-4 text-left text-wrap text-left text-left text-left">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-end text-left text-wrap text-left text-left text-left">
               <div class="md:col-span-3 text-left"><label class="block text-[10px] font-black text-slate-400 uppercase mb-3 ml-4 italic tracking-widest text-left text-nowrap text-left text-left">Periode Laporan</label><select id="rMode" onchange="toggleRekapFilters()" class="capsule-input w-full px-8 py-5 bg-slate-50 font-bold text-sm uppercase text-left outline-none cursor-pointer text-left"><option value="harian">HARIAN / MINGGUAN</option><option value="bulanan">BULANAN</option><option value="tahunan">TAHUNAN</option></select></div>
-              <div id="rRange" class="md:col-span-6 grid grid-cols-2 gap-5 text-left text-wrap text-left text-left"><div><label class="block text-[10px] font-black text-slate-400 uppercase mb-3 ml-4 italic tracking-widest text-left text-left text-left">DARI</label><input type="date" id="rStart" class="capsule-input w-full px-8 py-5 font-bold text-sm text-left outline-none"></div><div><label class="block text-[10px] font-black text-slate-400 uppercase mb-3 ml-4 italic tracking-widest text-left text-left text-left text-left">SAMPAI</label><input type="date" id="rEnd" class="capsule-input w-full px-8 py-5 font-bold text-sm text-left outline-none"></div></div>
-              <div class="md:col-span-3 text-center text-center text-center"><button onclick="refreshDashboard()" class="btn-premium w-full py-5 text-xs font-black tracking-[0.3em] uppercase shadow-2xl text-center text-nowrap text-center text-center">Tampilkan Data</button></div>
+              <div id="rRange" class="md:col-span-6 grid grid-cols-2 gap-5 text-left text-wrap text-left text-left text-left"><div><label class="block text-[10px] font-black text-slate-400 uppercase mb-3 ml-4 italic tracking-widest text-left text-left text-left text-left">DARI</label><input type="date" id="rStart" class="capsule-input w-full px-8 py-5 font-bold text-sm text-left outline-none"></div><div><label class="block text-[10px] font-black text-slate-400 uppercase mb-3 ml-4 italic tracking-widest text-left text-left text-left text-left">SAMPAI</label><input type="date" id="rEnd" class="capsule-input w-full px-8 py-5 font-bold text-sm text-left outline-none"></div></div>
+              <div class="md:col-span-3 text-center text-center text-center text-center"><button onclick="refreshDashboard()" class="btn-premium w-full py-5 text-xs font-black tracking-[0.3em] uppercase shadow-2xl text-center text-nowrap text-center text-center text-center text-center">Tampilkan Data</button></div>
             </div>
         </div>
-        <div id="rekapArea" class="space-y-12 text-left text-left text-left">
-            <div id="rekapSummary" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 px-6 no-print text-left text-left text-left"></div>
-            <div class="capsule-card shadow-2xl overflow-hidden border-white mx-4 bg-white text-left text-left text-left">
-                <!-- PRINT KOP IDENTIK image_a59b77.png -->
-                <div id="report-kop" class="text-center pt-5 text-wrap text-center text-center">
-                  <div class="flex items-center justify-center space-x-8 mb-6 text-center text-wrap text-center text-center text-center"><div style="background: #06372d; width: 75px; height: 75px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #b19053; font-weight: 900; font-size: 28px; border: 3px solid #b19053; text-center text-center">SRG</div><div class="text-left text-wrap text-left text-left text-left"><h1 style="font-size: 32px; font-weight: 900; color: #06372d; margin: 0; line-height: 1;">PT SUBUR RAYA GROUP</h1><p style="font-size: 11px; color: #666; letter-spacing: 3px; text-transform: uppercase; font-weight: bold; margin-top: 8px;">Laporan Rincian Transaksi Keuangan Resmi</p></div></div>
+        <div id="rekapArea" class="space-y-12 text-left text-left text-left text-left text-left">
+            <div id="rekapSummary" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 px-6 no-print text-left text-left text-left text-left text-left text-left"></div>
+            <div class="capsule-card shadow-2xl overflow-hidden border-white mx-4 bg-white text-left text-left text-left text-left text-left">
+                <!-- PRINT KOP -->
+                <div id="report-kop" class="text-center pt-5 text-wrap text-center text-center text-center text-center">
+                  <div class="flex items-center justify-center space-x-8 mb-6 text-center text-wrap text-center text-center text-center text-center text-center"><div style="background: #06372d; width: 75px; height: 75px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #b19053; font-weight: 900; font-size: 28px; border: 3px solid #b19053; text-center text-center text-center text-center">SRG</div><div class="text-left text-wrap text-left text-left text-left text-left"><h1 style="font-size: 32px; font-weight: 900; color: #06372d; margin: 0; line-height: 1;">PT SUBUR RAYA GROUP</h1><p style="font-size: 11px; color: #666; letter-spacing: 3px; text-transform: uppercase; font-weight: bold; margin-top: 8px;">Laporan Rincian Transaksi Keuangan Resmi</p></div></div>
                   <div style="display: flex; justify-content: space-between; border-top: 2.5px solid #06372d; border-bottom: 0.5pt solid #eee; padding: 15px 10px; margin-top: 20px;"><div style="text-align: left; font-size: 11px; line-height: 1.8;"><p><strong>Mitra :</strong> <span id="pMitra">SEMUA MITRA</span></p><p><strong>Periode :</strong> <span id="pPeriod">SEMUA WAKTU</span></p></div><div style="text-align: right; font-size: 10px; font-style: italic; color: #888;"><p id="pDate"></p></div></div>
                 </div>
-                <div class="p-10 border-b bg-slate-50 font-black text-[#06372d] uppercase text-sm italic no-print text-left text-wrap text-left text-left">RINCIAN DATA TRANSAKSI TERKAIT</div>
-                <div class="overflow-x-auto text-left text-left text-left"><table class="w-full text-xs text-slate-700 italic text-left text-wrap text-left text-left text-left text-left"><thead class="bg-white border-b-2 border-slate-100 font-black text-slate-400 uppercase text-left text-nowrap text-left text-left"><tr><th class="p-6 text-left text-nowrap">WAKTU</th><th class="text-left text-nowrap">MITRA</th><th class="text-right text-nowrap text-left">OMSET</th><th class="text-right text-nowrap text-left">MODAL</th><th class="text-right text-emerald-800 text-nowrap text-left">LABA BERSIH</th><th class="text-left text-nowrap text-left">BIAYA OPERASIONAL</th><th class="text-right text-[#b19053] text-nowrap text-nowrap text-left">CSR (5%)</th><th class="text-right text-[#06372d] text-nowrap text-left">Pembagian PT (20%)</th><th class="text-right text-orange-700 text-nowrap text-left">Pembagian Mitra (80%)</th></tr></thead><tbody id="rekapTable" class="divide-y divide-slate-50 text-left text-wrap text-left text-left"></tbody></table></div>
+                <div class="p-10 border-b bg-slate-50 font-black text-[#06372d] uppercase text-sm italic no-print text-left text-wrap text-left text-left text-left text-left">RINCIAN DATA TRANSAKSI TERKAIT</div>
+                <div class="overflow-x-auto text-left text-left text-left text-left"><table class="w-full text-xs text-slate-700 italic text-left text-wrap text-left text-left text-left text-left text-left"><thead class="bg-white border-b-2 border-slate-100 font-black text-slate-400 uppercase text-left text-nowrap text-left text-left text-left text-left"><tr><th class="p-6 text-left text-nowrap">WAKTU</th><th class="text-left text-nowrap">MITRA</th><th class="text-right text-nowrap text-left text-left">OMSET</th><th class="text-right text-nowrap text-left text-left">MODAL</th><th class="text-right text-emerald-800 text-nowrap text-left text-left">LABA BERSIH</th><th class="text-left text-nowrap text-left text-left">BIAYA OPERASIONAL</th><th class="text-right text-[#b19053] text-nowrap text-nowrap text-left text-left text-left">CSR (5%)</th><th class="text-right text-[#06372d] text-nowrap text-left text-left text-left text-left">Pembagian PT (20%)</th><th class="text-right text-orange-700 text-nowrap text-left text-left text-left text-left text-left">Pembagian Mitra (80%)</th></tr></thead><tbody id="rekapTable" class="divide-y divide-slate-50 text-left text-wrap text-left text-left text-left text-left text-left"></tbody></table></div>
             </div>
         </div>
       </div>
@@ -284,19 +284,31 @@
     const auth = getAuth(app);
     const appId = typeof __app_id !== 'undefined' ? __app_id : 'srg-cloud-final-v18';
 
-    let user = null, allTx = [], authReady = false;
+    let userState = null;
+    let allTransactions = [];
+    let isInitialized = false;
 
-    // --- AUTH ---
+    // --- AUTHENTICATION ---
     const initAuth = async () => {
       showLoading(true, "MENGHUBUNGKAN KE CLOUD...");
       try {
-        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) { await signInWithCustomToken(auth, __initial_auth_token); } 
-        else { await signInAnonymously(auth); }
-      } catch (err) { console.error("Auth init fail:", err); }
-      finally { showLoading(false); }
+        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) { 
+          await signInWithCustomToken(auth, __initial_auth_token); 
+        } else { 
+          await signInAnonymously(auth); 
+        }
+      } catch (err) { 
+        console.error("Auth init fail:", err); 
+      } finally { 
+        showLoading(false); 
+      }
     };
 
-    onAuthStateChanged(auth, (u) => { user = u; authReady = !!u; });
+    onAuthStateChanged(auth, (u) => { 
+      if (u) {
+        isInitialized = true;
+      }
+    });
 
     const fmt = (v) => "Rp " + new Intl.NumberFormat('id-ID').format(Math.floor(v || 0));
 
@@ -307,7 +319,7 @@
       if (t && txt) txt.innerText = t.toUpperCase();
     }
 
-    // --- MODAL ---
+    // --- MODAL CONTROLLER (NULL-SAFE) ---
     window.showSRGModal = (o) => {
       const m = document.getElementById('srgModal'), t = document.getElementById('modalTitle'), 
             msg = document.getElementById('modalMessage'), cB = document.getElementById('modalConfirmBtn'), 
@@ -326,7 +338,10 @@
         else { cnB.classList.add('hidden'); }
       }
 
-      if (m) { m.style.display = 'flex'; setTimeout(() => { if(m) m.classList.add('active'); }, 10); }
+      if (m) { 
+        m.style.display = 'flex'; 
+        setTimeout(() => { if(m) m.classList.add('active'); }, 10); 
+      }
     };
 
     window.closeSRGModal = () => { const m = document.getElementById('srgModal'); if (m) { m.classList.remove('active'); setTimeout(() => { if(m) m.style.display = 'none'; }, 300); } };
@@ -359,7 +374,7 @@
       const u = uEl.value.toLowerCase().trim(), p = pEl.value.trim();
       let role = 'mitra', name = '', valid = false;
 
-      // LOGIN LOGIC
+      // LOGIN LOGIC (IDENTIK image_a523da.png)
       if (u === 'admin' && p === 'adminsuburraya') { valid = true; role = 'admin'; name = 'ADMIN'; }
       else if (u === 'albarokahshop30' && p === 'mitrasubur1') { valid = true; name = 'ALBAROKAHSHOP30'; }
       else if (u === 'radiator tunggaksemi' && p === 'mitrasubur2') { valid = true; name = 'RADIATOR TUNGGAKSEMI'; }
@@ -369,21 +384,22 @@
       }
 
       if (valid) {
-        const localUser = { appRole: role, appDisplayName: name };
-        user = Object.assign(user || {}, localUser);
+        userState = { appRole: role, appDisplayName: name };
         
         showSRGModal({
             title: "LOGIN BERHASIL",
-            message: `Selamat datang, ${name}.`,
+            message: `Selamat datang, ${name}. Tekan OK untuk masuk ke Strategic Dashboard.`,
             onConfirm: () => {
                 const loginSec = document.getElementById('loginSection'), appSec = document.getElementById('appSection');
                 if (loginSec) loginSec.classList.add('hidden');
                 if (appSec) appSec.classList.remove('hidden');
+                
                 const ud = document.getElementById('userDisplay'); if(ud) ud.innerText = name;
                 const rd = document.getElementById('roleDisplay'); if(rd) rd.innerText = role.toUpperCase();
                 const ds = document.getElementById('dashboardScope');
                 if(ds) ds.innerText = role === 'admin' ? "ADMINISTRATOR STRATEGIC DASHBOARD" : "PROFESSIONAL PARTNER FINANCIAL REPORT";
                 const av = document.getElementById('userAvatar'); if (av) { av.innerText = role === 'admin' ? 'A' : 'M'; }
+                
                 initApp();
             }
         });
@@ -396,20 +412,32 @@
       const mitraNames = ["ALBAROKAHSHOP30", "RADIATOR TUNGGAKSEMI"]; for (let i=3; i<=20; i++) mitraNames.push("MITRA " + i);
       mitraNames.forEach(n => { if (hf) hf.add(new Option(n, n)); if (fm) fm.add(new Option(n, n)); });
 
-      if (user && user.appRole !== 'admin') {
-        if (fm) { fm.value = user.appDisplayName; fm.disabled = true; }
-        document.getElementById('btnSave').classList.remove('hidden');
-        document.getElementById('entryTitle').innerText = "DATA ENTRY";
+      if (userState && userState.appRole !== 'admin') {
+        if (fm) { fm.value = userState.appDisplayName; fm.disabled = true; }
+        const bs = document.getElementById('btnSave'); if (bs) bs.classList.remove('hidden');
+        const et = document.getElementById('entryTitle'); if (et) et.innerText = "DATA ENTRY";
         const ig = document.getElementById('inputGroup');
         if (ig) {
           ig.innerHTML = `
             <div class="grid grid-cols-1 md:grid-cols-2 gap-10 text-left text-wrap">
-                <div class="text-left text-wrap"><label class="text-[10px] font-black text-slate-400 uppercase mb-3 ml-4 italic tracking-widest text-left">Omset (Total penjualan produk)</label><input type="number" id="f-omset" oninput="liveCalc()" class="capsule-input w-full px-8 py-6 font-bold outline-none text-slate-700 shadow-sm text-left"></div>
-                <div class="text-left text-wrap"><label class="text-[10px] font-black text-slate-400 uppercase mb-3 ml-4 italic tracking-widest text-left">Biaya Produksi (Modal)</label><input type="number" id="f-modal" oninput="liveCalc()" class="capsule-input w-full px-8 py-6 font-bold outline-none text-slate-700 shadow-sm text-left"></div>
+                <div class="text-left text-wrap">
+                    <label class="text-[10px] font-black text-slate-400 uppercase mb-3 ml-4 italic tracking-widest text-left">Omset (Total penjualan produk)</label>
+                    <input type="number" id="f-omset" oninput="liveCalc()" class="capsule-input w-full px-8 py-6 font-bold outline-none text-slate-700 shadow-sm text-left">
+                </div>
+                <div class="text-left text-wrap">
+                    <label class="text-[10px] font-black text-slate-400 uppercase mb-3 ml-4 italic tracking-widest text-left">Biaya Produksi (Modal)</label>
+                    <input type="number" id="f-modal" oninput="liveCalc()" class="capsule-input w-full px-8 py-6 font-bold outline-none text-slate-700 shadow-sm text-left">
+                </div>
             </div>
             <div class="grid grid-cols-1 gap-10 text-left text-wrap">
-                <div class="text-left text-wrap text-left"><label class="text-[10px] font-black text-slate-400 uppercase mb-3 ml-4 italic tracking-widest text-left">Biaya Operasional (Nominal)</label><input type="number" id="f-ops" class="capsule-input w-full px-8 py-6 font-bold outline-none text-slate-700 shadow-sm text-left"></div>
-                <div class="text-left text-wrap text-left"><label class="text-[10px] font-black text-slate-400 uppercase mb-3 ml-4 italic tracking-widest text-left">Keterangan Biaya Operasional</label><textarea id="f-ket" class="capsule-card w-full p-8 text-sm font-semibold italic outline-none text-slate-500 bg-white text-left text-wrap" placeholder="Detail pengeluaran..."></textarea></div>
+                <div class="text-left text-wrap text-left">
+                    <label class="text-[10px] font-black text-slate-400 uppercase mb-3 ml-4 italic tracking-widest text-left">Biaya Operasional (Nominal)</label>
+                    <input type="number" id="f-ops" class="capsule-input w-full px-8 py-6 font-bold outline-none text-slate-700 shadow-sm text-left">
+                </div>
+                <div class="text-left text-wrap text-left">
+                    <label class="text-[10px] font-black text-slate-400 uppercase mb-3 ml-4 italic tracking-widest text-left">Keterangan Biaya Operasional</label>
+                    <textarea id="f-ket" class="capsule-card w-full p-8 text-sm font-semibold italic outline-none text-slate-500 bg-white text-left text-wrap" placeholder="Detail pengeluaran..."></textarea>
+                </div>
             </div>`;
         }
       }
@@ -417,11 +445,11 @@
     }
 
     function listenData() {
-      if (!auth.currentUser) return;
+      if (!isInitialized) return;
       onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'transactions'), (snap) => {
-        allTx = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        allTransactions = snap.docs.map(d => ({ id: d.id, ...d.data() }));
         refreshDashboard();
-      }, (err) => console.error("Snapshot fail:", err));
+      }, (err) => console.error("Data error:", err));
     }
 
     window.saveTransaction = async () => {
@@ -438,15 +466,15 @@
         const form = document.getElementById('transForm'); if(form) form.reset();
         document.getElementById('liveCalcArea')?.classList.add('hidden');
         switchPage('dashboard');
-        showSRGModal({ title: "BERHASIL", message: "Data tersimpan di cloud." });
+        showSRGModal({ title: "BERHASIL", message: "Data laporan telah tersimpan di cloud database." });
       } catch (e) { showSRGModal({ title: "GAGAL", message: "Gagal simpan ke cloud." }); } finally { showLoading(false); }
     };
 
     window.refreshDashboard = () => {
-      if (!user) return;
+      if (!userState) return;
       const mfVal = document.getElementById('mitraFilter')?.value || 'all';
-      let f = [...allTx];
-      if (user.appRole !== 'admin') f = f.filter(t => t.mitra === user.appDisplayName);
+      let f = [...allTransactions];
+      if (userState.appRole !== 'admin') f = f.filter(t => t.mitra === userState.appDisplayName);
       else if (mfVal !== 'all') f = f.filter(t => t.mitra === mfVal.toUpperCase());
       const rs = document.getElementById('rStart')?.value, re = document.getElementById('rEnd')?.value;
       const rekapPage = document.getElementById('page-rekap');
@@ -473,17 +501,17 @@
         {l:"Pembagian Mitra (80%)", v:sums.bm, t:"orange-tint", x:"text-orange-700"}
       ];
       grid.innerHTML = cards
-        .filter(c => !c.exclusive || user.appRole === c.exclusive)
-        .map(c => `<div class="capsule-card p-8 card-${c.t} text-left text-wrap"><p class="text-[9px] font-black uppercase italic mb-2 opacity-60 tracking-widest text-left text-wrap text-left">${c.l}</p><h3 class="text-2xl font-black ${c.x} italic text-left text-wrap text-left">${c.isP ? c.v : fmt(c.v)}</h3></div>`)
+        .filter(c => !c.exclusive || userState.appRole === c.exclusive)
+        .map(c => `<div class="capsule-card p-8 card-${c.t} text-left text-wrap"><p class="text-[9px] font-black uppercase italic mb-2 opacity-60 tracking-widest text-left text-wrap text-left">${c.l}</p><h3 class="text-2xl font-black ${c.x} italic text-left text-wrap text-left text-left">${c.isP ? c.v : fmt(c.v)}</h3></div>`)
         .join('');
-      const body = document.getElementById('tableBody'); if (body) body.innerHTML = data.slice(0, 15).map(t => `<tr class="hover:bg-white/50 transition-all text-left text-wrap text-left text-left"><td class="p-8 font-black text-slate-400 tracking-tighter text-left text-left text-left">${t.tanggal || '-'}</td><td class="font-black text-[#06372d] text-left text-nowrap text-left text-left text-left">${t.mitra || '-'}</td><td class="text-right text-left text-left">${fmt(t.omset)}</td><td class="text-right text-left text-left">${fmt(t.modal)}</td><td class="text-right font-black text-emerald-800 text-left text-left">${fmt(t.lk)}</td><td class="p-8 text-left text-wrap text-left text-left text-left text-left"><span class="block font-black text-slate-700 mb-1 text-left text-left">${fmt(t.ops)}</span></td><td class="text-center text-center text-center text-center text-center"><button onclick="handleDeleteRequest('${t.id}')" class="text-red-200 hover:text-red-500 text-center"><i class="fas fa-trash"></i></button></td></tr>`).join('');
+      const body = document.getElementById('tableBody'); if (body) body.innerHTML = data.slice(0, 15).map(t => `<tr class="hover:bg-white/50 transition-all text-left text-wrap text-left text-left text-left text-left text-left"><td class="p-8 font-black text-slate-400 tracking-tighter text-left text-left text-left text-left text-left">${t.tanggal || '-'}</td><td class="font-black text-[#06372d] text-left text-nowrap text-left text-left text-left text-left text-left">${t.mitra || '-'}</td><td class="text-right text-left text-left text-left text-left">${fmt(t.omset)}</td><td class="text-right text-left text-left text-left text-left">${fmt(t.modal)}</td><td class="text-right font-black text-emerald-800 text-left text-left text-left text-left">${fmt(t.lk)}</td><td class="p-8 text-left text-wrap text-left text-left text-left text-left text-left text-left text-left"><span class="block font-black text-slate-700 mb-1 text-left text-left text-left text-left">${fmt(t.ops)}</span></td><td class="text-center text-center text-center text-center text-center text-center"><button onclick="handleDeleteRequest('${t.id}')" class="text-red-200 hover:text-red-500 text-center text-center text-center text-center text-center text-center"><i class="fas fa-trash"></i></button></td></tr>`).join('');
     }
 
     function renderRekapUI(data) {
-      if (!user || user.appRole !== 'admin') return;
+      if (!userState || userState.appRole !== 'admin') return;
       const sums = data.reduce((a, b) => ({ o: a.o + b.omset, lb: a.lb + (b.lb || 0), csr: a.csr + (b.csr || 0), pt: a.pt + (b.pt || 0), bm: a.bm + (b.mitraPart || 0) }), {o:0, lb:0, csr:0, pt:0, bm:0});
-      const rs = document.getElementById('rekapSummary'); if (rs) rs.innerHTML = [{l:"Total Omset", v:sums.o, t:"tan", x:"text-slate-800"},{l:"Laba Bersih Akhir", v:sums.lb, t:"green-light", x:"text-emerald-800"},{l:"CSR (5%)", v:sums.csr, t:"green-dark", x:"text-[#b19053]"},{l:"Pembagian PT (20%)", v:sums.pt, t:"green-dark", x:"text-[#b19053]"},{l:"Pembagian Mitra (80%)", v:sums.bm, t:"orange-tint", x:"text-orange-700"}].map(c => `<div class="capsule-card p-8 card-${c.t} text-left text-wrap text-left text-left text-left text-left"><p class="text-[9px] font-black uppercase italic opacity-60 mb-2 text-left text-left text-left">${c.l}</p><h3 class="text-xl font-black ${c.x} italic text-wrap text-left text-left text-left text-left text-left">${fmt(c.v)}</h3></div>`).join('');
-      const body = document.getElementById('rekapTable'); if (body) body.innerHTML = data.map(t => `<tr class="text-left text-wrap text-left text-left text-left text-left text-left text-left"><td class="p-6 font-bold text-slate-50 text-left text-nowrap text-left text-left text-left">${t.tanggal || '-'}</td><td class="font-black text-[#06372d] text-left text-nowrap text-left text-left text-left text-left text-left">${t.mitra || '-'}</td><td class="text-right text-left text-left text-left text-left text-left">${fmt(t.omset)}</td><td class="text-right text-left text-left text-left text-left text-left">${fmt(t.modal)}</td><td class="text-right font-bold text-emerald-800 text-nowrap text-left text-left text-left text-left text-left">${fmt(t.lb)}</td><td class="text-left text-wrap text-left text-left text-left text-left text-left text-left text-left text-left text-left"><span class="block text-xs font-bold text-left text-left text-left text-left">${fmt(t.ops)}</span><span class="block text-[10px] opacity-70 text-left text-wrap text-nowrap text-left text-left text-left text-left text-left text-left text-left text-left text-left">${t.keterangan || '-'}</span></td><td class="text-right text-[#b19053] font-bold text-nowrap text-left text-left text-left text-left text-left">${fmt(t.csr)}</td><td class="text-right text-[#06372d] font-bold text-nowrap text-left text-left text-left text-left text-left text-left">${fmt(t.pt)}</td><td class="text-right text-orange-700 font-bold text-nowrap text-left text-left text-left text-left text-left text-left text-left">${fmt(t.mitraPart)}</td></tr>`).join('');
+      const rs = document.getElementById('rekapSummary'); if (rs) rs.innerHTML = [{l:"Total Omset", v:sums.o, t:"tan", x:"text-slate-800"},{l:"Laba Bersih Akhir", v:sums.lb, t:"green-light", x:"text-emerald-800"},{l:"CSR (5%)", v:sums.csr, t:"green-dark", x:"text-[#b19053]"},{l:"Pembagian PT (20%)", v:sums.pt, t:"green-dark", x:"text-[#b19053]"},{l:"Pembagian Mitra (80%)", v:sums.bm, t:"orange-tint", x:"text-orange-700"}].map(c => `<div class="capsule-card p-8 card-${c.t} text-left text-wrap text-left text-left text-left text-left text-left text-left"><p class="text-[9px] font-black uppercase italic opacity-60 mb-2 text-left text-left text-left text-left text-left text-left">${c.l}</p><h3 class="text-xl font-black ${c.x} italic text-wrap text-left text-left text-left text-left text-left text-left text-left text-left">${fmt(c.v)}</h3></div>`).join('');
+      const body = document.getElementById('rekapTable'); if (body) body.innerHTML = data.map(t => `<tr class="text-left text-wrap text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left"><td class="p-6 font-bold text-slate-50 text-left text-nowrap text-left text-left text-left text-left text-left text-left text-left">${t.tanggal || '-'}</td><td class="font-black text-[#06372d] text-left text-nowrap text-left text-left text-left text-left text-left text-left text-left text-left">${t.mitra || '-'}</td><td class="text-right text-left text-left text-left text-left text-left text-left text-left text-left">${fmt(t.omset)}</td><td class="text-right text-left text-left text-left text-left text-left text-left text-left text-left">${fmt(t.modal)}</td><td class="text-right font-bold text-emerald-800 text-nowrap text-left text-left text-left text-left text-left text-left text-left text-left text-left">${fmt(t.lb)}</td><td class="text-left text-wrap text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left"><span class="block text-xs font-bold text-left text-left text-left text-left text-left text-left text-left text-left">${fmt(t.ops)}</span><span class="block text-[10px] opacity-70 text-left text-wrap text-nowrap text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">${t.keterangan || '-'}</span></td><td class="text-right text-[#b19053] font-bold text-nowrap text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">${fmt(t.csr)}</td><td class="text-right text-[#06372d] font-bold text-nowrap text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">${fmt(t.pt)}</td><td class="text-right text-orange-700 font-bold text-nowrap text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">${fmt(t.mitraPart)}</td></tr>`).join('');
       const pm = document.getElementById('pMitra'); if(pm) pm.innerText = document.getElementById('mitraFilter')?.value.toUpperCase() || 'SEMUA MITRA';
       const pd = document.getElementById('pDate'); if(pd) pd.innerText = "Dicetak: " + new Date().toLocaleString();
     }
@@ -491,8 +519,8 @@
     window.refreshMitraStats = () => {
       const mitra = document.getElementById('f-mitra')?.value; if (!mitra) return;
       const ms = document.getElementById('mStart')?.value, me = document.getElementById('mEnd')?.value;
-      let f = allTx.filter(t => t.mitra === mitra.toUpperCase());
-      if (user && user.appRole === 'admin') { const ftVal = document.getElementById('f-tgl')?.value; if (ftVal) f = f.filter(t => t.tanggal === ftVal); } 
+      let f = allTransactions.filter(t => t.mitra === mitra.toUpperCase());
+      if (userState && userState.appRole === 'admin') { const ftVal = document.getElementById('f-tgl')?.value; if (ftVal) f = f.filter(t => t.tanggal === ftVal); } 
       else if (ms && me) { f = f.filter(t => t.tanggal >= ms && t.tanggal <= me); }
       const s = f.reduce((a, b) => ({ o: a.o + b.omset, lb: a.lb + (b.lb || 0), csr: a.csr + (b.csr || 0), pt: a.pt + (b.pt || 0), bm: a.bm + (b.mitraPart || 0) }), {o:0, lb:0, csr:0, pt:0, bm:0});
       const mo = document.getElementById('mOmset'); if(mo) mo.innerText = fmt(s.o);
@@ -502,14 +530,14 @@
       const mc = document.getElementById('mCSR'); if(mc) mc.innerText = fmt(s.csr);
     };
 
-    window.handleSyncRequest = () => { showSRGModal({ title: "SINKRONISASI", message: "Memperbarui data dari cloud database...", onConfirm: () => { refreshDashboard(); showSRGModal({title:"BERHASIL", message:"Seluruh data telah disinkronkan."}); } }); };
+    window.handleSyncRequest = () => { showSRGModal({ title: "SINKRONISASI", message: "Sinkronisasi cloud sedang berjalan...", onConfirm: () => { refreshDashboard(); showSRGModal({title:"BERHASIL", message:"Data diperbarui."}); } }); };
     window.handleDownloadRequest = () => { showSRGModal({ title: "INSTAL APLIKASI", message: "Buka menu browser Anda dan pilih 'Tambahkan ke Layar Utama' (Add to Home Screen) untuk memasang aplikasi." }); };
     window.handleLogoutRequest = () => { showSRGModal({ title: "KELUAR?", message: "Anda akan keluar dari sesi sistem saat ini.", confirm: true, onConfirm: () => location.reload() }); };
-    window.handleDeleteRequest = (id) => { showSRGModal({ title: "HAPUS DATA?", message: "Laporan ini akan dihapus permanen dari cloud.", confirm: true, confirmText: "HAPUS", onConfirm: async () => { if (!auth.currentUser) return; showLoading(true, "MENGHAPUS..."); try { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'transactions', id)); showSRGModal({ title: "BERHASIL", message: "Laporan telah dihapus." }); } catch(e) { console.error("Del error:", e); } finally { showLoading(false); } }}); };
+    window.handleDeleteRequest = (id) => { showSRGModal({ title: "HAPUS DATA?", message: "Hapus permanen dari cloud database?", confirm: true, onConfirm: async () => { if (!isInitialized) return; showLoading(true, "MENGHAPUS..."); try { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'transactions', id)); showSRGModal({ title: "BERHASIL", message: "Data dihapus." }); } catch(e) { console.error(e); } finally { showLoading(false); } }}); };
 
     window.switchPage = (p) => {
-      if (!user) return;
-      const isAdmin = (user.appRole === 'admin');
+      if (!userState) return;
+      const isAdmin = (userState.appRole === 'admin');
       if (p === 'rekap' && !isAdmin) return;
       const pages = document.querySelectorAll('.page-content');
       if (pages) pages.forEach(el => el.classList.add('hidden'));
