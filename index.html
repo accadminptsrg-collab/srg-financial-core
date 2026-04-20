@@ -43,12 +43,13 @@
   </style>
 </head>
 <body class="min-h-screen text-left">
-  <!-- INDIKATOR STATUS DATABASE -->
+  <!-- STATUS DATABASE -->
   <div id="dbStatus" class="status-offline no-print">
     <div id="statusDot" class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
-    <span id="statusText">MENGHUBUNGKAN...</span>
+    <span id="statusText">OFFLINE</span>
   </div>
 
+  <!-- MODAL STRUCTURE -->
   <div id="srgModal" class="srg-modal-overlay no-print">
     <div class="srg-modal-content text-center">
       <div style="background-color: #06372d; border-color: #b19053;" class="absolute top-[-45px] left-1/2 -translate-x-1/2 w-[90px] h-[90px] rounded-full flex items-center justify-center shadow-lg border-[3px]">
@@ -56,7 +57,7 @@
       </div>
       <h3 id="modalTitle" class="text-xl font-black text-slate-800 uppercase mb-2">INFO</h3>
       <p id="modalMessage" class="text-sm text-slate-600 mb-8 italic px-4 leading-relaxed text-center"></p>
-      <div class="flex flex-col space-y-3">
+      <div class="flex flex-col space-y-3 px-4">
         <button id="modalConfirmBtn" class="btn-premium w-full py-4 uppercase text-xs tracking-widest shadow-lg">OK</button>
       </div>
       <p class="mt-8 text-[7px] text-slate-400 font-black tracking-[0.4em] uppercase text-nowrap text-center">PT SUBUR RAYA GROUP OFFICIAL SYSTEM</p>
@@ -70,14 +71,13 @@
     </div>
   </div>
 
-  <!-- LOGIN SECTION -->
   <div id="loginSection" class="flex items-center justify-center min-h-screen px-4">
     <div class="capsule-card p-14 w-full max-w-[420px] text-center border-none shadow-2xl text-left">
       <div class="mb-12 text-center">
         <div style="background-color: #06372d; border-color: #b19053;" class="w-28 h-28 rounded-full flex items-center justify-center mx-auto shadow-2xl border-[3px] mb-8 relative text-center">
           <span style="color: #b19053;" class="font-black text-4xl italic">SRG</span>
         </div>
-        <h1 class="text-2xl font-black text-srg-green italic tracking-tight uppercase text-center">PT SUBUR RAYA GROUP</h1>
+        <h1 class="text-2xl font-black text-srg-green italic tracking-tight uppercase">PT SUBUR RAYA GROUP</h1>
         <p style="color: #b19053;" class="text-[10px] font-black tracking-[0.4em] uppercase mt-3 italic text-center">ELITE FINANCIAL SYSTEM</p>
       </div>
       <div class="space-y-7 text-left px-2">
@@ -92,7 +92,6 @@
     </div>
   </div>
 
-  <!-- APP SECTION -->
   <div id="appSection" class="hidden">
     <div class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[96%] max-w-5xl no-print text-left">
         <nav class="nav-main-pill p-2 flex justify-between items-center px-4 shadow-xl text-left">
@@ -168,6 +167,10 @@
                         <input type="number" id="f-ops" oninput="window.localInputPreview()" class="capsule-input w-full px-8 py-5 font-bold" placeholder="BIAYA OPERASIONAL">
                         <textarea id="f-ket" class="capsule-card w-full p-8 text-sm font-semibold italic min-h-[120px]" placeholder="KETERANGAN..."></textarea>
                     </div>
+                    <div id="liveCalcArea" class="hidden p-8 rounded-[3rem] bg-emerald-50 border border-emerald-100 flex justify-between items-center shadow-inner">
+                        <div><p class="text-[9px] font-black text-emerald-600 uppercase mb-2">ESTIMASI LABA KOTOR</p><h4 id="liveLabaKotor" class="text-3xl font-black text-emerald-800 italic">Rp 0</h4></div>
+                        <i class="fas fa-calculator text-emerald-200 text-3xl"></i>
+                    </div>
                     <button id="saveBtn" type="submit" class="btn-premium w-full font-black py-7 text-xs uppercase shadow-2xl transition-all italic">SIMPAN LAPORAN PERMANEN</button>
                 </form>
             </div>
@@ -183,8 +186,8 @@
                       <div id="historyResult" class="space-y-4 pt-10 border-t border-slate-100">
                           <div class="bg-srg-green p-6 rounded-[2.5rem] text-srg-gold shadow-xl"><p class="text-[9px] font-black uppercase mb-1 opacity-60">TOTAL OMSET</p><h4 id="hOmset" class="text-3xl font-black italic">Rp 0</h4></div>
                           <div class="grid grid-cols-2 gap-4">
-                            <div class="card-green-light p-5 rounded-[2rem] border shadow-md"><p class="text-[8px] font-black uppercase mb-1 opacity-70">LABA KOTOR</p><h5 id="hLabaKotor" class="text-sm font-black text-emerald-800">Rp 0</h5></div>
-                            <div class="card-green-dark p-5 rounded-[2rem] border shadow-md"><p class="text-[8px] font-black uppercase mb-1 opacity-80">CSR (5%)</p><h5 id="hCSR" class="text-sm font-black">Rp 0</h5></div>
+                            <div class="card-green-light p-5 rounded-[2rem] border shadow-md text-emerald-800"><p class="text-[8px] font-black uppercase mb-1 opacity-70">LABA KOTOR</p><h5 id="hLabaKotor" class="text-sm font-black">Rp 0</h5></div>
+                            <div class="card-green-dark p-5 rounded-[2rem] border shadow-md text-srg-gold"><p class="text-[8px] font-black uppercase mb-1 opacity-80">CSR (5%)</p><h5 id="hCSR" class="text-sm font-black">Rp 0</h5></div>
                           </div>
                       </div>
                   </div>
@@ -197,10 +200,10 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
     import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-    // Data Firebase Anda (Tetap ada untuk Vercel)
+    // Konfigurasi manual untuk Vercel
     const userFirebaseConfig = {
       apiKey: "AIzaSyAOObVoeSaKso2-g5Ll1z4AM6AnLmRI4s0",
       authDomain: "srg-financial-core.firebaseapp.com",
@@ -211,9 +214,9 @@
       measurementId: "G-CY4V2QRVCD"
     };
 
-    // Logika Deteksi Lingkungan Otomatis
+    // Deteksi Lingkungan
     const firebaseConfig = (typeof __firebase_config !== 'undefined' && __firebase_config) ? JSON.parse(__firebase_config) : userFirebaseConfig;
-    const appId = typeof __app_id !== 'undefined' ? __app_id : "srg-financial-production-v18-core";
+    const currentAppId = typeof __app_id !== 'undefined' ? __app_id : "srg-financial-production-v18-core";
     
     let db, auth;
     let isFirebaseActive = false;
@@ -221,11 +224,8 @@
 
     const fmt = (v) => "Rp " + new Intl.NumberFormat('id-ID').format(Math.floor(Number(v) || 0));
 
-    window.togglePass = () => { 
-      const p = document.getElementById('passInput'), i = document.getElementById('passIcon'); 
-      if (p && i) { const isPass = p.type === 'password'; p.type = isPass ? 'text' : 'password'; i.className = isPass ? 'fas fa-eye' : 'fas fa-eye-slash'; } 
-    };
-
+    window.togglePass = () => { const p = document.getElementById('passInput'), i = document.getElementById('passIcon'); if (p && i) { const isPass = p.type === 'password'; p.type = isPass ? 'text' : 'password'; i.className = isPass ? 'fas fa-eye' : 'fas fa-eye-slash'; } };
+    
     window.showSRGModal = (o) => { 
       const m = document.getElementById('srgModal'), t = document.getElementById('modalTitle'), msg = document.getElementById('modalMessage'), cB = document.getElementById('modalConfirmBtn'); 
       if (t) t.innerText = (o.title || "INFORMASI").toUpperCase(); 
@@ -265,11 +265,12 @@
     }
 
     window.saveTransaction = async () => {
-      if (!isFirebaseActive) { 
-        window.showSRGModal({title:"KONEKSI", message:"Sedang mengamankan koneksi Cloud... Silakan tunggu sekejap lalu tekan simpan kembali."}); 
+      if (!isFirebaseActive || !auth.currentUser) { 
+        window.showSRGModal({title:"SINKRONISASI", message:"Koneksi database belum siap. Mohon tunggu indikator berubah jadi ONLINE."}); 
         return; 
       }
       const loader = document.getElementById('loadingOverlay'); if (loader) loader.classList.remove('hidden');
+      
       const data = { 
         tanggal: document.getElementById('f-tgl').value, 
         mitra: document.getElementById('f-mitra').value.toUpperCase(),
@@ -279,16 +280,18 @@
         keterangan: document.getElementById('f-ket').value.toUpperCase(),
         createdAt: new Date().toISOString()
       };
+      
       const lk = data.omset - data.modal, lb = lk - data.ops, csr = lb > 0 ? lb * 0.05 : 0, res = lb - csr;
       Object.assign(data, { lk, lb, csr, res, pt: (res * 0.2), mitraPart: (res * 0.8) });
+
       try { 
-        await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'transactions'), data); 
+        await addDoc(collection(db, 'artifacts', currentAppId, 'public', 'data', 'transactions'), data); 
         if (loader) loader.classList.add('hidden');
         document.getElementById('transForm').reset(); 
-        window.showSRGModal({title:"BERHASIL", message:"Laporan telah tersimpan permanen di Cloud.", onConfirm: () => window.switchPage('dashboard')}); 
+        window.showSRGModal({title:"BERHASIL", message:"Laporan telah terkirim dan tersimpan di Cloud.", onConfirm: () => window.switchPage('dashboard')}); 
       } catch (e) { 
         if (loader) loader.classList.add('hidden');
-        window.showSRGModal({title:"ERROR", message:"Gagal sinkronisasi data. Periksa Authorized Domains di Firebase."}); 
+        window.showSRGModal({title:"GAGAL SIMPAN", message: "Error: " + e.message}); 
       }
     };
 
@@ -299,16 +302,16 @@
       const s = data.reduce((a, b) => ({ o: a.o + (b.omset||0), m: a.m + (b.modal||0), ops: a.ops + (b.ops||0), lb: a.lb + (b.lb)||0 }), {o:0, m:0, ops:0, lb:0});
       const grid = document.getElementById('dashboardStats');
       if (grid) {
-        const cards = [{l:"Omset", v:fmt(s.o), t:"tan"}, {l:"Modal", v:fmt(s.m), t:"tan"}, {l:"Operasional", v:fmt(s.ops), t:"tan"}, {l:"Laba Bersih", v:fmt(s.lb), t:"green-light"}];
-        grid.innerHTML = cards.map(c => `<div class="capsule-card p-8 card-${c.t}"><p class="text-[9px] font-black uppercase opacity-60">${c.l}</p><h3 class="text-xl font-black italic text-left">${c.v}</h3></div>`).join('');
+        const cards = [{l:"Total Omset", v:fmt(s.o), t:"tan"}, {l:"Modal", v:fmt(s.m), t:"tan"}, {l:"Operasional", v:fmt(s.ops), t:"tan"}, {l:"Laba Bersih", v:fmt(s.lb), t:"green-light"}];
+        grid.innerHTML = cards.map(c => `<div class="capsule-card p-8 card-${c.t}"><p class="text-[9px] font-black uppercase opacity-60">${c.l}</p><h3 class="text-xl font-black italic">${c.v}</h3></div>`).join('');
       }
       const body = document.getElementById('tableBody'); 
-      if (body) body.innerHTML = data.slice(0, 10).map(t => `<tr class="hover:bg-white/50 text-left"><td>${t.tanggal}</td><td>${t.mitra}</td><td class="text-right">${fmt(t.lb)}</td><td class="text-right pr-20">${fmt(t.ops)}</td><td class="text-center"><button onclick="window.handleDeleteRequest('${t.id}')" class="text-red-300 hover:text-red-500"><i class="fas fa-trash"></i></button></td></tr>`).join('');
+      if (body) body.innerHTML = data.slice(0, 10).map(t => `<tr class="hover:bg-white/50"><td>${t.tanggal}</td><td>${t.mitra}</td><td class="text-right">${fmt(t.lb)}</td><td class="text-right pr-20">${fmt(t.ops)}</td><td class="text-center"><button onclick="window.handleDeleteRequest('${t.id}')" class="text-red-300 hover:text-red-500"><i class="fas fa-trash"></i></button></td></tr>`).join('');
     };
 
     window.handleLogoutRequest = () => location.reload();
     window.handleDeleteRequest = (id) => { 
-        window.showSRGModal({title:"HAPUS", message:"Tindakan permanen. Lanjutkan?", onConfirm: async () => { try { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'transactions', id)); } catch(e) {} }});
+        window.showSRGModal({title:"HAPUS", message:"Tindakan permanen. Lanjutkan?", onConfirm: async () => { try { await deleteDoc(doc(db, 'artifacts', currentAppId, 'public', 'data', 'transactions', id)); } catch(e) {} }});
     };
 
     const setupFirebase = async () => {
@@ -317,7 +320,7 @@
         db = getFirestore(app); 
         auth = getAuth(app);
         
-        // KRITIKAL: Autentikasi sesuai lingkungan
+        // KRITIKAL: Autentikasi sebelum listener
         const initAuth = async () => {
           if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
             await signInWithCustomToken(auth, __initial_auth_token);
@@ -330,19 +333,20 @@
         onAuthStateChanged(auth, (u) => { 
           if (u) { 
             isFirebaseActive = true;
-            const ind = document.getElementById('dbStatus');
-            if (ind) { ind.className = 'status-online no-print'; ind.innerHTML = '<div class="w-2 h-2 rounded-full bg-green-500"></div>ONLINE'; }
+            const ind = document.getElementById('dbStatus'), dot = document.getElementById('statusDot'), txt = document.getElementById('statusText');
+            if (ind) { ind.className = 'status-online no-print'; dot.className = 'w-2 h-2 rounded-full bg-green-500'; txt.innerText = 'ONLINE'; }
             
-            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'transactions'), (snap) => { 
+            onSnapshot(collection(db, 'artifacts', currentAppId, 'public', 'data', 'transactions'), (snap) => { 
               window.allTransactions = snap.docs.map(d => ({ id: d.id, ...d.data() })); 
               window.refreshDashboard(); 
-            }, (err) => { console.error("SNAPSHOT ERROR:", err); }); 
+            }, (err) => {
+              console.error("Firestore Permission Error:", err);
+            }); 
           } 
         });
       } catch (e) { 
-        console.error("FIREBASE FAIL:", e);
-        const ind = document.getElementById('dbStatus');
-        if (ind) { ind.innerHTML = 'ERROR API KEY'; }
+        console.error("Firebase Initialization Fail:", e); 
+        const txt = document.getElementById('statusText'); if (txt) txt.innerText = 'KONEKSI GAGAL';
       }
     };
     setupFirebase();
@@ -354,7 +358,11 @@
     };
     window.localInputPreview = () => { 
         const o = Number(document.getElementById('f-omset').value), m = Number(document.getElementById('f-modal').value);
-        if (o > 0 || m > 0) { document.getElementById('liveLabaKotor').innerText = fmt(o - m); }
+        if (o > 0 || m > 0) { 
+            const area = document.getElementById('liveCalcArea');
+            area.classList.remove('hidden');
+            document.getElementById('liveLabaKotor').innerText = fmt(o - m); 
+        }
     };
   </script>
 </body>
