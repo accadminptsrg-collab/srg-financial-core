@@ -46,8 +46,8 @@
       #appSection, #page-rekap { display: block !important; opacity: 1 !important; margin: 0 !important; width: 100% !important; }
       .capsule-card { border: none !important; box-shadow: none !important; border-radius: 0 !important; background: transparent !important; }
       #report-kop { display: block !important; width: 100%; border-bottom: 3.5px double #06372d; padding-bottom: 15px; margin-bottom: 20px; text-align: center; }
-      table { width: 100% !important; border-collapse: collapse !important; font-size: 6.5pt !important; table-layout: fixed !important; }
-      th { background-color: #f8fafc !important; color: #1e293b !important; font-weight: 800 !important; border: 0.5pt solid #333 !important; padding: 5px 1px !important; line-height: 1.1 !important; height: 42px !important; text-align: center !important; word-wrap: break-word !important; white-space: normal !important; vertical-align: middle !important; }
+      table { width: 100% !important; border-collapse: collapse !important; font-size: 7pt !important; table-layout: fixed !important; }
+      th { background-color: #f8fafc !important; color: #1e293b !important; font-weight: 800 !important; border: 0.5pt solid #333 !important; padding: 6px 1px !important; line-height: 1.1 !important; height: 42px !important; text-align: center !important; word-wrap: break-word !important; white-space: normal !important; vertical-align: middle !important; }
       td { border: 0.5pt solid #333 !important; padding: 3px !important; word-wrap: break-word !important; overflow: visible !important; vertical-align: middle !important; }
       #dashboardStats, #adminFilter, #rekapSummary, #rekapStatsContainer { display: none !important; }
       #print-signature { display: block !important; margin-top: 50px; page-break-inside: avoid; }
@@ -60,7 +60,7 @@
   </style>
 </head>
 <body class="min-h-screen text-left">
-  <!-- MODAL -->
+  <!-- MODAL ELEMENT -->
   <div id="srgModal" class="srg-modal-overlay no-print">
     <div class="srg-modal-content text-center">
       <div class="absolute top-[-45px] left-1/2 -translate-x-1/2 w-[90px] h-[90px] bg-[#f1f0e8] rounded-full flex items-center justify-center shadow-lg">
@@ -77,7 +77,7 @@
     </div>
   </div>
 
-  <div id="loadingOverlay" class="fixed inset-0 bg-white/80 z-[1100] flex items-center justify-center hidden backdrop-blur-sm no-print text-center"><div class="flex flex-col items-center"><div class="loader"></div><p id="loadingText" class="mt-5 font-black text-srg-green text-[10px] tracking-[0.5em] uppercase text-center">PROSES...</p></div></div>
+  <div id="loadingOverlay" class="fixed inset-0 bg-white/80 z-[1100] flex items-center justify-center hidden backdrop-blur-sm no-print text-center"><div class="flex flex-col items-center"><div class="loader"></div><p id="loadingText" class="mt-5 font-black text-srg-green text-[10px] tracking-[0.5em] uppercase text-center text-wrap">PROSES...</p></div></div>
 
   <!-- LOGIN SECTION -->
   <div id="loginSection" class="flex items-center justify-center min-h-screen px-4 text-center">
@@ -99,7 +99,7 @@
     </div>
   </div>
 
-  <!-- APP SECTION -->
+  <!-- MAIN APP -->
   <div id="appSection" class="hidden">
     <div class="fixed top-8 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-2xl no-print">
         <nav class="nav-main-pill p-2 flex justify-between items-center px-4 md:px-8">
@@ -137,6 +137,7 @@
             </div>
         </div>
         
+        <!-- DASHBOARD STATS -->
         <div id="dashboardStats" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7 px-4 text-left"></div>
         
         <div class="capsule-card shadow-[0_40px_100px_rgba(0,0,0,0.06)] overflow-hidden border-white bg-white text-left">
@@ -173,7 +174,7 @@
             <div class="lg:col-span-5 space-y-10 text-left">
               <div class="capsule-card p-12 border-2 border-[#b19053]/15 bg-white shadow-xl text-left">
                   <div class="flex items-center space-x-5 mb-12 text-left"><div class="w-12 h-12 rounded-full card-tan flex items-center justify-center text-[#b19053] shadow-md text-center"><i class="fas fa-history text-center"></i></div><h3 class="text-[#06372d] font-black italic text-lg uppercase text-left">CEK AKTIVITAS MITRA</h3></div>
-                  <div class="space-y-7 text-left">
+                  <div class="space-y-7 text-left text-wrap">
                       <select id="mitraMode" onchange="toggleMitraFilters()" class="capsule-input w-full px-8 py-5 bg-slate-50 font-bold text-xs uppercase outline-none cursor-pointer text-left"><option value="harian">HARIAN / MINGGUAN</option><option value="bulanan">BULANAN</option><option value="tahunan">TAHUNAN</option></select>
                       <div id="mitraRange" class="grid grid-cols-2 gap-4 text-left text-wrap"><div><label class="block text-[8px] font-black ml-4 mb-1 text-left">DARI</label><input type="date" id="mStart" class="capsule-input w-full p-4 text-xs font-bold outline-none text-left"></div><div><label class="block text-[8px] font-black ml-4 mb-1 text-left text-nowrap">SAMPAI</label><input type="date" id="mEnd" class="capsule-input w-full p-4 text-xs font-bold outline-none text-left"></div></div>
                       <button onclick="refreshSidebarHistory()" class="btn-premium w-full py-4 text-[10px] uppercase font-black text-center text-nowrap">TAMPILKAN DATA PERIODE</button>
@@ -201,7 +202,7 @@
         <div id="rekapStatsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-6 no-print text-left"></div>
 
         <div class="capsule-card shadow-2xl overflow-hidden border-white mx-4 bg-white text-left">
-            <div id="report-kop" class="text-center pt-5 text-center text-wrap text-center"><div class="flex items-center justify-center space-x-8 mb-6 text-center"><div style="background: #06372d; width: 75px; height: 75px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #b19053; font-weight: 900; font-size: 28px; border: 3px solid #b19053; text-center">SRG</div><div class="text-left"><h1 style="font-size: 32px; font-weight: 900; color: #06372d; margin: 0; text-left text-nowrap">PT SUBUR RAYA GROUP</h1><p style="font-size: 11px; color: #666; letter-spacing: 3px; font-weight: bold; margin-top: 8px; text-left text-nowrap">Laporan Rincian Transaksi Keuangan Resmi</p></div></div><div style="display: flex; justify-content: space-between; border-top: 2.5px solid #06372d; border-bottom: 0.5pt solid #eee; padding: 15px 10px; margin-top: 20px; text-align: left;"><div style="font-size: 11px; line-height: 1.8; text-left"><p class="text-left text-nowrap"><strong>Mitra :</strong> <span id="pMitra">SEMUA MITRA</span></p></div><div style="text-align: right; font-size: 10px; font-style: italic; color: #888; text-right"><p id="pDate" class="text-right text-nowrap"></p></div></div></div>
+            <div id="report-kop" class="text-center pt-5 text-center text-wrap text-center"><div class="flex items-center justify-center space-x-8 mb-6 text-center"><div style="background: #06372d; width: 75px; height: 75px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #b19053; font-weight: 900; font-size: 28px; border: 3px solid #b19053; text-center">SRG</div><div class="text-left"><h1 style="font-size: 32px; font-weight: 900; color: #06372d; margin: 0; text-left text-nowrap">PT SUBUR RAYA GROUP</h1><p style="font-size: 11px; color: #666; letter-spacing: 3px; font-weight: bold; margin-top: 8px; text-left text-nowrap text-wrap">Laporan Rincian Transaksi Keuangan Resmi</p></div></div><div style="display: flex; justify-content: space-between; border-top: 2.5px solid #06372d; border-bottom: 0.5pt solid #eee; padding: 15px 10px; margin-top: 20px; text-align: left;"><div style="font-size: 11px; line-height: 1.8; text-left"><p class="text-left text-nowrap"><strong>Mitra :</strong> <span id="pMitra">SEMUA MITRA</span></p></div><div style="text-align: right; font-size: 10px; font-style: italic; color: #888; text-right text-wrap"><p id="pDate" class="text-right text-nowrap"></p></div></div></div>
             <div class="p-10 border-b bg-slate-50 font-black text-[#06372d] uppercase text-sm italic no-print text-left text-nowrap">RINCIAN DATA TRANSAKSI TERKAIT</div>
             <div class="overflow-x-auto text-left"><table class="w-full text-xs text-slate-700 italic text-left text-wrap text-left"><thead class="bg-white border-b-2 border-slate-100 font-black text-slate-400 uppercase text-left text-wrap text-nowrap"><tr><th>WAKTU</th><th>MITRA</th><th class="text-right">OMSET</th><th class="text-right">MODAL</th><th class="text-right" style="color:#065f46">LABA<br>BERSIH</th><th class="text-center">BIAYA<br>OPERASIONAL</th><th class="text-right">CSR<br>(5%)</th><th class="text-right" style="color:#06372d">PEMBAGIAN<br>PT (20%)</th><th class="text-right" style="color:#c2410c">PEMBAGIAN<br>MITRA (80%)</th></tr></thead><tbody id="rekapTable" class="divide-y divide-slate-50 text-left text-wrap"></tbody></table></div>
             <div id="print-signature" class="text-left">
@@ -219,32 +220,41 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
     let db, auth;
-    let appId = 'srg-cloud-final-v18';
+    let appId = typeof __app_id !== 'undefined' ? __app_id : 'srg-cloud-final-v18';
     let isFirebaseActive = false;
 
-    // FIREBASE INITIALIZATION
-    try {
-      if (typeof __firebase_config !== 'undefined' && __firebase_config) {
-        const config = JSON.parse(__firebase_config);
-        const app = initializeApp(config);
-        db = getFirestore(app);
-        auth = getAuth(app);
-        isFirebaseActive = true;
-        signInAnonymously(auth).catch(() => {});
-        onAuthStateChanged(auth, (u) => { 
-          if (u) {
-            // LISTENER REAL-TIME: Ensure Full Integration
-            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'transactions'), (snap) => {
-                window.allTransactions = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-                window.refreshDashboard && window.refreshDashboard();
-            }, (err) => console.error("Firebase Sync Error:", err));
+    // INITIALIZATION & REAL-TIME LISTENER
+    const setupFirebase = async () => {
+      try {
+        if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+          const config = JSON.parse(__firebase_config);
+          const app = initializeApp(config);
+          db = getFirestore(app);
+          auth = getAuth(app);
+          isFirebaseActive = true;
+
+          if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+            await signInWithCustomToken(auth, __initial_auth_token);
+          } else {
+            await signInAnonymously(auth);
           }
-        });
-      }
-    } catch (e) { console.warn("Local Mode Active"); }
+
+          onAuthStateChanged(auth, (u) => { 
+            if (u) {
+              // REAL-TIME LISTENER: THE SOURCE OF TRUTH
+              onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'transactions'), (snap) => {
+                  window.allTransactions = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                  console.log("Data synced:", window.allTransactions.length);
+                  window.refreshDashboard && window.refreshDashboard();
+              }, (err) => console.error("Firebase Sync Error:", err));
+            }
+          });
+        }
+      } catch (e) { console.error("Firebase Setup Fail:", e); }
+    };
 
     window.userProfile = null;
     window.allTransactions = [];
@@ -276,7 +286,6 @@
       if (p && i) { const isPass = p.type === 'password'; p.type = isPass ? 'text' : 'password'; i.className = isPass ? 'fas fa-eye' : 'fas fa-eye-slash'; } 
     };
 
-    // LIVE PREVIEW ON TYPING
     window.liveUpdateHome = () => {
       const liveO = parseFloat(document.getElementById('f-omset')?.value || 0);
       const liveM = parseFloat(document.getElementById('f-modal')?.value || 0);
@@ -284,6 +293,7 @@
       const lk = liveO - liveM;
       const area = document.getElementById('liveCalcArea'), valText = document.getElementById('liveLabaKotor');
       if (area && valText) { if (liveO !== 0 || liveM !== 0) { area.classList.remove('hidden'); valText.innerText = fmt(lk); } else { area.classList.add('hidden'); } }
+      // Trigger dashboard refresh with live simulated values
       window.refreshDashboard && window.refreshDashboard(liveO, liveM, liveOps);
     };
 
@@ -300,7 +310,7 @@
         window.userProfile = { appRole: role, appDisplayName: name };
         showSRGModal({
             title: "LOGIN BERHASIL",
-            message: `Selamat datang di sistem PT SUBUR RAYA GROUP, ${name}.`,
+            message: `Selamat datang di Financial Core PT SRG, ${name}.`,
             onConfirm: () => {
                 document.getElementById('loginSection').classList.add('hidden');
                 document.getElementById('appSection').classList.remove('hidden');
@@ -312,7 +322,7 @@
                 initAppContent();
             }
         });
-      } else { showSRGModal({title: "LOGIN GAGAL", message: "ID Pengguna atau Kata Sandi salah!"}); }
+      } else { showSRGModal({title: "LOGIN GAGAL", message: "Kredensial tidak valid!"}); }
     };
 
     function initAppContent() {
@@ -325,16 +335,31 @@
     }
 
     window.saveTransaction = async () => {
-      const omVal = parseFloat(document.getElementById('f-omset')?.value || 0), moVal = parseFloat(document.getElementById('f-modal')?.value || 0), opVal = parseFloat(document.getElementById('f-ops')?.value || 0);
-      const lk = omVal - moVal, lb = lk - opVal, csr = lb > 0 ? lb * 0.05 : 0, res = lb - csr, pt = res * 0.2, mitra = res * 0.8;
-      const data = { tanggal: document.getElementById('f-tgl').value, mitra: document.getElementById('f-mitra').value.toUpperCase(), omset: omVal, modal: moVal, ops: opVal, keterangan: (document.getElementById('f-ket')?.value || "").toUpperCase(), lk, lb, csr, res, pt, mitraPart: mitra, createdAt: new Date().toISOString() };
+      const omVal = parseFloat(document.getElementById('f-omset')?.value || 0);
+      const moVal = parseFloat(document.getElementById('f-modal')?.value || 0);
+      const opVal = parseFloat(document.getElementById('f-ops')?.value || 0);
+      
+      const lk = omVal - moVal;
+      const lb = lk - opVal;
+      const csr = lb > 0 ? lb * 0.05 : 0;
+      const res = lb - csr;
+      const pt_part = res * 0.2, mitra_part = res * 0.8;
+
+      const data = { 
+        tanggal: document.getElementById('f-tgl').value, 
+        mitra: document.getElementById('f-mitra').value.toUpperCase(), 
+        omset: omVal, modal: moVal, ops: opVal, keterangan: (document.getElementById('f-ket')?.value || "").toUpperCase(), 
+        lk, lb, csr, res, pt: pt_part, mitraPart: mitra_part, createdAt: new Date().toISOString() 
+      };
+
       try { 
-        if(isFirebaseActive) await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'transactions'), data); 
-        document.getElementById('transForm').reset(); 
-        document.getElementById('liveCalcArea').classList.add('hidden');
-        switchPage('dashboard');
-        showSRGModal({title:"BERHASIL", message:"Laporan telah tersimpan secara permanen di database Cloud."});
-      } catch (e) { showSRGModal({title:"GAGAL", message:"Gagal simpan ke Cloud."}); }
+        if(isFirebaseActive) {
+          await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'transactions'), data); 
+          document.getElementById('transForm').reset(); 
+          document.getElementById('liveCalcArea').classList.add('hidden');
+          showSRGModal({title:"BERHASIL", message:"Laporan tersimpan permanen di server.", onConfirm: () => switchPage('dashboard')});
+        }
+      } catch (e) { showSRGModal({title:"GAGAL", message:"Database cloud tidak merespon."}); }
     };
 
     window.refreshDashboard = (liveO = 0, liveM = 0, liveOps = 0) => {
@@ -349,11 +374,11 @@
       if (rs && re && document.getElementById('page-rekap').style.display !== 'none') f = f.filter(t => t.tanggal >= rs && t.tanggal <= re);
       
       f.sort((a, b) => (b.tanggal || "").localeCompare(a.tanggal || ""));
-      const s = f.reduce((a, b) => ({ o: a.o + b.omset, m: a.m + b.modal, ops: a.ops + b.ops, lk: a.lk + b.lk, lb: a.lb + b.lb, csr: a.csr + b.csr, res: a.res + b.res, pt: a.pt + b.pt, bm: a.bm + b.mitraPart }), {o:0, m:0, ops:0, lk:0, lb:0, csr:0, res:0, pt:0, bm:0});
+      const s = f.reduce((a, b) => ({ o: a.o + b.omset, m: a.m + b.modal, ops: a.ops + b.ops, lk: a.lk + (b.lk||0), lb: a.lb + b.lb, csr: a.csr + b.csr, res: a.res + (b.res||0), pt: a.pt + b.pt, bm: a.bm + b.mitraPart }), {o:0, m:0, ops:0, lk:0, lb:0, csr:0, res:0, pt:0, bm:0});
       
       const l_lk = liveO - liveM, l_lb = l_lk - liveOps, l_csr = l_lb > 0 ? l_lb * 0.05 : 0, l_res = l_lb - l_csr;
 
-      // REFRESH 9 CARDS HOME
+      // UPDATE HOME STATS (9 CARDS FOR ADMIN, NO MARGIN FOR MITRA)
       const grid = document.getElementById('dashboardStats');
       if (grid) {
         const cards = [
@@ -364,15 +389,15 @@
           {l:"Laba Bersih Akhir", v:s.lb + l_lb, t:"green-light", x:"text-emerald-800"},
           {l:"CSR (5%)", v:s.csr + l_csr, t:"green-dark", x:"text-[#b19053]"},
           {l:"Hasil Pembagian (Nett)", v:s.res + l_res, t:"blue-tint", x:"text-blue-800", exclusive: 'admin'},
-          {l:"Pembagian PT (20%)", v:s.pt + (l_res * 0.2), t:"green-dark", x:"text-[#b19053]"},
-          {l:"Pembagian Mitra (80%)", v:s.bm + (l_res * 0.8), t:"orange-tint", x:"text-orange-700"}
+          {l:"Pembagian PT (20%)", v:s.pt + (l_res * 0.2), t:"green-dark", x:"text-[#b19053] text-sm"},
+          {l:"Pembagian Mitra (80%)", v:s.bm + (l_res * 0.8), t:"orange-tint", x:"text-orange-700 text-sm"}
         ];
         grid.innerHTML = cards
           .filter(c => !c.exclusive || window.userProfile.appRole === c.exclusive)
-          .map(c => `<div class="capsule-card p-8 card-${c.t} text-left text-wrap"><p class="text-[9px] font-black uppercase italic mb-2 opacity-60 text-left">${c.l}</p><h3 class="text-xl font-black ${c.x} italic text-left">${fmt(c.v)}</h3></div>`).join('');
+          .map(c => `<div class="capsule-card p-8 card-${c.t} text-left"><p class="text-[9px] font-black uppercase italic mb-2 opacity-60 text-left">${c.l}</p><h3 class="text-xl font-black ${c.x} italic text-left">${fmt(c.v)}</h3></div>`).join('');
       }
 
-      // REFRESH REKAP CARDS
+      // UPDATE REKAP STATS
       const rekapGrid = document.getElementById('rekapStatsContainer');
       if (rekapGrid) {
         const rCards = [{l:"Total Omset", v:s.o, t:"tan", x:"text-slate-800"},{l:"Laba Bersih", v:s.lb, t:"green-light", x:"text-emerald-800"},{l:"Bagian PT", v:s.pt, t:"green-dark", x:"text-[#b19053]"},{l:"Bagian Mitra", v:s.bm, t:"orange-tint", x:"text-orange-700"}];
@@ -384,7 +409,7 @@
 
       const bodyRekap = document.getElementById('rekapTable');
       if (bodyRekap) {
-        bodyRekap.innerHTML = f.map(t => `<tr class="text-left text-wrap"><td class="p-4 text-center font-bold text-slate-500 text-center text-wrap">${t.tanggal}</td><td class="text-center font-black text-[#06372d] text-center text-wrap">${t.mitra}</td><td class="text-right text-wrap">${fmt(t.omset)}</td><td class="text-right text-wrap">${fmt(t.modal)}</td><td class="text-right font-bold text-emerald-800 text-right text-wrap">${fmt(t.lb)}</td><td class="text-center text-wrap">${fmt(t.ops)}</td><td class="text-right text-wrap">${fmt(t.csr)}</td><td class="text-right text-wrap">${fmt(t.pt)}</td><td class="text-right text-wrap">${fmt(t.mitraPart)}</td></tr>`).join('');
+        bodyRekap.innerHTML = f.map(t => `<tr><td class="p-4 text-center font-bold text-slate-500 text-center text-wrap">${t.tanggal}</td><td class="text-center font-black text-[#06372d] text-center text-wrap">${t.mitra}</td><td class="text-right text-wrap">${fmt(t.omset)}</td><td class="text-right text-wrap">${fmt(t.modal)}</td><td class="text-right font-bold text-emerald-800 text-right text-wrap">${fmt(t.lb)}</td><td class="text-center text-wrap">${fmt(t.ops)}</td><td class="text-right text-wrap">${fmt(t.csr)}</td><td class="text-right text-wrap">${fmt(t.pt)}</td><td class="text-right text-wrap">${fmt(t.mitraPart)}</td></tr>`).join('');
         document.getElementById('sig-location').innerText = "Bojonegoro, " + new Date().toLocaleDateString('id-ID', { year:'numeric', month:'long', day:'numeric' });
         document.getElementById('pDate').innerText = "Dicetak: " + new Date().toLocaleString();
       }
@@ -401,7 +426,7 @@
         document.getElementById('hPartner').innerText = fmt(s.bm);
     };
 
-    window.handleSyncRequest = () => { window.refreshDashboard(); showSRGModal({title:"SINKRONISASI", message:"Database telah diperbarui secara real-time dengan server pusat."}); };
+    window.handleSyncRequest = () => { window.refreshDashboard(); showSRGModal({title:"SINKRONISASI", message:"Database Cloud telah disinkronkan secara real-time."}); };
     window.handleDownloadRequest = () => { showSRGModal({ title: "INSTAL APLIKASI", message: "Gunakan menu browser Anda dan pilih 'Add to Home Screen' untuk memasang aplikasi di perangkat." }); };
     window.handleLogoutRequest = () => { showSRGModal({title:"KELUAR SISTEM", message:"Apakah Anda yakin ingin keluar?", confirm: true, onConfirm: () => location.reload()}); };
     window.handleDeleteRequest = (id) => { showSRGModal({title:"HAPUS DATA", message:"Data ini akan dihapus secara permanen. Lanjutkan?", confirm: true, onConfirm: async () => { try { if(isFirebaseActive) await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'transactions', id)); } catch(e) {} }}); };
@@ -416,6 +441,8 @@
       });
       window.refreshDashboard();
     };
+
+    setupFirebase();
   </script>
 </body>
 </html>
