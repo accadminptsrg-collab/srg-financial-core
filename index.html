@@ -10,10 +10,12 @@
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
     :root { --srg-green: #06372d; --srg-gold: #b19053; --srg-bg: #fdfaf0; }
     body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--srg-bg); color: #1a2e2a; overflow-x: hidden; }
+    
+    /* BACKGROUND PATTERNS */
     body::before { content: ""; position: fixed; inset: 0; background-image: radial-gradient(circle at 2px 2px, rgba(177, 144, 83, 0.15) 1.2px, transparent 0); background-size: 32px 32px; z-index: -2; pointer-events: none; }
     body::after { content: ""; position: fixed; inset: 0; background-image: url('https://www.transparenttextures.com/patterns/batik-ideal.png'); opacity: 0.15; filter: sepia(100%) saturate(220%) hue-rotate(5deg) brightness(85%); z-index: -1; pointer-events: none; }
     
-    .capsule-card { border-radius: 3rem; backdrop-filter: blur(14px); background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(177, 144, 83, 0.2); box-shadow: 0 40px 100px -20px rgba(6, 55, 45, 0.1); }
+    .capsule-card { border-radius: 3rem; backdrop-filter: blur(14px); background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(177, 144, 83, 0.2); box-shadow: 0 40px 100px -20px rgba(6, 55, 45, 0.1); transition: all 0.3s ease; }
     .card-tan { background: linear-gradient(135deg, #fdfaf0 0%, #f3e9d2 100%); }
     .card-green-light { background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); }
     .card-green-dark { background: #06372d; color: #b19053 !important; border: 1px solid #b19053; }
@@ -25,37 +27,40 @@
     
     .btn-premium { border-radius: 9999px; background: linear-gradient(135deg, #06372d 0%, #04261f 100%); color: #b19053 !important; font-weight: 800; cursor: pointer; transition: all 0.3s; }
     .nav-main-pill { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(25px); border-radius: 9999px; border: 1px solid rgba(255,255,255,0.5); }
-    .nav-btn-active { background-color: #06372d !important; color: #b19053 !important; }
+    .nav-btn-active { background-color: #06372d !important; color: #b19053 !important; box-shadow: 0 8px 20px rgba(6, 55, 45, 0.3); }
     
+    /* MODAL SYSTEM */
     .srg-modal-overlay { position: fixed; inset: 0; background: rgba(4, 38, 31, 0.85); backdrop-filter: blur(10px); z-index: 9999; display: none; align-items: center; justify-content: center; }
-    .srg-modal-content { width: 90%; max-width: 420px; background: #f1f0e8; border-radius: 4rem; padding: 4rem 2rem 2rem 2rem; position: relative; box-shadow: 0 50px 100px rgba(0,0,0,0.4); transform: scale(0.9); opacity: 0; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    .srg-modal-content { width: 90%; max-width: 420px; background: #f1f0e8; border-radius: 4rem; padding: 4rem 2rem 2rem 2rem; position: relative; box-shadow: 0 50px 100px rgba(0,0,0,0.4); transform: scale(0.8); opacity: 0; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
     .srg-modal-overlay.active { display: flex; }
     .srg-modal-overlay.active .srg-modal-content { transform: scale(1); opacity: 1; }
 
     .loader { border-radius: 50%; border: 4px solid #f3f3f3; border-top: 4px solid var(--srg-gold); width: 40px; height: 40px; animation: spinner 1.2s linear infinite; }
     @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
+    /* PRINT HANDLING */
     #report-kop, #print-signature { display: none; }
     @media print {
       .no-print { display: none !important; }
+      body { background: white !important; padding: 0 !important; }
       #appSection, #page-rekap { display: block !important; opacity: 1 !important; margin: 0 !important; width: 100% !important; }
       .capsule-card { border: none !important; box-shadow: none !important; border-radius: 0 !important; background: transparent !important; }
       #report-kop { display: block !important; width: 100%; border-bottom: 3.5px double #06372d; padding-bottom: 15px; margin-bottom: 20px; text-align: center; }
-      table { width: 100% !important; border-collapse: collapse !important; font-size: 7pt !important; table-layout: fixed !important; }
-      th { background-color: #f8fafc !important; color: #1e293b !important; font-weight: 800 !important; border: 0.5pt solid #333 !important; padding: 6px 1px !important; line-height: 1.1 !important; height: 45px !important; text-align: center !important; word-wrap: break-word !important; white-space: normal !important; vertical-align: middle !important; }
-      td { border: 0.5pt solid #333 !important; padding: 4px !important; word-wrap: break-word !important; overflow: visible !important; vertical-align: middle !important; }
+      table { width: 100% !important; border-collapse: collapse !important; font-size: 6.5pt !important; table-layout: fixed !important; }
+      th { background-color: #f8fafc !important; color: #1e293b !important; font-weight: 800 !important; border: 0.5pt solid #333 !important; padding: 5px 1px !important; line-height: 1.1 !important; height: 42px !important; text-align: center !important; word-wrap: break-word !important; white-space: normal !important; vertical-align: middle !important; }
+      td { border: 0.5pt solid #333 !important; padding: 3px !important; word-wrap: break-word !important; overflow: visible !important; vertical-align: middle !important; }
       #dashboardStats, #adminFilter, #rekapSummary, #rekapStatsContainer { display: none !important; }
-      #print-signature { display: block !important; margin-top: 40px; page-break-inside: avoid; }
+      #print-signature { display: block !important; margin-top: 50px; page-break-inside: avoid; }
       .sig-header-text { text-align: right; margin-right: 40px; font-weight: bold; margin-bottom: 30px; font-size: 9pt; }
-      .sig-row { display: flex; justify-content: space-between; padding: 0 40px; }
+      .sig-row { display: flex; justify-content: space-between; padding: 0 30px; }
       .sig-col { text-align: center; width: 45%; }
-      .sig-name { font-weight: 900; border-bottom: 1.5px solid black; display: inline-block; padding: 0 15px; margin-top: 85px; font-size: 10pt; text-transform: uppercase; }
-      .sig-title { font-size: 8pt; font-weight: bold; margin-top: 5px; }
+      .sig-name { font-weight: 900; border-bottom: 1.5px solid black; display: inline-block; padding: 0 10px; margin-top: 80px; font-size: 10pt; text-transform: uppercase; }
+      .sig-title { font-size: 8pt; font-weight: bold; margin-top: 5px; color: #333; }
     }
   </style>
 </head>
 <body class="min-h-screen text-left">
-  <!-- MODAL ELEMENT -->
+  <!-- MODAL -->
   <div id="srgModal" class="srg-modal-overlay no-print">
     <div class="srg-modal-content text-center">
       <div class="absolute top-[-45px] left-1/2 -translate-x-1/2 w-[90px] h-[90px] bg-[#f1f0e8] rounded-full flex items-center justify-center shadow-lg">
@@ -77,7 +82,13 @@
   <!-- LOGIN SECTION -->
   <div id="loginSection" class="flex items-center justify-center min-h-screen px-4 text-center">
     <div class="capsule-card p-14 w-full max-w-[420px] text-center border-none shadow-2xl">
-      <div class="mb-12 text-center"><div class="bg-[#06372d] w-28 h-28 rounded-full flex items-center justify-center mx-auto shadow-2xl border-[3px] border-[#b19053] mb-8 relative text-center"><span class="text-[#b19053] font-black text-4xl italic">SRG</span></div><h1 class="text-2xl font-black text-[#06372d] italic tracking-tight uppercase">PT SUBUR RAYA GROUP</h1><p class="text-[#b19053] text-[10px] font-black tracking-[0.4em] uppercase mt-3 italic">ELITE FINANCIAL SYSTEM</p></div>
+      <div class="mb-12 text-center">
+        <div class="bg-[#06372d] w-28 h-28 rounded-full flex items-center justify-center mx-auto shadow-2xl border-[3px] border-[#b19053] mb-8 relative text-center">
+          <span class="text-[#b19053] font-black text-4xl italic">SRG</span>
+        </div>
+        <h1 class="text-2xl font-black text-[#06372d] italic tracking-tight uppercase text-center">PT SUBUR RAYA GROUP</h1>
+        <p class="text-[#b19053] text-[10px] font-black tracking-[0.4em] uppercase mt-3 italic text-center">ELITE FINANCIAL SYSTEM</p>
+      </div>
       <div class="space-y-7 text-left px-2">
         <div><label class="block text-[9px] font-black text-slate-400 uppercase mb-3 ml-4 italic tracking-widest text-left">ID PENGGUNA</label><input type="text" id="userInput" class="capsule-input w-full px-8 py-5 text-sm font-semibold text-slate-700 shadow-sm outline-none" placeholder="username"></div>
         <div><label class="block text-[9px] font-black text-slate-400 uppercase mb-3 ml-4 italic tracking-widest text-left">KATA SANDI</label><div class="relative"><input type="password" id="passInput" class="capsule-input w-full px-8 py-5 text-sm font-semibold text-slate-700 shadow-sm pr-14 outline-none" placeholder="password"><button type="button" onclick="togglePass()" class="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 hover:text-srg-gold transition-all"><i id="passIcon" class="fas fa-eye-slash"></i></button></div></div>
@@ -88,7 +99,7 @@
     </div>
   </div>
 
-  <!-- MAIN APP -->
+  <!-- APP SECTION -->
   <div id="appSection" class="hidden">
     <div class="fixed top-8 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-2xl no-print">
         <nav class="nav-main-pill p-2 flex justify-between items-center px-4 md:px-8">
@@ -126,12 +137,11 @@
             </div>
         </div>
         
-        <!-- DASHBOARD STATS (9 CARDS FOR ADMIN) -->
         <div id="dashboardStats" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7 px-4 text-left"></div>
         
         <div class="capsule-card shadow-[0_40px_100px_rgba(0,0,0,0.06)] overflow-hidden border-white bg-white text-left">
           <div class="p-10 border-b border-slate-50 flex items-center bg-white/95 text-left"><div class="w-2.5 h-10 rounded-full bg-[#b19053] mr-5 text-left"></div><h3 class="font-black text-[#06372d] text-base italic uppercase text-left">AKTIVITAS TRANSAKSI TERBARU</h3></div>
-          <div class="overflow-x-auto text-left"><table class="w-full text-xs italic text-left"><thead class="bg-slate-50/50 text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] border-b text-left"><tr><th class="p-8 text-nowrap text-left">WAKTU</th><th class="text-nowrap text-left">MITRA</th><th class="text-right text-nowrap text-right">OMSET</th><th class="text-right text-nowrap text-right">MODAL</th><th class="text-right text-emerald-800 text-nowrap text-right">LABA BERSIH</th><th class="text-left text-left">BIAYA OPERASIONAL</th><th class="text-center text-nowrap text-center">AKSI</th></tr></thead><tbody id="tableBody" class="divide-y divide-slate-50 font-semibold text-left"></tbody></table></div>
+          <div class="overflow-x-auto text-left"><table class="w-full text-xs italic text-left"><thead class="bg-slate-50/50 text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] border-b text-left"><tr><th class="p-8 text-nowrap text-left">WAKTU</th><th class="text-nowrap text-left">MITRA</th><th class="text-right text-nowrap text-right">OMSET</th><th class="text-right text-nowrap text-right">MODAL</th><th class="text-right text-emerald-800 text-nowrap text-right">LABA BERSIH</th><th class="text-left text-left">BIAYA OPERASIONAL</th><th class="text-center text-nowrap text-center text-center">AKSI</th></tr></thead><tbody id="tableBody" class="divide-y divide-slate-50 font-semibold text-left"></tbody></table></div>
         </div>
       </div>
 
@@ -154,7 +164,7 @@
                         <div class="text-left"><label class="text-[10px] font-black text-slate-400 uppercase mb-3 ml-4 italic text-left">Keterangan Biaya Operasional</label><textarea id="f-ket" class="capsule-card w-full p-8 text-sm font-semibold italic outline-none text-slate-500 bg-white text-left text-wrap" placeholder="Detail pengeluaran..."></textarea></div>
                     </div>
                     <div id="liveCalcArea" class="hidden p-8 rounded-[3rem] bg-emerald-50 border border-emerald-100 flex justify-between items-center shadow-inner text-left">
-                        <div class="text-left"><p class="text-[9px] font-black text-emerald-600 uppercase mb-2 italic text-nowrap text-left">LABA KOTOR (OMSET - PRODUKSI)</p><h4 id="liveLabaKotor" class="text-4xl font-black text-emerald-800 italic text-left">Rp 0</h4></div>
+                        <div class="text-left text-wrap"><p class="text-[9px] font-black text-emerald-600 uppercase mb-2 italic text-nowrap text-left">LABA KOTOR (OMSET - PRODUKSI)</p><h4 id="liveLabaKotor" class="text-4xl font-black text-emerald-800 italic text-left text-wrap">Rp 0</h4></div>
                         <div class="w-16 h-16 rounded-full bg-emerald-100/50 flex items-center justify-center text-emerald-300 text-3xl text-center"><i class="fas fa-calculator text-center"></i></div>
                     </div>
                     <button type="submit" class="btn-premium w-full font-black py-7 text-xs shadow-2xl active:scale-95 transition-all uppercase italic text-center">SIMPAN LAPORAN PERMANEN</button>
@@ -165,7 +175,7 @@
                   <div class="flex items-center space-x-5 mb-12 text-left"><div class="w-12 h-12 rounded-full card-tan flex items-center justify-center text-[#b19053] shadow-md text-center"><i class="fas fa-history text-center"></i></div><h3 class="text-[#06372d] font-black italic text-lg uppercase text-left">CEK AKTIVITAS MITRA</h3></div>
                   <div class="space-y-7 text-left">
                       <select id="mitraMode" onchange="toggleMitraFilters()" class="capsule-input w-full px-8 py-5 bg-slate-50 font-bold text-xs uppercase outline-none cursor-pointer text-left"><option value="harian">HARIAN / MINGGUAN</option><option value="bulanan">BULANAN</option><option value="tahunan">TAHUNAN</option></select>
-                      <div id="mitraRange" class="grid grid-cols-2 gap-4 text-left"><div><label class="block text-[8px] font-black ml-4 mb-1 text-left">DARI</label><input type="date" id="mStart" class="capsule-input w-full p-4 text-xs font-bold outline-none text-left"></div><div><label class="block text-[8px] font-black ml-4 mb-1 text-left text-nowrap">SAMPAI</label><input type="date" id="mEnd" class="capsule-input w-full p-4 text-xs font-bold outline-none text-left"></div></div>
+                      <div id="mitraRange" class="grid grid-cols-2 gap-4 text-left text-wrap"><div><label class="block text-[8px] font-black ml-4 mb-1 text-left">DARI</label><input type="date" id="mStart" class="capsule-input w-full p-4 text-xs font-bold outline-none text-left"></div><div><label class="block text-[8px] font-black ml-4 mb-1 text-left text-nowrap">SAMPAI</label><input type="date" id="mEnd" class="capsule-input w-full p-4 text-xs font-bold outline-none text-left"></div></div>
                       <button onclick="refreshSidebarHistory()" class="btn-premium w-full py-4 text-[10px] uppercase font-black text-center text-nowrap">TAMPILKAN DATA PERIODE</button>
                       <div id="historyResult" class="space-y-5 pt-10 border-t border-slate-100 text-left">
                           <div class="bg-[#06372d] p-9 rounded-[3rem] text-[#b19053] shadow-2xl text-left"><p class="text-[9px] font-black uppercase mb-2 opacity-60 italic text-left">TOTAL OMSET</p><h4 id="hOmset" class="text-4xl font-black italic text-nowrap text-left">Rp 0</h4></div>
@@ -188,7 +198,6 @@
             </div>
         </div>
 
-        <!-- REKAP STATS CARDS (SHOWN ON REKAP PAGE TOO) -->
         <div id="rekapStatsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-6 no-print text-left"></div>
 
         <div class="capsule-card shadow-2xl overflow-hidden border-white mx-4 bg-white text-left">
@@ -216,6 +225,7 @@
     let appId = 'srg-cloud-final-v18';
     let isFirebaseActive = false;
 
+    // FIREBASE INITIALIZATION
     try {
       if (typeof __firebase_config !== 'undefined' && __firebase_config) {
         const config = JSON.parse(__firebase_config);
@@ -226,7 +236,7 @@
         signInAnonymously(auth).catch(() => {});
         onAuthStateChanged(auth, (u) => { 
           if (u) {
-            // FIX: Ensure full real-time synchronization
+            // LISTENER REAL-TIME: Ensure Full Integration
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'transactions'), (snap) => {
                 window.allTransactions = snap.docs.map(d => ({ id: d.id, ...d.data() }));
                 window.refreshDashboard && window.refreshDashboard();
@@ -258,8 +268,7 @@
 
     window.closeSRGModal = () => {
       const m = document.getElementById('srgModal');
-      m.classList.remove('active');
-      setTimeout(() => m.style.display = 'none', 300);
+      if(m) { m.classList.remove('active'); setTimeout(() => m.style.display = 'none', 300); }
     };
 
     window.togglePass = () => { 
@@ -267,6 +276,7 @@
       if (p && i) { const isPass = p.type === 'password'; p.type = isPass ? 'text' : 'password'; i.className = isPass ? 'fas fa-eye' : 'fas fa-eye-slash'; } 
     };
 
+    // LIVE PREVIEW ON TYPING
     window.liveUpdateHome = () => {
       const liveO = parseFloat(document.getElementById('f-omset')?.value || 0);
       const liveM = parseFloat(document.getElementById('f-modal')?.value || 0);
@@ -274,7 +284,6 @@
       const lk = liveO - liveM;
       const area = document.getElementById('liveCalcArea'), valText = document.getElementById('liveLabaKotor');
       if (area && valText) { if (liveO !== 0 || liveM !== 0) { area.classList.remove('hidden'); valText.innerText = fmt(lk); } else { area.classList.add('hidden'); } }
-      // POINT: Update Dashboard Home statistically while typing for better UX
       window.refreshDashboard && window.refreshDashboard(liveO, liveM, liveOps);
     };
 
@@ -316,53 +325,35 @@
     }
 
     window.saveTransaction = async () => {
-      const tgl = document.getElementById('f-tgl').value;
-      const mtr = document.getElementById('f-mitra').value.toUpperCase();
-      const omVal = parseFloat(document.getElementById('f-omset')?.value || 0);
-      const moVal = parseFloat(document.getElementById('f-modal')?.value || 0);
-      const opVal = parseFloat(document.getElementById('f-ops')?.value || 0);
-      
-      const lk = omVal - moVal;
-      const lb = lk - opVal;
-      const csr = lb > 0 ? lb * 0.05 : 0;
-      const res = lb - csr;
-      const pt = res * 0.2, mitra = res * 0.8;
-      
-      const data = { tanggal: tgl, mitra: mtr, omset: omVal, modal: moVal, ops: opVal, keterangan: (document.getElementById('f-ket')?.value || "").toUpperCase(), lk, lb, csr, res, pt, mitraPart: mitra, createdAt: new Date().toISOString() };
-      
+      const omVal = parseFloat(document.getElementById('f-omset')?.value || 0), moVal = parseFloat(document.getElementById('f-modal')?.value || 0), opVal = parseFloat(document.getElementById('f-ops')?.value || 0);
+      const lk = omVal - moVal, lb = lk - opVal, csr = lb > 0 ? lb * 0.05 : 0, res = lb - csr, pt = res * 0.2, mitra = res * 0.8;
+      const data = { tanggal: document.getElementById('f-tgl').value, mitra: document.getElementById('f-mitra').value.toUpperCase(), omset: omVal, modal: moVal, ops: opVal, keterangan: (document.getElementById('f-ket')?.value || "").toUpperCase(), lk, lb, csr, res, pt, mitraPart: mitra, createdAt: new Date().toISOString() };
       try { 
         if(isFirebaseActive) await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'transactions'), data); 
         document.getElementById('transForm').reset(); 
         document.getElementById('liveCalcArea').classList.add('hidden');
         switchPage('dashboard');
-        showSRGModal({title:"BERHASIL", message:"Laporan telah tersimpan secara permanen di server cloud."});
-      } catch (e) { showSRGModal({title:"GAGAL", message:"Database cloud tidak merespon, coba lagi nanti."}); }
+        showSRGModal({title:"BERHASIL", message:"Laporan telah tersimpan secara permanen di database Cloud."});
+      } catch (e) { showSRGModal({title:"GAGAL", message:"Gagal simpan ke Cloud."}); }
     };
 
     window.refreshDashboard = (liveO = 0, liveM = 0, liveOps = 0) => {
       if (!window.userProfile) return;
       const mfVal = document.getElementById('mitraFilter')?.value || 'all';
-      let filteredData = [...window.allTransactions];
+      let f = [...window.allTransactions];
       
-      if (window.userProfile.appRole !== 'admin') {
-        filteredData = filteredData.filter(t => t.mitra === window.userProfile.appDisplayName);
-      } else if (mfVal !== 'all') {
-        filteredData = filteredData.filter(t => t.mitra === mfVal.toUpperCase());
-      }
+      if (window.userProfile.appRole !== 'admin') f = f.filter(t => t.mitra === window.userProfile.appDisplayName);
+      else if (mfVal !== 'all') f = f.filter(t => t.mitra === mfVal.toUpperCase());
       
       const rs = document.getElementById('rStart')?.value, re = document.getElementById('rEnd')?.value;
-      const isRekapActive = document.getElementById('page-rekap').style.display !== 'none';
-      if (rs && re && isRekapActive) {
-        filteredData = filteredData.filter(t => t.tanggal >= rs && t.tanggal <= re);
-      }
+      if (rs && re && document.getElementById('page-rekap').style.display !== 'none') f = f.filter(t => t.tanggal >= rs && t.tanggal <= re);
       
-      filteredData.sort((a, b) => (b.tanggal || "").localeCompare(a.tanggal || ""));
-      const s = filteredData.reduce((a, b) => ({ o: a.o + b.omset, m: a.m + b.modal, ops: a.ops + b.ops, lk: a.lk + b.lk, lb: a.lb + b.lb, csr: a.csr + b.csr, res: a.res + b.res, pt: a.pt + b.pt, bm: a.bm + b.mitraPart }), {o:0, m:0, ops:0, lk:0, lb:0, csr:0, res:0, pt:0, bm:0});
+      f.sort((a, b) => (b.tanggal || "").localeCompare(a.tanggal || ""));
+      const s = f.reduce((a, b) => ({ o: a.o + b.omset, m: a.m + b.modal, ops: a.ops + b.ops, lk: a.lk + b.lk, lb: a.lb + b.lb, csr: a.csr + b.csr, res: a.res + b.res, pt: a.pt + b.pt, bm: a.bm + b.mitraPart }), {o:0, m:0, ops:0, lk:0, lb:0, csr:0, res:0, pt:0, bm:0});
       
-      // Calculate simulation if live input is present
       const l_lk = liveO - liveM, l_lb = l_lk - liveOps, l_csr = l_lb > 0 ? l_lb * 0.05 : 0, l_res = l_lb - l_csr;
 
-      // UPDATE HOME STATS (9 CARDS FOR ADMIN, NO MARGIN FOR MITRA)
+      // REFRESH 9 CARDS HOME
       const grid = document.getElementById('dashboardStats');
       if (grid) {
         const cards = [
@@ -378,10 +369,10 @@
         ];
         grid.innerHTML = cards
           .filter(c => !c.exclusive || window.userProfile.appRole === c.exclusive)
-          .map(c => `<div class="capsule-card p-8 card-${c.t} text-left"><p class="text-[9px] font-black uppercase italic mb-2 opacity-60 text-left">${c.l}</p><h3 class="text-xl font-black ${c.x} italic text-left">${fmt(c.v)}</h3></div>`).join('');
+          .map(c => `<div class="capsule-card p-8 card-${c.t} text-left text-wrap"><p class="text-[9px] font-black uppercase italic mb-2 opacity-60 text-left">${c.l}</p><h3 class="text-xl font-black ${c.x} italic text-left">${fmt(c.v)}</h3></div>`).join('');
       }
 
-      // UPDATE REKAP PAGE STATS
+      // REFRESH REKAP CARDS
       const rekapGrid = document.getElementById('rekapStatsContainer');
       if (rekapGrid) {
         const rCards = [{l:"Total Omset", v:s.o, t:"tan", x:"text-slate-800"},{l:"Laba Bersih", v:s.lb, t:"green-light", x:"text-emerald-800"},{l:"Bagian PT", v:s.pt, t:"green-dark", x:"text-[#b19053]"},{l:"Bagian Mitra", v:s.bm, t:"orange-tint", x:"text-orange-700"}];
@@ -389,11 +380,11 @@
       }
       
       const body = document.getElementById('tableBody'); 
-      if (body) body.innerHTML = filteredData.slice(0, 15).map(t => `<tr class="hover:bg-white/50 transition-all text-left text-wrap"><td class="p-8 font-black text-slate-400 text-left">${t.tanggal}</td><td class="font-black text-[#06372d] text-left">${t.mitra}</td><td class="text-right">${fmt(t.omset)}</td><td class="text-right">${fmt(t.modal)}</td><td class="text-right font-black text-emerald-800">${fmt(t.lb)}</td><td class="p-8 text-left text-wrap"><span class="block font-black text-slate-700 text-left">${fmt(t.ops)}</span><span class="block text-[10px] text-slate-400 italic text-left text-nowrap">${t.keterangan || '-'}</span></td><td class="text-center"><button onclick="handleDeleteRequest('${t.id}')" class="text-red-200 hover:text-red-500 text-center"><i class="fas fa-trash text-center"></i></button></td></tr>`).join('');
+      if (body) body.innerHTML = f.slice(0, 15).map(t => `<tr class="hover:bg-white/50 transition-all text-left text-wrap"><td class="p-8 font-black text-slate-400 text-left text-wrap">${t.tanggal}</td><td class="font-black text-[#06372d] text-left text-wrap">${t.mitra}</td><td class="text-right text-wrap">${fmt(t.omset)}</td><td class="text-right text-wrap">${fmt(t.modal)}</td><td class="text-right font-black text-emerald-800 text-wrap">${fmt(t.lb)}</td><td class="p-8 text-left text-wrap"><span class="block font-black text-slate-700 text-left text-wrap">${fmt(t.ops)}</span><span class="block text-[10px] text-slate-400 italic text-left text-nowrap">${t.keterangan || '-'}</span></td><td class="text-center text-wrap"><button onclick="handleDeleteRequest('${t.id}')" class="text-red-200 hover:text-red-500 text-center"><i class="fas fa-trash text-center"></i></button></td></tr>`).join('');
 
       const bodyRekap = document.getElementById('rekapTable');
       if (bodyRekap) {
-        bodyRekap.innerHTML = filteredData.map(t => `<tr><td class="p-4 text-center font-bold text-slate-500 text-center">${t.tanggal}</td><td class="text-center font-black text-[#06372d] text-center">${t.mitra}</td><td class="text-right">${fmt(t.omset)}</td><td class="text-right">${fmt(t.modal)}</td><td class="text-right font-bold text-emerald-800 text-right">${fmt(t.lb)}</td><td class="text-center">${fmt(t.ops)}</td><td class="text-right">${fmt(t.csr)}</td><td class="text-right">${fmt(t.pt)}</td><td class="text-right">${fmt(t.mitraPart)}</td></tr>`).join('');
+        bodyRekap.innerHTML = f.map(t => `<tr class="text-left text-wrap"><td class="p-4 text-center font-bold text-slate-500 text-center text-wrap">${t.tanggal}</td><td class="text-center font-black text-[#06372d] text-center text-wrap">${t.mitra}</td><td class="text-right text-wrap">${fmt(t.omset)}</td><td class="text-right text-wrap">${fmt(t.modal)}</td><td class="text-right font-bold text-emerald-800 text-right text-wrap">${fmt(t.lb)}</td><td class="text-center text-wrap">${fmt(t.ops)}</td><td class="text-right text-wrap">${fmt(t.csr)}</td><td class="text-right text-wrap">${fmt(t.pt)}</td><td class="text-right text-wrap">${fmt(t.mitraPart)}</td></tr>`).join('');
         document.getElementById('sig-location').innerText = "Bojonegoro, " + new Date().toLocaleDateString('id-ID', { year:'numeric', month:'long', day:'numeric' });
         document.getElementById('pDate').innerText = "Dicetak: " + new Date().toLocaleString();
       }
@@ -410,10 +401,10 @@
         document.getElementById('hPartner').innerText = fmt(s.bm);
     };
 
-    window.handleSyncRequest = () => { window.refreshDashboard(); showSRGModal({title:"SINKRONISASI", message:"Data telah diperbarui secara aman dengan server pusat PT SRG."}); };
-    window.handleDownloadRequest = () => { showSRGModal({ title: "INSTAL APLIKASI", message: "Gunakan menu browser Anda dan pilih 'Tambahkan ke Layar Utama' (Add to Home Screen)." }); };
-    window.handleLogoutRequest = () => { showSRGModal({title:"KELUAR SISTEM", message:"Apakah Anda yakin ingin mengakhiri sesi?", confirm: true, onConfirm: () => location.reload()}); };
-    window.handleDeleteRequest = (id) => { showSRGModal({title:"HAPUS LAPORAN", message:"Data ini akan dihapus secara permanen. Lanjutkan?", confirm: true, onConfirm: async () => { try { if(isFirebaseActive) await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'transactions', id)); } catch(e) {} }}); };
+    window.handleSyncRequest = () => { window.refreshDashboard(); showSRGModal({title:"SINKRONISASI", message:"Database telah diperbarui secara real-time dengan server pusat."}); };
+    window.handleDownloadRequest = () => { showSRGModal({ title: "INSTAL APLIKASI", message: "Gunakan menu browser Anda dan pilih 'Add to Home Screen' untuk memasang aplikasi di perangkat." }); };
+    window.handleLogoutRequest = () => { showSRGModal({title:"KELUAR SISTEM", message:"Apakah Anda yakin ingin keluar?", confirm: true, onConfirm: () => location.reload()}); };
+    window.handleDeleteRequest = (id) => { showSRGModal({title:"HAPUS DATA", message:"Data ini akan dihapus secara permanen. Lanjutkan?", confirm: true, onConfirm: async () => { try { if(isFirebaseActive) await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'transactions', id)); } catch(e) {} }}); };
 
     window.switchPage = (p) => {
       document.querySelectorAll('.page-content').forEach(el => el.classList.add('hidden'));
