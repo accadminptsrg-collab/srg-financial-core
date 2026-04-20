@@ -11,6 +11,7 @@
     :root { --srg-green: #06372d; --srg-gold: #b19053; --srg-bg: #fdfaf0; }
     body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--srg-bg); color: #1a2e2a; overflow-x: hidden; text-align: left; }
     
+    /* Background Premium Motif Batik */
     body::before { content: ""; position: fixed; inset: 0; background-image: radial-gradient(circle at 2px 2px, rgba(177, 144, 83, 0.15) 1.2px, transparent 0); background-size: 32px 32px; z-index: -2; pointer-events: none; }
     body::after { content: ""; position: fixed; inset: 0; background-image: url('https://www.transparenttextures.com/patterns/batik-ideal.png'); opacity: 0.12; filter: sepia(100%) saturate(220%) hue-rotate(5deg) brightness(85%); z-index: -1; pointer-events: none; }
     
@@ -98,7 +99,7 @@
     <div class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[96%] max-w-5xl no-print text-left">
         <nav class="nav-main-pill p-2 flex justify-between items-center px-4 shadow-xl text-left">
           <div class="flex items-center space-x-3 text-left">
-              <div style="background-color: #06372d; border-color: #b19053;" class="w-10 h-10 rounded-full flex items-center justify-center text-[#b19053] text-xs font-black italic border shadow-sm text-center text-nowrap">
+              <div style="background-color: #06372d; border-color: #b19053;" class="w-10 h-10 rounded-full flex items-center justify-center text-[#b19053] text-xs font-black italic border shadow-sm text-center">
                 <span style="color: #b19053;">SRG</span>
               </div>
               <div class="hidden sm:block text-left text-nowrap"><p class="text-srg-green font-black text-[10px] uppercase italic leading-none text-left">PT SR GROUP</p></div>
@@ -171,7 +172,7 @@
                         </div>
                     </div>
                     <div id="mitraOnlyFields" class="space-y-8 text-left text-wrap">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-nowrap text-left">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-nowrap text-left text-nowrap">
                             <div class="flex flex-col text-left text-nowrap">
                               <label class="text-[9px] font-black ml-4 mb-2 uppercase text-slate-400 text-left text-nowrap">Omset</label>
                               <input type="number" id="f-omset" oninput="window.localInputPreview()" class="capsule-input w-full px-8 py-5 font-bold" placeholder="0">
@@ -199,20 +200,20 @@
             </div>
             <div id="inputSidebar" class="lg:col-span-5 space-y-6 text-left text-wrap">
               <div class="capsule-card p-10 border-2 border-srg-gold/15 bg-white text-left text-wrap">
-                  <div class="flex items-center space-x-4 mb-10 text-nowrap text-left text-wrap"><i class="fas fa-history text-srg-gold"></i><h3 class="text-srg-green font-black italic text-lg uppercase text-nowrap text-left text-wrap text-left text-nowrap text-wrap">ARSIP PERIODE</h3></div>
+                  <div class="flex items-center space-x-4 mb-10 text-nowrap text-left text-wrap text-wrap text-nowrap"><i class="fas fa-history text-srg-gold"></i><h3 class="text-srg-green font-black italic text-lg uppercase text-nowrap text-left text-wrap text-left text-nowrap text-wrap">ARSIP PERIODE</h3></div>
                   <div class="space-y-6 text-left">
                       <div class="grid grid-cols-2 gap-4 text-left text-wrap">
-                        <div class="flex flex-col text-left text-nowrap text-wrap text-wrap"><label class="text-[9px] font-black ml-4 mb-2 uppercase text-slate-400 text-left text-wrap text-nowrap text-wrap text-wrap">Dari</label><input type="date" id="mStart" class="capsule-input w-full p-4 text-[11px] font-bold"></div>
-                        <div class="flex flex-col text-left text-nowrap text-wrap text-wrap"><label class="text-[9px] font-black ml-4 mb-2 uppercase text-slate-400 text-left text-wrap text-nowrap text-wrap text-wrap">Sampai</label><input type="date" id="mEnd" class="capsule-input w-full p-4 text-[11px] font-bold"></div>
+                        <div class="flex flex-col text-left text-nowrap text-wrap text-wrap text-wrap text-nowrap"><label class="text-[9px] font-black ml-4 mb-2 uppercase text-slate-400 text-left text-wrap text-nowrap text-wrap text-wrap">Dari</label><input type="date" id="mStart" class="capsule-input w-full p-4 text-[11px] font-bold"></div>
+                        <div class="flex flex-col text-left text-nowrap text-wrap text-wrap text-wrap text-nowrap"><label class="text-[9px] font-black ml-4 mb-2 uppercase text-slate-400 text-left text-wrap text-nowrap text-wrap text-wrap">Sampai</label><input type="date" id="mEnd" class="capsule-input w-full p-4 text-[11px] font-bold"></div>
                       </div>
-                      <button onclick="window.refreshSidebarHistory()" class="btn-premium w-full py-4 text-[10px] uppercase font-black text-nowrap text-center text-wrap">Tampilkan Data Arsip</button>
+                      <button onclick="window.refreshSidebarHistory()" class="btn-premium w-full py-4 text-[10px] uppercase font-black text-nowrap text-center text-wrap text-nowrap text-wrap">Tampilkan Data Arsip</button>
                       <div id="historyResult" class="space-y-4 pt-10 border-t border-slate-100 text-left text-wrap text-left text-nowrap text-wrap text-left text-wrap">
-                          <div class="bg-srg-green p-6 rounded-[2.5rem] text-srg-gold shadow-xl text-left"><p class="text-[9px] font-black uppercase mb-1 opacity-60 text-left">TOTAL OMSET</p><h4 id="hOmset" class="text-3xl font-black italic text-left text-nowrap">Rp 0</h4></div>
-                          <div class="grid grid-cols-2 gap-4 text-left text-wrap">
-                            <div class="card-green-light p-5 rounded-[2rem] border shadow-md text-left text-wrap text-wrap text-wrap"><p class="text-[8px] font-black uppercase mb-1 opacity-70 text-nowrap text-slate-500 text-left text-wrap">LABA KOTOR</p><h5 id="hLabaKotor" class="text-sm font-black text-emerald-800 text-nowrap text-left text-nowrap text-wrap text-nowrap text-wrap">Rp 0</h5></div>
-                            <div class="card-green-dark p-5 rounded-[2rem] border shadow-md text-srg-gold text-left text-wrap text-wrap text-wrap text-wrap"><p class="text-[8px] font-black uppercase mb-1 opacity-80 text-nowrap text-srg-gold text-left text-nowrap text-wrap text-nowrap text-nowrap text-wrap">CSR (5%)</p><h5 id="hCSR" class="text-sm font-black text-srg-gold text-left text-nowrap text-wrap text-nowrap text-nowrap text-wrap">Rp 0</h5></div>
-                            <div class="bg-[#1e293b] p-5 rounded-[2rem] border shadow-md text-nowrap border-srg-gold/30 text-left text-wrap text-nowrap text-wrap text-wrap text-wrap text-wrap"><p class="text-[8px] font-black uppercase mb-1 opacity-70 text-nowrap text-[#b19053] text-left text-nowrap text-wrap text-nowrap text-nowrap text-wrap text-wrap text-nowrap text-wrap">PT (20%)</p><h5 id="hPT" style="color: #b19053 !important;" class="text-sm font-black text-left text-nowrap text-wrap text-nowrap text-nowrap text-wrap text-wrap text-nowrap text-wrap">Rp 0</h5></div>
-                            <div class="card-orange-tint p-5 rounded-[2rem] text-orange-700 border shadow-md text-nowrap text-left text-wrap text-nowrap text-nowrap text-orange-700 text-wrap text-wrap text-wrap"><p class="text-[8px] font-black uppercase mb-1 opacity-80 text-nowrap text-left text-nowrap text-wrap text-orange-700 text-nowrap text-wrap text-wrap text-wrap">MITRA (80%)</p><h5 id="hPartner" class="text-sm font-black text-nowrap text-orange-700 text-left text-nowrap text-wrap text-nowrap text-wrap text-wrap text-wrap">Rp 0</h5></div>
+                          <div class="bg-srg-green p-6 rounded-[2.5rem] text-srg-gold shadow-xl text-left"><p class="text-[9px] font-black uppercase mb-1 opacity-60 text-left text-wrap text-nowrap">TOTAL OMSET</p><h4 id="hOmset" class="text-3xl font-black italic text-left text-nowrap text-wrap">Rp 0</h4></div>
+                          <div class="grid grid-cols-2 gap-4 text-left text-wrap text-wrap">
+                            <div class="card-green-light p-5 rounded-[2rem] border shadow-md text-left text-wrap text-wrap text-wrap text-nowrap text-wrap"><p class="text-[8px] font-black uppercase mb-1 opacity-70 text-nowrap text-slate-500 text-left text-wrap">LABA KOTOR</p><h5 id="hLabaKotor" class="text-sm font-black text-emerald-800 text-nowrap text-left text-nowrap text-wrap text-nowrap text-wrap text-wrap">Rp 0</h5></div>
+                            <div class="card-green-dark p-5 rounded-[2rem] border shadow-md text-srg-gold text-left text-wrap text-wrap text-wrap text-nowrap text-wrap"><p class="text-[8px] font-black uppercase mb-1 opacity-80 text-nowrap text-srg-gold text-left text-nowrap text-wrap text-nowrap text-nowrap text-wrap text-wrap">CSR (5%)</p><h5 id="hCSR" class="text-sm font-black text-srg-gold text-left text-nowrap text-wrap text-nowrap text-nowrap text-wrap text-wrap">Rp 0</h5></div>
+                            <div class="bg-[#1e293b] p-5 rounded-[2rem] border shadow-md text-nowrap border-srg-gold/30 text-left text-wrap text-nowrap text-wrap text-wrap text-wrap text-wrap text-nowrap"><p class="text-[8px] font-black uppercase mb-1 opacity-70 text-nowrap text-[#b19053] text-left text-nowrap text-wrap text-nowrap text-nowrap text-wrap text-wrap text-nowrap text-wrap">PT (20%)</p><h5 id="hPT" style="color: #b19053 !important;" class="text-sm font-black text-left text-nowrap text-wrap text-nowrap text-nowrap text-wrap text-wrap text-nowrap text-wrap">Rp 0</h5></div>
+                            <div class="card-orange-tint p-5 rounded-[2rem] text-orange-700 border shadow-md text-nowrap text-left text-wrap text-nowrap text-wrap text-orange-700 text-wrap text-wrap text-wrap text-nowrap"><p class="text-[8px] font-black uppercase mb-1 opacity-80 text-nowrap text-left text-nowrap text-wrap text-orange-700 text-nowrap text-wrap text-wrap text-wrap text-wrap text-wrap">MITRA (80%)</p><h5 id="hPartner" class="text-sm font-black text-nowrap text-orange-700 text-left text-nowrap text-wrap text-nowrap text-wrap text-wrap text-wrap">Rp 0</h5></div>
                           </div>
                       </div>
                   </div>
@@ -240,7 +241,7 @@
     import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
     import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-    // KONFIGURASI FIREBASE ANDA
+    // --- PASTE KONFIGURASI FIREBASE ANDA DI SINI (DALAM MODUL) ---
     const firebaseConfig = {
       apiKey: "AIzaSyAOObVoeSaKso2-g5Ll1z4AM6AnLmRI4s0",
       authDomain: "srg-financial-core.firebaseapp.com",
@@ -252,7 +253,8 @@
     };
 
     let db, auth;
-    const currentAppId = typeof __app_id !== 'undefined' ? __app_id : 'srg-financial-production-v18-core';
+    // Logika APP ID dinamis: Gunakan __app_id jika ada (Review), jika tidak (Vercel) gunakan ID tetap.
+    const currentAppId = typeof __app_id !== 'undefined' ? __app_id : 'srg-financial-prod-core-v18';
     let isFirebaseActive = false;
     window.userProfile = null;
     window.allTransactions = [];
@@ -276,11 +278,14 @@
 
     window.handleLogin = () => {
       const u = document.getElementById('userInput')?.value.toLowerCase().trim(), p = document.getElementById('passInput')?.value.trim();
-      let role = 'mitra', name = '', valid = false;
+      let role = 'mitra', name = '';
+      let valid = false;
+      
       if (u === 'admin' && p === 'adminsuburraya') { valid = true; role = 'admin'; name = 'ADMINISTRATOR'; }
       else if (u === 'albarokahshop30' && p === 'mitrasubur1') { valid = true; name = 'ALBAROKAHSHOP30'; }
       else if (u === 'radiator tunggaksemi' && p === 'mitrasubur2') { valid = true; name = 'RADIATOR TUNGGAKSEMI'; }
       else { const m = u?.match(/^mitra(\d+)$/); if (m) { const n = parseInt(m[1]); if (n >= 3 && n <= 20 && p === 'mitrasubur'+n) { valid = true; name = 'MITRA ' + n; } } }
+      
       if (valid) {
         window.userProfile = { appRole: role, appDisplayName: name };
         window.showSRGModal({ title: "LOGIN BERHASIL", message: `Akses diberikan. Selamat bekerja, ${name}.`, onConfirm: () => {
@@ -301,14 +306,25 @@
       const list = ["ALBAROKAHSHOP30", "RADIATOR TUNGGAKSEMI"]; for (let i=3; i<=20; i++) list.push("MITRA " + i);
       list.forEach(n => { if (hf) hf.add(new Option(n, n)); if (fm) fm.add(new Option(n, n)); });
       const mFields = document.getElementById('mitraOnlyFields'), navRekap = document.getElementById('nav-rekap'), adminFilter = document.getElementById('adminFilter'), saveBtn = document.getElementById('saveBtn');
-      if (role !== 'admin') { if (fm) { fm.value = window.userProfile.appDisplayName; fm.disabled = true; } if (mFields) mFields.classList.remove('hidden'); if (navRekap) navRekap.classList.add('hidden'); if (adminFilter) adminFilter.classList.add('hidden'); if (saveBtn) saveBtn.innerText = "SIMPAN LAPORAN PERMANEN"; } 
-      else { if (mFields) mFields.classList.add('hidden'); if (navRekap) navRekap.classList.remove('hidden'); if (adminFilter) adminFilter.classList.remove('hidden'); if (saveBtn) saveBtn.innerText = "SIMPAN JADWAL AUDIT"; }
+      if (role !== 'admin') { 
+        if (fm) { fm.value = window.userProfile.appDisplayName; fm.disabled = true; } 
+        if (mFields) mFields.classList.remove('hidden'); 
+        if (navRekap) navRekap.classList.add('hidden'); 
+        if (adminFilter) adminFilter.classList.add('hidden'); 
+        if (saveBtn) saveBtn.innerText = "SIMPAN LAPORAN PERMANEN"; 
+      } 
+      else { 
+        if (mFields) mFields.classList.add('hidden'); 
+        if (navRekap) navRekap.classList.remove('hidden'); 
+        if (adminFilter) adminFilter.classList.remove('hidden'); 
+        if (saveBtn) saveBtn.innerText = "SIMPAN JADWAL AUDIT"; 
+      }
       window.refreshDashboard();
     }
 
     window.saveTransaction = async () => {
       if (!isFirebaseActive || !auth.currentUser) { 
-        window.showSRGModal({title:"SINKRONISASI", message:"Koneksi Cloud sedang diamankan. Silakan tunggu 2 detik lalu tekan simpan kembali."}); 
+        window.showSRGModal({title:"SINKRONISASI", message:"Koneksi Cloud sedang diamankan. Silakan tunggu sekejap lalu tekan simpan kembali."}); 
         return; 
       }
       const role = window.userProfile.appRole;
@@ -325,7 +341,7 @@
         window.showSRGModal({title:"BERHASIL", message:"Laporan telah tersimpan permanen di Cloud.", onConfirm: () => window.switchPage('dashboard')}); 
       } catch (e) { 
         console.error("Save error:", e);
-        window.showSRGModal({title:"ERROR", message:"Gagal sinkronisasi. Pastikan Anonymous Auth aktif di Firebase dan domain Vercel sudah diizinkan."}); 
+        window.showSRGModal({title:"ERROR", message:"Gagal mengirim data. Pastikan Authorized Domain dan Anonymous Login aktif di Firebase."}); 
       }
     };
 
@@ -340,12 +356,12 @@
       if (grid) {
         const marginPerc = s.o > 0 ? ((s.lk / s.o) * 100).toFixed(1) + "%" : "0%";
         const cards = [
-          {l:"Total Omset", v:fmt(s.o), t:"tan", x:"text-slate-800 font-black text-left"}, {l:"Biaya Produksi", v:fmt(s.m), t:"tan", x:"text-red-600 font-black text-left"}, {l:"Biaya Operasional", v:fmt(s.ops), t:"tan", x:"text-slate-400 font-bold text-left text-wrap"}, {l:"Laba Kotor", v:fmt(s.lk), t:"green-light", x:"text-emerald-700 font-black text-left"}, {l:"Laba Bersih Akhir", v:fmt(s.lb), t:"green-light", x:"text-emerald-800 font-black text-xl text-left text-nowrap text-wrap"}, {l:"CSR (5%)", v:fmt(s.csr), t:"green-dark", x:"text-[#b19053] font-bold text-left text-nowrap text-wrap text-nowrap"}, {l:"Margin (%)", v:marginPerc, t:"blue-tint", x:"text-blue-800 font-black text-xl text-left"}, {l:"PEMBAGIAN PT (20%)", v:fmt(s.pt), t:"green-dark", x:"text-[#b19053] font-bold text-nowrap text-left text-nowrap text-wrap text-center"}, {l:"PEMBAGIAN MITRA (80%)", v:fmt(s.bm), t:"orange-tint", x:"text-orange-700 font-bold text-nowrap text-left text-nowrap text-wrap text-center"}
+          {l:"Total Omset", v:fmt(s.o), t:"tan", x:"text-slate-800 font-black text-left"}, {l:"Biaya Produksi", v:fmt(s.m), t:"tan", x:"text-red-600 font-black text-left"}, {l:"Biaya Operasional", v:fmt(s.ops), t:"tan", x:"text-slate-400 font-bold text-left text-wrap"}, {l:"Laba Kotor", v:fmt(s.lk), t:"green-light", x:"text-emerald-700 font-black text-left"}, {l:"Laba Bersih Akhir", v:fmt(s.lb), t:"green-light", x:"text-emerald-800 font-black text-xl text-left text-nowrap text-wrap text-left"}, {l:"CSR (5%)", v:fmt(s.csr), t:"green-dark", x:"text-[#b19053] font-bold text-left text-nowrap text-wrap text-nowrap"}, {l:"Margin (%)", v:marginPerc, t:"blue-tint", x:"text-blue-800 font-black text-xl text-left"}, {l:"PEMBAGIAN PT (20%)", v:fmt(s.pt), t:"green-dark", x:"text-[#b19053] font-bold text-nowrap text-left text-nowrap text-wrap text-center"}, {l:"PEMBAGIAN MITRA (80%)", v:fmt(s.bm), t:"orange-tint", x:"text-orange-700 font-bold text-nowrap text-left text-nowrap text-wrap text-center"}
         ];
-        grid.innerHTML = cards.filter(c => !c.exclusive || window.userProfile.appRole === c.exclusive).map(c => `<div class="capsule-card p-8 card-${c.t} text-left"><p class="text-[9px] font-black uppercase mb-1 opacity-60 text-slate-400 text-left text-wrap text-nowrap">${c.l}</p><h3 class="text-xl ${c.x} italic text-left text-wrap text-nowrap">${c.v}</h3></div>`).join('');
+        grid.innerHTML = cards.filter(c => !c.exclusive || window.userProfile.appRole === c.exclusive).map(c => `<div class="capsule-card p-8 card-${c.t} text-left"><p class="text-[9px] font-black uppercase mb-1 opacity-60 text-slate-400 text-left text-wrap text-nowrap">${c.l}</p><h3 class="text-xl ${c.x} italic text-left text-wrap text-nowrap text-left">${c.v}</h3></div>`).join('');
       }
       const body = document.getElementById('tableBody'); 
-      if (body) body.innerHTML = homeData.slice(0, 15).map(t => `<tr class="hover:bg-white/50 transition-all text-left text-nowrap text-wrap"><td class="p-8 font-black text-slate-400">${t.tanggal}</td><td class="font-black text-srg-green uppercase">${t.mitra}</td><td class="text-right text-emerald-800 font-black pr-10 text-nowrap">${fmt(t.lb)}</td><td class="text-right pr-20"><div class="inline-flex flex-col items-end text-right text-nowrap text-wrap text-left"><span class="font-bold text-slate-700 text-nowrap text-wrap">${fmt(t.ops)}</span><div class="h-[1px] bg-slate-300 w-full my-1"></div><span class="text-[8px] text-slate-400 italic">${t.keterangan || "-"}</span></div></td><td class="text-center text-nowrap text-wrap"><button onclick="window.handleDeleteRequest('${t.id}')" class="text-red-200 hover:text-red-500 text-center"><i class="fas fa-trash"></i></button></td></tr>`).join('');
+      if (body) body.innerHTML = homeData.slice(0, 15).map(t => `<tr class="hover:bg-white/50 transition-all text-left text-nowrap text-wrap text-left"><td class="p-8 font-black text-slate-400">${t.tanggal}</td><td class="font-black text-srg-green uppercase">${t.mitra}</td><td class="text-right text-emerald-800 font-black pr-10 text-nowrap">${fmt(t.lb)}</td><td class="text-right pr-20"><div class="inline-flex flex-col items-end text-right text-nowrap text-wrap text-left"><span class="font-bold text-slate-700 text-nowrap text-wrap text-left">${fmt(t.ops)}</span><div class="h-[1px] bg-slate-300 w-full my-1"></div><span class="text-[8px] text-slate-400 italic">${t.keterangan || "-"}</span></div></td><td class="text-center text-nowrap text-wrap text-center"><button onclick="window.handleDeleteRequest('${t.id}')" class="text-red-200 hover:text-red-500 text-center"><i class="fas fa-trash"></i></button></td></tr>`).join('');
       const rs = document.getElementById('rStart')?.value, re = document.getElementById('rEnd')?.value;
       let rekapData = [...homeData];
       if (rs && re) rekapData = rekapData.filter(t => t.tanggal >= rs && t.tanggal <= re);
@@ -353,13 +369,13 @@
       const rekapGrid = document.getElementById('rekapStatsContainer');
       if (rekapGrid) {
         const rCards = [{l:"Omset Periode", v:fmt(rS.o), t:"tan", x:"text-slate-800 font-black"},{l:"Laba Bersih", v:fmt(rS.lb), t:"green-light", x:"text-emerald-800 font-black"},{l:"PEMBAGIAN PT (20%)", v:fmt(rS.pt), t:"green-dark", x:"text-[#b19053] font-bold"},{l:"PEMBAGIAN MITRA (80%)", v:fmt(rS.bm), t:"orange-tint", x:"text-orange-700 font-bold"}];
-        rekapGrid.innerHTML = rCards.map(c => `<div class="capsule-card p-8 card-${c.t} text-left text-wrap"><p class="text-[9px] font-black uppercase mb-2 opacity-60 text-slate-400 text-nowrap text-wrap">${c.l}</p><h3 class="text-xl ${c.x} font-black text-left text-wrap text-nowrap">${c.v}</h3></div>`).join('');
+        rekapGrid.innerHTML = rCards.map(c => `<div class="capsule-card p-8 card-${c.t} text-left text-wrap"><p class="text-[9px] font-black uppercase mb-2 opacity-60 text-slate-400 text-nowrap text-wrap">${c.l}</p><h3 class="text-xl ${c.x} font-black text-left text-wrap text-nowrap text-left">${c.v}</h3></div>`).join('');
       }
       const br = document.getElementById('rekapTable');
-      if (br) br.innerHTML = rekapData.map(t => `<tr><td>${t.tanggal}</td><td class="font-black text-srg-green">${t.mitra}</td><td class="text-right text-wrap text-nowrap">${fmt(t.omset)}</td><td class="text-right font-bold text-emerald-800 text-nowrap text-wrap">${fmt(t.lb)}</td><td class="text-right text-nowrap text-wrap text-wrap">${fmt(t.csr)}</td><td class="text-right font-bold text-srg-green uppercase text-nowrap text-wrap">PT(20%): ${fmt(t.pt)}</td><td class="text-right font-bold text-orange-700 uppercase text-nowrap text-wrap">MITRA(80%): ${fmt(t.mitraPart)}</td></tr>`).join('');
-      document.getElementById('sig-location').innerText = "Bojonegoro, " + new Date().toLocaleDateString('id-ID', { year:'numeric', month:'long', day:'numeric' });
-      document.getElementById('pDate').innerText = "Dicetak: " + new Date().toLocaleString();
-      document.getElementById('pMitra').innerText = mfVal === 'all' ? 'SEMUA MITRA TERDAFTAR' : mfVal.toUpperCase();
+      if (br) br.innerHTML = rekapData.map(t => `<tr><td>${t.tanggal}</td><td class="font-black text-srg-green">${t.mitra}</td><td class="text-right text-wrap text-nowrap text-right">${fmt(t.omset)}</td><td class="text-right font-bold text-emerald-800 text-nowrap text-wrap text-right">${fmt(t.lb)}</td><td class="text-right text-nowrap text-wrap text-wrap text-right">${fmt(t.csr)}</td><td class="text-right font-bold text-srg-green uppercase text-nowrap text-wrap text-right">PT: ${fmt(t.pt)}</td><td class="text-right font-bold text-orange-700 uppercase text-nowrap text-wrap text-right">MITRA: ${fmt(t.mitraPart)}</td></tr>`).join('');
+      const loc = document.getElementById('sig-location'); if(loc) loc.innerText = "Bojonegoro, " + new Date().toLocaleDateString('id-ID', { year:'numeric', month:'long', day:'numeric' });
+      const pd = document.getElementById('pDate'); if(pd) pd.innerText = "Dicetak: " + new Date().toLocaleString();
+      const pm = document.getElementById('pMitra'); if(pm) pm.innerText = mfVal === 'all' ? 'SEMUA MITRA TERDAFTAR' : mfVal.toUpperCase();
     };
 
     window.refreshSidebarHistory = () => {
@@ -378,12 +394,8 @@
         db = getFirestore(app); 
         auth = getAuth(app);
         
-        // Sign-in anonim agar Vercel bisa mengakses Firestore dengan aman
-        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) { 
-          await signInWithCustomToken(auth, __initial_auth_token); 
-        } else { 
-          await signInAnonymously(auth); 
-        }
+        // Memulai login anonim agar diizinkan menulis ke database
+        await signInAnonymously(auth);
         
         isFirebaseActive = true;
         onAuthStateChanged(auth, (u) => { 
@@ -396,7 +408,7 @@
         });
       } catch (e) { 
         console.error("Firebase Fail:", e); 
-        window.showSRGModal({title:"KONEKSI GAGAL", message:"Aplikasi gagal terhubung ke Cloud. Pastikan domain Vercel Anda sudah terdaftar di Authorized Domains Firebase."});
+        window.showSRGModal({title:"KONEKSI GAGAL", message:"Aplikasi gagal terhubung ke Cloud. Pastikan Anda sudah mengaktifkan 'Anonymous Login' di Firebase Console."});
       }
     };
     setupFirebase();
