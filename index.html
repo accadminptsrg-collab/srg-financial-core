@@ -12,14 +12,14 @@
     body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--srg-bg); color: #1a2e2a; overflow-x: hidden; text-align: left; }
     
     body::before { content: ""; position: fixed; inset: 0; background-image: radial-gradient(circle at 2px 2px, rgba(177, 144, 83, 0.15) 1.2px, transparent 0); background-size: 32px 32px; z-index: -2; pointer-events: none; }
-    body::after { content: ""; position: fixed; inset: 0; background-image: url('https://www.transparenttextures.com/patterns/batik-ideal.png'); opacity: 0.15; filter: sepia(100%) saturate(220%) hue-rotate(5deg) brightness(85%); z-index: -1; pointer-events: none; }
+    body::after { content: ""; position: fixed; inset: 0; background-image: url('https://www.transparenttextures.com/patterns/batik-ideal.png'); opacity: 0.12; filter: sepia(100%) saturate(220%) hue-rotate(5deg) brightness(85%); z-index: -1; pointer-events: none; }
     
-    .capsule-card { border-radius: 3rem; backdrop-filter: blur(14px); background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(177, 144, 83, 0.2); box-shadow: 0 40px 100px -20px rgba(6, 55, 45, 0.1); transition: all 0.3s ease; }
+    .capsule-card { border-radius: 3rem; backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(177, 144, 83, 0.2); box-shadow: 0 40px 100px -20px rgba(6, 55, 45, 0.1); }
     .card-tan { background: linear-gradient(135deg, #fdfaf0 0%, #f3e9d2 100%); }
     .card-green-light { background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); }
     .card-green-dark { background: #06372d; color: #b19053 !important; border: 1px solid #b19053; }
     .card-orange-tint { background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); }
-    .card-blue-tint { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border: 1px solid rgba(59, 130, 246, 0.2); }
+    .card-blue-tint { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); }
     
     .capsule-input { border-radius: 9999px; border: 1px solid #e2e8f0; background: white; transition: all 0.2s ease; }
     .capsule-input:focus { border-color: var(--srg-gold); outline: none; box-shadow: 0 0 0 4px rgba(177, 144, 83, 0.1); }
@@ -28,145 +28,211 @@
     .nav-btn-active { background-color: #06372d !important; color: #b19053 !important; box-shadow: 0 8px 20px rgba(6, 55, 45, 0.3); }
     
     .srg-modal-overlay { position: fixed; inset: 0; background: rgba(4, 38, 31, 0.85); backdrop-filter: blur(10px); z-index: 9999; display: none; align-items: center; justify-content: center; }
-    .srg-modal-content { width: 90%; max-width: 420px; background: #f1f0e8; border-radius: 4rem; padding: 4rem 2rem 2rem 2rem; position: relative; box-shadow: 0 50px 100px rgba(0,0,0,0.4); transform: scale(0.8); opacity: 0; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
     .srg-modal-overlay.active { display: flex; }
+    .srg-modal-content { width: 90%; max-width: 420px; background: #f1f0e8; border-radius: 4rem; padding: 4.5rem 2rem 2.5rem 2rem; position: relative; box-shadow: 0 50px 100px rgba(0,0,0,0.4); transform: scale(0.8); opacity: 0; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
     .srg-modal-overlay.active .srg-modal-content { transform: scale(1); opacity: 1; }
 
-    #report-kop, #print-signature { display: none; }
+    .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { width: 100%; border-collapse: collapse; min-width: 950px; table-layout: fixed; }
+    th { text-transform: uppercase; font-size: 8px; letter-spacing: 0.05em; padding: 12px 6px; font-weight: 800; text-align: center; color: #64748b; }
+    td { padding: 10px 6px; vertical-align: middle; font-size: 8.5px; line-height: 1.2; }
+
     @media print {
       .no-print { display: none !important; }
-      body { background: white !important; }
+      body { background: white !important; padding: 0 !important; }
       #appSection, #page-rekap { display: block !important; opacity: 1 !important; margin: 0 !important; width: 100% !important; }
-      th { background-color: #f8fafc !important; color: #1e293b !important; border: 0.5pt solid #333 !important; padding: 6px 1px !important; line-height: 1.1 !important; height: 45px !important; text-align: center !important; word-wrap: break-word !important; white-space: normal !important; vertical-align: middle !important; }
-      td { border: 0.5pt solid #333 !important; padding: 4px !important; word-wrap: break-word !important; vertical-align: middle !important; }
-      #print-signature { display: block !important; margin-top: 50px; }
+      #report-kop { display: block !important; border-bottom: 2px solid #06372d; margin-bottom: 25px; padding-bottom: 15px; text-align: center; }
+      #print-signature { display: block !important; margin-top: 40px; page-break-inside: avoid; }
+      .capsule-card { border: none !important; box-shadow: none !important; background: transparent !important; border-radius: 0 !important; }
+      th { border: 0.5pt solid #333 !important; background: #f8fafc !important; color: black !important; font-size: 7pt !important; height: 35px; text-align: center !important; }
+      td { border: 0.5pt solid #333 !important; font-size: 7pt !important; padding: 4px !important; }
       .sig-row { display: flex; justify-content: space-between; padding: 0 40px; }
-      .sig-name { font-weight: 900; border-bottom: 1.5px solid black; display: inline-block; padding: 0 15px; margin-top: 80px; font-size: 10pt; text-transform: uppercase; }
+      .sig-name { font-weight: bold; border-bottom: 1px solid black; margin-top: 50px; display: inline-block; font-size: 9pt; }
     }
   </style>
 </head>
-<body class="min-h-screen">
-  <!-- MODAL -->
+<body class="min-h-screen text-left">
+  <!-- MODAL STRUCTURE -->
   <div id="srgModal" class="srg-modal-overlay no-print">
     <div class="srg-modal-content text-center">
-      <div class="absolute top-[-45px] left-1/2 -translate-x-1/2 w-[90px] h-[90px] bg-[#f1f0e8] rounded-full flex items-center justify-center shadow-lg">
-        <div class="w-[75px] h-[75px] border-2 border-[#e5e4d3] rounded-full flex items-center justify-center font-black italic text-srg-gold text-xl text-center">SRG</div>
+      <!-- Logo Pop-up (Hijau BG, Emas Border, Emas Inisial) -->
+      <div style="background-color: #06372d; border-color: #b19053;" class="absolute top-[-45px] left-1/2 -translate-x-1/2 w-[90px] h-[90px] rounded-full flex items-center justify-center shadow-lg border-[3px]">
+        <span style="color: #b19053;" class="font-black italic text-xl">SRG</span>
       </div>
-      <h3 id="modalTitle" class="text-2xl font-black text-slate-800 italic uppercase mb-3 text-center">INFO</h3>
-      <p id="modalMessage" class="text-sm text-slate-600 italic mb-10 px-4 leading-relaxed text-center"></p>
+      <h3 id="modalTitle" class="text-xl font-black text-slate-800 uppercase mb-2">SISTEM INFORMASI</h3>
+      <p id="modalMessage" class="text-sm text-slate-600 mb-8 italic px-2 leading-relaxed text-center"></p>
       <div class="flex flex-col space-y-3">
-        <button id="modalConfirmBtn" type="button" class="w-full py-5 rounded-full bg-[#06372d] text-[#b19053] font-black uppercase text-xs tracking-[0.2em] shadow-2xl active:scale-95 transition-all text-center">OK</button>
-        <button id="modalCancelBtn" type="button" onclick="closeSRGModal()" class="w-full py-2 text-slate-400 font-bold uppercase text-[9px] tracking-widest hidden text-center">BATAL</button>
+        <button id="modalConfirmBtn" class="btn-premium w-full py-4 uppercase text-xs tracking-widest shadow-lg">OK</button>
+        <button id="modalCancelBtn" onclick="window.closeSRGModal()" class="hidden text-[10px] font-bold text-slate-400 uppercase py-2">Batal</button>
       </div>
-      <div class="mt-10 mb-2 w-full h-[1px] bg-slate-200 opacity-40 mx-auto text-center"></div>
-      <p class="text-[7px] text-slate-400 font-black tracking-[0.4em] uppercase text-center px-4">PT SUBUR RAYA GROUP OFFICIAL SYSTEM</p>
+      <div class="mt-8 mb-2 w-full h-[1px] bg-slate-200 opacity-40 mx-auto text-center"></div>
+      <p class="text-[7px] text-slate-400 font-black tracking-[0.4em] uppercase text-nowrap text-center">PT SUBUR RAYA GROUP OFFICIAL SYSTEM</p>
     </div>
   </div>
 
-  <div id="loadingOverlay" class="fixed inset-0 bg-white/80 z-[1100] flex items-center justify-center hidden backdrop-blur-sm no-print"><div class="flex flex-col items-center"><div class="w-10 h-10 border-4 border-slate-200 border-t-srg-gold rounded-full animate-spin"></div><p class="mt-5 font-black text-srg-green text-[10px] tracking-[0.5em] uppercase">SINKRONISASI...</p></div></div>
+  <div id="loadingOverlay" class="fixed inset-0 bg-white/80 z-[1100] flex items-center justify-center hidden backdrop-blur-sm no-print text-center">
+    <div class="flex flex-col items-center text-center"><div class="w-10 h-10 border-4 border-slate-200 border-t-srg-gold rounded-full animate-spin"></div><p class="mt-4 font-black text-srg-green text-[10px] tracking-widest uppercase text-nowrap">SINKRONISASI...</p></div>
+  </div>
 
   <!-- LOGIN SECTION -->
-  <div id="loginSection" class="flex items-center justify-center min-h-screen px-4 text-center">
-    <div class="capsule-card p-14 w-full max-w-[420px] text-center border-none shadow-2xl">
+  <div id="loginSection" class="flex items-center justify-center min-h-screen px-4">
+    <div class="capsule-card p-14 w-full max-w-[420px] text-center border-none shadow-2xl text-left">
       <div class="mb-12 text-center">
-        <div class="bg-[#06372d] w-28 h-28 rounded-full flex items-center justify-center mx-auto shadow-2xl border-[3px] border-[#b19053] mb-8 relative text-center">
-          <span class="text-[#b19053] font-black text-4xl italic">SRG</span>
+        <!-- Logo Login Hijau-Emas -->
+        <div style="background-color: #06372d; border-color: #b19053;" class="w-28 h-28 rounded-full flex items-center justify-center mx-auto shadow-2xl border-[3px] mb-8 relative text-center">
+          <span style="color: #b19053;" class="font-black text-4xl italic">SRG</span>
         </div>
-        <h1 class="text-2xl font-black text-[#06372d] italic tracking-tight uppercase text-center">PT SUBUR RAYA GROUP</h1>
-        <p class="text-[#b19053] text-[10px] font-black tracking-[0.4em] uppercase mt-3 italic text-center">ELITE FINANCIAL SYSTEM</p>
+        <h1 class="text-2xl font-black text-srg-green italic tracking-tight uppercase text-center">PT SUBUR RAYA GROUP</h1>
+        <!-- Slogan Emas -->
+        <p style="color: #b19053;" class="text-[10px] font-black tracking-[0.4em] uppercase mt-3 italic text-center">ELITE FINANCIAL SYSTEM</p>
       </div>
       <div class="space-y-7 text-left px-2">
-        <div><label class="block text-[9px] font-black text-slate-400 uppercase mb-3 ml-4 italic tracking-widest text-left">ID PENGGUNA</label><input type="text" id="userInput" class="capsule-input w-full px-8 py-5 text-sm font-semibold text-slate-700 shadow-sm outline-none" placeholder="username"></div>
-        <div><label class="block text-[9px] font-black text-slate-400 uppercase mb-3 ml-4 italic tracking-widest text-left">KATA SANDI</label><div class="relative"><input type="password" id="passInput" class="capsule-input w-full px-8 py-5 text-sm font-semibold text-slate-700 shadow-sm pr-14 outline-none" placeholder="password"><button type="button" onclick="togglePass()" class="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 hover:text-srg-gold transition-all"><i id="passIcon" class="fas fa-eye-slash"></i></button></div></div>
-        <div class="flex items-center space-x-3 ml-1 pt-1"><input type="checkbox" id="rememberMe" class="w-4 h-4 text-srg-green border-slate-300 rounded focus:ring-srg-gold cursor-pointer"><label for="rememberMe" class="text-[9px] font-black text-slate-400 uppercase tracking-widest cursor-pointer">SIMPAN LOGIN</label></div>
-        <button type="button" onclick="handleLogin()" class="btn-premium w-full font-black py-6 text-xs tracking-[0.3em] uppercase mt-8 shadow-xl text-center">MASUK SISTEM</button>
+        <div><label class="block text-[9px] font-black text-slate-400 uppercase mb-3 ml-4 italic tracking-widest text-left">ID PENGGUNA</label><input type="text" id="userInput" class="capsule-input w-full px-8 py-5 text-sm font-semibold text-slate-700 shadow-sm outline-none" placeholder="Username"></div>
+        <div><label class="block text-[9px] font-black text-slate-400 uppercase mb-3 ml-4 italic tracking-widest text-left">KATA SANDI</label><div class="relative"><input type="password" id="passInput" class="capsule-input w-full px-8 py-5 text-sm font-semibold text-slate-700 shadow-sm pr-14 outline-none" placeholder="Password"><button type="button" onclick="window.togglePass()" class="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 hover:text-srg-gold transition-all"><i id="passIcon" class="fas fa-eye-slash"></i></button></div></div>
+        <div class="flex items-center space-x-3 ml-1 pt-1"><input type="checkbox" id="rememberMe" class="w-4 h-4 text-srg-green border-slate-300 rounded focus:ring-srg-gold cursor-pointer"><label for="rememberMe" class="text-[9px] font-black text-slate-400 uppercase tracking-widest cursor-pointer text-left">SIMPAN LOGIN</label></div>
+        <button type="button" onclick="window.handleLogin()" class="btn-premium w-full font-black py-6 text-xs tracking-[0.3em] uppercase mt-8 shadow-xl text-center text-nowrap">MASUK SISTEM</button>
       </div>
-      <div class="mt-16 text-[9px] text-slate-300 font-black tracking-[0.3em] uppercase italic text-center">© 2025 PT SUBUR RAYA GROUP</div>
+      <div class="mt-16 text-[9px] text-slate-300 font-black tracking-[0.3em] uppercase italic text-center text-nowrap">© 2025 PT SUBUR RAYA GROUP</div>
     </div>
   </div>
 
   <!-- MAIN APP -->
   <div id="appSection" class="hidden">
-    <div class="fixed top-8 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-2xl no-print">
-        <nav class="nav-main-pill p-2 flex justify-between items-center px-4 md:px-8">
+    <div class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[96%] max-w-5xl no-print text-left">
+        <nav class="nav-main-pill p-2 flex justify-between items-center px-4 shadow-xl text-left">
           <div class="flex items-center space-x-3 text-left">
-              <div class="bg-[#06372d] w-12 h-12 rounded-full flex items-center justify-center text-[#b19053] shadow-lg border border-[#b19053]/30 text-center"><span class="font-black text-sm italic">SRG</span></div>
-              <div class="hidden sm:block text-left"><p class="text-[#06372d] font-black text-[11px] leading-tight uppercase italic tracking-tighter">PT SR GROUP</p></div>
+              <!-- Logo Navigasi Hijau-Emas -->
+              <div style="background-color: #06372d; border-color: #b19053;" class="w-10 h-10 rounded-full flex items-center justify-center shadow-sm border text-center">
+                <span style="color: #b19053;" class="text-xs font-black italic">SRG</span>
+              </div>
+              <div class="hidden sm:block text-left text-nowrap"><p class="text-srg-green font-black text-[10px] uppercase italic leading-none text-left">PT SR GROUP</p></div>
           </div>
-          <div class="flex items-center bg-slate-100/60 p-1.5 rounded-full">
-            <button id="nav-dashboard" onclick="switchPage('dashboard')" class="text-[11px] font-black uppercase px-6 py-3 rounded-full nav-btn-active transition-all text-center">Home</button>
-            <button id="nav-input" onclick="switchPage('input')" class="text-[11px] font-black uppercase px-6 py-3 rounded-full nav-btn-inactive transition-all text-center">Input</button>
-            <button id="nav-rekap" onclick="switchPage('rekap')" class="text-[11px] font-black uppercase px-6 py-3 rounded-full nav-btn-inactive hidden text-nowrap transition-all text-center">Rekap</button>
+          <div class="flex items-center bg-slate-100/60 p-1 rounded-full text-nowrap">
+            <button id="nav-dashboard" onclick="window.switchPage('dashboard')" class="text-[10px] font-black uppercase px-5 py-2.5 rounded-full nav-btn-active transition-all">Home</button>
+            <button id="nav-input" onclick="window.switchPage('input')" class="text-[10px] font-black uppercase px-5 py-2.5 rounded-full nav-btn-inactive transition-all">Input</button>
+            <!-- REKAP MENU (EXCLUSIVE FOR ADMIN) -->
+            <button id="nav-rekap" onclick="window.switchPage('rekap')" class="hidden text-[10px] font-black uppercase px-5 py-2.5 rounded-full nav-btn-inactive transition-all">Rekap</button>
           </div>
-          <div class="flex space-x-2">
-            <button onclick="handleSyncRequest()" class="w-10 h-10 rounded-full bg-white text-srg-green flex items-center justify-center shadow-md"><i class="fas fa-sync-alt text-xs text-center"></i></button>
-            <button onclick="handleDownloadRequest()" class="w-10 h-10 rounded-full bg-white text-blue-500 flex items-center justify-center shadow-md text-center"><i class="fas fa-download text-xs text-center"></i></button>
-            <button onclick="handleLogoutRequest()" class="w-10 h-10 rounded-full bg-white text-red-500 flex items-center justify-center shadow-md text-center"><i class="fas fa-power-off text-xs text-center"></i></button>
+          
+          <!-- Profile Info Right -->
+          <div class="flex items-center space-x-3">
+            <div class="hidden md:flex items-center space-x-3 border-r pr-4 border-slate-200 text-left">
+                <div id="userInit" style="background-color: #06372d; color: #b19053; border-color: #b19053;" class="w-8 h-8 rounded-full flex items-center justify-center font-black text-[10px] border italic shadow-sm text-center">A</div>
+                <div class="text-right">
+                    <p id="navUserName" class="text-[9px] font-black text-srg-green uppercase leading-none">-</p>
+                    <p id="navUserRole" class="text-[7.5px] font-bold text-srg-gold uppercase mt-0.5 tracking-widest leading-none">-</p>
+                </div>
+            </div>
+            <div class="flex space-x-1.5 text-nowrap">
+                <button onclick="window.handleSyncRequest()" title="Refresh" class="w-8 h-8 rounded-full bg-white text-srg-green flex items-center justify-center shadow-sm border border-slate-100 text-center"><i class="fas fa-sync-alt text-[10px]"></i></button>
+                <button onclick="window.handleDownloadRequest()" title="Instal Aplikasi" class="w-8 h-8 rounded-full bg-white text-blue-500 flex items-center justify-center shadow-sm border border-slate-100 text-center"><i class="fas fa-download text-[10px]"></i></button>
+                <button onclick="window.handleLogoutRequest()" title="Keluar" class="w-8 h-8 rounded-full bg-white text-red-500 flex items-center justify-center shadow-sm border border-slate-100 text-center"><i class="fas fa-power-off text-[10px]"></i></button>
+            </div>
           </div>
         </nav>
     </div>
 
-    <main class="mx-auto pt-36 pb-32 w-full max-w-7xl px-4 text-left">
+    <main class="mx-auto pt-32 pb-24 w-full max-w-7xl px-4 text-left">
       <!-- DASHBOARD PAGE -->
       <div id="page-dashboard" class="page-content space-y-12">
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 px-4 text-left">
-            <div class="text-left"><p id="dashboardScope" class="text-[11px] text-[#b19053] font-black uppercase tracking-[0.6em] italic text-left"></p><h2 class="text-6xl font-black text-[#06372d] italic tracking-tighter uppercase leading-tight text-left">OVERVIEW KEUANGAN</h2></div>
-            <div class="flex items-center gap-5 text-left">
-                <div id="adminFilter" class="hidden flex items-center space-x-4 bg-white/90 p-4 rounded-full border shadow-xl text-left">
-                    <span class="text-[10px] font-black text-slate-400 uppercase ml-4 italic text-left text-nowrap">FILTER:</span>
-                    <select id="mitraFilter" onchange="refreshDashboard()" class="capsule-input px-6 py-2 bg-slate-50 border-none font-bold text-[11px] uppercase text-srg-green outline-none text-left cursor-pointer"></select>
-                </div>
-                <div class="flex items-center space-x-4 bg-white p-3 rounded-full shadow-2xl border border-white">
-                  <div id="userAvatar" style="background-color: #06372d; color: #b19053;" class="w-14 h-14 rounded-full flex items-center justify-center font-black italic text-lg border-2 shadow-inner text-center">A</div>
-                  <div class="pr-8 text-left text-wrap"><p id="userDisplay" class="text-sm font-black text-[#06372d] uppercase leading-none text-left"></p><p id="roleDisplay" class="text-[10px] text-[#b19053] uppercase font-black italic mt-1 text-left"></p></div>
-                </div>
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 px-4 text-left">
+            <div><p id="dashboardScope" class="text-[10px] text-srg-gold font-black uppercase tracking-[0.4em] italic mb-1 text-left"></p><h2 class="text-4xl font-black text-srg-green italic tracking-tighter uppercase leading-none text-nowrap text-left text-wrap">OVERVIEW KEUANGAN</h2></div>
+            <div id="adminFilter" class="hidden flex items-center space-x-3 bg-white/80 p-3 rounded-full border shadow-xl text-left">
+                <span class="text-[9px] font-black text-slate-400 uppercase ml-2 text-nowrap">AUDIT MITRA:</span>
+                <select id="mitraFilter" onchange="window.refreshDashboard()" class="capsule-input px-4 py-1.5 bg-slate-50 border-none font-bold text-[10px] uppercase text-srg-green outline-none cursor-pointer"></select>
             </div>
         </div>
         
-        <!-- INILAH KARTU STATISTIK YANG MENETAP & TERAKUMULASI SELAMANYA -->
-        <div id="dashboardStats" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7 px-4 text-left"></div>
+        <div id="dashboardStats" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7 px-4 text-left text-wrap"></div>
         
-        <div class="capsule-card shadow-[0_40px_100px_rgba(0,0,0,0.06)] overflow-hidden border-white bg-white text-left">
-          <div class="p-10 border-b border-slate-50 flex items-center bg-white/95 text-left"><div class="w-2.5 h-10 rounded-full bg-[#b19053] mr-5 text-left"></div><h3 class="font-black text-[#06372d] text-base italic uppercase text-left text-wrap">AKTIVITAS TRANSAKSI TERBARU</h3></div>
-          <div class="overflow-x-auto text-left"><table class="w-full text-xs italic text-left"><thead class="bg-slate-50/50 text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] border-b text-left"><tr><th class="p-8 text-nowrap text-left">WAKTU</th><th class="text-nowrap text-left">MITRA</th><th class="text-right text-nowrap text-right">OMSET</th><th class="text-right text-nowrap text-right text-wrap">LABA BERSIH</th><th class="text-center text-nowrap text-center text-center">AKSI</th></tr></thead><tbody id="tableBody" class="divide-y divide-slate-50 font-semibold text-left"></tbody></table></div>
+        <div class="capsule-card overflow-hidden bg-white border-white text-left">
+          <div class="p-8 border-b bg-white/95 flex items-center text-nowrap text-left"><div class="w-2.5 h-10 rounded-full bg-srg-gold mr-5"></div><h3 class="font-black text-srg-green text-sm uppercase italic text-nowrap text-left text-wrap">AKTIVITAS TRANSAKSI TERBARU</h3></div>
+          <div class="table-responsive text-left">
+            <table class="w-full text-left">
+              <thead class="bg-slate-50 text-slate-400 text-[9px] font-black uppercase border-b text-nowrap text-left">
+                <tr>
+                  <th class="p-8 w-[120px]">WAKTU</th>
+                  <th class="w-[180px]">MITRA</th>
+                  <th class="text-right pr-10 w-[140px]">LABA BERSIH</th>
+                  <th class="text-right pr-20 w-[240px]">BIAYA OPERASIONAL</th>
+                  <th class="text-center w-[80px]">AKSI</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody" class="divide-y divide-slate-50 text-[11px] font-semibold text-slate-700 italic text-left"></tbody>
+            </table>
+          </div>
         </div>
       </div>
 
-      <!-- INPUT PAGE -->
+      <!-- INPUT DATA PAGE -->
       <div id="page-input" class="page-content hidden">
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-            <div class="lg:col-span-7 capsule-card p-12 md:p-16 bg-white/95 text-left text-wrap">
-                <h2 class="text-5xl font-black text-[#06372d] italic uppercase mb-12 tracking-tighter text-left">INPUT DATA LAPORAN</h2>
-                <form id="transForm" onsubmit="event.preventDefault(); saveTransaction();" class="space-y-10 text-left">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                        <div class="text-left"><label class="block text-[10px] font-black text-slate-400 uppercase mb-3 ml-4 italic text-left">Tanggal Laporan</label><input type="date" id="f-tgl" required class="capsule-input w-full px-8 py-6 bg-slate-50 font-bold text-sm outline-none text-left"></div>
-                        <div class="text-left"><label class="block text-[10px] font-black text-slate-400 uppercase mb-3 ml-4 italic text-left">Identitas Mitra</label><select id="f-mitra" class="capsule-input w-full px-8 py-6 bg-slate-50 font-bold text-sm outline-none cursor-pointer text-left"></select></div>
-                    </div>
-                    <div class="space-y-10 text-left">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                            <div class="text-left"><label class="text-[10px] font-black text-slate-400 uppercase mb-3 ml-4 italic text-left">Omset (Total penjualan produk)</label><input type="number" id="f-omset" oninput="localInputPreview()" class="capsule-input w-full px-8 py-6 font-bold outline-none text-left"></div>
-                            <div class="text-left"><label class="text-[10px] font-black text-slate-400 uppercase mb-3 ml-4 italic text-left text-wrap">Biaya Produksi (Modal)</label><input type="number" id="f-modal" oninput="localInputPreview()" class="capsule-input w-full px-8 py-6 font-bold outline-none text-left"></div>
+            <div class="lg:col-span-7 capsule-card p-12 bg-white/95 text-left text-wrap">
+                <h2 class="text-4xl font-black text-srg-green italic uppercase mb-10 tracking-tighter text-left">INPUT DATA LAPORAN</h2>
+                <form id="transForm" onsubmit="event.preventDefault(); window.saveTransaction();" class="space-y-8 text-left">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-nowrap text-left">
+                        <div class="flex flex-col text-left">
+                          <label class="text-[10px] font-black ml-4 mb-2 uppercase text-slate-400 text-left">Tanggal Laporan</label>
+                          <input type="date" id="f-tgl" required class="capsule-input w-full px-8 py-5 bg-slate-50 font-bold text-sm outline-none">
                         </div>
-                        <div class="text-left"><label class="text-[10px] font-black text-slate-400 uppercase mb-3 ml-4 italic text-left text-wrap">Biaya Operasional (Nominal)</label><input type="number" id="f-ops" oninput="localInputPreview()" class="capsule-input w-full px-8 py-6 font-bold outline-none text-left"></div>
-                        <div class="text-left"><label class="text-[10px] font-black text-slate-400 uppercase mb-3 ml-4 italic text-left">Keterangan Biaya Operasional</label><textarea id="f-ket" class="capsule-card w-full p-8 text-sm font-semibold italic outline-none text-slate-500 bg-white" placeholder="Detail pengeluaran..."></textarea></div>
+                        <div class="flex flex-col text-left">
+                          <label class="text-[10px] font-black ml-4 mb-2 uppercase text-slate-400 text-left">Identitas Mitra</label>
+                          <select id="f-mitra" class="capsule-input w-full px-8 py-5 bg-slate-50 font-bold text-sm outline-none cursor-pointer"></select>
+                        </div>
                     </div>
-                    <div id="liveCalcArea" class="hidden p-8 rounded-[3rem] bg-emerald-50 border border-emerald-100 flex justify-between items-center shadow-inner">
-                        <div class="text-left text-wrap"><p class="text-[9px] font-black text-emerald-600 uppercase mb-2 italic text-nowrap">PRATINJAU LABA KOTOR</p><h4 id="liveLabaKotor" class="text-4xl font-black text-emerald-800 italic text-wrap text-left">Rp 0</h4></div>
-                        <div class="w-16 h-16 rounded-full bg-emerald-100/50 flex items-center justify-center text-emerald-300 text-3xl text-center"><i class="fas fa-calculator text-center"></i></div>
+                    
+                    <div id="mitraOnlyFields" class="space-y-8 text-left">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-nowrap text-left">
+                            <div class="flex flex-col text-left">
+                              <label class="text-[10px] font-black ml-4 mb-2 uppercase text-slate-400 text-left">Omset</label>
+                              <input type="number" id="f-omset" oninput="window.localInputPreview()" class="capsule-input w-full px-8 py-5 font-bold" placeholder="0">
+                            </div>
+                            <div class="flex flex-col text-left">
+                              <label class="text-[10px] font-black ml-4 mb-2 uppercase text-slate-400 text-left">Modal Produksi</label>
+                              <input type="number" id="f-modal" oninput="window.localInputPreview()" class="capsule-input w-full px-8 py-5 font-bold" placeholder="0">
+                            </div>
+                        </div>
+                        <div class="flex flex-col text-left">
+                          <label class="text-[10px] font-black ml-4 mb-2 uppercase text-slate-400 text-left">Biaya Operasional (Nominal)</label>
+                          <input type="number" id="f-ops" oninput="window.localInputPreview()" class="capsule-input w-full px-8 py-5 font-bold" placeholder="0">
+                        </div>
+                        <div class="flex flex-col text-left">
+                          <label class="text-[10px] font-black ml-4 mb-2 uppercase text-slate-400 text-left">Keterangan Operasional</label>
+                          <textarea id="f-ket" class="capsule-card w-full p-8 text-sm font-semibold italic min-h-[120px]" placeholder="Detail pengeluaran..."></textarea>
+                        </div>
                     </div>
-                    <button type="submit" class="btn-premium w-full font-black py-7 text-xs shadow-2xl active:scale-95 transition-all uppercase italic text-center">SIMPAN LAPORAN PERMANEN</button>
+
+                    <div id="liveCalcArea" class="hidden p-8 rounded-[3rem] bg-emerald-50 border border-emerald-100 flex justify-between items-center shadow-inner text-nowrap text-left">
+                        <div class="text-left text-wrap"><p class="text-[9px] font-black text-emerald-600 uppercase mb-2 italic text-left">ESTIMASI LABA KOTOR</p><h4 id="liveLabaKotor" class="text-3xl font-black text-emerald-800 italic text-left">Rp 0</h4></div>
+                        <i class="fas fa-calculator text-emerald-200 text-3xl"></i>
+                    </div>
+                    <button id="saveBtn" type="submit" class="btn-premium w-full font-black py-7 text-xs uppercase shadow-2xl transition-all active:scale-95 italic text-nowrap">SIMPAN LAPORAN PERMANEN</button>
                 </form>
             </div>
-            <div class="lg:col-span-5 space-y-10 text-left">
-              <div class="capsule-card p-12 border-2 border-[#b19053]/15 bg-white shadow-xl text-left">
-                  <div class="flex items-center space-x-5 mb-12 text-left"><div class="w-12 h-12 rounded-full card-tan flex items-center justify-center text-[#b19053] shadow-md text-center"><i class="fas fa-history text-center text-sm"></i></div><h3 class="text-[#06372d] font-black italic text-lg uppercase text-left">CEK ARSIP MITRA</h3></div>
-                  <div class="space-y-7 text-left">
-                      <select id="mitraMode" onchange="toggleMitraFilters()" class="capsule-input w-full px-8 py-5 bg-slate-50 font-bold text-xs uppercase outline-none cursor-pointer text-left"><option value="harian">HARIAN / MINGGUAN</option><option value="bulanan">BULANAN</option><option value="tahunan">TAHUNAN</option></select>
-                      <div id="mitraRange" class="grid grid-cols-2 gap-4 text-left"><div><label class="block text-[8px] font-black ml-4 mb-1 text-left">DARI</label><input type="date" id="mStart" class="capsule-input w-full p-4 text-xs font-bold outline-none text-left"></div><div><label class="block text-[8px] font-black ml-4 mb-1 text-left text-nowrap">SAMPAI</label><input type="date" id="mEnd" class="capsule-input w-full p-4 text-xs font-bold outline-none text-left"></div></div>
-                      <button onclick="refreshSidebarHistory()" class="btn-premium w-full py-4 text-[10px] uppercase font-black text-center text-nowrap">TAMPILKAN DATA ARSIP</button>
-                      <div id="historyResult" class="space-y-5 pt-10 border-t border-slate-100 text-left">
-                          <div class="bg-[#06372d] p-9 rounded-[3rem] text-[#b19053] shadow-2xl text-left"><p class="text-[9px] font-black uppercase mb-2 opacity-60 italic text-left">OMSET PERIODE</p><h4 id="hOmset" class="text-4xl font-black italic text-nowrap text-left text-wrap">Rp 0</h4></div>
-                          <div class="grid grid-cols-2 gap-5 text-left"><div class="bg-[#1e293b] p-6 rounded-[2.5rem] text-[#b19053] border border-[#b19053]/20 shadow-xl text-left"><p class="text-[8px] font-black uppercase italic opacity-60 text-nowrap text-left">PT (20%)</p><h5 id="hPT" class="text-sm font-black mt-1 text-nowrap text-left">Rp 0</h5></div><div class="card-orange-tint p-6 rounded-[2.5rem] text-orange-700 border shadow-xl text-left"><p class="text-[8px] font-black uppercase italic opacity-70 text-nowrap text-left">MITRA (80%)</p><h5 id="hPartner" class="text-sm font-black mt-1 text-nowrap text-left">Rp 0</h5></div></div>
+            
+            <!-- SIDEBAR INPUT (5 KARTU STATISTIK) -->
+            <div id="inputSidebar" class="lg:col-span-5 space-y-6 text-left">
+              <div class="capsule-card p-10 border-2 border-srg-gold/15 bg-white text-left">
+                  <div class="flex items-center space-x-4 mb-10 text-nowrap text-left"><i class="fas fa-history text-srg-gold"></i><h3 class="text-srg-green font-black italic text-lg uppercase text-nowrap text-left text-wrap">ARSIP PERIODE</h3></div>
+                  <div class="space-y-6 text-left">
+                      <div class="grid grid-cols-2 gap-4 text-left">
+                        <div class="flex flex-col text-left text-nowrap"><label class="text-[9px] font-black ml-4 mb-1 uppercase text-slate-400 text-left">Dari</label><input type="date" id="mStart" class="capsule-input w-full p-4 text-[11px] font-bold"></div>
+                        <div class="flex flex-col text-left text-nowrap"><label class="text-[9px] font-black ml-4 mb-1 uppercase text-slate-400 text-left">Sampai</label><input type="date" id="mEnd" class="capsule-input w-full p-4 text-[11px] font-bold"></div>
+                      </div>
+                      <button onclick="window.refreshSidebarHistory()" class="btn-premium w-full py-4 text-[10px] uppercase font-black text-nowrap">Tampilkan Data Arsip</button>
+                      
+                      <div id="historyResult" class="space-y-4 pt-10 border-t border-slate-100 text-left text-wrap">
+                          <div class="bg-srg-green p-6 rounded-[2.5rem] text-srg-gold shadow-xl text-left"><p class="text-[9px] font-black uppercase mb-1 opacity-60 text-left">TOTAL OMSET</p><h4 id="hOmset" class="text-3xl font-black italic text-left">Rp 0</h4></div>
+                          <div class="grid grid-cols-2 gap-4 text-left">
+                            <div class="card-green-light p-5 rounded-[2rem] border shadow-md text-left"><p class="text-[8px] font-black uppercase mb-1 opacity-70 text-nowrap text-slate-500 text-left">LABA KOTOR</p><h5 id="hLabaKotor" class="text-sm font-black text-emerald-800 text-nowrap text-left">Rp 0</h5></div>
+                            <div class="card-green-dark p-5 rounded-[2rem] border shadow-md text-srg-gold text-left"><p class="text-[8px] font-black uppercase mb-1 opacity-80 text-nowrap text-srg-gold text-left text-wrap">CSR (5%)</p><h5 id="hCSR" class="text-sm font-black text-srg-gold text-left">Rp 0</h5></div>
+                            <!-- PT Card dengan Teks Emas Terang -->
+                            <div class="bg-[#1e293b] p-5 rounded-[2rem] border shadow-md border-srg-gold/30 text-left">
+                              <p class="text-[8px] font-black uppercase mb-1 opacity-70 text-nowrap text-[#b19053] text-left text-wrap">PT (20%)</p>
+                              <h5 id="hPT" style="color: #b19053 !important;" class="text-sm font-black text-left">Rp 0</h5>
+                            </div>
+                            <div class="card-orange-tint p-5 rounded-[2rem] text-orange-700 border shadow-md text-nowrap text-left"><p class="text-[8px] font-black uppercase mb-1 opacity-80 text-nowrap text-left text-wrap text-orange-700">MITRA (80%)</p><h5 id="hPartner" class="text-sm font-black text-nowrap text-orange-700 text-left">Rp 0</h5></div>
+                          </div>
                       </div>
                   </div>
               </div>
@@ -174,29 +240,64 @@
           </div>
       </div>
 
-      <!-- REKAP PAGE -->
-      <div id="page-rekap" class="page-content hidden space-y-12 text-left">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-8 px-6 no-print text-left"><div class="border-l-4 border-srg-green pl-8 text-left"><h2 class="text-5xl font-black text-srg-green italic uppercase tracking-tighter text-left text-nowrap">REKAPITULASI LAPORAN</h2><p class="text-[11px] text-slate-400 font-bold uppercase tracking-[0.5em] mt-2 text-left text-nowrap">Dokumen Formal Per Periode</p></div><button onclick="window.print()" class="no-print btn-premium px-12 py-5 text-xs shadow-2xl text-gold text-center">UNDUH / CETAK PDF</button></div>
-        <div class="no-print capsule-card p-12 bg-white/90 border-white shadow-2xl mx-4 text-left">
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-end text-left">
-              <div class="md:col-span-3 text-left"><label class="block text-[10px] font-black text-slate-400 uppercase mb-3 ml-4 italic text-nowrap text-left">Periode Laporan</label><select id="rMode" onchange="toggleRekapFilters()" class="capsule-input w-full px-8 py-5 bg-slate-50 font-bold text-sm uppercase outline-none cursor-pointer text-left"><option value="harian">HARIAN / MINGGUAN</option><option value="bulanan">BULANAN</option><option value="tahunan">TAHUNAN</option></select></div>
-              <div id="rRange" class="md:col-span-6 grid grid-cols-2 gap-5 text-left text-wrap"><div><label class="block text-[10px] font-black text-slate-400 uppercase mb-3 ml-4 italic text-nowrap text-left text-wrap">DARI</label><input type="date" id="rStart" class="capsule-input w-full px-8 py-5 font-bold text-sm outline-none text-left"></div><div><label class="block text-[10px] font-black text-slate-400 uppercase mb-3 ml-4 italic text-nowrap text-left text-wrap">SAMPAI</label><input type="date" id="rEnd" class="capsule-input w-full px-8 py-5 font-bold text-sm outline-none text-left"></div></div>
-              <div class="md:col-span-3 text-center"><button onclick="refreshDashboard()" class="btn-premium w-full py-5 text-xs font-black tracking-[0.3em] uppercase shadow-2xl text-center">Tampilkan Data</button></div>
+      <!-- REKAPITULASI (Admin Only View) -->
+      <div id="page-rekap" class="page-content hidden space-y-12">
+        <div class="flex justify-between items-center px-4 no-print text-left text-nowrap"><h2 class="text-4xl font-black text-srg-green uppercase italic tracking-tighter text-left">REKAPITULASI LAPORAN</h2><button onclick="window.print()" class="btn-premium px-12 py-4 text-xs shadow-xl text-nowrap text-center">UNDUH / CETAK PDF</button></div>
+        
+        <div class="no-print capsule-card p-12 bg-white/90 mx-4 shadow-xl text-left">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-end text-nowrap text-left">
+              <div class="md:col-span-3 text-left"><label class="block text-[10px] font-black text-slate-400 uppercase mb-3 ml-4 text-left">Audit Periode</label><div class="capsule-input w-full px-8 py-5 bg-slate-100 font-bold text-[10px] uppercase text-center text-slate-500 text-nowrap">Rentang Tanggal</div></div>
+              <div class="md:col-span-6 grid grid-cols-2 gap-6 text-left">
+                <div class="flex flex-col text-left"><label class="text-[10px] font-black text-slate-400 mb-2 ml-4 uppercase text-nowrap text-left">Dari</label><input type="date" id="rStart" class="capsule-input w-full px-8 py-5 font-bold text-sm"></div>
+                <div class="flex flex-col text-left"><label class="text-[10px] font-black text-slate-400 mb-2 ml-4 uppercase text-nowrap text-left">Sampai</label><input type="date" id="rEnd" class="capsule-input w-full px-8 py-5 font-bold text-sm"></div>
+              </div>
+              <div class="md:col-span-3 text-center"><button onclick="window.refreshDashboard()" class="btn-premium w-full py-6 text-[10px] font-black uppercase shadow-lg text-nowrap text-center">Tampilkan Rekap</button></div>
             </div>
         </div>
 
-        <!-- REKAP STATS (FILTERED PERIODE) -->
-        <div id="rekapStatsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-6 no-print text-left"></div>
+        <div id="rekapStatsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 no-print text-left text-wrap"></div>
 
         <div class="capsule-card shadow-2xl overflow-hidden border-white mx-4 bg-white text-left">
-            <div id="report-kop" class="text-center pt-5 text-center text-wrap text-center"><div class="flex items-center justify-center space-x-8 mb-6 text-center text-left"><div style="background: #06372d; width: 75px; height: 75px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #b19053; font-weight: 900; font-size: 28px; border: 3px solid #b19053; text-center">SRG</div><div class="text-left text-wrap"><h1 style="font-size: 32px; font-weight: 900; color: #06372d; margin: 0; text-left text-nowrap text-wrap">PT SUBUR RAYA GROUP</h1><p style="font-size: 11px; color: #666; letter-spacing: 3px; font-weight: bold; margin-top: 8px; text-left text-nowrap text-wrap text-left">Laporan Rincian Transaksi Keuangan Resmi</p></div></div><div style="display: flex; justify-content: space-between; border-top: 2.5px solid #06372d; border-bottom: 0.5pt solid #eee; padding: 15px 10px; margin-top: 20px; text-align: left;"><div style="font-size: 11px; line-height: 1.8; text-left"><p class="text-left text-nowrap"><strong>Mitra :</strong> <span id="pMitra">SEMUA MITRA</span></p></div><div style="text-align: right; font-size: 10px; font-style: italic; color: #888; text-right text-wrap"><p id="pDate" class="text-right text-nowrap"></p></div></div></div>
-            <div class="p-10 border-b bg-slate-50 font-black text-[#06372d] uppercase text-sm italic no-print text-left text-nowrap text-wrap text-left">RINCIAN DATA TRANSAKSI TERKAIT</div>
-            <div class="overflow-x-auto text-left text-nowrap text-wrap text-left"><table class="w-full text-xs text-slate-700 italic text-left text-wrap"><thead class="bg-white border-b-2 border-slate-100 font-black text-slate-400 uppercase text-left text-nowrap text-wrap text-left"><tr><th>WAKTU</th><th>MITRA</th><th class="text-right">OMSET</th><th class="text-right">MODAL</th><th class="text-right" style="color:#065f46">LABA<br>BERSIH</th><th class="text-center text-wrap text-left">BIAYA<br>OPERASIONAL</th><th class="text-right">CSR<br>(5%)</th><th class="text-right" style="color:#06372d">PEMBAGIAN<br>PT (20%)</th><th class="text-right" style="color:#c2410c">PEMBAGIAN<br>MITRA (80%)</th></tr></thead><tbody id="rekapTable" class="divide-y divide-slate-50 text-left"></tbody></table></div>
-            <div id="print-signature" class="text-left text-center">
-              <div class="sig-header-text text-right" id="sig-location">Bojonegoro, [Tanggal]</div>
-              <div class="sig-row text-center flex justify-between px-10">
-                <div class="sig-col text-center"><p class="font-bold text-[9pt]">Disetujui Oleh,</p><div class="sig-name text-nowrap text-center text-wrap">Burhan Ari Mukti</div><div class="sig-title text-nowrap text-center text-wrap text-sm">Direktur Utama</div></div>
-                <div class="sig-col text-center"><p class="font-bold text-[9pt]">Disahkan Oleh,</p><div class="sig-name text-nowrap text-center text-wrap">M. Nasyruddin Mujtaba M.A</div><div class="sig-title text-wrap text-center text-wrap text-sm">Direktur Accounting & Administrasi</div></div>
+            <!-- Kop PDF -->
+            <div id="report-kop" class="hidden print:block text-center pt-10 mb-8 border-b-2 border-srg-green pb-10 text-nowrap text-center">
+              <div class="flex items-center justify-center space-x-8 mb-6 text-center">
+                <div style="background-color: #06372d; width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #b19053; font-weight: 900; font-size: 28px; border: 3.5px solid #b19053;">SRG</div>
+                <div class="text-left text-nowrap">
+                  <h1 class="text-4xl font-black text-srg-green uppercase leading-none">PT SUBUR RAYA GROUP</h1>
+                  <p class="text-[11px] font-bold text-slate-500 tracking-[0.5em] uppercase italic mt-2 text-nowrap">Laporan Rincian Transaksi Keuangan Resmi</p>
+                </div>
+              </div>
+              <div class="mt-6 flex justify-between text-[11px] font-bold text-slate-500 px-12 uppercase italic text-nowrap">
+                <span id="pMitra">SEMUA MITRA TERDAFTAR</span>
+                <span id="pDate"></span>
+              </div>
+            </div>
+            
+            <div class="p-10 border-b bg-slate-50 font-black text-srg-green uppercase text-[11px] italic no-print text-left text-nowrap text-wrap">RINCIAN DATA TRANSAKSI TERKAIT</div>
+            
+            <div class="table-responsive text-left text-nowrap">
+              <table class="w-full text-left text-nowrap">
+                <thead class="bg-white border-b-2 border-slate-100 font-black text-slate-400 uppercase text-left text-nowrap">
+                  <tr>
+                    <th class="w-[100px]">WAKTU</th>
+                    <th class="w-[150px]">MITRA</th>
+                    <th class="text-right w-[110px] text-emerald-800">LABA BERSIH</th>
+                    <th class="text-right w-[140px]">BIAYA OPS</th>
+                    <th class="text-right w-[90px]">CSR (5%)</th>
+                    <th class="text-right w-[180px] text-srg-green uppercase">PT (20%)</th>
+                    <th class="text-right w-[180px] text-orange-700 uppercase">MITRA (80%)</th>
+                  </tr>
+                </thead>
+                <tbody id="rekapTable" class="divide-y divide-slate-100 text-nowrap text-[9px] italic font-semibold text-left"></tbody>
+              </table>
+            </div>
+            
+            <!-- TTD PDF -->
+            <div id="print-signature" class="hidden print:block text-center mt-12 pb-10">
+              <div class="sig-header-text text-right mr-12 mb-12 italic font-bold text-[10pt]" id="sig-location">Bojonegoro, [Tanggal]</div>
+              <div class="sig-row flex justify-between px-20">
+                <div class="text-center text-nowrap text-nowrap"><p class="font-bold text-[10pt]">Disetujui Oleh,</p><div class="sig-name">Burhan Ari Mukti</div><div class="sig-title font-black uppercase text-[7pt] mt-1 text-center">Direktur Utama</div></div>
+                <div class="text-center text-nowrap text-nowrap"><p class="font-bold text-[10pt]">Disahkan Oleh,</p><div class="sig-name text-nowrap">M. Nasyruddin Mujtaba M.A</div><div class="sig-title font-black uppercase text-[7pt] mt-1 text-center">Accounting & Administrasi</div></div>
               </div>
             </div>
         </div>
@@ -218,7 +319,181 @@
 
     const fmt = (v) => "Rp " + new Intl.NumberFormat('id-ID').format(Math.floor(Number(v) || 0));
 
-    // SISTEM REAL-TIME SYNC UTAMA
+    // ATTACH GLOBAL UTILITIES
+    window.togglePass = () => { 
+      const p = document.getElementById('passInput'), i = document.getElementById('passIcon'); 
+      if (p && i) { const isPass = p.type === 'password'; p.type = isPass ? 'text' : 'password'; i.className = isPass ? 'fas fa-eye' : 'fas fa-eye-slash'; } 
+    };
+
+    window.showSRGModal = (o) => {
+      const m = document.getElementById('srgModal'), t = document.getElementById('modalTitle'), msg = document.getElementById('modalMessage'), cB = document.getElementById('modalConfirmBtn');
+      if (t) t.innerText = (o.title || "INFORMASI").toUpperCase();
+      if (msg) msg.innerText = o.message || "";
+      if (cB) cB.onclick = () => { window.closeSRGModal(); if(o.onConfirm) o.onConfirm(); };
+      document.getElementById('srgModal').classList.add('active');
+    };
+
+    window.closeSRGModal = () => { document.getElementById('srgModal').classList.remove('active'); };
+
+    window.handleLogin = () => {
+      const u = document.getElementById('userInput')?.value.toLowerCase().trim();
+      const p = document.getElementById('passInput')?.value.trim();
+      let role = 'mitra', name = '', valid = false;
+      if (u === 'admin' && p === 'adminsuburraya') { valid = true; role = 'admin'; name = 'ADMINISTRATOR'; }
+      else if (u === 'albarokahshop30' && p === 'mitrasubur1') { valid = true; name = 'ALBAROKAHSHOP30'; }
+      else if (u === 'radiator tunggaksemi' && p === 'mitrasubur2') { valid = true; name = 'RADIATOR TUNGGAKSEMI'; }
+      else { 
+        const m = u?.match(/^mitra(\d+)$/); 
+        if (m) { const n = parseInt(m[1]); if (n >= 3 && n <= 20 && p === 'mitrasubur'+n) { valid = true; name = 'MITRA ' + n; } } 
+      }
+      if (valid) {
+        window.userProfile = { appRole: role, appDisplayName: name };
+        window.showSRGModal({
+            title: "LOGIN BERHASIL",
+            message: `Identitas dikonfirmasi. Selamat bekerja, ${name}.`,
+            onConfirm: () => {
+                document.getElementById('loginSection').classList.add('hidden');
+                document.getElementById('appSection').classList.remove('hidden');
+                
+                // Profil Nav
+                document.getElementById('navUserName').innerText = name;
+                document.getElementById('navUserRole').innerText = role === 'admin' ? 'STRATEGIC ADMIN' : 'PROFESSIONAL MITRA';
+                document.getElementById('userInit').innerText = role === 'admin' ? 'A' : 'M';
+                document.getElementById('dashboardScope').innerText = role === 'admin' ? "ADMINISTRATOR STRATEGIC DASHBOARD" : "PROFESSIONAL PARTNER FINANCIAL REPORT";
+                
+                initAppContent();
+            }
+        });
+      } else { window.showSRGModal({title: "GAGAL", message: "ID atau Password salah!"}); }
+    };
+
+    function initAppContent() {
+      const role = window.userProfile?.appRole;
+      const hf = document.getElementById('mitraFilter'), fm = document.getElementById('f-mitra');
+      if (hf) hf.innerHTML = '<option value="all">SEMUA MITRA</option>';
+      const list = ["ALBAROKAHSHOP30", "RADIATOR TUNGGAKSEMI"]; for (let i=3; i<=20; i++) list.push("MITRA " + i);
+      list.forEach(n => { if (hf) hf.add(new Option(n, n)); if (fm) fm.add(new Option(n, n)); });
+      
+      const mitraFields = document.getElementById('mitraOnlyFields');
+      const navRekap = document.getElementById('nav-rekap');
+      const adminFilter = document.getElementById('adminFilter');
+      const saveBtn = document.getElementById('saveBtn');
+
+      if (role !== 'admin') {
+        if (fm) { fm.value = window.userProfile.appDisplayName; fm.disabled = true; }
+        if (mitraFields) mitraFields.classList.remove('hidden');
+        if (navRekap) navRekap.classList.add('hidden'); // HIDDEN FOR MITRA
+        if (adminFilter) adminFilter.classList.add('hidden');
+        if (saveBtn) saveBtn.innerText = "SIMPAN LAPORAN PERMANEN";
+      } else {
+        if (mitraFields) mitraFields.classList.add('hidden');
+        if (navRekap) navRekap.classList.remove('hidden'); // SHOW FOR ADMIN
+        if (adminFilter) adminFilter.classList.remove('hidden');
+        if (saveBtn) saveBtn.innerText = "SIMPAN JADWAL AUDIT";
+      }
+      window.refreshDashboard();
+    }
+
+    window.saveTransaction = async () => {
+      const role = window.userProfile.appRole;
+      const data = { tanggal: document.getElementById('f-tgl').value, mitra: document.getElementById('f-mitra').value.toUpperCase(), createdAt: new Date().toISOString() };
+      if(role === 'mitra') {
+        const omVal = parseFloat(document.getElementById('f-omset')?.value || 0);
+        const moVal = parseFloat(document.getElementById('f-modal')?.value || 0);
+        const opVal = parseFloat(document.getElementById('f-ops')?.value || 0);
+        const lk = omVal - moVal, lb = lk - opVal, csr = lb > 0 ? lb * 0.05 : 0, res = lb - csr;
+        Object.assign(data, { omset: omVal, modal: moVal, ops: opVal, keterangan: document.getElementById('f-ket').value.toUpperCase(), lk, lb, csr, res, pt: (res * 0.2), mitraPart: (res * 0.8) });
+      } else {
+        Object.assign(data, { omset:0, modal:0, ops:0, keterangan:"JADWAL ADMIN", lk:0, lb:0, csr:0, res:0, pt:0, mitraPart:0 });
+      }
+      try { if(isFirebaseActive) { await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'transactions'), data); document.getElementById('transForm').reset(); window.showSRGModal({title:"BERHASIL", message:"Data diperbarui.", onConfirm: () => window.switchPage('dashboard')}); } } catch (e) { window.showSRGModal({title:"ERROR", message:"Gagal sinkronisasi."}); }
+    };
+
+    window.refreshDashboard = () => {
+      if (!window.userProfile) return;
+      const mfVal = document.getElementById('mitraFilter')?.value || 'all';
+      let homeData = [...window.allTransactions];
+      if (window.userProfile.appRole !== 'admin') homeData = homeData.filter(t => t.mitra === window.userProfile.appDisplayName);
+      else if (mfVal !== 'all') homeData = homeData.filter(t => t.mitra === mfVal.toUpperCase());
+      
+      const s = homeData.reduce((a, b) => ({ o: a.o + (Number(b.omset)||0), m: a.m + (Number(b.modal)||0), ops: a.ops + (Number(b.ops)||0), lk: a.lk + (Number(b.lk)||0), lb: a.lb + (Number(b.lb)||0), csr: a.csr + (Number(b.csr)||0), res: a.res + (Number(b.res)||0), pt: a.pt + (Number(b.pt)||0), bm: a.bm + (Number(b.mitraPart)||0) }), {o:0, m:0, ops:0, lk:0, lb:0, csr:0, res:0, pt:0, bm:0});
+      
+      const grid = document.getElementById('dashboardStats');
+      if (grid) {
+        const marginPerc = s.o > 0 ? ((s.lk / s.o) * 100).toFixed(1) + "%" : "0%";
+        const cards = [
+          {l:"Total Omset", v:fmt(s.o), t:"tan", x:"text-slate-800 font-black text-left"},
+          {l:"Biaya Produksi", v:fmt(s.m), t:"tan", x:"text-red-600 font-black text-left"},
+          {l:"Biaya Operasional", v:fmt(s.ops), t:"tan", x:"text-slate-400 font-bold text-left"},
+          {l:"Laba Kotor", v:fmt(s.lk), t:"green-light", x:"text-emerald-700 font-black text-left"}, 
+          {l:"Laba Bersih Akhir", v:fmt(s.lb), t:"green-light", x:"text-emerald-800 font-black text-xl text-left text-nowrap"},
+          {l:"CSR (5%)", v:fmt(s.csr), t:"green-dark", x:"text-[#b19053] font-bold text-left"},
+          {l:"Margin (%)", v:marginPerc, t:"blue-tint", x:"text-blue-800 font-black text-xl text-left"},
+          {l:"PEMBAGIAN PT (20%)", v:fmt(s.pt), t:"green-dark", x:"text-[#b19053] font-bold text-nowrap text-left"},
+          {l:"PEMBAGIAN MITRA (80%)", v:fmt(s.bm), t:"orange-tint", x:"text-orange-700 font-bold text-nowrap text-left"}
+        ];
+        grid.innerHTML = cards.filter(c => !c.exclusive || window.userProfile.appRole === c.exclusive).map(c => `<div class="capsule-card p-8 card-${c.t} text-left"><p class="text-[9px] font-black uppercase mb-1 opacity-60 text-nowrap text-slate-400 text-left">${c.l}</p><h3 class="text-xl ${c.x} italic text-left">${c.v}</h3></div>`).join('');
+      }
+
+      const body = document.getElementById('tableBody'); 
+      if (body) body.innerHTML = homeData.slice(0, 15).map(t => `
+        <tr class="hover:bg-white/50 transition-all text-left">
+          <td class="p-8 font-black text-slate-400 text-left text-nowrap">${t.tanggal}</td>
+          <td class="font-black text-srg-green uppercase text-left text-nowrap text-wrap">${t.mitra}</td>
+          <td class="text-right text-emerald-800 font-black pr-10 text-nowrap">${fmt(t.lb)}</td>
+          <td class="text-right pr-20 text-nowrap">
+            <div class="inline-flex flex-col items-end text-right">
+              <span class="font-bold text-slate-700 text-nowrap">${fmt(t.ops)}</span>
+              <div class="h-[1px] bg-slate-300 w-full my-1"></div>
+              <span class="text-[8px] text-slate-400 italic text-nowrap">${t.keterangan || "-"}</span>
+            </div>
+          </td>
+          <td class="text-center text-nowrap"><button onclick="window.handleDeleteRequest('${t.id}')" class="text-red-200 hover:text-red-500"><i class="fas fa-trash"></i></button></td>
+        </tr>`).join('');
+
+      // REKAP
+      const rs = document.getElementById('rStart')?.value, re = document.getElementById('rEnd')?.value;
+      let rekapData = [...homeData];
+      if (rs && re) rekapData = rekapData.filter(t => t.tanggal >= rs && t.tanggal <= re);
+      const rS = rekapData.reduce((a, b) => ({ o: a.o + (Number(b.omset)||0), lb: a.lb + (Number(b.lb)||0), pt: a.pt + (Number(b.pt)||0), bm: a.bm + (Number(b.mitraPart)||0) }), {o:0, lb:0, pt:0, bm:0});
+      
+      const rekapGrid = document.getElementById('rekapStatsContainer');
+      if (rekapGrid) {
+        const rCards = [{l:"Omset Periode", v:fmt(rS.o), t:"tan", x:"text-slate-800 font-black text-left"},{l:"Laba Bersih", v:fmt(rS.lb), t:"green-light", x:"text-emerald-800 font-black text-left"},{l:"PEMBAGIAN PT (20%)", v:fmt(rS.pt), t:"green-dark", x:"text-[#b19053] font-bold text-nowrap text-left text-nowrap"},{l:"PEMBAGIAN MITRA (80%)", v:fmt(rS.bm), t:"orange-tint", x:"text-orange-700 font-bold text-nowrap text-left text-nowrap"}];
+        rekapGrid.innerHTML = rCards.map(c => `<div class="capsule-card p-8 card-${c.t} text-left"><p class="text-[9px] font-black uppercase mb-1 opacity-60 text-nowrap text-left">${c.l}</p><h3 class="text-xl ${c.x} font-black italic text-left">${c.v}</h3></div>`).join('');
+      }
+
+      const br = document.getElementById('rekapTable');
+      if (br) br.innerHTML = rekapData.map(t => `<tr><td>${t.tanggal}</td><td class="font-black text-srg-green">${t.mitra}</td><td class="text-right">${fmt(t.omset)}</td><td class="text-right font-bold text-emerald-800 text-nowrap">${fmt(t.lb)}</td><td class="text-right text-nowrap">${fmt(t.csr)}</td><td class="text-right font-bold text-srg-green text-nowrap">PT (20%) - ${fmt(t.pt)}</td><td class="text-right font-bold text-orange-700 text-nowrap">MITRA (80%) - ${fmt(t.mitraPart)}</td></tr>`).join('');
+      const loc = document.getElementById('sig-location'); if(loc) loc.innerText = "Bojonegoro, " + new Date().toLocaleDateString('id-ID', { year:'numeric', month:'long', day:'numeric' });
+      const pd = document.getElementById('pDate'); if(pd) pd.innerText = "Dicetak: " + new Date().toLocaleString();
+      const pm = document.getElementById('pMitra'); if(pm) pm.innerText = mfVal === 'all' ? 'SEMUA MITRA TERDAFTAR' : mfVal.toUpperCase();
+    };
+
+    window.refreshSidebarHistory = () => {
+        const ms = document.getElementById('mStart')?.value, me = document.getElementById('mEnd')?.value;
+        const mitra = window.userProfile.appRole === 'admin' ? document.getElementById('f-mitra').value : window.userProfile.appDisplayName;
+        if (!ms || !me || !mitra) { window.showSRGModal({title:"INFO", message:"Pilih periode dan mitra!"}); return; }
+        const data = window.allTransactions.filter(t => t.mitra === mitra.toUpperCase() && t.tanggal >= ms && t.tanggal <= me);
+        const s = data.reduce((a, b) => {
+            const om = Number(b.omset)||0; const mo = Number(b.modal)||0; const op = Number(b.ops)||0;
+            const lk = om - mo; const lb = lk - op; const cs = lb > 0 ? lb * 0.05 : 0; const rs = lb - cs;
+            return { o: a.o + om, lk: a.lk + lk, csr: a.csr + cs, pt: a.pt + (rs * 0.2), bm: a.bm + (rs * 0.8) };
+        }, {o:0, lk:0, csr:0, pt:0, bm:0});
+        document.getElementById('hOmset').innerText = fmt(s.o);
+        document.getElementById('hLabaKotor').innerText = fmt(s.lk);
+        document.getElementById('hCSR').innerText = fmt(s.csr);
+        document.getElementById('hPT').innerText = fmt(s.pt);
+        document.getElementById('hPartner').innerText = fmt(s.bm);
+    };
+
+    window.handleDownloadRequest = () => {
+        window.showSRGModal({
+            title: "PANDUAN INSTALASI",
+            message: "Untuk memasang aplikasi ini di HP Anda:\n\n1. Android (Chrome): Klik ikon 'Tiga Titik' browser, pilih 'Instal Aplikasi' atau 'Add to Home Screen'.\n\n2. iPhone (Safari): Klik ikon 'Share/Panah Atas', pilih 'Add to Home Screen'."
+        });
+    };
+
     const setupFirebase = async () => {
       try {
         if (typeof __firebase_config !== 'undefined' && __firebase_config) {
@@ -227,217 +502,46 @@
           db = getFirestore(app);
           auth = getAuth(app);
           isFirebaseActive = true;
-
-          if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-            await signInWithCustomToken(auth, __initial_auth_token);
-          } else {
-            await signInAnonymously(auth);
-          }
-
-          onAuthStateChanged(auth, (u) => { 
-            if (u) {
-              onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'transactions'), (snap) => {
-                  window.allTransactions = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-                  window.refreshDashboard && window.refreshDashboard();
-              }, (err) => console.error("Firebase Sync Error:", err));
-            }
-          });
+          if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) { await signInWithCustomToken(auth, __initial_auth_token); } 
+          else { await signInAnonymously(auth); }
+          onAuthStateChanged(auth, (u) => { if (u) { onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'transactions'), (snap) => { window.allTransactions = snap.docs.map(d => ({ id: d.id, ...d.data() })); window.refreshDashboard(); }); } });
         }
-      } catch (e) { console.error("Firebase Setup Fail:", e); }
+      } catch (e) { console.error("Firebase Fail."); }
     };
-
-    window.showSRGModal = (o) => {
-      const m = document.getElementById('srgModal'), t = document.getElementById('modalTitle'), 
-            msg = document.getElementById('modalMessage'), cB = document.getElementById('modalConfirmBtn'), 
-            cnB = document.getElementById('modalCancelBtn');
-      if (t) t.innerText = (o.title || "INFORMASI").toUpperCase();
-      if (msg) msg.innerText = o.message || "";
-      if (cB) {
-        cB.onclick = () => { closeSRGModal(); if(o.onConfirm) o.onConfirm(); };
-        cB.innerText = (o.confirmText || "OK").toUpperCase();
-      }
-      if (cnB) { (o.confirm) ? cnB.classList.remove('hidden') : cnB.classList.add('hidden'); }
-      m.style.display = 'flex';
-      setTimeout(() => m.classList.add('active'), 10);
-    };
-
-    window.closeSRGModal = () => {
-      const m = document.getElementById('srgModal');
-      if(m) { m.classList.remove('active'); setTimeout(() => m.style.display = 'none', 300); }
-    };
-
-    window.togglePass = () => { 
-      const p = document.getElementById('passInput'), i = document.getElementById('passIcon'); 
-      if (p && i) { const isPass = p.type === 'password'; p.type = isPass ? 'text' : 'password'; i.className = isPass ? 'fas fa-eye' : 'fas fa-eye-slash'; } 
-    };
-
-    window.localInputPreview = () => {
-      const liveO = parseFloat(document.getElementById('f-omset')?.value || 0);
-      const liveM = parseFloat(document.getElementById('f-modal')?.value || 0);
-      const lk = liveO - liveM;
-      const area = document.getElementById('liveCalcArea'), valText = document.getElementById('liveLabaKotor');
-      if (area && valText) { 
-        if (liveO !== 0 || liveM !== 0) { area.classList.remove('hidden'); valText.innerText = fmt(lk); } 
-        else { area.classList.add('hidden'); } 
-      }
-    };
-
-    window.handleLogin = () => {
-      const uEl = document.getElementById('userInput'), pEl = document.getElementById('passInput');
-      const u = uEl.value.toLowerCase().trim(), p = pEl.value.trim();
-      let role = 'mitra', name = '', valid = false;
-      if (u === 'admin' && p === 'adminsuburraya') { valid = true; role = 'admin'; name = 'ADMINISTRATOR'; }
-      else if (u === 'albarokahshop30' && p === 'mitrasubur1') { valid = true; name = 'ALBAROKAHSHOP30'; }
-      else if (u === 'radiator tunggaksemi' && p === 'mitrasubur2') { valid = true; name = 'RADIATOR TUNGGAKSEMI'; }
-      else { const m = u.match(/^mitra(\d+)$/); if (m) { const n = parseInt(m[1]); if (n >= 3 && n <= 20 && p === 'mitrasubur'+n) { valid = true; name = 'MITRA ' + n; } } }
-
-      if (valid) {
-        window.userProfile = { appRole: role, appDisplayName: name };
-        showSRGModal({
-            title: "LOGIN BERHASIL",
-            message: `Sesi login PT SRG untuk ${name} aktif. Menghubungkan database...`,
-            onConfirm: () => {
-                document.getElementById('loginSection').classList.add('hidden');
-                document.getElementById('appSection').classList.remove('hidden');
-                document.getElementById('userDisplay').innerText = name;
-                document.getElementById('roleDisplay').innerText = role.toUpperCase();
-                document.getElementById('dashboardScope').innerText = role === 'admin' ? "ADMINISTRATOR STRATEGIC DASHBOARD" : "PROFESSIONAL PARTNER FINANCIAL REPORT";
-                const av = document.getElementById('userAvatar'); if (av) { av.innerText = role === 'admin' ? 'A' : 'M'; }
-                const af = document.getElementById('adminFilter'); if (af) { role === 'admin' ? af.classList.remove('hidden') : af.classList.add('hidden'); }
-                initAppContent();
-            }
-        });
-      } else { showSRGModal({title: "GAGAL", message: "Username atau Password salah!"}); }
-    };
-
-    function initAppContent() {
-      const hf = document.getElementById('mitraFilter'), fm = document.getElementById('f-mitra');
-      if (hf) hf.innerHTML = '<option value="all">SEMUA MITRA</option>';
-      const list = ["ALBAROKAHSHOP30", "RADIATOR TUNGGAKSEMI"]; for (let i=3; i<=20; i++) list.push("MITRA " + i);
-      list.forEach(n => { if (hf) hf.add(new Option(n, n)); if (fm) fm.add(new Option(n, n)); });
-      if (window.userProfile && window.userProfile.appRole !== 'admin') { if (fm) { fm.value = window.userProfile.appDisplayName; fm.disabled = true; } }
-      window.refreshDashboard();
-    }
-
-    // LOGIKA SIMPAN & RESET: DATA HILANG DARI INPUT, TAPI TERAKUMULASI DI HOME
-    window.saveTransaction = async () => {
-      const omVal = parseFloat(document.getElementById('f-omset')?.value || 0);
-      const moVal = parseFloat(document.getElementById('f-modal')?.value || 0);
-      const opVal = parseFloat(document.getElementById('f-ops')?.value || 0);
-      
-      const lk = omVal - moVal;
-      const lb = lk - opVal;
-      const csr = lb > 0 ? lb * 0.05 : 0;
-      const res = lb - csr;
-      const pt_part = res * 0.2, mitra_part = res * 0.8;
-
-      const data = { 
-        tanggal: document.getElementById('f-tgl').value, 
-        mitra: document.getElementById('f-mitra').value.toUpperCase(), 
-        omset: omVal, modal: moVal, ops: opVal, keterangan: (document.getElementById('f-ket')?.value || "").toUpperCase(), 
-        lk, lb, csr, res, pt: pt_part, mitraPart: mitra_part, createdAt: new Date().toISOString() 
-      };
-
-      try { 
-        if(isFirebaseActive) {
-          await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'transactions'), data); 
-          document.getElementById('transForm').reset(); 
-          document.getElementById('liveCalcArea').classList.add('hidden');
-          showSRGModal({
-            title:"BERHASIL", 
-            message:"Data telah masuk ke Dashboard Statistik Home secara permanen.", 
-            onConfirm: () => switchPage('dashboard')
-          });
-        }
-      } catch (e) { showSRGModal({title:"ERROR", message:"Gagal sinkronisasi data."}); }
-    };
-
-    window.refreshDashboard = () => {
-      if (!window.userProfile) return;
-      const mfVal = document.getElementById('mitraFilter')?.value || 'all';
-      
-      // LOGIKA BARU: SELALU HITUNG TOTAL GLOBAL UNTUK DASHBOARD HOME
-      let homeData = [...window.allTransactions];
-      if (window.userProfile.appRole !== 'admin') homeData = homeData.filter(t => t.mitra === window.userProfile.appDisplayName);
-      else if (mfVal !== 'all') homeData = homeData.filter(t => t.mitra === mfVal.toUpperCase());
-      
-      const s = homeData.reduce((a, b) => ({ 
-        o: a.o + (Number(b.omset)||0), m: a.m + (Number(b.modal)||0), ops: a.ops + (Number(b.ops)||0), 
-        lk: a.lk + (Number(b.lk)||0), lb: a.lb + (Number(b.lb)||0), csr: a.csr + (Number(b.csr)||0), 
-        res: a.res + (Number(b.res)||0), pt: a.pt + (Number(b.pt)||0), bm: a.bm + (Number(b.mitraPart)||0) 
-      }), {o:0, m:0, ops:0, lk:0, lb:0, csr:0, res:0, pt:0, bm:0});
-      
-      // KARTU HOME (TOTAL MENETAP & TERAKUMULASI)
-      const grid = document.getElementById('dashboardStats');
-      if (grid) {
-        const cards = [
-          {l:"Total Omset", v:s.o, t:"tan", x:"text-slate-800"},
-          {l:"Biaya Produksi", v:s.m, t:"tan", x:"text-red-600"},
-          {l:"Biaya Operasional", v:s.ops, t:"tan", x:"text-slate-400"},
-          {l:"Laba Kotor (Margin)", v:s.lk, t:"green-light", x:"text-emerald-700", exclusive: 'admin'},
-          {l:"Laba Bersih Akhir", v:s.lb, t:"green-light", x:"text-emerald-800"},
-          {l:"CSR (5%)", v:s.csr, t:"green-dark", x:"text-[#b19053] text-sm"},
-          {l:"Hasil Pembagian (Nett)", v:s.res, t:"blue-tint", x:"text-blue-800", exclusive: 'admin'},
-          {l:"Pembagian PT (20%)", v:s.pt, t:"green-dark", x:"text-[#b19053] text-sm"},
-          {l:"Pembagian Mitra (80%)", v:s.bm, t:"orange-tint", x:"text-orange-700 text-sm"}
-        ];
-        grid.innerHTML = cards
-          .filter(c => !c.exclusive || window.userProfile.appRole === c.exclusive)
-          .map(c => `<div class="capsule-card p-8 card-${c.t} text-left"><p class="text-[9px] font-black uppercase italic mb-2 opacity-60 text-left text-wrap">${c.l}</p><h3 class="text-xl font-black ${c.x} italic text-left text-wrap">${fmt(c.v)}</h3></div>`).join('');
-      }
-
-      // KARTU REKAP (MENGIKUTI FILTER TANGGAL JIKA ADA)
-      const rs = document.getElementById('rStart')?.value, re = document.getElementById('rEnd')?.value;
-      let rekapData = [...homeData];
-      if (rs && re) rekapData = rekapData.filter(t => t.tanggal >= rs && t.tanggal <= re);
-      
-      const rS = rekapData.reduce((a, b) => ({ o: a.o + (Number(b.omset)||0), lb: a.lb + (Number(b.lb)||0), pt: a.pt + (Number(b.pt)||0), bm: a.bm + (Number(b.mitraPart)||0) }), {o:0, lb:0, pt:0, bm:0});
-
-      const rekapGrid = document.getElementById('rekapStatsContainer');
-      if (rekapGrid) {
-        const rCards = [{l:"Omset Periode", v:rS.o, t:"tan", x:"text-slate-800"},{l:"Laba Bersih", v:rS.lb, t:"green-light", x:"text-emerald-800"},{l:"Hak PT", v:rS.pt, t:"green-dark", x:"text-[#b19053]"},{l:"Hak Mitra", v:rS.bm, t:"orange-tint", x:"text-orange-700"}];
-        rekapGrid.innerHTML = rCards.map(c => `<div class="capsule-card p-8 card-${c.t} text-left text-wrap"><p class="text-[9px] font-black uppercase italic mb-2 opacity-60 text-left text-wrap">${c.l}</p><h3 class="text-xl font-black ${c.x} italic text-left text-wrap">${fmt(c.v)}</h3></div>`).join('');
-      }
-      
-      const body = document.getElementById('tableBody'); 
-      if (body) body.innerHTML = homeData.slice(0, 15).map(t => `<tr class="hover:bg-white/50 transition-all text-left text-wrap"><td class="p-8 font-black text-slate-400 text-left text-wrap">${t.tanggal}</td><td class="font-black text-[#06372d] text-left text-wrap text-nowrap">${t.mitra}</td><td class="text-right text-wrap text-nowrap text-slate-700">${fmt(t.omset)}</td><td class="text-right font-black text-emerald-800 text-wrap text-nowrap">${fmt(t.lb)}</td><td class="text-center text-wrap text-nowrap"><button onclick="handleDeleteRequest('${t.id}')" class="text-red-200 hover:text-red-500 text-center"><i class="fas fa-trash text-center"></i></button></td></tr>`).join('');
-
-      const bodyRekap = document.getElementById('rekapTable');
-      if (bodyRekap) {
-        bodyRekap.innerHTML = rekapData.map(t => `<tr><td class="p-4 text-center font-bold text-slate-500 text-center text-wrap text-nowrap text-center">${t.tanggal}</td><td class="text-center font-black text-[#06372d] text-center text-wrap text-nowrap text-center">${t.mitra}</td><td class="text-right text-wrap text-nowrap">${fmt(t.omset)}</td><td class="text-right text-wrap text-nowrap text-red-700">${fmt(t.modal)}</td><td class="text-right font-bold text-emerald-800 text-right text-wrap text-nowrap text-right">${fmt(t.lb)}</td><td class="text-center text-wrap text-nowrap text-center text-slate-500">${fmt(t.ops)}</td><td class="text-right text-wrap text-nowrap text-right">${fmt(t.csr)}</td><td class="text-right text-wrap text-nowrap text-right font-bold">${fmt(t.pt)}</td><td class="text-right text-wrap text-nowrap text-right font-bold">${fmt(t.mitraPart)}</td></tr>`).join('');
-        document.getElementById('sig-location').innerText = "Bojonegoro, " + new Date().toLocaleDateString('id-ID', { year:'numeric', month:'long', day:'numeric' });
-        document.getElementById('pDate').innerText = "Dicetak: " + new Date().toLocaleString();
-      }
-    };
-
-    window.refreshSidebarHistory = () => {
-        const mitra = window.userProfile?.appRole === 'admin' ? document.getElementById('f-mitra')?.value : window.userProfile?.appDisplayName;
-        const ms = document.getElementById('mStart')?.value, me = document.getElementById('mEnd')?.value;
-        if (!mitra || !ms || !me) { showSRGModal({title:"INFO", message:"Pilih Periode dan Mitra terlebih dahulu!"}); return; }
-        const data = window.allTransactions.filter(t => t.mitra === mitra.toUpperCase() && t.tanggal >= ms && t.tanggal <= me);
-        const s = data.reduce((a, b) => ({ o: a.o + (Number(b.omset)||0), pt: a.pt + (Number(b.pt)||0), bm: a.bm + (Number(b.mitraPart)||0) }), {o:0, pt:0, bm:0});
-        document.getElementById('hOmset').innerText = fmt(s.o);
-        document.getElementById('hPT').innerText = fmt(s.pt);
-        document.getElementById('hPartner').innerText = fmt(s.bm);
-    };
-
-    window.handleSyncRequest = () => { window.refreshDashboard(); showSRGModal({title:"SYNC", message:"Database Cloud Berhasil Disinkronkan."}); };
-    window.handleDownloadRequest = () => { showSRGModal({ title: "INSTAL", message: "Buka menu browser Anda dan pilih 'Add to Home Screen' untuk memasang aplikasi." }); };
-    window.handleLogoutRequest = () => { showSRGModal({title:"KELUAR", message:"Apakah Anda yakin ingin keluar?", confirm: true, onConfirm: () => location.reload()}); };
-    window.handleDeleteRequest = (id) => { showSRGModal({title:"HAPUS DATA", message:"Data ini akan dihapus secara permanen. Lanjutkan?", confirm: true, onConfirm: async () => { try { if(isFirebaseActive) await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'transactions', id)); } catch(e) {} }}); };
+    setupFirebase();
 
     window.switchPage = (p) => {
       document.querySelectorAll('.page-content').forEach(el => el.classList.add('hidden'));
-      document.getElementById('page-' + p).classList.remove('hidden');
+      const pg = document.getElementById('page-' + p); if(pg) pg.classList.remove('hidden');
+      
+      const role = window.userProfile?.appRole;
+
       ['dashboard', 'input', 'rekap'].forEach(id => { 
         const el = document.getElementById('nav-' + id); 
-        if (el) { el.className = (id === p) ? "text-[11px] font-black uppercase px-6 py-3 rounded-full nav-btn-active text-center" : "text-[11px] font-black uppercase px-6 py-3 rounded-full nav-btn-inactive text-center"; }
-        if (id === 'rekap') (window.userProfile.appRole !== 'admin') ? el.classList.add('hidden') : el.classList.remove('hidden');
+        if (el) {
+          // Khusus Rekap: Jangan biarkan muncul jika Mitra
+          if (id === 'rekap' && role !== 'admin') {
+            el.classList.add('hidden');
+            return;
+          }
+          
+          if (id === p) {
+            el.className = "text-[10px] font-black uppercase px-5 py-2.5 rounded-full nav-btn-active text-center";
+          } else {
+            el.className = "text-[10px] font-black uppercase px-5 py-2.5 rounded-full nav-btn-inactive text-center";
+          }
+        }
       });
       window.refreshDashboard();
     };
-
-    setupFirebase();
+    window.handleSyncRequest = () => { window.refreshDashboard(); window.showSRGModal({title:"SYNC", message:"Database Cloud Berhasil Disinkronkan."}); };
+    window.handleLogoutRequest = () => { window.showSRGModal({title:"KELUAR", message:"Apakah Anda yakin ingin mengakhiri sesi?", onConfirm: () => location.reload()}); };
+    window.handleDeleteRequest = (id) => { window.showSRGModal({title:"HAPUS DATA", message:"Tindakan ini permanen. Lanjutkan?", onConfirm: async () => { try { if(isFirebaseActive) await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'transactions', id)); } catch(e) {} }}); };
+    window.localInputPreview = () => {
+      const o = parseFloat(document.getElementById('f-omset')?.value || 0), m = parseFloat(document.getElementById('f-modal')?.value || 0);
+      const lk = o - m, area = document.getElementById('liveCalcArea'), valText = document.getElementById('liveLabaKotor');
+      if (area && valText) { if (o !== 0 || m !== 0) { area.classList.remove('hidden'); valText.innerText = fmt(lk); } else { area.classList.add('hidden'); } }
+    };
   </script>
 </body>
 </html>
