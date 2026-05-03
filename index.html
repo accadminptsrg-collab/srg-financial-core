@@ -366,7 +366,7 @@
 
     function initAppContent() {
       const role = window.userProfile?.appRole, fm = document.getElementById('f-mitra'), rm = document.getElementById('rMitra'), hf = document.getElementById('mitraFilter');
-      const list = ["ALBAROKAHSHOP30", "RADIATOR TUNGGAKSEMI"]; for (let i=3; i<=20; i++) list.push("MITRA " + i);
+      const list = ["ALBAROKAHSHOP30", "RADIATOR TUNGGAKSEMI", "BENGKEL SUBUR 1", "BENGKEL SUBUR 2]; for (let i=3; i<=20; i++) list.push("MITRA " + i);
       const setupSelect = (el, allOption = true) => { if (!el) return; el.innerHTML = allOption ? '<option value="all">SEMUA MITRA</option>' : ''; list.forEach(n => el.add(new Option(n, n))); };
       setupSelect(hf); setupSelect(fm, false); setupSelect(rm);
       const mFields = document.getElementById('mitraOnlyFields');
