@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>PT SUBUR RAYA GROUP - Financial Core Premium v20.2</title>
+  <title>PT SUBUR RAYA GROUP - Financial Core Premium v21.0</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- Integrasi Chart.js untuk Visualisasi Data -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
   <style>
@@ -28,7 +27,6 @@
       -webkit-tap-highlight-color: transparent;
     }
     
-    /* Background Mesh Gradient Dasar */
     body::before { 
       content: ""; 
       position: fixed; 
@@ -41,7 +39,6 @@
       pointer-events: none; 
     }
 
-    /* Aksen Bayangan Atas */
     body::after { 
       content: ""; 
       position: absolute; 
@@ -51,7 +48,6 @@
       pointer-events: none; 
     }
     
-    /* Desain Kartu Premium */
     .premium-card { 
       border-radius: 1.5rem; 
       background: #ffffff; 
@@ -60,13 +56,11 @@
       transition: all 0.3s ease; 
     }
     
-    /* Varian Warna Kartu Statistik */
     .stat-card-neutral { background: #ffffff; border-left: 4px solid #94a3b8; }
     .stat-card-success { background: linear-gradient(to bottom right, #ffffff, #f0fdf4); border: 1px solid #bbf7d0; }
     .stat-card-gold { background: #fdfbf7; border: 1px solid rgba(177, 144, 83, 0.3); }
     .stat-card-dark { background: var(--srg-green); color: #ffffff !important; }
     
-    /* Input Form Profesional */
     .premium-input { 
       border-radius: 0.75rem; 
       border: 1px solid #cbd5e1; 
@@ -80,7 +74,6 @@
       box-shadow: 0 0 0 4px rgba(177, 144, 83, 0.15); 
     }
     
-    /* Tombol Interaktif */
     .btn-premium { 
       border-radius: 0.75rem; 
       background: var(--srg-green); 
@@ -97,7 +90,6 @@
       box-shadow: 0 10px 25px -5px rgba(5, 46, 37, 0.4);
     }
     
-    /* Navigasi Atas */
     .nav-container { 
       background: rgba(255, 255, 255, 0.95); 
       backdrop-filter: blur(10px); 
@@ -110,10 +102,8 @@
     .nav-btn-inactive { color: #64748b; font-weight: 600; }
     .nav-btn-inactive:hover { background-color: #f1f5f9; color: #0f172a; }
 
-    /* Spasi untuk Navigasi Bawah di HP */
     .pb-safe-nav { padding-bottom: calc(5rem + env(safe-area-inset-bottom, 1rem)); }
     
-    /* --- MODAL ELEGANT REDESIGN --- */
     .srg-modal-overlay { 
       position: fixed; 
       inset: 0; 
@@ -142,7 +132,6 @@
     }
     .srg-modal-overlay.active .srg-modal-content { transform: scale(1) translateY(0); opacity: 1; }
     
-    /* Logo Melayang di Header Modal */
     .modal-logo-badge {
       position: absolute;
       top: -32px;
@@ -161,7 +150,6 @@
       z-index: 20;
     }
 
-    /* Tabel Styling */
     .table-container { border-radius: 1rem; overflow: hidden; border: 1px solid #f1f5f9; position: relative; }
     .table-scroll-hint { display: none; text-align: right; font-size: 9px; color: #94a3b8; margin-bottom: 4px; font-style: italic; }
     @media (max-width: 768px) { .table-scroll-hint { display: block; } }
@@ -171,22 +159,18 @@
     td { padding: 16px 12px; vertical-align: middle; font-size: 13px; font-weight: 500; border-bottom: 1px solid #f1f5f9; }
     tr:hover td { background-color: #f8fafc; }
 
-    /* Custom Scrollbar */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-    /* Upload Area Styling */
     .upload-area { border: 2px dashed #cbd5e1; border-radius: 1rem; padding: 2rem; text-align: center; cursor: pointer; transition: all 0.2s; background: #f8fafc; position: relative; overflow: hidden; }
     .upload-area:hover { border-color: var(--srg-gold); background: #fdfbf7; }
     .upload-preview { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #fff; z-index: 10; display: none; }
 
-    /* === SETTINGAN KHUSUS UNTUK CETAK/PRINT PDF DI BROWSER === */
     @media print {
       .no-print { display: none !important; }
       
-      /* Mengatur Margin Kertas: Atas dibuat mepet agar Kop tidak ada space kosong */
       @page { 
           margin-top: 5mm; 
           margin-bottom: 15mm; 
@@ -210,11 +194,10 @@
       td { border: 1pt solid black !important; color: black !important; font-size: 8pt !important; padding: 6px !important; }
       .premium-card { border: none !important; box-shadow: none !important; padding: 0 !important; }
       
-      /* TAMPILAN KOP SURAT PROFESIONAL (PDF) */
       #report-kop { 
           display: block !important; 
           width: 100% !important; 
-          border-bottom: 2pt solid black !important; /* Disesuaikan agar lebih elegan */
+          border-bottom: 2pt solid black !important; 
           padding-bottom: 5px !important; 
           margin-bottom: 20px !important; 
           margin-top: 0 !important;
@@ -223,10 +206,10 @@
       #customKopImg:not(.hidden) {
           display: block !important;
           width: 100% !important;
-          max-height: 3.2cm !important; /* Ketinggian dikurangi agar tidak terlalu kebesaran */
+          max-height: 3.2cm !important; 
           object-fit: contain !important; 
           object-position: center bottom !important; 
-          mix-blend-mode: multiply !important; /* Menghilangkan Background Putih dari gambar */
+          mix-blend-mode: multiply !important; 
       }
       
       #print-info-bar { display: flex !important; justify-content: space-between !important; margin-bottom: 15px !important; }
@@ -238,34 +221,25 @@
 </head>
 <body class="min-h-screen">
 
-  <!-- BACKGROUND PATTERN DINAMIS -->
   <div id="dynamic-bg-pattern" class="fixed inset-0 pointer-events-none z-[-3] opacity-[0.08] bg-repeat transition-opacity duration-500" style="background-size: 100px 100px;"></div>
 
-  <!-- MODAL UTAMA (ELEGANT REDESIGN) -->
   <div id="srgModal" class="srg-modal-overlay no-print">
     <div class="srg-modal-content text-center">
       <div id="modalLogoContainer" class="modal-logo-badge">
         <span class="default-logo font-black italic text-xl text-[var(--srg-gold)]">SRG</span>
       </div>
-      
       <div class="mt-2">
         <h3 id="modalTitle" class="text-lg font-extrabold text-slate-800 uppercase tracking-tight mb-2">STATUS SISTEM</h3>
-        <div id="modalBody" class="mb-8">
-            <p id="modalMessage" class="text-sm text-slate-500 leading-relaxed font-medium"></p>
-        </div>
+        <div id="modalBody" class="mb-8"><p id="modalMessage" class="text-sm text-slate-500 leading-relaxed font-medium"></p></div>
         <div id="modalActions" class="space-y-3">
           <button id="modalConfirmBtn" class="btn-premium w-full py-4 text-xs tracking-widest shadow-lg font-black uppercase">Konfirmasi</button>
           <button id="modalCancelBtn" onclick="window.closeSRGModal()" class="hidden w-full py-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest hover:text-red-500 transition-colors">Batal & Tutup</button>
         </div>
       </div>
-      
-      <div class="mt-8 pt-4 border-t border-slate-50">
-          <p class="text-[7px] text-slate-300 font-bold tracking-[0.3em] uppercase">PT Subur Raya Group Official System</p>
-      </div>
+      <div class="mt-8 pt-4 border-t border-slate-50"><p class="text-[7px] text-slate-300 font-bold tracking-[0.3em] uppercase">PT Subur Raya Group Official System</p></div>
     </div>
   </div>
 
-  <!-- LOADING OVERLAY -->
   <div id="loadingOverlay" class="fixed inset-0 bg-slate-900/40 z-[1100] flex items-center justify-center hidden backdrop-blur-sm no-print">
     <div class="premium-card p-4 md:p-6 flex items-center space-x-4 mx-4">
       <div class="w-5 h-5 md:w-6 md:h-6 border-2 border-slate-200 border-t-[var(--srg-gold)] rounded-full animate-spin"></div>
@@ -277,7 +251,6 @@
   <div id="loginSection" class="flex items-center justify-center min-h-screen px-4 relative z-10">
     <div class="premium-card p-8 md:p-10 w-full max-w-[400px]">
       <div class="mb-8 md:mb-10 text-center">
-        <!-- Logo Dinamis Login -->
         <div id="loginLogoContainer" style="background-color: var(--srg-green); border-color: var(--srg-gold);" class="w-16 h-16 md:w-20 md:h-20 rounded-2xl flex items-center justify-center mx-auto shadow-xl border-2 mb-4 md:mb-6 overflow-hidden">
           <span class="default-logo font-bold text-xl md:text-2xl tracking-tighter text-[var(--srg-gold)]">SRG</span>
         </div>
@@ -285,10 +258,7 @@
         <p class="text-[10px] md:text-xs font-semibold text-[var(--srg-gold)] tracking-widest mt-1 uppercase">Sistem Keuangan Terpadu</p>
       </div>
       <div class="space-y-4 md:space-y-5">
-        <div>
-            <label class="block text-[9px] md:text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">ID Pengguna</label>
-            <input type="text" id="userInput" class="premium-input w-full px-4 py-3 text-xs md:text-sm font-semibold text-slate-700" placeholder="Masukkan ID">
-        </div>
+        <div><label class="block text-[9px] md:text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">ID Pengguna</label><input type="text" id="userInput" class="premium-input w-full px-4 py-3 text-xs md:text-sm font-semibold text-slate-700" placeholder="Masukkan ID"></div>
         <div>
             <label class="block text-[9px] md:text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Kata Sandi</label>
             <div class="relative">
@@ -296,32 +266,20 @@
                 <button type="button" onclick="window.togglePass()" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[var(--srg-gold)] transition-colors"><i id="passIcon" class="fas fa-eye-slash"></i></button>
             </div>
         </div>
-        <div class="flex items-center space-x-2 ml-1 pt-1 md:pt-2">
-            <input type="checkbox" id="rememberMe" class="w-3.5 h-3.5 text-[var(--srg-green)] border-slate-300 rounded cursor-pointer">
-            <label for="rememberMe" class="text-[10px] md:text-xs font-semibold text-slate-500 cursor-pointer">Ingat sesi saya</label>
-        </div>
+        <div class="flex items-center space-x-2 ml-1 pt-1 md:pt-2"><input type="checkbox" id="rememberMe" class="w-3.5 h-3.5 text-[var(--srg-green)] border-slate-300 rounded cursor-pointer"><label for="rememberMe" class="text-[10px] md:text-xs font-semibold text-slate-500 cursor-pointer">Ingat sesi saya</label></div>
         <button type="button" onclick="window.handleLogin()" class="btn-premium w-full py-3.5 md:py-4 text-xs md:text-sm mt-4 md:mt-6 uppercase tracking-widest">Masuk Ke Sistem</button>
       </div>
-      <div class="mt-8 pt-6 border-t border-slate-100 text-center">
-        <p id="loginFooterText" class="text-[9px] md:text-[10px] text-slate-400 font-semibold tracking-wider uppercase">&copy; PT Subur Raya Group</p>
-      </div>
+      <div class="mt-8 pt-6 border-t border-slate-100 text-center"><p id="loginFooterText" class="text-[9px] md:text-[10px] text-slate-400 font-semibold tracking-wider uppercase">&copy; PT Subur Raya Group</p></div>
     </div>
   </div>
 
   <!-- MAIN APP INTERFACE -->
   <div id="appSection" class="hidden relative z-10">
-    <!-- NAVIGATION ATAS -->
     <div class="fixed top-2 md:top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-6xl no-print">
         <nav class="nav-container p-2 flex justify-between items-center px-3 md:px-4 text-left">
           <div class="flex items-center space-x-2 md:space-x-3">
-              <!-- Logo Dinamis Navigasi -->
-              <div id="navLogoContainer" style="background-color: var(--srg-green); color: var(--srg-gold);" class="w-7 h-7 md:w-8 md:h-8 rounded-lg flex items-center justify-center text-[10px] md:text-xs font-bold shadow-sm overflow-hidden shrink-0">
-                  <span class="default-logo">SR</span>
-              </div>
-              <div class="text-left">
-                  <p id="navTitleText" class="text-slate-800 font-bold text-[10px] md:text-xs uppercase leading-none">PT SR Group</p>
-                  <p class="text-slate-400 font-medium text-[8px] md:text-[9px] uppercase tracking-wider hidden sm:block">Financial Core</p>
-              </div>
+              <div id="navLogoContainer" style="background-color: var(--srg-green); color: var(--srg-gold);" class="w-7 h-7 md:w-8 md:h-8 rounded-lg flex items-center justify-center text-[10px] md:text-xs font-bold shadow-sm overflow-hidden shrink-0"><span class="default-logo">SR</span></div>
+              <div class="text-left"><p id="navTitleText" class="text-slate-800 font-bold text-[10px] md:text-xs uppercase leading-none">PT SR Group</p><p class="text-slate-400 font-medium text-[8px] md:text-[9px] uppercase tracking-wider hidden sm:block">Financial Core</p></div>
           </div>
           
           <div class="hidden md:flex items-center space-x-1">
@@ -334,10 +292,7 @@
 
           <div class="flex items-center space-x-2 md:space-x-4">
             <div class="hidden sm:flex items-center space-x-3 border-r pr-4 border-slate-200">
-                <div class="text-right">
-                    <p id="navUserName" class="text-[10px] md:text-xs font-bold text-slate-800 capitalize leading-none">-</p>
-                    <p id="navUserRole" class="text-[8px] md:text-[9px] font-semibold text-[var(--srg-gold)] uppercase mt-0.5 tracking-wider">-</p>
-                </div>
+                <div class="text-right"><p id="navUserName" class="text-[10px] md:text-xs font-bold text-slate-800 capitalize leading-none">-</p><p id="navUserRole" class="text-[8px] md:text-[9px] font-semibold text-[var(--srg-gold)] uppercase mt-0.5 tracking-wider">-</p></div>
                 <div id="userInit" style="background-color: #f1f5f9; color: var(--srg-green);" class="w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center font-bold text-xs border border-slate-200">A</div>
             </div>
             <div class="flex space-x-1.5 md:space-x-2">
@@ -352,14 +307,8 @@
       <!-- PAGE DASHBOARD -->
       <div id="page-dashboard" class="page-content hidden space-y-6 md:space-y-8">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-4 text-left">
-            <div>
-                <h2 class="text-xl md:text-2xl font-extrabold text-slate-800 tracking-tight">Kinerja Keuangan</h2>
-                <p id="dashboardScope" class="text-[10px] md:text-xs text-slate-500 font-medium mt-0.5 md:mt-1"></p>
-            </div>
-            <div id="adminFilter" class="hidden flex items-center bg-white p-1 md:p-1.5 rounded-xl border border-slate-200 shadow-sm w-full md:w-auto">
-                <span class="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase ml-3 mr-2"><i class="fas fa-filter mr-1"></i> Filter:</span>
-                <select id="mitraFilter" onchange="window.refreshDashboard()" class="bg-transparent w-full border-none text-[10px] md:text-xs font-bold text-slate-700 outline-none cursor-pointer py-1.5 px-2 hover:bg-slate-50 rounded-lg transition-colors"></select>
-            </div>
+            <div><h2 class="text-xl md:text-2xl font-extrabold text-slate-800 tracking-tight">Kinerja Keuangan</h2><p id="dashboardScope" class="text-[10px] md:text-xs text-slate-500 font-medium mt-0.5 md:mt-1"></p></div>
+            <div id="adminFilter" class="hidden flex items-center bg-white p-1 md:p-1.5 rounded-xl border border-slate-200 shadow-sm w-full md:w-auto"><span class="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase ml-3 mr-2"><i class="fas fa-filter mr-1"></i> Filter:</span><select id="mitraFilter" onchange="window.refreshDashboard()" class="bg-transparent w-full border-none text-[10px] md:text-xs font-bold text-slate-700 outline-none cursor-pointer py-1.5 px-2 hover:bg-slate-50 rounded-lg transition-colors"></select></div>
         </div>
         <div id="dashboardStats" class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-5 mb-6 md:mb-8 text-left"></div>
         <div id="adminChartsWrapper" class="hidden text-left">
@@ -455,8 +404,6 @@
 
       <!-- PAGE REKAP/LAPORAN -->
       <div id="page-rekap" class="page-content hidden space-y-5 text-left">
-        
-        <!-- BAGIAN KOP SURAT (Hanya Terlihat Saat Cetak) -->
         <div id="report-kop" class="hidden print:block text-left">
             <div id="defaultKop" class="flex items-center space-x-4 text-left">
                 <div id="printLogoContainer" style="background-color: var(--srg-green); border: 2px solid var(--srg-gold);" class="w-14 h-14 rounded-xl flex items-center justify-center overflow-hidden shrink-0">
@@ -482,7 +429,6 @@
         <div id="rekapStats" class="grid grid-cols-2 lg:grid-cols-4 gap-3 no-print text-left"></div>
         <div id="rekapTableWrapper" class="premium-card overflow-hidden text-left"><div class="p-4 border-b bg-slate-50 text-left no-print"><h3 class="font-bold text-slate-800 text-xs text-left">Rincian Dokumen</h3></div><p class="table-scroll-hint mr-4 mt-2">Geser tabel ke samping <i class="fas fa-arrows-alt-h mx-1"></i></p><div class="table-container border-none rounded-none overflow-x-auto text-left"><table class="w-full text-left"><thead><tr><th class="w-[100px]">Tanggal</th><th class="w-[150px]">Mitra</th><th class="text-right w-[110px]">Laba Bersih</th><th class="text-right w-[160px]">Biaya Ops</th><th class="text-right w-[80px]">CSR</th><th class="text-right w-[120px]">Porsi PT</th><th class="text-right w-[120px]">Porsi Mitra</th></tr></thead><tbody id="rekapTable"></tbody></table></div></div>
         
-        <!-- BAGIAN TANDA TANGAN (Hanya Terlihat Saat Cetak) -->
         <div id="print-signature" class="hidden print:block text-center mt-16 pb-8">
             <div class="text-right mr-16 mb-20 text-[9pt]" id="sig-location">Bojonegoro, [Tanggal]</div>
             <div class="flex flex-row justify-between px-[10%]">
@@ -502,7 +448,7 @@
       </div>
     </main>
 
-    <!-- BOTTOM NAVIGATION (Tampil Hanya di HP) -->
+    <!-- BOTTOM NAVIGATION (HP) -->
     <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-50 flex justify-around items-center px-2 py-1.5 pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))] no-print shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
         <button onclick="window.switchPage('dashboard')" class="flex-1 flex flex-col items-center justify-center py-2 transition-colors text-slate-400" id="mob-nav-dashboard"><i class="fas fa-chart-pie text-lg mb-1"></i><span class="text-[9px] font-bold">Ringkasan</span></button>
         <button onclick="window.switchPage('input')" class="flex-1 flex flex-col items-center justify-center py-2 transition-colors text-slate-400" id="mob-nav-input"><i class="fas fa-plus-circle text-lg mb-1"></i><span class="text-[9px] font-bold">Entri</span></button>
@@ -513,7 +459,7 @@
   </div>
 
   <script>
-    // === DEKLARASI GLOBAL MENCEGAH REFERENCE ERROR ===
+    // === DEKLARASI GLOBAL ===
     window.userProfile = null; 
     window.allTransactions = []; 
     window.allMitras = []; 
@@ -525,6 +471,96 @@
     try { if (typeof supabase !== 'undefined') { supabaseClient = supabase.createClient(supabaseUrl, supabaseKey); } } catch (e) { console.error("Database Init Error."); }
 
     const fmt = (v) => "Rp " + new Intl.NumberFormat('id-ID').format(Math.floor(Number(v) || 0));
+
+    // === MENGAMBIL DAN MENYIMPAN PENGATURAN GLOBAL (SUPABASE) ===
+    async function loadGlobalSettings() {
+        if (!supabaseClient) { window.applyBranding(null); return; }
+        try {
+            const { data, error } = await supabaseClient.from('app_settings').select('*').eq('id', 'global_config').single();
+            if (data && !error) { window.applyBranding(data); } 
+            else { window.applyBranding(null); }
+        } catch(e) { window.applyBranding(null); }
+    }
+
+    // === BRANDING LOGIC ===
+    window.handleUpload = (e, imgId) => {
+        const file = e.target.files[0]; if (!file) return;
+        const imgEl = document.getElementById(imgId); const reader = new FileReader();
+        reader.onload = (event) => { 
+            const img = new Image(); 
+            img.onload = () => { 
+                const canvas = document.createElement('canvas'); 
+                let w = img.width, h = img.height; 
+                // Diperkecil lagi max-width nya agar tidak gagal disimpan ke DB
+                const maxW = imgId === 'preview-logo' ? 250 : 800; 
+                if (w > maxW) { h = Math.round((maxW / w) * h); w = maxW; } 
+                canvas.width = w; canvas.height = h; 
+                const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, w, h); 
+                const mimeType = imgId === 'preview-logo' ? 'image/png' : 'image/jpeg';
+                // Kualitas diturunkan sedikit (0.7) agar string base64 tidak melampaui batas database
+                const base64 = canvas.toDataURL(mimeType, 0.7); 
+                imgEl.setAttribute('src', base64); imgEl.style.display = 'block'; 
+            }; 
+            img.src = event.target.result; 
+        };
+        reader.readAsDataURL(file);
+    };
+
+    window.saveBranding = async () => {
+        document.getElementById('loadingOverlay').classList.remove('hidden');
+        const nLong = document.getElementById('pt-name-long').value;
+        const nShort = document.getElementById('pt-name-short').value;
+        const pLogo = document.getElementById('preview-logo').getAttribute('src');
+        const pKop = document.getElementById('preview-kop').getAttribute('src');
+        
+        let validLogo = (pLogo && pLogo.startsWith('data:image')) ? pLogo : '';
+        let validKop = (pKop && pKop.startsWith('data:image')) ? pKop : '';
+
+        // Simpan ke Supabase agar global
+        if (supabaseClient) {
+            try {
+                const payload = { id: 'global_config', srg_name_long: nLong, srg_name_short: nShort, srg_custom_logo: validLogo, srg_custom_kop: validKop };
+                const { error } = await supabaseClient.from('app_settings').upsert(payload, { onConflict: 'id' });
+                if(error) throw error;
+                await loadGlobalSettings(); // Muat ulang dari server
+                window.showSRGModal({title: "Branding Disimpan", message: "Profil visual berhasil diterapkan untuk semua akun."});
+            } catch(e) {
+                window.showSRGModal({title: "Gagal Menyimpan", message: "Ukuran gambar terlalu besar atau koneksi terputus."});
+            }
+        }
+        document.getElementById('loadingOverlay').classList.add('hidden');
+    };
+
+    window.applyBranding = (globalData) => {
+        // Jika tidak ada data dari DB, pakai teks bawaan
+        const nLong = globalData?.srg_name_long || "PT SUBUR RAYA GROUP";
+        const nShort = globalData?.srg_name_short || "PT SR Group";
+        const cLogo = globalData?.srg_custom_logo || "";
+        const cKop = globalData?.srg_custom_kop || "";
+        
+        [document.getElementById('loginTitleText'), document.getElementById('printTitleLong')].forEach(el => { if(el) el.innerText = nLong.toUpperCase(); });
+        [document.getElementById('navTitleText')].forEach(el => { if(el) el.innerText = nShort.toUpperCase(); });
+        
+        ['modalLogoContainer', 'loginLogoContainer', 'navLogoContainer', 'printLogoContainer'].forEach(id => { 
+            const el = document.getElementById(id); if (!el) return; 
+            if (cLogo && cLogo.startsWith('data:image')) { 
+                el.innerHTML = `<img src="${cLogo}" class="w-full h-full object-contain rounded-xl p-0.5">`; el.style.backgroundColor = "transparent"; el.style.borderWidth = "0"; 
+            } else { 
+                el.style.backgroundColor = "var(--srg-green)"; el.style.borderWidth = id === 'navLogoContainer' ? '0' : '4px'; el.innerHTML = id === 'navLogoContainer' ? `<span class="default-logo text-white text-xs">SR</span>` : `<span class="default-logo font-bold text-xl md:text-2xl text-[var(--srg-gold)]">SRG</span>`; 
+            } 
+        });
+        
+        const defKop = document.getElementById('defaultKop'), imgKop = document.getElementById('customKopImg');
+        if (defKop && imgKop) { if (cKop && cKop.startsWith('data:image')) { imgKop.setAttribute('src', cKop); imgKop.classList.remove('hidden'); defKop.classList.add('hidden'); } else { imgKop.removeAttribute('src'); imgKop.classList.add('hidden'); defKop.classList.remove('hidden'); } }
+        
+        const inLong = document.getElementById('pt-name-long'); if(inLong) inLong.value = nLong;
+        const inShort = document.getElementById('pt-name-short'); if(inShort) inShort.value = nShort;
+        const pL = document.getElementById('preview-logo'); if(pL) { if (cLogo) { pL.setAttribute('src', cLogo); pL.style.display = 'block'; } else { pL.removeAttribute('src'); pL.style.display = 'none'; } }
+        const pK = document.getElementById('preview-kop'); if(pK) { if (cKop) { pK.setAttribute('src', cKop); pK.style.display = 'block'; } else { pK.removeAttribute('src'); pK.style.display = 'none'; } }
+        
+        const bgPattern = document.getElementById('dynamic-bg-pattern');
+        if (bgPattern) { if (cLogo && cLogo.startsWith('data:image')) { bgPattern.style.backgroundImage = `url('${cLogo}')`; bgPattern.style.opacity = '0.08'; } else { bgPattern.style.backgroundImage = 'none'; } }
+    };
 
     // === INIT & NAVIGATION LOGIC ===
     window.initAppContent = function() {
@@ -612,64 +648,6 @@
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' }); const url = URL.createObjectURL(blob); const link = document.createElement("a"); link.setAttribute("href", url); link.setAttribute("download", `Laporan_SRG.csv`); document.body.appendChild(link); link.click(); document.body.removeChild(link);
     };
 
-    // === BRANDING LOGIC ===
-    window.handleUpload = (e, imgId) => {
-        const file = e.target.files[0]; if (!file) return;
-        const imgEl = document.getElementById(imgId); const reader = new FileReader();
-        reader.onload = (event) => { 
-            const img = new Image(); 
-            img.onload = () => { 
-                const canvas = document.createElement('canvas'); 
-                let w = img.width, h = img.height; 
-                const maxW = imgId === 'preview-logo' ? 300 : 1000; 
-                if (w > maxW) { h = Math.round((maxW / w) * h); w = maxW; } 
-                canvas.width = w; canvas.height = h; 
-                const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, w, h); 
-                const mimeType = imgId === 'preview-logo' ? 'image/png' : 'image/jpeg';
-                const base64 = canvas.toDataURL(mimeType, 0.8); 
-                imgEl.setAttribute('src', base64); imgEl.style.display = 'block'; 
-            }; 
-            img.src = event.target.result; 
-        };
-        reader.readAsDataURL(file);
-    };
-
-    window.saveBranding = () => {
-        const nLong = document.getElementById('pt-name-long').value, nShort = document.getElementById('pt-name-short').value;
-        const pLogo = document.getElementById('preview-logo').getAttribute('src');
-        const pKop = document.getElementById('preview-kop').getAttribute('src');
-        localStorage.setItem('srg_name_long', nLong); localStorage.setItem('srg_name_short', nShort);
-        if (pLogo && pLogo.startsWith('data:image')) { try{localStorage.setItem('srg_custom_logo', pLogo);}catch(e){} } else { localStorage.removeItem('srg_custom_logo'); }
-        if (pKop && pKop.startsWith('data:image')) { try{localStorage.setItem('srg_custom_kop', pKop);}catch(e){} } else { localStorage.removeItem('srg_custom_kop'); }
-        window.applyBranding(); window.showSRGModal({title: "Branding Disimpan", message: "Profil visual aplikasi berhasil diperbarui."});
-    };
-
-    window.applyBranding = () => {
-        const nLong = localStorage.getItem('srg_name_long') || "PT SUBUR RAYA GROUP", nShort = localStorage.getItem('srg_name_short') || "PT SR Group", cLogo = localStorage.getItem('srg_custom_logo'), cKop = localStorage.getItem('srg_custom_kop');
-        [document.getElementById('loginTitleText'), document.getElementById('printTitleLong')].forEach(el => { if(el) el.innerText = nLong.toUpperCase(); });
-        [document.getElementById('navTitleText')].forEach(el => { if(el) el.innerText = nShort.toUpperCase(); });
-        
-        ['modalLogoContainer', 'loginLogoContainer', 'navLogoContainer', 'printLogoContainer'].forEach(id => { 
-            const el = document.getElementById(id); if (!el) return; 
-            if (cLogo && cLogo.startsWith('data:image')) { 
-                el.innerHTML = `<img src="${cLogo}" class="w-full h-full object-contain rounded-xl p-0.5">`; el.style.backgroundColor = "transparent"; el.style.borderWidth = "0"; 
-            } else { 
-                el.style.backgroundColor = "var(--srg-green)"; el.style.borderWidth = id === 'navLogoContainer' ? '0' : '4px'; el.innerHTML = id === 'navLogoContainer' ? `<span class="default-logo text-white text-xs">SR</span>` : `<span class="default-logo font-bold ${id === 'modalLogoContainer' ? 'text-xl italic' : 'text-2xl tracking-tighter'} text-[var(--srg-gold)]">SRG</span>`; 
-            } 
-        });
-        
-        const defKop = document.getElementById('defaultKop'), imgKop = document.getElementById('customKopImg');
-        if (defKop && imgKop) { if (cKop && cKop.startsWith('data:image')) { imgKop.setAttribute('src', cKop); imgKop.classList.remove('hidden'); defKop.classList.add('hidden'); } else { imgKop.removeAttribute('src'); imgKop.classList.add('hidden'); defKop.classList.remove('hidden'); } }
-        
-        const inLong = document.getElementById('pt-name-long'); if(inLong) inLong.value = nLong;
-        const inShort = document.getElementById('pt-name-short'); if(inShort) inShort.value = nShort;
-        const pL = document.getElementById('preview-logo'); if(pL && cLogo && cLogo.startsWith('data:image')) { pL.setAttribute('src', cLogo); pL.style.display = 'block'; }
-        const pK = document.getElementById('preview-kop'); if(pK && cKop && cKop.startsWith('data:image')) { pK.setAttribute('src', cKop); pK.style.display = 'block'; }
-        
-        const bgPattern = document.getElementById('dynamic-bg-pattern');
-        if (bgPattern) { if (cLogo && cLogo.startsWith('data:image')) { bgPattern.style.backgroundImage = `url('${cLogo}')`; bgPattern.style.opacity = '0.08'; } else { bgPattern.style.backgroundImage = 'none'; } }
-    };
-
     // === CORE LOGIC ===
     window.handleAdminMitraSelect = () => { 
         const fMitra = document.getElementById('f-mitra');
@@ -708,7 +686,6 @@
         document.getElementById('loginSection').classList.add('hidden'); document.getElementById('appSection').classList.remove('hidden');
         document.getElementById('navUserName').innerText = name.toLowerCase(); document.getElementById('navUserRole').innerText = role === 'admin' ? 'Strategic Admin' : 'Mitra Resmi'; document.getElementById('userInit').innerText = role === 'admin' ? 'A' : name.charAt(0).toUpperCase();
         document.getElementById('dashboardScope').innerText = role === 'admin' ? "Laporan Seluruh Jaringan" : "Kinerja Mitra Individu";
-        window.applyBranding(); 
         window.initAppContent(); 
         window.switchPage('dashboard');
         if (!silent) window.showSRGModal({ title: "Akses Berhasil", message: `Selamat datang di Financial Core, ${name}.` });
@@ -875,29 +852,9 @@
     window.handleSyncRequest = () => { document.getElementById('loadingOverlay').classList.remove('hidden'); fetchMitras(); fetchTransactions().then(() => window.showSRGModal({ title: "SINKRONISASI", message: "Data terbaru telah dimuat." })); };
     window.handleLogoutRequest = () => { window.showSRGModal({ title: "KELUAR?", message: "Hapus sesi Anda?", confirmText: "YA", showCancel: true, onConfirm: () => { localStorage.removeItem('srg_user'); localStorage.removeItem('srg_pass'); location.reload(); } }); };
 
-    // === FUNGSI CETAK BROWSER ASLI (BERFUNGSI PENUH DI VERCEL) ===
     window.handlePrintRequest = () => {
-        // Atur label dan tanggal di header dokumen cetak
-        const mitraVal = document.getElementById('rMitra')?.value || 'all'; 
-        document.getElementById('printMitraLabel').innerText = mitraVal === 'all' ? 'SEMUA MITRA' : mitraVal.toUpperCase();
-        
-        const now = new Date(); 
-        const m = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"]; 
-        document.getElementById('printTimeLabel').innerText = `${now.getDate()} ${m[now.getMonth()]} ${now.getFullYear()} | ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')} WIB`; 
-        document.getElementById('sig-location').innerText = "Bojonegoro, " + now.getDate() + " " + m[now.getMonth()] + " " + now.getFullYear(); 
-        
-        // Panggil dialog cetak bawaan browser
-        window.print();
-        
-        // Peringatan jika di pratinjau (opsional)
-        setTimeout(() => {
-            if (window.self !== window.top) {
-                window.showSRGModal({
-                    title: "INFO CETAK", 
-                    message: "Jika layar cetak PDF tidak muncul, silakan buka aplikasi di Tab Baru browser Anda."
-                });
-            }
-        }, 1000);
+        const mitraVal = document.getElementById('rMitra')?.value || 'all'; document.getElementById('printMitraLabel').innerText = mitraVal === 'all' ? 'SEMUA MITRA' : mitraVal.toUpperCase();
+        const now = new Date(); const m = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"]; document.getElementById('printTimeLabel').innerText = `${now.getDate()} ${m[now.getMonth()]} ${now.getFullYear()} | ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')} WIB`; document.getElementById('sig-location').innerText = "Bojonegoro, " + now.getDate() + " " + m[now.getMonth()] + " " + now.getFullYear(); window.print();
     };
 
     window.saveTransaction = async () => { 
@@ -908,8 +865,14 @@
     window.localInputPreview = () => { const o = parseFloat(document.getElementById('f-omset')?.value||0), m = parseFloat(document.getElementById('f-modal')?.value||0), lk = o - m, a = document.getElementById('liveCalcArea'); if (o > 0 || m > 0) { a?.classList.remove('hidden'); document.getElementById('liveLabaKotor').innerText = fmt(lk); } else a?.classList.add('hidden'); };
     window.handleDeleteRequest = (id) => { window.showSRGModal({ title: "HAPUS?", message: "Hapus permanen?", confirmText: "YA", showCancel: true, onConfirm: async () => { document.getElementById('loadingOverlay').classList.remove('hidden'); try { if (!id.toString().includes('local-')) { await supabaseClient.from('transactions').delete().eq('id', id); } window.allTransactions = window.allTransactions.filter(x => x.id !== id); window.closeSRGModal(); window.refreshDashboard(); } finally { hideLoadingSafe(); } } }); };
     
-    // START APP
-    window.addEventListener('load', () => { window.applyBranding(); const u = localStorage.getItem('srg_user'), p = localStorage.getItem('srg_pass'); if (u && p) window.handleLogin(u, p, true); setTimeout(hideLoadingSafe, 1000); });
+    // START APP (MODIFIED UNTUK MENGAMBIL DARI SUPABASE DULU)
+    window.addEventListener('load', () => { 
+        loadGlobalSettings().then(() => {
+            const u = localStorage.getItem('srg_user'), p = localStorage.getItem('srg_pass'); 
+            if (u && p) window.handleLogin(u, p, true); 
+            setTimeout(hideLoadingSafe, 1000); 
+        });
+    });
   </script>
 </body>
 </html>
