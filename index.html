@@ -287,7 +287,7 @@
           <div class="hidden md:flex items-center space-x-1">
             <button id="nav-dashboard" onclick="window.switchPage('dashboard')" class="text-xs px-4 py-2 nav-btn nav-btn-active"><i class="fas fa-chart-pie mr-1.5"></i>Overview</button>
             <button id="nav-input" onclick="window.switchPage('input')" class="text-xs px-4 py-2 nav-btn nav-btn-inactive"><i class="fas fa-plus-circle mr-1.5"></i>Entri Data</button>
-            <button id="nav-mitra" onclick="window.switchPage('mitra')" class="hidden text-xs px-4 py-2 nav-btn nav-btn-inactive"><i class="fas fa-users mr-1.5"></i>Mitra</button>
+            <button id="nav-mitra" onclick="window.switchPage('mitra')" class="hidden text-xs px-4 py-2 nav-btn nav-btn-inactive"><i class="fas fa-store mr-1.5"></i>Cabang / Mitra</button>
             <button id="nav-rekap" onclick="window.switchPage('rekap')" class="hidden text-xs px-4 py-2 nav-btn nav-btn-inactive"><i class="fas fa-file-invoice mr-1.5"></i>Laporan</button>
             <button id="nav-profil" onclick="window.switchPage('profil')" class="hidden text-xs px-4 py-2 nav-btn nav-btn-inactive text-[var(--srg-gold)]"><i class="fas fa-building mr-1.5"></i>Profil PT</button>
           </div>
@@ -322,31 +322,47 @@
         <div class="premium-card p-4 md:p-6 text-left">
           <div class="flex items-center justify-between mb-4 md:mb-6 text-left"><h3 class="font-bold text-slate-800 text-sm md:text-base text-left">Riwayat Transaksi</h3><span class="text-[9px] md:text-xs font-semibold text-slate-400 bg-slate-100 px-2 md:px-3 py-1 rounded-full text-right">15 Terakhir</span></div>
           <p class="table-scroll-hint text-right">Geser tabel ke samping <i class="fas fa-arrows-alt-h mx-1"></i></p>
-          <div class="table-container overflow-x-auto text-left"><table class="w-full text-left"><thead><tr><th class="w-[100px] md:w-[120px]">Tanggal</th><th class="w-[150px] md:w-[200px]">Mitra</th><th class="text-right w-[120px] md:w-[140px]">Laba Bersih</th><th class="text-right w-[180px] md:w-[200px]">Rincian Ops</th><th class="text-center w-[90px] md:w-[100px]">Aksi</th></tr></thead><tbody id="tableBody"></tbody></table></div>
+          <div class="table-container overflow-x-auto text-left"><table class="w-full text-left"><thead><tr><th class="w-[100px] md:w-[120px]">Tanggal</th><th class="w-[150px] md:w-[200px]">Cabang / Mitra</th><th class="text-right w-[120px] md:w-[140px]">Laba Bersih</th><th class="text-right w-[180px] md:w-[200px]">Rincian Ops</th><th class="text-center w-[90px] md:w-[100px]">Aksi</th></tr></thead><tbody id="tableBody"></tbody></table></div>
         </div>
       </div>
 
       <!-- PAGE MANAJEMEN MITRA -->
       <div id="page-mitra" class="page-content hidden space-y-6 md:space-y-8 text-left">
         <div class="premium-card p-5 md:p-8">
-            <h2 class="text-xl md:text-2xl font-extrabold text-slate-800 tracking-tight mb-5 md:mb-6 text-left">Pendaftaran Mitra</h2>
+            <h2 class="text-xl md:text-2xl font-extrabold text-slate-800 tracking-tight mb-5 md:mb-6 text-left">Pendaftaran Entitas Baru</h2>
             <form id="mitraForm" onsubmit="event.preventDefault(); window.addNewMitra();" class="space-y-4 md:space-y-6">
+                <div class="flex items-center space-x-6 pb-2 border-b border-slate-100">
+                    <label class="flex items-center space-x-2 cursor-pointer group"><input type="radio" name="entityType" value="mitra" checked onchange="window.toggleEntityType()" class="w-4 h-4 text-[var(--srg-green)] focus:ring-[var(--srg-green)]"><span class="text-xs md:text-sm font-bold text-slate-700 group-hover:text-[var(--srg-green)]">Mitra PT SR Group</span></label>
+                    <label class="flex items-center space-x-2 cursor-pointer group"><input type="radio" name="entityType" value="unit" onchange="window.toggleEntityType()" class="w-4 h-4 text-[var(--srg-green)] focus:ring-[var(--srg-green)]"><span class="text-xs md:text-sm font-bold text-slate-700 group-hover:text-[var(--srg-green)]">Unit Usaha PT</span></label>
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5 text-left">
                     <div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1">ID Login</label><input type="text" id="m-user" required class="premium-input w-full px-4 py-3 text-xs md:text-sm font-semibold"></div>
                     <div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1">Password</label><input type="text" id="m-pass" required class="premium-input w-full px-4 py-3 text-xs md:text-sm font-semibold"></div>
                     <div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1">Nama Tampilan Bisnis</label><input type="text" id="m-name" required class="premium-input w-full px-4 py-3 text-xs md:text-sm font-semibold"></div>
                 </div>
-                <div class="bg-slate-50 p-4 md:p-5 rounded-xl border border-slate-200 text-left">
+                <div id="configBagiHasil" class="bg-slate-50 p-4 md:p-5 rounded-xl border border-slate-200 text-left transition-all duration-300">
                     <p class="text-[10px] md:text-xs font-bold text-slate-700 mb-3 md:mb-4 flex items-center"><i class="fas fa-sliders-h mr-2 text-[var(--srg-gold)]"></i> Konfigurasi Bagi Hasil</p>
                     <div class="grid grid-cols-2 gap-4 md:gap-5 text-left">
                         <div><label class="block text-[8px] md:text-[10px] font-bold text-slate-500 uppercase mb-1 text-left">Jatah PT (%)</label><input type="number" id="m-pct-pt" required value="20" oninput="window.syncPct('pt')" class="premium-input w-full px-3 md:px-4 py-2.5 md:py-3 text-base md:text-lg font-bold text-[var(--srg-green)]"></div>
-                        <div><label class="block text-[8px] md:text-[10px] font-bold text-slate-500 uppercase mb-1 text-left">Jatah Mitra (%)</label><input type="number" id="m-pct-mitra" required value="80" oninput="window.syncPct('mitra')" class="premium-input w-full px-3 md:px-4 py-2.5 md:py-3 text-base md:text-lg font-bold text-orange-600"></div>
+                        <div><label class="block text-[8px] md:text-[10px] font-bold text-slate-500 uppercase mb-1 text-left" id="label-m-pct-mitra">Jatah Mitra PT SR Group (%)</label><input type="number" id="m-pct-mitra" required value="80" oninput="window.syncPct('mitra')" class="premium-input w-full px-3 md:px-4 py-2.5 md:py-3 text-base md:text-lg font-bold text-orange-600"></div>
                     </div>
                 </div>
-                <div class="pt-2"><button type="submit" id="btnRegisMitra" class="btn-premium w-full py-3.5 md:py-4 text-xs md:text-sm shadow-md uppercase font-black tracking-widest">Simpan Mitra Baru <i class="fas fa-check ml-2"></i></button></div>
+                <div class="pt-2"><button type="submit" id="btnRegisMitra" class="btn-premium w-full py-3.5 md:py-4 text-xs md:text-sm shadow-md uppercase font-black tracking-widest">Simpan Entitas Baru <i class="fas fa-check ml-2"></i></button></div>
             </form>
         </div>
-        <div class="premium-card p-5 md:p-6 text-left"><h3 class="font-bold text-slate-800 mb-4 text-sm md:text-base text-left">Daftar Mitra Aktif</h3><p class="table-scroll-hint text-right">Geser tabel ke samping <i class="fas fa-arrows-alt-h mx-1"></i></p><div class="table-container overflow-x-auto text-left"><table class="w-full text-left"><thead><tr><th class="w-[120px] md:w-[150px]">ID Login</th><th class="w-[150px] md:w-[200px]">Nama Entitas</th><th class="w-[160px] md:w-[180px]">Bagi Hasil</th><th class="w-[120px] md:w-[150px]">Keamanan</th><th class="text-center w-[100px] md:w-[120px]">Aksi</th></tr></thead><tbody id="mitraTableBody"></tbody></table></div></div>
+        
+        <div class="grid grid-cols-1 gap-6 md:gap-8">
+            <div class="premium-card p-5 md:p-6 text-left border-l-4 border-l-emerald-500">
+                <div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-3"><h3 class="font-bold text-emerald-700 text-sm md:text-base flex items-center"><i class="fas fa-building mr-2"></i> Unit Usaha PT</h3><span class="bg-emerald-100 text-emerald-700 text-[9px] px-2 py-1 rounded font-bold uppercase">Bagi Hasil</span></div>
+                <div class="table-container overflow-x-auto text-left"><table class="w-full text-left"><thead><tr><th class="w-[120px] md:w-[150px]">ID Login</th><th class="w-[150px] md:w-[200px]">Nama Unit</th><th class="w-[160px] md:w-[180px]">Bagi Hasil</th><th class="w-[120px] md:w-[150px]">Keamanan</th><th class="text-center w-[100px] md:w-[120px]">Aksi</th></tr></thead><tbody id="unitTableBody"></tbody></table></div>
+            </div>
+            
+            <div class="premium-card p-5 md:p-6 text-left border-l-4 border-l-orange-400">
+                <div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-3"><h3 class="font-bold text-orange-700 text-sm md:text-base flex items-center"><i class="fas fa-handshake mr-2 text-[var(--srg-gold)]"></i> Mitra PT SR Group</h3><span class="bg-orange-100 text-orange-700 text-[9px] px-2 py-1 rounded font-bold uppercase">Bagi Hasil</span></div>
+                <p class="table-scroll-hint text-right">Geser tabel ke samping <i class="fas fa-arrows-alt-h mx-1"></i></p>
+                <div class="table-container overflow-x-auto text-left"><table class="w-full text-left"><thead><tr><th class="w-[120px] md:w-[150px]">ID Login</th><th class="w-[150px] md:w-[200px]">Nama Mitra</th><th class="w-[160px] md:w-[180px]">Bagi Hasil</th><th class="w-[120px] md:w-[150px]">Keamanan</th><th class="text-center w-[100px] md:w-[120px]">Aksi</th></tr></thead><tbody id="mitraTableBody"></tbody></table></div>
+            </div>
+        </div>
       </div>
 
       <!-- PAGE PROFIL PT -->
@@ -429,7 +445,7 @@
             <div class="text-right"><p class="uppercase text-[7pt] text-slate-500 font-bold mb-0.5">Dicetak Pada:</p><p id="printTimeLabel" class="font-mono text-slate-800">-</p></div>
         </div>
         <div id="rekapStats" class="grid grid-cols-2 lg:grid-cols-4 gap-3 no-print text-left"></div>
-        <div id="rekapTableWrapper" class="premium-card overflow-hidden text-left"><div class="p-4 border-b bg-slate-50 text-left no-print"><h3 class="font-bold text-slate-800 text-xs text-left">Rincian Dokumen</h3></div><p class="table-scroll-hint mr-4 mt-2">Geser tabel ke samping <i class="fas fa-arrows-alt-h mx-1"></i></p><div class="table-container border-none rounded-none overflow-x-auto text-left"><table class="w-full text-left"><thead><tr><th class="w-[100px]">Tanggal</th><th class="w-[150px]">Mitra</th><th class="text-right w-[110px]">Laba Bersih</th><th class="text-right w-[160px]">Biaya Ops</th><th class="text-right w-[80px]">CSR</th><th class="text-right w-[120px]">Porsi PT</th><th class="text-right w-[120px]">Porsi Mitra</th></tr></thead><tbody id="rekapTable"></tbody></table></div></div>
+        <div id="rekapTableWrapper" class="premium-card overflow-hidden text-left"><div class="p-4 border-b bg-slate-50 text-left no-print"><h3 class="font-bold text-slate-800 text-xs text-left">Rincian Dokumen</h3></div><p class="table-scroll-hint mr-4 mt-2">Geser tabel ke samping <i class="fas fa-arrows-alt-h mx-1"></i></p><div class="table-container border-none rounded-none overflow-x-auto text-left"><table class="w-full text-left"><thead><tr><th class="w-[100px]">Tanggal</th><th class="w-[150px]">Cabang / Mitra</th><th class="text-right w-[110px]">Laba Bersih</th><th class="text-right w-[160px]">Biaya Ops</th><th class="text-right w-[80px]">CSR</th><th class="text-right w-[120px]">Porsi PT</th><th class="text-right w-[120px]">Porsi Cabang</th></tr></thead><tbody id="rekapTable"></tbody></table></div></div>
         
         <div id="print-signature" class="hidden print:block text-center mt-16 pb-8">
             <div class="text-right mr-16 mb-20 text-[9pt]" id="sig-location">Bojonegoro, [Tanggal]</div>
@@ -454,7 +470,7 @@
     <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-50 flex justify-around items-center px-2 py-1.5 pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))] no-print shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
         <button onclick="window.switchPage('dashboard')" class="flex-1 flex flex-col items-center justify-center py-2 transition-colors text-slate-400" id="mob-nav-dashboard"><i class="fas fa-chart-pie text-lg mb-1"></i><span class="text-[9px] font-bold">Ringkasan</span></button>
         <button onclick="window.switchPage('input')" class="flex-1 flex flex-col items-center justify-center py-2 transition-colors text-slate-400" id="mob-nav-input"><i class="fas fa-plus-circle text-lg mb-1"></i><span class="text-[9px] font-bold">Entri</span></button>
-        <button onclick="window.switchPage('mitra')" class="hidden flex-1 flex flex-col items-center justify-center py-2 transition-colors text-slate-400" id="mob-nav-mitra"><i class="fas fa-users text-lg mb-1"></i><span class="text-[9px] font-bold">Mitra</span></button>
+        <button onclick="window.switchPage('mitra')" class="hidden flex-1 flex flex-col items-center justify-center py-2 transition-colors text-slate-400" id="mob-nav-mitra"><i class="fas fa-store text-lg mb-1"></i><span class="text-[9px] font-bold">Cabang</span></button>
         <button onclick="window.switchPage('rekap')" class="hidden flex-1 flex flex-col items-center justify-center py-2 transition-colors text-slate-400" id="mob-nav-rekap"><i class="fas fa-file-invoice text-lg mb-1"></i><span class="text-[9px] font-bold">Laporan</span></button>
         <button onclick="window.switchPage('profil')" class="hidden flex-1 flex flex-col items-center justify-center py-2 transition-colors text-slate-400" id="mob-nav-profil"><i class="fas fa-building text-lg mb-1"></i><span class="text-[9px] font-bold">Profil</span></button>
     </div>
@@ -476,26 +492,17 @@
 
     // === MENGAMBIL DAN MENYIMPAN PENGATURAN GLOBAL DENGAN SISTEM CADANGAN ===
     async function loadGlobalSettings() {
-        // Ambil data lokal dulu sebagai cadangan (jika DB gagal/belum dibuat)
         const localFallback = {
             srg_name_long: localStorage.getItem('srg_name_long'),
             srg_name_short: localStorage.getItem('srg_name_short'),
             srg_custom_logo: localStorage.getItem('srg_custom_logo'),
             srg_custom_kop: localStorage.getItem('srg_custom_kop')
         };
-
         if (!supabaseClient) { window.applyBranding(localFallback); return; }
-        
         try {
             const { data, error } = await supabaseClient.from('app_settings').select('*').eq('id', 'global_config').single();
-            if (data && !error) { 
-                window.applyBranding(data); 
-            } else { 
-                window.applyBranding(localFallback); 
-            }
-        } catch(e) { 
-            window.applyBranding(localFallback); 
-        }
+            if (data && !error) { window.applyBranding(data); } else { window.applyBranding(localFallback); }
+        } catch(e) { window.applyBranding(localFallback); }
     }
 
     // === BRANDING LOGIC ===
@@ -522,21 +529,14 @@
 
     window.saveBranding = async () => {
         document.getElementById('loadingOverlay').classList.remove('hidden');
-        const nLong = document.getElementById('pt-name-long').value;
-        const nShort = document.getElementById('pt-name-short').value;
-        const pLogo = document.getElementById('preview-logo').getAttribute('src');
-        const pKop = document.getElementById('preview-kop').getAttribute('src');
-        
-        let validLogo = (pLogo && pLogo.startsWith('data:image')) ? pLogo : '';
-        let validKop = (pKop && pKop.startsWith('data:image')) ? pKop : '';
+        const nLong = document.getElementById('pt-name-long').value; const nShort = document.getElementById('pt-name-short').value;
+        const pLogo = document.getElementById('preview-logo').getAttribute('src'); const pKop = document.getElementById('preview-kop').getAttribute('src');
+        let validLogo = (pLogo && pLogo.startsWith('data:image')) ? pLogo : ''; let validKop = (pKop && pKop.startsWith('data:image')) ? pKop : '';
 
-        // Simpan ke Lokal juga (Sebagai Cadangan Darurat)
-        localStorage.setItem('srg_name_long', nLong); 
-        localStorage.setItem('srg_name_short', nShort);
+        localStorage.setItem('srg_name_long', nLong); localStorage.setItem('srg_name_short', nShort);
         if(validLogo) localStorage.setItem('srg_custom_logo', validLogo); else localStorage.removeItem('srg_custom_logo');
         if(validKop) localStorage.setItem('srg_custom_kop', validKop); else localStorage.removeItem('srg_custom_kop');
 
-        // Simpan ke Supabase agar sinkron global ke semua Mitra
         if (supabaseClient) {
             try {
                 const payload = { id: 'global_config', srg_name_long: nLong, srg_name_short: nShort, srg_custom_logo: validLogo, srg_custom_kop: validKop };
@@ -545,18 +545,17 @@
                 await loadGlobalSettings(); 
                 window.showSRGModal({title: "Branding Disimpan", message: "Profil visual berhasil diterapkan untuk semua akun."});
             } catch(e) {
-                window.applyBranding({srg_name_long: nLong, srg_name_short: nShort, srg_custom_logo: validLogo, srg_custom_kop: validKop}); // Terapkan lokal
-                window.showSRGModal({title: "Disimpan Lokal", message: "Profil tersimpan di peramban ini (Database belum siap/penuh)."});
+                window.applyBranding({srg_name_long: nLong, srg_name_short: nShort, srg_custom_logo: validLogo, srg_custom_kop: validKop});
+                window.showSRGModal({title: "Disimpan Lokal", message: "Profil tersimpan di peramban ini (Database belum siap)."});
             }
         } else {
-            window.applyBranding({srg_name_long: nLong, srg_name_short: nShort, srg_custom_logo: validLogo, srg_custom_kop: validKop}); // Terapkan lokal
+            window.applyBranding({srg_name_long: nLong, srg_name_short: nShort, srg_custom_logo: validLogo, srg_custom_kop: validKop});
             window.showSRGModal({title: "Disimpan Lokal", message: "Profil tersimpan di peramban ini."});
         }
         document.getElementById('loadingOverlay').classList.add('hidden');
     };
 
     window.applyBranding = (dataObj) => {
-        // Ambil data yang diberikan (dari DB atau Lokal), fallback ke default
         const nLong = dataObj?.srg_name_long || localStorage.getItem('srg_name_long') || "PT SUBUR RAYA GROUP";
         const nShort = dataObj?.srg_name_short || localStorage.getItem('srg_name_short') || "PT SR Group";
         const cLogo = dataObj?.srg_custom_logo || localStorage.getItem('srg_custom_logo') || "";
@@ -588,59 +587,26 @@
 
     // === INIT & NAVIGATION LOGIC ===
     window.initAppContent = function() {
-      const role = window.userProfile?.appRole;
-      const isAdmin = role === 'admin';
-      
+      const role = window.userProfile?.appRole; const isAdmin = role === 'admin';
       const setVis = (id, show) => { const el = document.getElementById(id); if(el) show ? el.classList.remove('hidden') : el.classList.add('hidden'); };
-      
-      setVis('inputFormWrapper', !isAdmin); 
-      setVis('adminMonitorSelect', isAdmin); 
-      setVis('adminFilter', isAdmin); 
-      setVis('nav-profil', isAdmin); 
-      setVis('adminChartsWrapper', isAdmin);
-      setVis('nav-rekap', isAdmin); 
-      setVis('nav-mitra', isAdmin); 
-      setVis('mob-nav-rekap', isAdmin); 
-      setVis('mob-nav-mitra', isAdmin); 
-      setVis('mob-nav-profil', isAdmin);
-      
-      const sidebar = document.getElementById('inputSidebar');
-      if(sidebar) sidebar.className = isAdmin ? "lg:col-span-8 lg:col-start-3 space-y-5 md:space-y-6 text-left" : "lg:col-span-5 space-y-5 md:space-y-6 text-left";
-      
-      fetchMitras(); 
-      fetchTransactions();
+      setVis('inputFormWrapper', !isAdmin); setVis('adminMonitorSelect', isAdmin); setVis('adminFilter', isAdmin); setVis('nav-profil', isAdmin); setVis('adminChartsWrapper', isAdmin); setVis('nav-rekap', isAdmin); setVis('nav-mitra', isAdmin); setVis('mob-nav-rekap', isAdmin); setVis('mob-nav-mitra', isAdmin); setVis('mob-nav-profil', isAdmin);
+      const sidebar = document.getElementById('inputSidebar'); if(sidebar) sidebar.className = isAdmin ? "lg:col-span-8 lg:col-start-3 space-y-5 md:space-y-6 text-left" : "lg:col-span-5 space-y-5 md:space-y-6 text-left";
+      fetchMitras(); fetchTransactions();
     };
 
     window.switchPage = function(p) {
       ['dashboard', 'input', 'mitra', 'rekap', 'profil'].forEach(id => { 
-          const page = document.getElementById('page-' + id);
-          if(page) page.classList.add('hidden'); 
-          
+          const page = document.getElementById('page-' + id); if(page) page.classList.add('hidden'); 
           const nav = document.getElementById('nav-' + id); 
-          if (nav) { 
-              if ((id === 'rekap' || id === 'mitra' || id === 'profil') && window.userProfile?.appRole !== 'admin') nav.classList.add('hidden'); 
-              else { nav.className = `text-xs px-4 py-2 nav-btn ${id === p ? 'nav-btn-active' : 'nav-btn-inactive'} ${id === 'profil' ? 'text-[var(--srg-gold)]' : ''}`; } 
-          } 
-          
+          if (nav) { if ((id === 'rekap' || id === 'mitra' || id === 'profil') && window.userProfile?.appRole !== 'admin') nav.classList.add('hidden'); else { nav.className = `text-xs px-4 py-2 nav-btn ${id === p ? 'nav-btn-active' : 'nav-btn-inactive'} ${id === 'profil' ? 'text-[var(--srg-gold)]' : ''}`; } } 
           const mobNav = document.getElementById('mob-nav-' + id); 
-          if (mobNav) { 
-              if ((id === 'rekap' || id === 'mitra' || id === 'profil') && window.userProfile?.appRole !== 'admin') { mobNav.classList.add('hidden'); } 
-              else { 
-                  mobNav.classList.remove('hidden'); 
-                  mobNav.className = `flex-1 flex flex-col items-center justify-center py-2 transition-colors ${id === p ? 'text-[var(--srg-green)] bg-slate-50/50 border-t-2 border-[var(--srg-green)]' : 'text-slate-400 hover:text-slate-600'}`; 
-              } 
-          }
+          if (mobNav) { if ((id === 'rekap' || id === 'mitra' || id === 'profil') && window.userProfile?.appRole !== 'admin') { mobNav.classList.add('hidden'); } else { mobNav.classList.remove('hidden'); mobNav.className = `flex-1 flex flex-col items-center justify-center py-2 transition-colors ${id === p ? 'text-[var(--srg-green)] bg-slate-50/50 border-t-2 border-[var(--srg-green)]' : 'text-slate-400 hover:text-slate-600'}`; } }
       });
-      const targetPage = document.getElementById('page-' + p);
-      if(targetPage) targetPage.classList.remove('hidden'); 
-      
+      const targetPage = document.getElementById('page-' + p); if(targetPage) targetPage.classList.remove('hidden'); 
       if (p === 'dashboard') window.refreshDashboard(); 
       if (p === 'rekap') window.refreshRekapDashboard(); 
       if (p === 'input') window.handleAdminMitraSelect(); 
-      
-      window.toggleSidebarInputs(); 
-      window.toggleRekapInputs(); 
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.toggleSidebarInputs(); window.toggleRekapInputs(); window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     // === CHART LOGIC ===
@@ -667,14 +633,15 @@
         const type = document.getElementById('rekapFilterType')?.value; const options = { start: document.getElementById('rStart')?.value, end: document.getElementById('rEnd')?.value, month: document.getElementById('rMonth')?.value, year: document.getElementById('rYear')?.value, mitra: document.getElementById('rMitra')?.value || 'all' };
         const data = window.getFilteredData(window.allTransactions, type, options);
         if(data.length === 0) { window.showSRGModal({title:"Info", message:"Tidak ada data untuk diekspor."}); return; }
-        let csvContent = "Tanggal,Mitra,Omset,Modal,Ops,Laba Kotor,Laba Bersih,CSR,PT,Mitra Part,Keterangan\n";
+        let csvContent = "Tanggal,Cabang/Mitra,Omset,Modal,Ops,Laba Kotor,Laba Bersih,CSR,PT,Mitra/Unit Part,Keterangan\n";
         data.forEach(t => { 
-            const currM = window.allMitras.find(m => (m.display_name||'').toUpperCase() === (t.mitra||'').toUpperCase());
-            const cPt = currM ? currM.pct_pt : (t.pct_pt || 20);
-            const cMt = currM ? currM.pct_mitra : (t.pct_mitra || 80);
-            const lk = (Number(t.omset)||0) - (Number(t.modal)||0); const lb = lk - (Number(t.ops)||0); const csr = lb > 0 ? Math.round(lb * 0.05) : 0; const res = lb - csr;
+            const cleanMitra = (t.mitra||'').replace(/\u200B/g, '').toUpperCase();
+            const currM = window.allMitras.find(m => m && (m.clean_name || m.display_name || '').toUpperCase() === cleanMitra);
+            const cPt = currM ? currM.pct_pt : (t.pct_pt ?? 20);
+            const cMt = currM ? currM.pct_mitra : (t.pct_mitra ?? 80);
+            const lk = (Number(t.omset)||0) - (Number(t.modal)||0); const lb = lk - (Number(t.ops)||0); const csr = lb > 0 ? Math.round((lb * 0.05) / 100) * 100 : 0; const res = lb - csr;
             const ptVal = Math.round(res*(cPt/100) / 100) * 100; const mtVal = res - ptVal;
-            csvContent += [t.tanggal, `"${t.mitra}"`, t.omset, t.modal, t.ops, lk, lb, csr, ptVal, mtVal, `"${(t.keterangan || '').replace(/"/g, '""')}"` ].join(",") + "\n"; 
+            csvContent += [t.tanggal, `"${cleanMitra}"`, t.omset, t.modal, t.ops, lk, lb, csr, ptVal, mtVal, `"${(t.keterangan || '').replace(/"/g, '""')}"` ].join(",") + "\n"; 
         });
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' }); const url = URL.createObjectURL(blob); const link = document.createElement("a"); link.setAttribute("href", url); link.setAttribute("download", `Laporan_SRG.csv`); document.body.appendChild(link); link.click(); document.body.removeChild(link);
     };
@@ -683,13 +650,15 @@
     window.handleAdminMitraSelect = () => { 
         const fMitra = document.getElementById('f-mitra');
         const mFields = document.getElementById('mitraOnlyFields');
-        if (mFields && fMitra) {
-            if (fMitra.value && fMitra.value !== "") mFields.classList.remove('hidden');
-            else mFields.classList.add('hidden');
-        }
+        if (mFields && fMitra) { if (fMitra.value && fMitra.value !== "") mFields.classList.remove('hidden'); else mFields.classList.add('hidden'); }
         window.refreshSidebarHistory(); 
     };
     
+    window.toggleEntityType = () => {
+        const type = document.querySelector('input[name="entityType"]:checked').value;
+        document.getElementById('label-m-pct-mitra').innerText = type === 'unit' ? 'Jatah Unit Usaha PT (%)' : 'Jatah Mitra PT SR Group (%)';
+    };
+
     window.syncPct = (caller) => { const pt = document.getElementById('m-pct-pt'), mitra = document.getElementById('m-pct-mitra'), err = document.getElementById('pctError'), btn = document.getElementById('btnRegisMitra'); if (caller === 'pt') mitra.value = 100 - parseFloat(pt.value || 0); else pt.value = 100 - parseFloat(mitra.value || 0); const total = parseFloat(pt.value) + parseFloat(mitra.value); if (total !== 100) { err?.classList.remove('hidden'); if(btn) btn.disabled = true; } else { err?.classList.add('hidden'); if(btn) btn.disabled = false; } };
     window.syncEditPct = (caller) => { const pt = document.getElementById('e-pct-pt'), mitra = document.getElementById('e-pct-mitra'); if (caller === 'pt') mitra.value = 100 - parseFloat(pt.value || 0); else pt.value = 100 - parseFloat(mitra.value || 0); };
     window.togglePass = () => { const p = document.getElementById('passInput'), i = document.getElementById('passIcon'); if (p && i) { const isPass = p.type === 'password'; p.type = isPass ? 'text' : 'password'; i.className = isPass ? 'fas fa-eye' : 'fas fa-eye-slash'; } };
@@ -699,26 +668,70 @@
     function hideLoadingSafe() { document.getElementById('loadingOverlay')?.classList.add('hidden'); }
 
     window.handleLogin = async (manualUser, manualPass, silent = false) => {
-      const u = (manualUser || document.getElementById('userInput')?.value || "").toLowerCase().trim(), p = (manualPass || document.getElementById('passInput')?.value || "").trim(), remember = document.getElementById('rememberMe')?.checked;
-      if(!u || !p) return;
+      const u = (manualUser || document.getElementById('userInput')?.value || "").toLowerCase().trim();
+      const p = (manualPass || document.getElementById('passInput')?.value || "").trim();
+      const remember = document.getElementById('rememberMe')?.checked;
+      
+      if(!u || !p) return; 
       document.getElementById('loadingOverlay').classList.remove('hidden');
+      
       try {
-          if (u === 'admin' && p === 'adminsuburraya') { loginSuccess('admin', 'Administrator', u, p, remember, silent); return; }
-          const bm = [{u: 'albarokahshop30', p: 'mitrasubur1', n: 'ALBAROKAHSHOP30'}, {u: 'radiator tunggaksemi', p: 'mitrasubur2', n: 'RADIATOR TUNGGAKSEMI'}].find(x => x.u === u && x.p === p);
-          if (bm) { loginSuccess('mitra', bm.n, u, p, remember, silent); return; }
-          if (supabaseClient) { const { data } = await supabaseClient.from('mitras').select('*').eq('username', u).eq('password', p).single(); if (data) { loginSuccess('mitra', data.display_name, u, p, remember, silent); return; } }
-          if (!silent) window.showSRGModal({title: "Autentikasi Gagal", message: "ID atau Kata Sandi yang Anda masukkan salah."});
+          if (u === 'admin' && p === 'adminsuburraya') { 
+              loginSuccess('admin', 'Administrator', u, p, remember, silent, false); 
+              return; 
+          }
+          
+          let loggedIn = false;
+          if (supabaseClient) { 
+              try {
+                  const { data } = await supabaseClient.from('mitras').select('*').eq('username', u).eq('password', p).maybeSingle(); 
+                  if (data) { 
+                      const isUnit = (data.display_name||'').endsWith('\u200B') || (data.display_name||'').toUpperCase().includes('BENGKEL SUBUR');
+                      loginSuccess('mitra', (data.display_name||'').replace(/\u200B/g, ''), u, p, remember, silent, isUnit); 
+                      loggedIn = true;
+                      return; 
+                  } 
+              } catch (dbErr) { console.warn("Supabase check:", dbErr); }
+          }
+          
+          if (!loggedIn) {
+              // Master Data Cadangan langsung di Gerbang Login
+              const baseMitras = [
+                  { username: "albarokahshop30", password: "mitrasubur1", clean_name: "ALBAROKAHSHOP30", isUnit: false },
+                  { username: "radiator tunggaksemi", password: "mitrasubur2", clean_name: "RADIATOR TUNGGAKSEMI", isUnit: false },
+                  { username: "bengkel subur 1", password: "mitrasubur1", clean_name: "BENGKEL SUBUR 1", isUnit: true },
+                  { username: "bengkel subur 2", password: "mitrasubur2", clean_name: "BENGKEL SUBUR 2", isUnit: true }
+              ];
+              
+              let bm = window.allMitras.find(x => x && x.username === u && x.password === p);
+              if (!bm) bm = baseMitras.find(x => x.username === u && x.password === p);
+              
+              if (bm) { 
+                  loginSuccess('mitra', bm.clean_name || bm.display_name, u, p, remember, silent, bm.isUnit); 
+                  loggedIn = true;
+                  return; 
+              }
+          }
+          
+          if (!loggedIn && !silent) {
+              window.showSRGModal({title: "Autentikasi Gagal", message: "ID atau Kata Sandi yang Anda masukkan salah."});
+          }
       } catch (e) { console.error(e); } finally { hideLoadingSafe(); }
     };
 
-    function loginSuccess(role, name, u, p, remember, silent) {
-        window.userProfile = { appRole: role, appDisplayName: name };
+    function loginSuccess(role, name, u, p, remember, silent, isUnitManual = null) {
+        window.userProfile = { appRole: role, appDisplayName: name || '' };
         if (remember) { localStorage.setItem('srg_user', u); localStorage.setItem('srg_pass', p); }
         document.getElementById('loginSection').classList.add('hidden'); document.getElementById('appSection').classList.remove('hidden');
-        document.getElementById('navUserName').innerText = name.toLowerCase(); document.getElementById('navUserRole').innerText = role === 'admin' ? 'Strategic Admin' : 'Mitra Resmi'; document.getElementById('userInit').innerText = role === 'admin' ? 'A' : name.charAt(0).toUpperCase();
-        document.getElementById('dashboardScope').innerText = role === 'admin' ? "Laporan Seluruh Jaringan" : "Kinerja Mitra Individu";
-        window.initAppContent(); 
-        window.switchPage('dashboard');
+        
+        const isUnit = isUnitManual !== null ? isUnitManual : ((name||'').endsWith('\u200B') || (name||'').toUpperCase().includes('BENGKEL SUBUR'));
+        
+        document.getElementById('navUserName').innerText = (name||'').toLowerCase(); 
+        document.getElementById('navUserRole').innerText = role === 'admin' ? 'STRATEGIC ADMIN' : (isUnit ? 'UNIT USAHA PT' : 'MITRA PT SR GROUP'); 
+        document.getElementById('userInit').innerText = role === 'admin' ? 'A' : (name||'A').charAt(0).toUpperCase();
+        document.getElementById('dashboardScope').innerText = role === 'admin' ? "Laporan Seluruh Jaringan" : "Kinerja Cabang Individu";
+        
+        window.initAppContent(); window.switchPage('dashboard');
         if (!silent) window.showSRGModal({ title: "Akses Berhasil", message: `Selamat datang di Financial Core, ${name}.` });
     }
 
@@ -731,43 +744,101 @@
 
     async function fetchMitras() {
         if (!supabaseClient) return;
-        try { const { data: dbMitras } = await supabaseClient.from('mitras').select('*').order('display_name', { ascending: true }); let combined = [{ id: 'base-1', username: "albarokahshop30", password: "mitrasubur1", display_name: "ALBAROKAHSHOP30", pct_pt: 20, pct_mitra: 80 }, { id: 'base-2', username: "radiator tunggaksemi", password: "mitrasubur2", display_name: "RADIATOR TUNGGAKSEMI", pct_pt: 20, pct_mitra: 80 }]; if (dbMitras) { dbMitras.forEach(m => { if (!combined.some(c => c.display_name === m.display_name)) { m.pct_pt = m.pct_pt || 20; m.pct_mitra = m.pct_mitra || 80; combined.push(m); } }); } window.allMitras = combined; populateMitraSelects(); if(window.userProfile?.appRole === 'admin') renderMitraManagement(); } 
-        catch(e) { populateMitraSelects(); }
+        try { 
+            const { data: dbMitras } = await supabaseClient.from('mitras').select('*').order('display_name', { ascending: true }); 
+            let combined = [
+                { id: 'base-1', username: "albarokahshop30", password: "mitrasubur1", display_name: "ALBAROKAHSHOP30", clean_name: "ALBAROKAHSHOP30", isUnit: false, pct_pt: 20, pct_mitra: 80 }, 
+                { id: 'base-2', username: "radiator tunggaksemi", password: "mitrasubur2", display_name: "RADIATOR TUNGGAKSEMI", clean_name: "RADIATOR TUNGGAKSEMI", isUnit: false, pct_pt: 20, pct_mitra: 80 },
+                { id: 'base-3', username: "bengkel subur 1", password: "mitrasubur1", display_name: "BENGKEL SUBUR 1", clean_name: "BENGKEL SUBUR 1", isUnit: true, pct_pt: 70, pct_mitra: 30 },
+                { id: 'base-4', username: "bengkel subur 2", password: "mitrasubur2", display_name: "BENGKEL SUBUR 2", clean_name: "BENGKEL SUBUR 2", isUnit: true, pct_pt: 70, pct_mitra: 30 }
+            ]; 
+            if (dbMitras) { 
+                dbMitras.forEach(m => { 
+                    m.isUnit = (m.display_name||'').endsWith('\u200B') || (m.display_name||'').toUpperCase().includes('BENGKEL SUBUR');
+                    m.clean_name = (m.display_name||'').replace(/\u200B/g, ''); 
+                    
+                    if ((m.clean_name||'').toUpperCase().includes('BENGKEL SUBUR') && m.pct_pt === 100) {
+                        m.pct_pt = 70; m.pct_mitra = 30;
+                        if (supabaseClient) supabaseClient.from('mitras').update({ pct_pt: 70, pct_mitra: 30 }).eq('id', m.id).then();
+                    }
+                    
+                    if (!combined.some(c => c.clean_name === m.clean_name)) { 
+                        m.pct_pt = m.pct_pt ?? 20; 
+                        m.pct_mitra = m.pct_mitra ?? 80; 
+                        combined.push(m); 
+                    } 
+                }); 
+            } 
+            window.allMitras = combined; populateMitraSelects(); if(window.userProfile?.appRole === 'admin') renderMitraManagement(); 
+        } catch(e) { populateMitraSelects(); }
     }
 
     function populateMitraSelects() {
-        const setup = (id, all = true) => { const el = document.getElementById(id); if (!el) return; el.innerHTML = all ? '<option value="all">Semua Data Mitra</option>' : '<option value="">-- Pilih Mitra --</option>'; window.allMitras.forEach(m => el.add(new Option(m.display_name, m.display_name))); };
+        const setup = (id, all = true) => { 
+            const el = document.getElementById(id); if (!el) return; 
+            el.innerHTML = all ? '<option value="all">Semua Cabang & Mitra</option>' : '<option value="">-- Pilih Cabang --</option>'; 
+            
+            const units = window.allMitras.filter(m => m.isUnit);
+            const mitras = window.allMitras.filter(m => !m.isUnit);
+            
+            if (units.length > 0) {
+                const grpUnit = document.createElement('optgroup'); grpUnit.label = "Unit Usaha PT";
+                units.forEach(m => grpUnit.appendChild(new Option(m.clean_name, m.display_name)));
+                el.appendChild(grpUnit);
+            }
+            if (mitras.length > 0) {
+                const grpMitra = document.createElement('optgroup'); grpMitra.label = "Mitra PT SR Group";
+                mitras.forEach(m => grpMitra.appendChild(new Option(m.clean_name, m.display_name)));
+                el.appendChild(grpMitra);
+            }
+        };
         setup('mitraFilter'); setup('f-mitra', false); setup('rMitra'); setup('f-mitra-monitor', false);
-        const fm = document.getElementById('f-mitra'); if(window.userProfile?.appRole === 'mitra' && fm) { fm.value = window.userProfile.appDisplayName; fm.disabled = true; }
+        const fm = document.getElementById('f-mitra'); if(window.userProfile?.appRole === 'mitra' && fm) { const myData = window.allMitras.find(x => x && (x.clean_name||'').toUpperCase() === (window.userProfile?.appDisplayName||'').toUpperCase()); if(myData) fm.value = myData.display_name; fm.disabled = true; }
     }
 
     window.addNewMitra = async () => {
-        const u = document.getElementById('m-user').value.trim(), p = document.getElementById('m-pass').value.trim(), n = document.getElementById('m-name').value.trim(), ppt = parseFloat(document.getElementById('m-pct-pt').value) || 20, pmt = parseFloat(document.getElementById('m-pct-mitra').value) || 80;
+        const u = document.getElementById('m-user').value.trim(), p = document.getElementById('m-pass').value.trim();
+        const isUnit = document.querySelector('input[name="entityType"]:checked').value === 'unit';
+        let n = document.getElementById('m-name').value.trim();
+        if (isUnit) n += '\u200B'; 
+        
+        const ppt = parseFloat(document.getElementById('m-pct-pt').value) || 20, pmt = parseFloat(document.getElementById('m-pct-mitra').value) || 80;
         if ((ppt + pmt) !== 100) { window.showSRGModal({title:"Validasi Gagal", message:"Total bagi hasil harus tepat 100%!"}); return; }
+        
         document.getElementById('loadingOverlay').classList.remove('hidden');
         try { 
             const { error } = await supabaseClient.from('mitras').insert([{ username: u, password: p, display_name: n, pct_pt: ppt, pct_mitra: pmt }]); 
-            if (!error) { document.getElementById('mitraForm').reset(); fetchMitras(); window.showSRGModal({title:"Sukses", message:`Mitra ${n} berhasil didaftarkan.`}); } else throw error;
+            if (!error) { document.getElementById('mitraForm').reset(); fetchMitras(); window.showSRGModal({title:"Sukses", message:`Entitas berhasil didaftarkan.`}); } else throw error;
         } catch(e) {
-            window.allMitras.push({ id: 'local-'+Date.now(), username: u, password: p, display_name: n, pct_pt: ppt, pct_mitra: pmt }); renderMitraManagement();
+            window.allMitras.push({ id: 'local-'+Date.now(), username: u, password: p, display_name: n, clean_name: n.replace(/\u200B/g,''), isUnit: isUnit, pct_pt: ppt, pct_mitra: pmt }); renderMitraManagement(); populateMitraSelects();
             window.showSRGModal({title:"Mode Pratinjau", message: "Tersimpan secara lokal."});
         } finally { hideLoadingSafe(); }
     };
 
     function renderMitraManagement() {
-        const body = document.getElementById('mitraTableBody'); if (!body) return;
-        body.innerHTML = window.allMitras.map(m => {
+        const mBody = document.getElementById('mitraTableBody'); const uBody = document.getElementById('unitTableBody');
+        if (!mBody || !uBody) return;
+        const units = window.allMitras.filter(m => m.isUnit); const mitras = window.allMitras.filter(m => !m.isUnit);
+
+        const generateRow = (m, isUnitRow) => {
             const isVisible = mitraPassVisibility[m.id] || false;
-            return `<tr><td class="font-mono text-[10px] md:text-xs text-slate-500">${m.username}</td><td class="font-bold text-xs md:text-sm text-slate-800">${m.display_name}</td><td><div class="flex items-center space-x-1 md:space-x-2"><span class="bg-[var(--srg-bg)] border border-[var(--srg-gold)] text-[var(--srg-green)] px-1.5 md:px-2 py-0.5 md:py-1 rounded text-[8px] md:text-[10px] font-bold">PT: ${m.pct_pt}%</span><span class="bg-orange-50 border border-orange-200 text-orange-600 px-1.5 md:px-2 py-0.5 md:py-1 rounded text-[8px] md:text-[10px] font-bold">Mitra: ${m.pct_mitra}%</span></div></td><td class="font-mono text-slate-400 bg-slate-50 rounded px-1 md:px-2 py-0.5 text-[10px] md:text-xs">${isVisible ? m.password : '••••••••'}</td><td class="text-center"><div class="flex items-center justify-center space-x-1.5 md:space-x-2"><button onclick="window.toggleMitraPassVisibility('${m.id}')" class="w-6 h-6 md:w-7 md:h-7 rounded bg-slate-100 hover:bg-slate-200 text-slate-500 transition-colors"><i class="fas fa-${isVisible ? 'eye-slash' : 'eye'} text-[10px] md:text-xs"></i></button><button onclick="window.handleEditMitra('${m.id}')" class="w-6 h-6 md:w-7 md:h-7 rounded bg-blue-50 hover:bg-blue-100 text-blue-500 transition-colors"><i class="fas fa-edit text-[10px] md:text-xs"></i></button><button onclick="window.deleteMitra('${m.id}')" class="w-6 h-6 md:w-7 md:h-7 rounded bg-red-50 hover:bg-red-100 text-red-500 transition-colors"><i class="fas fa-trash text-[10px] md:text-xs"></i></button></div></td></tr>`;
-        }).join('');
+            const badge = isUnitRow 
+                ? `<div class="flex items-center space-x-1 md:space-x-2"><span class="bg-[var(--srg-bg)] border border-[var(--srg-gold)] text-[var(--srg-green)] px-1.5 md:px-2 py-0.5 md:py-1 rounded text-[8px] md:text-[10px] font-bold">PT: ${m.pct_pt}%</span><span class="bg-emerald-50 border border-emerald-200 text-emerald-600 px-1.5 md:px-2 py-0.5 md:py-1 rounded text-[8px] md:text-[10px] font-bold">Unit: ${m.pct_mitra}%</span></div>`
+                : `<div class="flex items-center space-x-1 md:space-x-2"><span class="bg-[var(--srg-bg)] border border-[var(--srg-gold)] text-[var(--srg-green)] px-1.5 md:px-2 py-0.5 md:py-1 rounded text-[8px] md:text-[10px] font-bold">PT: ${m.pct_pt}%</span><span class="bg-orange-50 border border-orange-200 text-orange-600 px-1.5 md:px-2 py-0.5 md:py-1 rounded text-[8px] md:text-[10px] font-bold">Mitra: ${m.pct_mitra}%</span></div>`;
+            return `<tr><td class="font-mono text-[10px] md:text-xs text-slate-500">${m.username}</td><td class="font-bold text-xs md:text-sm text-slate-800">${m.clean_name}</td><td>${badge}</td><td class="font-mono text-slate-400 bg-slate-50 rounded px-1 md:px-2 py-0.5 text-[10px] md:text-xs">${isVisible ? m.password : '••••••••'}</td><td class="text-center"><div class="flex items-center justify-center space-x-1.5 md:space-x-2"><button onclick="window.toggleMitraPassVisibility('${m.id}')" class="w-6 h-6 md:w-7 md:h-7 rounded bg-slate-100 hover:bg-slate-200 text-slate-500 transition-colors"><i class="fas fa-${isVisible ? 'eye-slash' : 'eye'} text-[10px] md:text-xs"></i></button><button onclick="window.handleEditMitra('${m.id}')" class="w-6 h-6 md:w-7 md:h-7 rounded bg-blue-50 hover:bg-blue-100 text-blue-500 transition-colors"><i class="fas fa-edit text-[10px] md:text-xs"></i></button><button onclick="window.deleteMitra('${m.id}')" class="w-6 h-6 md:w-7 md:h-7 rounded bg-red-50 hover:bg-red-100 text-red-500 transition-colors"><i class="fas fa-trash text-[10px] md:text-xs"></i></button></div></td></tr>`;
+        };
+
+        uBody.innerHTML = units.length ? units.map(m => generateRow(m, true)).join('') : `<tr><td colspan="5" class="text-center py-6 text-xs text-slate-400 font-medium border-none">Belum ada Unit Usaha PT</td></tr>`;
+        mBody.innerHTML = mitras.length ? mitras.map(m => generateRow(m, false)).join('') : `<tr><td colspan="5" class="text-center py-6 text-xs text-slate-400 font-medium border-none">Belum ada Mitra PT SR Group</td></tr>`;
     }
 
     window.toggleMitraPassVisibility = (id) => { mitraPassVisibility[id] = !mitraPassVisibility[id]; renderMitraManagement(); };
     
     window.handleEditMitra = (id) => {
         const m = window.allMitras.find(x => x.id === id); if(!m) return;
+        const pLabel = m.isUnit ? 'Porsi Unit Usaha (%)' : 'Porsi Mitra (%)';
         window.showSRGModal({ 
-            title: "Pengaturan Mitra", 
+            title: "Pengaturan Cabang", 
             confirmText: "Simpan Konfigurasi", 
             showCancel: true, 
             content: `
@@ -777,7 +848,7 @@
                 </div>
                 <div>
                     <label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1">Nama Tampilan Bisnis</label>
-                    <input type="text" id="e-mitra-name" value="${m.display_name}" class="premium-input w-full p-2.5 md:p-3 font-semibold text-xs md:text-sm">
+                    <input type="text" id="e-mitra-name" value="${m.clean_name}" class="premium-input w-full p-2.5 md:p-3 font-semibold text-xs md:text-sm">
                 </div>
                 <div>
                     <label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1">Sandi Akses Login</label>
@@ -785,7 +856,7 @@
                 </div>
                 <div class="grid grid-cols-2 gap-3 md:gap-4">
                     <div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1">Porsi PT (%)</label><input type="number" id="e-pct-pt" value="${m.pct_pt}" oninput="window.syncEditPct('pt')" class="premium-input w-full p-2.5 md:p-3 text-[var(--srg-green)] font-bold text-xs md:text-sm"></div>
-                    <div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1">Porsi Mitra (%)</label><input type="number" id="e-pct-mitra" value="${m.pct_mitra}" oninput="window.syncEditPct('mitra')" class="premium-input w-full p-2.5 md:p-3 text-orange-600 font-bold text-xs md:text-sm"></div>
+                    <div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1">${pLabel}</label><input type="number" id="e-pct-mitra" value="${m.pct_mitra}" oninput="window.syncEditPct('mitra')" class="premium-input w-full p-2.5 md:p-3 text-orange-600 font-bold text-xs md:text-sm"></div>
                 </div>
             </div>`, 
             onConfirm: () => window.updateMitraData(id) 
@@ -793,8 +864,10 @@
     };
 
     window.updateMitraData = async (id) => {
+        const m = window.allMitras.find(x => x.id === id); if(!m) return;
         const p = document.getElementById('e-mitra-pass').value.trim();
-        const n = document.getElementById('e-mitra-name').value.trim();
+        let n = document.getElementById('e-mitra-name').value.trim();
+        if (m.isUnit) n += '\u200B'; 
         const ppt = parseFloat(document.getElementById('e-pct-pt').value);
         const pmt = parseFloat(document.getElementById('e-pct-mitra').value);
         
@@ -803,101 +876,123 @@
         
         const idx = window.allMitras.findIndex(x => x.id === id);
         if(idx !== -1) { 
-            window.allMitras[idx].password = p; 
-            window.allMitras[idx].display_name = n; 
-            window.allMitras[idx].pct_pt = ppt; 
-            window.allMitras[idx].pct_mitra = pmt; 
+            window.allMitras[idx].password = p; window.allMitras[idx].display_name = n; window.allMitras[idx].clean_name = n.replace(/\u200B/g,'');
+            window.allMitras[idx].pct_pt = ppt; window.allMitras[idx].pct_mitra = pmt; 
         }
         
         try { 
             if (id && !id.toString().includes('base-') && !id.toString().includes('local-')) { 
                 await supabaseClient.from('mitras').update({ password: p, display_name: n, pct_pt: ppt, pct_mitra: pmt }).eq('id', id); 
             }
-            window.closeSRGModal(); renderMitraManagement(); window.showSRGModal({title: "Sukses", message: "Data mitra berhasil diperbarui."});
+            window.closeSRGModal(); renderMitraManagement(); populateMitraSelects(); window.showSRGModal({title: "Sukses", message: "Data entitas diperbarui."});
         } catch(e) { 
-            window.closeSRGModal(); renderMitraManagement(); window.showSRGModal({title: "Pratinjau", message: "Disimpan secara lokal."}); 
+            window.closeSRGModal(); renderMitraManagement(); populateMitraSelects(); window.showSRGModal({title: "Pratinjau", message: "Disimpan secara lokal."}); 
         } finally { hideLoadingSafe(); }
     };
 
-    window.deleteMitra = (id) => { window.showSRGModal({ title: "Hapus Mitra?", message: "Akses mitra ini akan dicabut permanen.", showCancel: true, onConfirm: async () => { try { if (!id.toString().includes('base-') && !id.toString().includes('local-')) await supabaseClient.from('mitras').delete().eq('id', id); } catch(e) {} window.allMitras = window.allMitras.filter(x => x.id !== id); window.closeSRGModal(); renderMitraManagement(); } }); };
+    window.deleteMitra = (id) => { window.showSRGModal({ title: "Hapus Entitas?", message: "Akses cabang/mitra ini akan dicabut permanen.", showCancel: true, onConfirm: async () => { try { if (!id.toString().includes('base-') && !id.toString().includes('local-')) await supabaseClient.from('mitras').delete().eq('id', id); } catch(e) {} window.allMitras = window.allMitras.filter(x => x.id !== id); window.closeSRGModal(); renderMitraManagement(); populateMitraSelects(); } }); };
 
     window.handleEditRequest = (id) => {
         const t = window.allTransactions.find(x => x.id === id); if(!t) return;
-        window.showSRGModal({ title: "EDIT TRANSAKSI", confirmText: "SIMPAN", showCancel: true, content: `<div class="space-y-3 md:space-y-4 px-1 text-left"><div class="bg-slate-50 p-2 md:p-3 rounded-xl border border-slate-100 mb-1 md:mb-2"><p class="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase mb-0.5">Mitra Tertaut</p><p class="text-[10px] md:text-xs font-extrabold text-slate-800">${t.mitra}</p></div><div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1">Tanggal</label><input type="date" id="e-trans-tgl" value="${t.tanggal}" class="premium-input w-full px-3 py-2.5 md:py-3 text-xs md:text-sm font-semibold"></div><div class="grid grid-cols-2 gap-3 md:gap-4"><div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1">Omset (Rp)</label><input type="number" id="e-trans-omset" value="${t.omset}" class="premium-input w-full px-3 py-2.5 md:py-3 font-bold text-slate-800 text-xs md:text-sm"></div><div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1">Modal (Rp)</label><input type="number" id="e-trans-modal" value="${t.modal}" class="premium-input w-full px-3 py-2.5 md:py-3 font-bold text-slate-800 text-xs md:text-sm"></div></div><div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1">Ops (Rp)</label><input type="number" id="e-trans-ops" value="${t.ops}" class="premium-input w-full px-3 py-2.5 md:py-3 font-bold text-slate-800 text-xs md:text-sm"></div><div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1">Rincian</label><textarea id="e-trans-ket" class="premium-input w-full p-3 text-[10px] md:text-xs font-medium min-h-[60px] md:min-h-[80px] resize-y">${t.keterangan || ''}</textarea></div></div>`, onConfirm: () => window.updateTransactionData(id, t.mitra) });
+        const cleanMitra = (t.mitra||'').replace(/\u200B/g, '');
+        window.showSRGModal({ title: "EDIT TRANSAKSI", confirmText: "SIMPAN", showCancel: true, content: `<div class="space-y-3 md:space-y-4 px-1 text-left"><div class="bg-slate-50 p-2 md:p-3 rounded-xl border border-slate-100 mb-1 md:mb-2"><p class="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase mb-0.5">Entitas Tertaut</p><p class="text-[10px] md:text-xs font-extrabold text-slate-800">${cleanMitra}</p></div><div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1">Tanggal</label><input type="date" id="e-trans-tgl" value="${t.tanggal}" class="premium-input w-full px-3 py-2.5 md:py-3 text-xs md:text-sm font-semibold"></div><div class="grid grid-cols-2 gap-3 md:gap-4"><div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1">Omset (Rp)</label><input type="number" id="e-trans-omset" value="${t.omset}" class="premium-input w-full px-3 py-2.5 md:py-3 font-bold text-slate-800 text-xs md:text-sm"></div><div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1">Modal (Rp)</label><input type="number" id="e-trans-modal" value="${t.modal}" class="premium-input w-full px-3 py-2.5 md:py-3 font-bold text-slate-800 text-xs md:text-sm"></div></div><div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1">Ops (Rp)</label><input type="number" id="e-trans-ops" value="${t.ops}" class="premium-input w-full px-3 py-2.5 md:py-3 font-bold text-slate-800 text-xs md:text-sm"></div><div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1">Rincian</label><textarea id="e-trans-ket" class="premium-input w-full p-3 text-[10px] md:text-xs font-medium min-h-[60px] md:min-h-[80px] resize-y">${t.keterangan || ''}</textarea></div></div>`, onConfirm: () => window.updateTransactionData(id, t.mitra) });
     };
 
-    window.updateTransactionData = async (id, mitraName) => {
-        document.getElementById('loadingOverlay').classList.remove('hidden'); try { const mData = window.allMitras.find(m => (m.display_name || '').toUpperCase() === mitraName.toUpperCase()) || { pct_pt: 20, pct_mitra: 80 }; const data = { tanggal: document.getElementById('e-trans-tgl').value, mitra: mitraName, omset: parseFloat(document.getElementById('e-trans-omset').value) || 0, modal: parseFloat(document.getElementById('e-trans-modal').value) || 0, ops: parseFloat(document.getElementById('e-trans-ops').value) || 0, keterangan: document.getElementById('e-trans-ket').value, pct_pt: mData.pct_pt, pct_mitra: mData.pct_mitra }; const lk = data.omset - data.modal, lb = lk - data.ops, csr = lb > 0 ? Math.round(lb * 0.05) : 0, res = lb - csr; Object.assign(data, { lk, lb, csr, res, pt: Math.round(res*(data.pct_pt/100)), mitra_part: Math.round(res*(data.pct_mitra/100)) }); if (supabaseClient && !id.toString().includes('local-')) { await supabaseClient.from('transactions').update(data).eq('id', id); } const idx = window.allTransactions.findIndex(x => x.id === id); if(idx !== -1) window.allTransactions[idx] = { ...data, id: id }; window.closeSRGModal(); window.refreshDashboard(); window.showSRGModal({title:"Sukses", message:"Berhasil diperbarui."}); } catch (e) { window.closeSRGModal(); window.showSRGModal({title:"Gagal", message: "Gagal menyimpan."}); } finally { hideLoadingSafe(); } 
+    window.updateTransactionData = async (id, mitraNameRaw) => {
+        document.getElementById('loadingOverlay').classList.remove('hidden'); try { const cleanMitra = (mitraNameRaw||'').replace(/\u200B/g, '').toUpperCase(); const mData = window.allMitras.find(m => m && (m.clean_name || m.display_name || '').toUpperCase() === cleanMitra) || { pct_pt: 20, pct_mitra: 80 }; const data = { tanggal: document.getElementById('e-trans-tgl').value, mitra: mitraNameRaw, omset: parseFloat(document.getElementById('e-trans-omset').value) || 0, modal: parseFloat(document.getElementById('e-trans-modal').value) || 0, ops: parseFloat(document.getElementById('e-trans-ops').value) || 0, keterangan: document.getElementById('e-trans-ket').value, pct_pt: mData.pct_pt, pct_mitra: mData.pct_mitra }; const lk = data.omset - data.modal, lb = lk - data.ops, csr = lb > 0 ? Math.round((lb * 0.05) / 100) * 100 : 0, res = lb - csr; const ptVal = Math.round(res*(data.pct_pt/100) / 100) * 100; const mtVal = res - ptVal; Object.assign(data, { lk, lb, csr, res, pt: ptVal, mitra_part: mtVal }); if (supabaseClient && !id.toString().includes('local-')) { await supabaseClient.from('transactions').update(data).eq('id', id); } const idx = window.allTransactions.findIndex(x => x.id === id); if(idx !== -1) window.allTransactions[idx] = { ...data, id: id }; window.closeSRGModal(); window.refreshDashboard(); window.showSRGModal({title:"Sukses", message:"Berhasil diperbarui."}); } catch (e) { window.closeSRGModal(); window.showSRGModal({title:"Gagal", message: "Gagal menyimpan."}); } finally { hideLoadingSafe(); } 
     };
 
     window.refreshDashboard = () => {
-      const mfVal = document.getElementById('mitraFilter')?.value || 'all'; let data = Array.isArray(window.allTransactions) ? [...window.allTransactions] : []; let currentMitraName = (window.userProfile?.appRole !== 'admin') ? window.userProfile.appDisplayName.toUpperCase() : (mfVal !== 'all' ? mfVal.toUpperCase() : ""); if (currentMitraName) data = data.filter(t => (t.mitra || '').toUpperCase() === currentMitraName); const mData = window.allMitras.find(m => (m.display_name || '').toUpperCase() === currentMitraName); 
-      const isAll = (window.userProfile?.appRole === 'admin' && mfVal === 'all'); const pPT = isAll ? 'all' : (mData ? mData.pct_pt : (data.length > 0 ? (data[0].pct_pt || 20) : 20)); const pMitra = isAll ? 'all' : (mData ? mData.pct_mitra : (data.length > 0 ? (data[0].pct_mitra || 80) : 80));
-      renderStatsGrid(data, 'dashboardStats', false, pPT, pMitra); renderCharts(data); const isAdmin = window.userProfile?.appRole === 'admin';
-      document.getElementById('tableBody').innerHTML = data.slice(0, 15).map(t => { const eb = !isAdmin ? `<button onclick="window.handleEditRequest('${t.id}')" class="w-7 h-7 md:w-8 md:h-8 rounded bg-slate-100 hover:bg-blue-50 text-slate-400 hover:text-blue-500 transition-colors" title="Edit Dokumen"><i class="fas fa-edit text-[10px] md:text-xs"></i></button>` : ''; const db = `<button onclick="window.handleDeleteRequest('${t.id}')" class="w-7 h-7 md:w-8 md:h-8 rounded bg-slate-100 hover:bg-red-50 text-slate-400 hover:text-red-500 transition-colors" title="Hapus Dokumen"><i class="fas fa-trash text-[10px] md:text-xs"></i></button>`; return `<tr class="hover:bg-slate-50 transition-colors"><td class="font-medium text-[10px] md:text-xs text-slate-500 whitespace-nowrap">${t.tanggal}</td><td class="font-bold text-[10px] md:text-xs text-slate-800">${t.mitra}</td><td class="text-right text-emerald-600 font-extrabold text-[10px] md:text-xs">${fmt(t.lb)}</td><td class="text-right"><div class="flex flex-col items-end text-right"><b class="text-slate-700 text-[10px] md:text-xs">${fmt(t.ops)}</b><small class="text-[8px] md:text-[9px] text-slate-400 mt-0.5 max-w-[120px] md:max-w-[180px] truncate text-right" title="${t.keterangan || '-'}">${t.keterangan || '-'}</small></div></td><td class="text-center"><div class="flex items-center justify-center space-x-1.5 md:space-x-2">${eb}${db}</div></td></tr>`; }).join('');
+      const mfVal = document.getElementById('mitraFilter')?.value || 'all'; let data = Array.isArray(window.allTransactions) ? [...window.allTransactions] : []; 
+      let rawCurrentName = (window.userProfile?.appRole !== 'admin') ? (window.userProfile?.appDisplayName || "") : (mfVal !== 'all' ? mfVal : "");
+      let currentMitraName = rawCurrentName.replace(/\u200B/g, '').toUpperCase();
+      
+      if (currentMitraName) data = data.filter(t => (t.mitra || '').replace(/\u200B/g, '').toUpperCase() === currentMitraName); 
+      const mData = window.allMitras.find(m => m && (m.clean_name || m.display_name || '').toUpperCase() === currentMitraName); 
+      
+      const isAll = (window.userProfile?.appRole === 'admin' && mfVal === 'all'); const targetType = isAll ? 'all' : (mData && mData.isUnit ? 'unit' : 'mitra'); const pPT = isAll ? 'all' : (mData ? mData.pct_pt : 20); const pMitra = isAll ? 'all' : (mData ? mData.pct_mitra : 80);
+      renderStatsGrid(data, 'dashboardStats', false, pPT, pMitra, targetType); renderCharts(data); const isAdmin = window.userProfile?.appRole === 'admin';
+      
+      document.getElementById('tableBody').innerHTML = data.slice(0, 15).map(t => { const eb = !isAdmin ? `<button onclick="window.handleEditRequest('${t.id}')" class="w-7 h-7 md:w-8 md:h-8 rounded bg-slate-100 hover:bg-blue-50 text-slate-400 hover:text-blue-500 transition-colors" title="Edit Dokumen"><i class="fas fa-edit text-[10px] md:text-xs"></i></button>` : ''; const db = `<button onclick="window.handleDeleteRequest('${t.id}')" class="w-7 h-7 md:w-8 md:h-8 rounded bg-slate-100 hover:bg-red-50 text-slate-400 hover:text-red-500 transition-colors" title="Hapus Dokumen"><i class="fas fa-trash text-[10px] md:text-xs"></i></button>`; return `<tr class="hover:bg-slate-50 transition-colors"><td class="font-medium text-[10px] md:text-xs text-slate-500 whitespace-nowrap">${t.tanggal}</td><td class="font-bold text-[10px] md:text-xs text-slate-800">${(t.mitra||'').replace(/\u200B/g,'')}</td><td class="text-right text-emerald-600 font-extrabold text-[10px] md:text-xs">${fmt(t.lb)}</td><td class="text-right"><div class="flex flex-col items-end text-right"><b class="text-slate-700 text-[10px] md:text-xs">${fmt(t.ops)}</b><small class="text-[8px] md:text-[9px] text-slate-400 mt-0.5 max-w-[120px] md:max-w-[180px] truncate text-right" title="${t.keterangan || '-'}">${t.keterangan || '-'}</small></div></td><td class="text-center"><div class="flex items-center justify-center space-x-1.5 md:space-x-2">${eb}${db}</div></td></tr>`; }).join('');
     };
 
     window.refreshRekapDashboard = () => {
       if (window.userProfile?.appRole !== 'admin') return; const type = document.getElementById('rekapFilterType')?.value, options = { start: document.getElementById('rStart')?.value, end: document.getElementById('rEnd')?.value, month: document.getElementById('rMonth')?.value, year: document.getElementById('rYear')?.value, mitra: document.getElementById('rMitra')?.value || 'all' };
-      const data = window.getFilteredData(window.allTransactions, type, options); const mData = window.allMitras.find(m => m.display_name === options.mitra.toUpperCase()); 
-      const isAll = options.mitra === 'all'; const pPT = isAll ? 'all' : (mData ? mData.pct_pt : 20); const pMitra = isAll ? 'all' : (mData ? mData.pct_mitra : 80);
-      renderStatsGrid(data, 'rekapStats', true, pPT, pMitra); document.getElementById('rekapTable').innerHTML = data.map(t => {
-          const currM = window.allMitras.find(m => (m.display_name||'').toUpperCase() === (t.mitra||'').toUpperCase());
-          const cPt = currM ? currM.pct_pt : (t.pct_pt || 20);
-          const cMt = currM ? currM.pct_mitra : (t.pct_mitra || 80);
-          const lk = (Number(t.omset)||0) - (Number(t.modal)||0); const lb = lk - (Number(t.ops)||0); const csr = lb > 0 ? Math.round(lb * 0.05) : 0; const res = lb - csr;
+      const data = window.getFilteredData(window.allTransactions, type, options); 
+      const targetMitra = (options.mitra || '').replace(/\u200B/g, '').toUpperCase();
+      const mData = window.allMitras.find(m => m && (m.clean_name || m.display_name || '').toUpperCase() === targetMitra); 
+      
+      const isAll = options.mitra === 'all'; const targetType = isAll ? 'all' : (mData && mData.isUnit ? 'unit' : 'mitra'); const pPT = isAll ? 'all' : (mData ? mData.pct_pt : 20); const pMitra = isAll ? 'all' : (mData ? mData.pct_mitra : 80);
+      renderStatsGrid(data, 'rekapStats', true, pPT, pMitra, targetType); document.getElementById('rekapTable').innerHTML = data.map(t => {
+          const cleanMitra = (t.mitra||'').replace(/\u200B/g, '').toUpperCase();
+          const currM = window.allMitras.find(m => m && (m.clean_name || m.display_name || '').toUpperCase() === cleanMitra);
+          const cPt = currM ? currM.pct_pt : (t.pct_pt ?? 20); const cMt = currM ? currM.pct_mitra : (t.pct_mitra ?? 80); const isUnitR = currM ? currM.isUnit : false;
+          const lk = (Number(t.omset)||0) - (Number(t.modal)||0); const lb = lk - (Number(t.ops)||0); const csr = lb > 0 ? Math.round((lb * 0.05) / 100) * 100 : 0; const res = lb - csr;
           const ptVal = Math.round(res*(cPt/100) / 100) * 100; const mtVal = res - ptVal;
-          return `<tr class="text-[10px] md:text-xs"><td class="text-slate-500 whitespace-nowrap text-left">${t.tanggal}</td><td class="font-bold text-slate-800 text-left">${t.mitra}</td><td class="text-right font-extrabold text-emerald-700 text-right">${fmt(lb)}</td><td class="text-right text-right"><div class="flex flex-col items-end"><b class="text-slate-700 text-right">${fmt(t.ops)}</b><small class="text-[8px] md:text-[9px] text-slate-400 mt-0.5 truncate max-w-[100px] md:max-w-[150px] text-right">${t.keterangan || '-'}</small></div></td><td class="text-right text-slate-600 font-medium text-right">${fmt(csr)}</td><td class="text-right text-right"><span class="font-bold text-[var(--srg-green)] block">${fmt(ptVal)}</span><span class="text-[8px] md:text-[9px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded inline-block mt-0.5">${cPt}%</span></td><td class="text-right text-right"><span class="font-bold text-orange-600 block">${fmt(mtVal)}</span><span class="text-[8px] md:text-[9px] bg-orange-50 text-orange-500 px-1.5 py-0.5 rounded inline-block mt-0.5">${cMt}%</span></td></tr>`;
+          const mtBadge = isUnitR ? `<span class="bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded inline-block mt-0.5">${cMt}% Unit</span>` : `<span class="bg-orange-50 text-orange-500 px-1.5 py-0.5 rounded inline-block mt-0.5">${cMt}% Mitra</span>`;
+          return `<tr class="text-[10px] md:text-xs"><td class="text-slate-500 whitespace-nowrap text-left">${t.tanggal}</td><td class="font-bold text-slate-800 text-left">${cleanMitra}</td><td class="text-right font-extrabold text-emerald-700 text-right">${fmt(lb)}</td><td class="text-right text-right"><div class="flex flex-col items-end"><b class="text-slate-700 text-right">${fmt(t.ops)}</b><small class="text-[8px] md:text-[9px] text-slate-400 mt-0.5 truncate max-w-[100px] md:max-w-[150px] text-right">${t.keterangan || '-'}</small></div></td><td class="text-right text-slate-600 font-medium text-right">${fmt(csr)}</td><td class="text-right text-right"><span class="font-bold text-[var(--srg-green)] block">${fmt(ptVal)}</span><span class="text-[8px] md:text-[9px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded inline-block mt-0.5">${cPt}%</span></td><td class="text-right text-right"><span class="font-bold text-orange-600 block">${fmt(mtVal)}</span>${mtBadge}</td></tr>`;
       }).join('');
     };
 
-    function renderStatsGrid(data, containerId, simplified = false, pPT = 20, pMitra = 80) {
+    function renderStatsGrid(data, containerId, simplified = false, pPT = 20, pMitra = 80, targetType = 'all') {
       const s = data.reduce((a, b) => {
-          const currM = window.allMitras.find(m => (m.display_name||'').toUpperCase() === (b.mitra||'').toUpperCase());
-          const cPt = currM ? currM.pct_pt : (b.pct_pt || 20); const cMt = currM ? currM.pct_mitra : (b.pct_mitra || 80);
+          const cleanMitra = (b.mitra||'').replace(/\u200B/g, '').toUpperCase();
+          const currM = window.allMitras.find(m => m && (m.clean_name || m.display_name || '').toUpperCase() === cleanMitra);
+          const isUnit = currM ? currM.isUnit : false;
+          const cPt = currM ? currM.pct_pt : (b.pct_pt ?? 20); const cMt = currM ? currM.pct_mitra : (b.pct_mitra ?? 80);
           const o = Number(b.omset)||0; const m = Number(b.modal)||0; const ops = Number(b.ops)||0;
-          const lk = o - m; const lb = lk - ops; const csr = lb > 0 ? Math.round(lb * 0.05) : 0; const res = lb - csr;
+          const lk = o - m; const lb = lk - ops; const csr = lb > 0 ? Math.round((lb * 0.05) / 100) * 100 : 0; const res = lb - csr;
           const ptVal = Math.round(res*(cPt/100) / 100) * 100; const mtVal = res - ptVal;
-          return { o: a.o + o, m: a.m + m, ops: a.ops + ops, lk: a.lk + lk, lb: a.lb + lb, csr: a.csr + csr, pt: a.pt + ptVal, bm: a.bm + mtVal, res: a.res + res };
-      }, {o:0, m:0, ops:0, lk:0, lb:0, csr:0, pt:0, bm:0, res:0});
-      const ptLabel = pPT === 'all' ? 'TOTAL JATAH PT' : `PEMBAGIAN PT (${pPT}%)`; const mitraLabel = pMitra === 'all' ? 'TOTAL JATAH MITRA' : `PEMBAGIAN MITRA (${pMitra}%)`;
-      let cards = simplified ? [ 
-        {l:"Laba Bersih Akhir <span class='normal-case text-[8px] md:text-[9px] block mt-0.5 md:mt-1 text-emerald-700/80'>(Siap Bagi)</span>", v:fmt(s.res || (s.lb - s.csr)), t:"success", x:"text-emerald-800 font-extrabold text-lg md:text-2xl"}, 
-        {l:"CSR 5% <span class='normal-case text-[8px] md:text-[9px] block mt-0.5 md:mt-1 text-slate-400'>(Dari Laba Bersih)</span>", v:fmt(s.csr), t:"neutral", x:"text-slate-600 font-bold text-sm md:text-lg"}, 
-        {l:ptLabel, v:fmt(s.pt), t:"dark", x:"text-[var(--srg-gold)] font-extrabold text-base md:text-xl"}, 
-        {l:mitraLabel, v:fmt(s.bm), t:"gold", x:"text-orange-700 font-extrabold text-base md:text-xl"} 
-      ] : [ 
-        {l:"Total Omset", v:fmt(s.o), t:"neutral", x:"text-slate-800 font-extrabold text-base md:text-xl"}, 
-        {l:"Modal Produksi", v:fmt(s.m), t:"neutral", x:"text-red-500 font-bold text-sm md:text-lg"}, 
-        {l:"Biaya Operasional", v:fmt(s.ops), t:"neutral", x:"text-slate-500 font-bold text-sm md:text-lg"}, 
-        {l:"Laba Kotor <span class='normal-case text-[8px] md:text-[9px] block mt-0.5 md:mt-1 text-emerald-600/80'>(Omset - Produksi)</span>", v:fmt(s.lk), t:"success", x:"text-emerald-600 font-bold text-sm md:text-lg"}, 
-        {l:"Laba Bersih Akhir <span class='normal-case text-[8px] md:text-[9px] block mt-0.5 md:mt-1 text-emerald-700/80'>(Siap Bagi)</span>", v:fmt(s.res || (s.lb - s.csr)), t:"success", x:"text-emerald-800 font-extrabold text-lg md:text-2xl"}, 
-        {l:"CSR 5% <span class='normal-case text-[8px] md:text-[9px] block mt-0.5 md:mt-1 text-slate-400'>(Dari Laba Bersih)</span>", v:fmt(s.csr), t:"neutral", x:"text-slate-600 font-bold text-sm md:text-lg"}, 
-        {l:"Margin (%) <span class='normal-case text-[8px] md:text-[9px] block mt-0.5 md:mt-1 text-slate-400'>(Laba Akhir ÷ Omset)</span>", v:(s.o>0?(((s.res || (s.lb - s.csr))/s.o)*100).toFixed(1)+"%":"0%"), t:"neutral", x:"text-blue-600 font-extrabold text-base md:text-xl", isMargin: true}, 
-        {l:ptLabel, v:fmt(s.pt), t:"dark", x:"text-[var(--srg-gold)] font-extrabold text-base md:text-xl"}, 
-        {l:mitraLabel, v:fmt(s.bm), t:"gold", x:"text-orange-700 font-extrabold text-base md:text-xl"} 
-      ];
+          return { o: a.o + o, m: a.m + m, ops: a.ops + ops, lk: a.lk + lk, lb: a.lb + lb, csr: a.csr + csr, pt: a.pt + ptVal, bm: a.bm + (!isUnit ? mtVal : 0), bu: a.bu + (isUnit ? mtVal : 0), res: a.res + res };
+      }, {o:0, m:0, ops:0, lk:0, lb:0, csr:0, pt:0, bm:0, bu:0, res:0});
+      
+      let cards = [];
+      if (simplified) {
+        cards = [ {l:"Laba Bersih Akhir <span class='normal-case text-[8px] md:text-[9px] block mt-0.5 md:mt-1 text-emerald-700/80'>(Siap Bagi)</span>", v:fmt(s.res || (s.lb - s.csr)), t:"success", x:"text-emerald-800 font-extrabold text-lg md:text-2xl"}, {l:"CSR 5% <span class='normal-case text-[8px] md:text-[9px] block mt-0.5 md:mt-1 text-slate-400'>(Dari Laba Bersih)</span>", v:fmt(s.csr), t:"neutral", x:"text-slate-600 font-bold text-sm md:text-lg"}, {l:(targetType==='all'?'TOTAL JATAH PT':`PEMBAGIAN PT (${pPT}%)`), v:fmt(s.pt), t:"dark", x:"text-[var(--srg-gold)] font-extrabold text-base md:text-xl"} ];
+        if(targetType === 'all') { cards.push({l:"TOTAL JATAH MITRA PT SR GROUP", v:fmt(s.bm), t:"gold", x:"text-orange-700 font-extrabold text-base md:text-xl"}); cards.push({l:"TOTAL JATAH UNIT USAHA PT", v:fmt(s.bu), t:"success", x:"text-emerald-700 font-extrabold text-base md:text-xl"}); } 
+        else if (targetType === 'unit') { cards.push({l:`PEMBAGIAN UNIT USAHA PT (${pMitra}%)`, v:fmt(s.bu), t:"success", x:"text-emerald-700 font-extrabold text-base md:text-xl"}); } 
+        else { cards.push({l:`PEMBAGIAN MITRA PT SR GROUP (${pMitra}%)`, v:fmt(s.bm), t:"gold", x:"text-orange-700 font-extrabold text-base md:text-xl"}); }
+      } else {
+        cards = [ {l:"Total Omset", v:fmt(s.o), t:"neutral", x:"text-slate-800 font-extrabold text-base md:text-xl"}, {l:"Modal Produksi", v:fmt(s.m), t:"neutral", x:"text-red-500 font-bold text-sm md:text-lg"}, {l:"Biaya Operasional", v:fmt(s.ops), t:"neutral", x:"text-slate-500 font-bold text-sm md:text-lg"}, {l:"Laba Kotor <span class='normal-case text-[8px] md:text-[9px] block mt-0.5 md:mt-1 text-emerald-600/80'>(Omset - Produksi)</span>", v:fmt(s.lk), t:"success", x:"text-emerald-600 font-bold text-sm md:text-lg"}, {l:"Laba Bersih Akhir <span class='normal-case text-[8px] md:text-[9px] block mt-0.5 md:mt-1 text-emerald-700/80'>(Siap Bagi)</span>", v:fmt(s.res || (s.lb - s.csr)), t:"success", x:"text-emerald-800 font-extrabold text-lg md:text-2xl"}, {l:"CSR 5% <span class='normal-case text-[8px] md:text-[9px] block mt-0.5 md:mt-1 text-slate-400'>(Dari Laba Bersih)</span>", v:fmt(s.csr), t:"neutral", x:"text-slate-600 font-bold text-sm md:text-lg"}, {l:"Margin (%) <span class='normal-case text-[8px] md:text-[9px] block mt-0.5 md:mt-1 text-slate-400'>(Laba Akhir ÷ Omset)</span>", v:(s.o>0?(((s.res || (s.lb - s.csr))/s.o)*100).toFixed(1)+"%":"0%"), t:"neutral", x:"text-blue-600 font-extrabold text-base md:text-xl", isMargin: true}, {l:(targetType==='all'?'TOTAL JATAH PT':`PEMBAGIAN PT (${pPT}%)`), v:fmt(s.pt), t:"dark", x:"text-[var(--srg-gold)] font-extrabold text-base md:text-xl"} ];
+        if(targetType === 'all') { cards.push({l:"TOTAL JATAH MITRA PT SR GROUP", v:fmt(s.bm), t:"gold", x:"text-orange-700 font-extrabold text-base md:text-xl"}); cards.push({l:"TOTAL JATAH UNIT USAHA PT", v:fmt(s.bu), t:"success", x:"text-emerald-700 font-extrabold text-base md:text-xl"}); } 
+        else if (targetType === 'unit') { cards.push({l:`PEMBAGIAN UNIT USAHA PT (${pMitra}%)`, v:fmt(s.bu), t:"success", x:"text-emerald-700 font-extrabold text-base md:text-xl"}); } 
+        else { cards.push({l:`PEMBAGIAN MITRA PT SR GROUP (${pMitra}%)`, v:fmt(s.bm), t:"gold", x:"text-orange-700 font-extrabold text-base md:text-xl"}); }
+      }
       document.getElementById(containerId).innerHTML = cards.filter(c => !c.isMargin || window.userProfile?.appRole === 'admin').map(c => `<div class="premium-card p-4 md:p-5 stat-card-${c.t} flex flex-col justify-between h-full min-h-[90px] md:min-h-[100px]"><p class="text-[9px] md:text-[10px] uppercase font-bold text-slate-400 mb-2 md:mb-3 tracking-wide leading-snug">${c.l}</p><h3 class="${c.x}">${c.v}</h3></div>`).join('');
     }
 
     window.refreshSidebarHistory = () => {
       const type = document.getElementById('sidebarFilterType')?.value, mName = (window.userProfile?.appRole === 'admin') ? (document.getElementById('f-mitra-monitor')?.value || "") : window.userProfile?.appDisplayName;
       const options = { start: document.getElementById('mStart')?.value, end: document.getElementById('mEnd')?.value, month: document.getElementById('mMonth')?.value, year: document.getElementById('mYear')?.value, mitra: mName };
-      const filtered = window.getFilteredData(window.allTransactions, type, options); const mData = window.allMitras.find(m => m.display_name === mName.toUpperCase()); const pPT = mData ? mData.pct_pt : 20, pMT = mData ? mData.pct_mitra : 80;
+      const filtered = window.getFilteredData(window.allTransactions, type, options); 
+      const targetName = (mName || '').replace(/\u200B/g, '').toUpperCase();
+      const mData = window.allMitras.find(m => m && (m.clean_name || m.display_name || '').toUpperCase() === targetName); 
+      const pPT = mData ? mData.pct_pt : 20, pMT = mData ? mData.pct_mitra : 80;
+      
       const s = filtered.reduce((a, b) => { 
-          const currM = window.allMitras.find(m => (m.display_name||'').toUpperCase() === (b.mitra||'').toUpperCase());
-          const cPt = currM ? currM.pct_pt : (b.pct_pt || 20); const cMt = currM ? currM.pct_mitra : (b.pct_mitra || 80);
-          const om = Number(b.omset)||0, lk = om-Number(b.modal)||0, lb = lk-Number(b.ops)||0, cs = lb>0?Math.round(lb*0.05):0, rs = lb-cs; 
+          const cleanMitra = (b.mitra||'').replace(/\u200B/g, '').toUpperCase();
+          const currM = window.allMitras.find(m => m && (m.clean_name || m.display_name || '').toUpperCase() === cleanMitra);
+          const isUnit = currM ? currM.isUnit : false;
+          const cPt = currM ? currM.pct_pt : (b.pct_pt ?? 20); const cMt = currM ? currM.pct_mitra : (b.pct_mitra ?? 80);
+          const om = Number(b.omset)||0, lk = om-Number(b.modal)||0, lb = lk-Number(b.ops)||0, cs = lb>0?Math.round((lb*0.05)/100)*100:0, rs = lb-cs; 
           const ptVal = Math.round(rs*(cPt/100) / 100) * 100; const mtVal = rs - ptVal;
-          return { o: a.o+om, lk: a.lk+lk, csr: a.csr+cs, pt: a.pt+ptVal, bm: a.bm+mtVal }; 
-      }, {o:0, lk:0, csr:0, pt:0, bm:0});
+          return { o: a.o+om, lk: a.lk+lk, csr: a.csr+cs, pt: a.pt+ptVal, bm: a.bm+(!isUnit?mtVal:0), bu: a.bu+(isUnit?mtVal:0) }; 
+      }, {o:0, lk:0, csr:0, pt:0, bm:0, bu:0});
       const isAll = (window.userProfile?.appRole === 'admin' && mName === "");
-      Object.entries({hOmset: s.o, hLabaKotor: s.lk, hCSR: s.csr, hPT: s.pt, hPartner: s.bm}).forEach(([id, val]) => { const el = document.getElementById(id); if(el) { el.innerText = fmt(val); if (id === 'hPT') document.getElementById('labelPT').innerText = isAll ? 'TOTAL JATAH PT' : `PEMBAGIAN PT (${pPT}%)`; if (id === 'hPartner') document.getElementById('labelMitra').innerText = isAll ? 'TOTAL JATAH MITRA' : `PEMBAGIAN MITRA (${pMT}%)`; } });
+      const isUnitTarget = mData ? mData.isUnit : false;
+      
+      Object.entries({hOmset: s.o, hLabaKotor: s.lk, hCSR: s.csr, hPT: s.pt}).forEach(([id, val]) => { const el = document.getElementById(id); if(el) { el.innerText = fmt(val); if (id === 'hPT') document.getElementById('labelPT').innerText = isAll ? 'TOTAL JATAH PT' : `PEMBAGIAN PT (${pPT}%)`; } });
+      const elPartner = document.getElementById('hPartner'); const elLabel = document.getElementById('labelMitra');
+      if (elPartner && elLabel) {
+          if (isAll) { elPartner.innerText = fmt(s.bm + s.bu); elLabel.innerText = "TOTAL MITRA + UNIT"; } 
+          else if (isUnitTarget) { elPartner.innerText = fmt(s.bu); elLabel.innerText = `PEMBAGIAN UNIT (${pMT}%)`; } 
+          else { elPartner.innerText = fmt(s.bm); elLabel.innerText = `PEMBAGIAN MITRA (${pMT}%)`; }
+      }
     };
 
     window.getFilteredData = (allData, type, options) => {
         let data = [...allData]; if (type === 'range') { if (options.start) data = data.filter(t => t.tanggal >= options.start); if (options.end) data = data.filter(t => t.tanggal <= options.end); } else if (type === 'month' && options.month) { data = data.filter(t => t.tanggal.substring(0, 7) === options.month); } else if (type === 'year' && options.year) { data = data.filter(t => t.tanggal.substring(0, 4) === options.year.toString()); }
-        if (options.mitra && options.mitra !== 'all') data = data.filter(t => (t.mitra || '').toUpperCase() === options.mitra.toUpperCase()); return data;
+        if (options.mitra && options.mitra !== 'all') data = data.filter(t => (t.mitra || '').replace(/\u200B/g, '').toUpperCase() === options.mitra.replace(/\u200B/g, '').toUpperCase()); return data;
     };
 
     window.toggleSidebarInputs = () => { const t = document.getElementById('sidebarFilterType')?.value; document.getElementById('s-range-inputs')?.classList.toggle('hidden', t !== 'range'); document.getElementById('s-month-inputs')?.classList.toggle('hidden', t !== 'month'); document.getElementById('s-year-inputs')?.classList.toggle('hidden', t !== 'year'); };
@@ -907,19 +1002,18 @@
     window.handleLogoutRequest = () => { window.showSRGModal({ title: "KELUAR?", message: "Hapus sesi Anda?", confirmText: "YA", showCancel: true, onConfirm: () => { localStorage.removeItem('srg_user'); localStorage.removeItem('srg_pass'); location.reload(); } }); };
 
     window.handlePrintRequest = () => {
-        const mitraVal = document.getElementById('rMitra')?.value || 'all'; document.getElementById('printMitraLabel').innerText = mitraVal === 'all' ? 'SEMUA MITRA' : mitraVal.toUpperCase();
+        const mitraVal = document.getElementById('rMitra')?.value || 'all'; document.getElementById('printMitraLabel').innerText = mitraVal === 'all' ? 'SEMUA CABANG & MITRA' : mitraVal.replace(/\u200B/g, '').toUpperCase();
         const now = new Date(); const m = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"]; document.getElementById('printTimeLabel').innerText = `${now.getDate()} ${m[now.getMonth()]} ${now.getFullYear()} | ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')} WIB`; document.getElementById('sig-location').innerText = "Bojonegoro, " + now.getDate() + " " + m[now.getMonth()] + " " + now.getFullYear(); window.print();
     };
 
     window.saveTransaction = async () => { 
         if (window.userProfile?.appRole === 'admin') return; document.getElementById('loadingOverlay').classList.remove('hidden'); 
-        try { const mName = document.getElementById('f-mitra').value.toUpperCase(); if (!mName) throw "Pilih mitra."; const mData = window.allMitras.find(m => (m.display_name || '').toUpperCase() === mName) || { pct_pt: 20, pct_mitra: 80 }; const data = { tanggal: document.getElementById('f-tgl').value, mitra: mName, omset: parseFloat(document.getElementById('f-omset').value)||0, modal: parseFloat(document.getElementById('f-modal').value)||0, ops: parseFloat(document.getElementById('f-ops').value)||0, keterangan: document.getElementById('f-ket').value, pct_pt: mData.pct_pt, pct_mitra: mData.pct_mitra }; const lk = data.omset - data.modal, lb = lk - data.ops, csr = lb > 0 ? Math.round(lb * 0.05) : 0, res = lb - csr; const ptVal = Math.round(res*(data.pct_pt/100) / 100) * 100; const mtVal = res - ptVal; Object.assign(data, { lk, lb, csr, res, pt: ptVal, mitra_part: mtVal }); if (supabaseClient) await supabaseClient.from('transactions').insert([data]); else { data.id = 'local-' + Date.now(); window.allTransactions.unshift(data); } fetchTransactions(); document.getElementById('transForm').reset(); document.getElementById('liveCalcArea')?.classList.add('hidden'); window.showSRGModal({title:"BERHASIL", message:`Laporan tersimpan.`}); } catch (e) { window.showSRGModal({title:"Gagal", message: e.toString()}); } finally { hideLoadingSafe(); } 
+        try { const mName = document.getElementById('f-mitra').value; if (!mName) throw "Pilih mitra."; const mData = window.allMitras.find(m => m.display_name === mName) || { pct_pt: 20, pct_mitra: 80 }; const data = { tanggal: document.getElementById('f-tgl').value, mitra: mName, omset: parseFloat(document.getElementById('f-omset').value)||0, modal: parseFloat(document.getElementById('f-modal').value)||0, ops: parseFloat(document.getElementById('f-ops').value)||0, keterangan: document.getElementById('f-ket').value, pct_pt: mData.pct_pt, pct_mitra: mData.pct_mitra }; const lk = data.omset - data.modal, lb = lk - data.ops, csr = lb > 0 ? Math.round((lb * 0.05) / 100) * 100 : 0, res = lb - csr; const ptVal = Math.round(res*(data.pct_pt/100) / 100) * 100; const mtVal = res - ptVal; Object.assign(data, { lk, lb, csr, res, pt: ptVal, mitra_part: mtVal }); if (supabaseClient) await supabaseClient.from('transactions').insert([data]); else { data.id = 'local-' + Date.now(); window.allTransactions.unshift(data); } fetchTransactions(); document.getElementById('transForm').reset(); document.getElementById('liveCalcArea')?.classList.add('hidden'); window.showSRGModal({title:"BERHASIL", message:`Laporan tersimpan.`}); } catch (e) { window.showSRGModal({title:"Gagal", message: e.toString()}); } finally { hideLoadingSafe(); } 
     };
     
     window.localInputPreview = () => { const o = parseFloat(document.getElementById('f-omset')?.value||0), m = parseFloat(document.getElementById('f-modal')?.value||0), lk = o - m, a = document.getElementById('liveCalcArea'); if (o > 0 || m > 0) { a?.classList.remove('hidden'); document.getElementById('liveLabaKotor').innerText = fmt(lk); } else a?.classList.add('hidden'); };
     window.handleDeleteRequest = (id) => { window.showSRGModal({ title: "HAPUS?", message: "Hapus permanen?", confirmText: "YA", showCancel: true, onConfirm: async () => { document.getElementById('loadingOverlay').classList.remove('hidden'); try { if (!id.toString().includes('local-')) { await supabaseClient.from('transactions').delete().eq('id', id); } window.allTransactions = window.allTransactions.filter(x => x.id !== id); window.closeSRGModal(); window.refreshDashboard(); } finally { hideLoadingSafe(); } } }); };
     
-    // START APP (MODIFIED UNTUK MENGAMBIL DARI SUPABASE DULU)
     window.addEventListener('load', () => { 
         loadGlobalSettings().then(() => {
             const u = localStorage.getItem('srg_user'), p = localStorage.getItem('srg_pass'); 
