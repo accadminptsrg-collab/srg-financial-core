@@ -185,21 +185,26 @@
     /* === SETTINGAN KHUSUS UNTUK CETAK/PRINT PDF DI BROWSER === */
     @media print {
       .no-print { display: none !important; }
-      @page { margin: 15mm; } /* Margin Kertas Baku (A4) */
+      
+      /* Mengatur Margin Kertas: Atas dibuat mepet agar Kop tidak ada space kosong */
+      @page { 
+          margin-top: 5mm; 
+          margin-bottom: 15mm; 
+          margin-left: 15mm; 
+          margin-right: 15mm; 
+      }
       
       body { 
           background: white !important; 
           padding: 0 !important; 
           margin: 0 !important; 
           -webkit-print-color-adjust: exact; 
-          print-color-adjust: exact; /* Memastikan warna tabel / background tercetak akurat */
+          print-color-adjust: exact; 
       }
       
-      /* Sembunyikan navigasi dan elemen lain yang tidak perlu */
       .nav-container, #page-dashboard, #page-mitra, #page-profil, #page-input { display: none !important; }
       #appSection, #page-rekap { display: block !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
       
-      /* Paksa tabel agar garisnya rapi saat dicetak */
       table { min-width: 100% !important; border: 1pt solid black !important; border-collapse: collapse !important; margin-top: 15px !important;}
       th { background-color: #f1f5f9 !important; border: 1pt solid black !important; color: black !important; font-size: 8pt !important; padding: 6px !important; }
       td { border: 1pt solid black !important; color: black !important; font-size: 8pt !important; padding: 6px !important; }
@@ -209,24 +214,25 @@
       #report-kop { 
           display: block !important; 
           width: 100% !important; 
-          border-bottom: 3pt solid black !important; /* Garis tebal pemisah Kop dan Isi */
-          padding-bottom: 8px !important; /* Jarak ke garis dibuat lebih rapat */
+          border-bottom: 2pt solid black !important; /* Disesuaikan agar lebih elegan */
+          padding-bottom: 5px !important; 
           margin-bottom: 20px !important; 
+          margin-top: 0 !important;
           background: white !important;
       }
       #customKopImg:not(.hidden) {
           display: block !important;
           width: 100% !important;
-          max-height: 4.5cm !important; /* Diberi ruang tinggi lebih agar gambar bisa melebar penuh searah garis */
-          object-fit: contain !important; /* Skala proporsional */
-          object-position: center bottom !important; /* Memaksa gambar menempel pas di garis bawah */
-          mix-blend-mode: multiply !important; /* TRIK PRO: Menghapus latar putih/abu pada gambar agar transparan dan menyatu sempurna dengan kertas */
+          max-height: 3.2cm !important; /* Ketinggian dikurangi agar tidak terlalu kebesaran */
+          object-fit: contain !important; 
+          object-position: center bottom !important; 
+          mix-blend-mode: multiply !important; /* Menghilangkan Background Putih dari gambar */
       }
       
       #print-info-bar { display: flex !important; justify-content: space-between !important; margin-bottom: 15px !important; }
       #print-signature { display: block !important; page-break-inside: avoid !important; }
       .sig-name { font-weight: bold; border-bottom: 1.5pt solid black; margin-top: 70px; display: inline-block; min-width: 150px; }
-      #dynamic-bg-pattern { display: none !important; } /* Hilangkan Watermark di PDF agar tabel mudah dibaca */
+      #dynamic-bg-pattern { display: none !important; } 
     }
   </style>
 </head>
