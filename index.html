@@ -210,21 +210,23 @@
           display: block !important; 
           width: 100% !important; 
           border-bottom: 3pt solid black !important; /* Garis tebal pemisah Kop dan Isi */
-          padding-bottom: 15px !important; 
+          padding-bottom: 8px !important; /* Jarak ke garis dibuat lebih rapat */
           margin-bottom: 20px !important; 
+          background: white !important;
       }
       #customKopImg:not(.hidden) {
           display: block !important;
           width: 100% !important;
-          max-height: 2.5cm !important; /* Mencegah gambar raksasa */
+          max-height: 4.5cm !important; /* Diberi ruang tinggi lebih agar gambar bisa melebar penuh searah garis */
           object-fit: contain !important; /* Skala proporsional */
-          object-position: center !important; /* Di tengah kertas */
+          object-position: center bottom !important; /* Memaksa gambar menempel pas di garis bawah */
+          mix-blend-mode: multiply !important; /* TRIK PRO: Menghapus latar putih/abu pada gambar agar transparan dan menyatu sempurna dengan kertas */
       }
       
       #print-info-bar { display: flex !important; justify-content: space-between !important; margin-bottom: 15px !important; }
       #print-signature { display: block !important; page-break-inside: avoid !important; }
       .sig-name { font-weight: bold; border-bottom: 1.5pt solid black; margin-top: 70px; display: inline-block; min-width: 150px; }
-      #dynamic-bg-pattern { display: none !important; } /* Hilangkan Watermark di PDF */
+      #dynamic-bg-pattern { display: none !important; } /* Hilangkan Watermark di PDF agar tabel mudah dibaca */
     }
   </style>
 </head>
