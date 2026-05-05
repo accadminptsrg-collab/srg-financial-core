@@ -472,14 +472,28 @@
 
     const fmt = (v) => "Rp " + new Intl.NumberFormat('id-ID').format(Math.floor(Number(v) || 0));
 
-    // === MENGAMBIL DAN MENYIMPAN PENGATURAN GLOBAL (SUPABASE) ===
+    // === MENGAMBIL DAN MENYIMPAN PENGATURAN GLOBAL DENGAN SISTEM CADANGAN ===
     async function loadGlobalSettings() {
-        if (!supabaseClient) { window.applyBranding(null); return; }
+        // Ambil data lokal dulu sebagai cadangan (jika DB gagal/belum dibuat)
+        const localFallback = {
+            srg_name_long: localStorage.getItem('srg_name_long'),
+            srg_name_short: localStorage.getItem('srg_name_short'),
+            srg_custom_logo: localStorage.getItem('srg_custom_logo'),
+            srg_custom_kop: localStorage.getItem('srg_custom_kop')
+        };
+
+        if (!supabaseClient) { window.applyBranding(localFallback); return; }
+        
         try {
             const { data, error } = await supabaseClient.from('app_settings').select('*').eq('id', 'global_config').single();
-            if (data && !error) { window.applyBranding(data); } 
-            else { window.applyBranding(null); }
-        } catch(e) { window.applyBranding(null); }
+            if (data && !error) { 
+                window.applyBranding(data); 
+            } else { 
+                window.applyBranding(localFallback); 
+            }
+        } catch(e) { 
+            window.applyBranding(localFallback); 
+        }
     }
 
     // === BRANDING LOGIC ===
@@ -491,13 +505,11 @@
             img.onload = () => { 
                 const canvas = document.createElement('canvas'); 
                 let w = img.width, h = img.height; 
-                // Diperkecil lagi max-width nya agar tidak gagal disimpan ke DB
                 const maxW = imgId === 'preview-logo' ? 250 : 800; 
                 if (w > maxW) { h = Math.round((maxW / w) * h); w = maxW; } 
                 canvas.width = w; canvas.height = h; 
                 const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, w, h); 
                 const mimeType = imgId === 'preview-logo' ? 'image/png' : 'image/jpeg';
-                // Kualitas diturunkan sedikit (0.7) agar string base64 tidak melampaui batas database
                 const base64 = canvas.toDataURL(mimeType, 0.7); 
                 imgEl.setAttribute('src', base64); imgEl.style.display = 'block'; 
             }; 
@@ -516,27 +528,37 @@
         let validLogo = (pLogo && pLogo.startsWith('data:image')) ? pLogo : '';
         let validKop = (pKop && pKop.startsWith('data:image')) ? pKop : '';
 
-        // Simpan ke Supabase agar global
+        // Simpan ke Lokal juga (Sebagai Cadangan Darurat)
+        localStorage.setItem('srg_name_long', nLong); 
+        localStorage.setItem('srg_name_short', nShort);
+        if(validLogo) localStorage.setItem('srg_custom_logo', validLogo); else localStorage.removeItem('srg_custom_logo');
+        if(validKop) localStorage.setItem('srg_custom_kop', validKop); else localStorage.removeItem('srg_custom_kop');
+
+        // Simpan ke Supabase agar sinkron global ke semua Mitra
         if (supabaseClient) {
             try {
                 const payload = { id: 'global_config', srg_name_long: nLong, srg_name_short: nShort, srg_custom_logo: validLogo, srg_custom_kop: validKop };
                 const { error } = await supabaseClient.from('app_settings').upsert(payload, { onConflict: 'id' });
                 if(error) throw error;
-                await loadGlobalSettings(); // Muat ulang dari server
+                await loadGlobalSettings(); 
                 window.showSRGModal({title: "Branding Disimpan", message: "Profil visual berhasil diterapkan untuk semua akun."});
             } catch(e) {
-                window.showSRGModal({title: "Gagal Menyimpan", message: "Ukuran gambar terlalu besar atau koneksi terputus."});
+                window.applyBranding({srg_name_long: nLong, srg_name_short: nShort, srg_custom_logo: validLogo, srg_custom_kop: validKop}); // Terapkan lokal
+                window.showSRGModal({title: "Disimpan Lokal", message: "Profil tersimpan di peramban ini (Database belum siap/penuh)."});
             }
+        } else {
+            window.applyBranding({srg_name_long: nLong, srg_name_short: nShort, srg_custom_logo: validLogo, srg_custom_kop: validKop}); // Terapkan lokal
+            window.showSRGModal({title: "Disimpan Lokal", message: "Profil tersimpan di peramban ini."});
         }
         document.getElementById('loadingOverlay').classList.add('hidden');
     };
 
-    window.applyBranding = (globalData) => {
-        // Jika tidak ada data dari DB, pakai teks bawaan
-        const nLong = globalData?.srg_name_long || "PT SUBUR RAYA GROUP";
-        const nShort = globalData?.srg_name_short || "PT SR Group";
-        const cLogo = globalData?.srg_custom_logo || "";
-        const cKop = globalData?.srg_custom_kop || "";
+    window.applyBranding = (dataObj) => {
+        // Ambil data yang diberikan (dari DB atau Lokal), fallback ke default
+        const nLong = dataObj?.srg_name_long || localStorage.getItem('srg_name_long') || "PT SUBUR RAYA GROUP";
+        const nShort = dataObj?.srg_name_short || localStorage.getItem('srg_name_short') || "PT SR Group";
+        const cLogo = dataObj?.srg_custom_logo || localStorage.getItem('srg_custom_logo') || "";
+        const cKop = dataObj?.srg_custom_kop || localStorage.getItem('srg_custom_kop') || "";
         
         [document.getElementById('loginTitleText'), document.getElementById('printTitleLong')].forEach(el => { if(el) el.innerText = nLong.toUpperCase(); });
         [document.getElementById('navTitleText')].forEach(el => { if(el) el.innerText = nShort.toUpperCase(); });
@@ -555,8 +577,8 @@
         
         const inLong = document.getElementById('pt-name-long'); if(inLong) inLong.value = nLong;
         const inShort = document.getElementById('pt-name-short'); if(inShort) inShort.value = nShort;
-        const pL = document.getElementById('preview-logo'); if(pL) { if (cLogo) { pL.setAttribute('src', cLogo); pL.style.display = 'block'; } else { pL.removeAttribute('src'); pL.style.display = 'none'; } }
-        const pK = document.getElementById('preview-kop'); if(pK) { if (cKop) { pK.setAttribute('src', cKop); pK.style.display = 'block'; } else { pK.removeAttribute('src'); pK.style.display = 'none'; } }
+        const pL = document.getElementById('preview-logo'); if(pL) { if (cLogo && cLogo.startsWith('data:image')) { pL.setAttribute('src', cLogo); pL.style.display = 'block'; } else { pL.removeAttribute('src'); pL.style.display = 'none'; } }
+        const pK = document.getElementById('preview-kop'); if(pK) { if (cKop && cKop.startsWith('data:image')) { pK.setAttribute('src', cKop); pK.style.display = 'block'; } else { pK.removeAttribute('src'); pK.style.display = 'none'; } }
         
         const bgPattern = document.getElementById('dynamic-bg-pattern');
         if (bgPattern) { if (cLogo && cLogo.startsWith('data:image')) { bgPattern.style.backgroundImage = `url('${cLogo}')`; bgPattern.style.opacity = '0.08'; } else { bgPattern.style.backgroundImage = 'none'; } }
