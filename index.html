@@ -472,7 +472,7 @@
 
     try { if (typeof supabase !== 'undefined') { supabaseClient = supabase.createClient(supabaseUrl, supabaseKey); } } catch (e) { console.error("Database Init Error."); }
 
-    const fmt = (v) => "Rp " + new Intl.NumberFormat('id-ID').format(Math.floor(Number(v) || 0));
+    const fmt = (v) => "Rp " + new Intl.NumberFormat('id-ID').format(Math.round(Number(v) || 0));
 
     // === MENGAMBIL DAN MENYIMPAN PENGATURAN GLOBAL DENGAN SISTEM CADANGAN ===
     async function loadGlobalSettings() {
