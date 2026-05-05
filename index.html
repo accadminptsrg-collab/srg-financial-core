@@ -802,63 +802,23 @@
     window.handleLogoutRequest = () => { window.showSRGModal({ title: "KELUAR?", message: "Hapus sesi Anda?", confirmText: "YA", showCancel: true, onConfirm: () => { localStorage.removeItem('srg_user'); localStorage.removeItem('srg_pass'); location.reload(); } }); };
 
     window.handlePrintRequest = () => {
-        document.getElementById('loadingOverlay').classList.remove('hidden');
-        
-        const mitraVal = document.getElementById('rMitra')?.value || 'all'; 
-        document.getElementById('printMitraLabel').innerText = mitraVal === 'all' ? 'SEMUA MITRA' : mitraVal.toUpperCase();
+        const mitraVal = document.getElementById('rMitra')?.value || 'all'; document.getElementById('printMitraLabel').innerText = mitraVal === 'all' ? 'SEMUA MITRA' : mitraVal.toUpperCase();
         const now = new Date(); const m = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"]; 
         document.getElementById('printTimeLabel').innerText = `${now.getDate()} ${m[now.getMonth()]} ${now.getFullYear()} | ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')} WIB`; 
         document.getElementById('sig-location').innerText = "Bojonegoro, " + now.getDate() + " " + m[now.getMonth()] + " " + now.getFullYear(); 
         
-        // 1. Sembunyikan elemen UI yang tidak perlu ikut tercetak
-        const noPrintElements = document.querySelectorAll('#page-rekap .no-print');
-        noPrintElements.forEach(el => el.classList.add('hidden'));
+        // Panggil dialog cetak bawaan sistem
+        window.print();
         
-        // 2. Tampilkan Kop Surat & Area Tanda Tangan
-        const printKop = document.getElementById('report-kop');
-        const printInfo = document.getElementById('print-info-bar');
-        const printSig = document.getElementById('print-signature');
-        
-        if (printKop) { printKop.classList.remove('hidden'); printKop.classList.add('block'); }
-        if (printInfo) { printInfo.classList.remove('hidden'); printInfo.classList.add('block'); }
-        if (printSig) { printSig.classList.remove('hidden'); printSig.classList.add('block'); }
-        
-        // 3. Pastikan tabel terbuka penuh (tidak terscroll)
-        const tableContainer = document.querySelector('#page-rekap .table-container');
-        if (tableContainer) tableContainer.classList.remove('overflow-x-auto');
-
-        // Target area cetak
-        const element = document.getElementById('page-rekap');
-        
-        // Setting PDF
-        const opt = {
-            margin:       0.4,
-            filename:     `Laporan_Keuangan_SRG_${now.getTime()}.pdf`,
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2, useCORS: true },
-            jsPDF:        { unit: 'in', format: 'a4', orientation: 'landscape' }
-        };
-
-        // Eksekusi Pembuatan PDF
-        if (typeof html2pdf !== 'undefined') {
-            html2pdf().set(opt).from(element).save().then(() => {
-                // 4. Kembalikan semua tampilan UI setelah PDF jadi
-                noPrintElements.forEach(el => el.classList.remove('hidden'));
-                if (printKop) { printKop.classList.add('hidden'); printKop.classList.remove('block'); }
-                if (printInfo) { printInfo.classList.add('hidden'); printInfo.classList.remove('block'); }
-                if (printSig) { printSig.classList.add('hidden'); printSig.classList.remove('block'); }
-                if (tableContainer) tableContainer.classList.add('overflow-x-auto');
-                
-                document.getElementById('loadingOverlay').classList.add('hidden');
-                window.showSRGModal({title: "Berhasil", message: "File PDF berhasil dibuat dan telah diunduh."});
-            }).catch(e => {
-                document.getElementById('loadingOverlay').classList.add('hidden');
-                window.showSRGModal({title: "Gagal", message: "Terjadi kesalahan saat membuat file PDF."});
-            });
-        } else {
-            document.getElementById('loadingOverlay').classList.add('hidden');
-            window.showSRGModal({title: "Koneksi Bermasalah", message: "Gagal memuat modul PDF. Periksa internet Anda."});
-        }
+        // Deteksi perlindungan layar Iframe (Pratinjau) dan berikan instruksi
+        setTimeout(() => {
+            if (window.self !== window.top) {
+                window.showSRGModal({
+                    title: "INFO MODE PRATINJAU", 
+                    message: "Layar cetak mungkin tidak muncul karena diblokir oleh sistem layar Pratinjau. Silakan buka aplikasi ini di Tab Baru (ikon panah kotak di pojok kanan atas layar Anda) agar bisa mencetak & menyimpan PDF."
+                });
+            }
+        }, 1000);
     };
 
     window.saveTransaction = async () => { 
