@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>PT SUBUR RAYA GROUP - Financial Core Premium v20.0</title>
+  <title>PT SUBUR RAYA GROUP - Financial Core Premium v20.1</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -182,13 +182,21 @@
     .upload-area:hover { border-color: var(--srg-gold); background: #fdfbf7; }
     .upload-preview { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #fff; z-index: 10; display: none; }
 
+    /* === SETTINGAN KHUSUS UNTUK CETAK/PRINT DI BROWSER === */
     @media print {
       .no-print { display: none !important; }
       body { background: white !important; padding: 0 !important; margin: 0 !important; }
-      #appSection, #page-rekap { display: block !important; width: 100% !important; margin: 0 !important; padding: 0.8cm !important; }
-      table { min-width: 100% !important; border: 1.5pt solid black !important; }
+      /* Sembunyikan navigasi dan elemen lain yang tidak perlu */
+      .nav-container, #page-dashboard, #page-mitra, #page-profil, #page-input { display: none !important; }
+      #appSection, #page-rekap { display: block !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
+      /* Paksa tabel agar garisnya rapi saat dicetak */
+      table { min-width: 100% !important; border: 1.5pt solid black !important; border-collapse: collapse !important; }
       th, td { border: 1pt solid black !important; color: black !important; font-size: 9pt !important; padding: 8px !important; }
-      .premium-card { border: none !important; box-shadow: none !important; }
+      .premium-card { border: none !important; box-shadow: none !important; padding: 0 !important; }
+      /* Tampilkan Kop Surat dan Area Tanda Tangan */
+      #report-kop, #print-info-bar, #print-signature { display: block !important; }
+      /* Sembunyikan Watermark agar laporan terlihat bersih */
+      #dynamic-bg-pattern { display: none !important; }
     }
   </style>
 </head>
@@ -418,8 +426,31 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 items-end text-left"><div class="col-span-2 md:col-span-1 text-left"><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1">Metode Periode</label><select id="rekapFilterType" onchange="window.toggleRekapInputs()" class="premium-input w-full px-3 py-2 text-[10px] font-semibold"><option value="range">Rentang Tanggal</option><option value="month">Satu Bulan</option><option value="year">Satu Tahun</option></select></div><div id="r-range-fields" class="contents text-left"><div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1 text-left">Awal</label><input type="date" id="rStart" class="premium-input w-full px-2 py-2 text-[10px] font-semibold text-left"></div><div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1 text-left">Akhir</label><input type="date" id="rEnd" class="premium-input w-full px-2 py-2 text-[10px] font-semibold text-left"></div></div><div id="r-month-fields" class="hidden col-span-2 md:col-span-1 text-left"><div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1 text-left">Bulan</label><input type="month" id="rMonth" class="premium-input w-full px-3 py-2 text-[10px] font-semibold text-left"></div></div><div id="r-year-fields" class="hidden col-span-2 md:col-span-1 text-left"><div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1 text-left">Tahun</label><input type="number" id="rYear" class="premium-input w-full px-3 py-2 text-[10px] font-semibold text-left" placeholder="2026"></div></div><div class="col-span-2 md:col-span-1 text-left"><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1 text-left">Target Mitra</label><select id="rMitra" class="premium-input w-full px-3 py-2 text-[10px] font-semibold cursor-pointer"></select></div></div>
             <button onclick="window.refreshRekapDashboard()" class="w-full mt-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[10px] rounded-xl transition-colors border border-slate-200 uppercase tracking-widest"><i class="fas fa-search mr-2"></i> Terapkan Filter</button>
         </div>
+        <div id="print-info-bar" class="hidden print:block mb-4 md:mb-6 px-2 text-[8pt] md:text-[9pt] border-l-4 border-slate-400 pl-3">
+            <div class="flex justify-between items-end">
+                <div><p class="uppercase text-[6pt] md:text-[7pt] text-slate-500 font-bold mb-0.5">Filter Data:</p><p id="printMitraLabel" class="font-bold text-slate-800">SEMUA MITRA</p></div>
+                <div class="text-right"><p class="uppercase text-[6pt] md:text-[7pt] text-slate-500 font-bold mb-0.5">Dihasilkan Pada:</p><p id="printTimeLabel" class="font-mono text-slate-800">-</p></div>
+            </div>
+        </div>
         <div id="rekapStats" class="grid grid-cols-2 lg:grid-cols-4 gap-3 no-print text-left"></div>
         <div id="rekapTableWrapper" class="premium-card overflow-hidden text-left"><div class="p-4 border-b bg-slate-50 text-left"><h3 class="font-bold text-slate-800 text-xs text-left">Rincian Dokumen</h3></div><p class="table-scroll-hint mr-4 mt-2">Geser tabel ke samping <i class="fas fa-arrows-alt-h mx-1"></i></p><div class="table-container border-none rounded-none overflow-x-auto text-left"><table class="w-full text-left"><thead><tr><th class="w-[100px]">Tanggal</th><th class="w-[150px]">Mitra</th><th class="text-right w-[110px]">Laba Bersih</th><th class="text-right w-[160px]">Biaya Ops</th><th class="text-right w-[80px]">CSR</th><th class="text-right w-[120px]">Porsi PT</th><th class="text-right w-[120px]">Porsi Mitra</th></tr></thead><tbody id="rekapTable"></tbody></table></div></div>
+        
+        <div id="print-signature" class="hidden print:block text-center mt-12 md:mt-16 pb-6 md:pb-8">
+            <div class="text-right mr-10 md:mr-16 mb-16 md:mb-20 text-[8pt] md:text-[9pt]" id="sig-location">Bojonegoro, [Tanggal]</div>
+            <div class="flex flex-row justify-between px-[5%] md:px-[10%]">
+                <div class="text-center">
+                    <p class="font-medium text-[8pt] md:text-[9pt] mb-12 md:mb-16">Disetujui Oleh,</p>
+                    <div class="sig-name">Burhan Ari Mukti</div>
+                    <div class="font-bold uppercase text-[6pt] md:text-[7pt] text-slate-600 mt-1">Direktur Utama</div>
+                </div>
+                <div class="text-center">
+                    <p class="font-medium text-[8pt] md:text-[9pt] mb-12 md:mb-16">Disahkan Oleh,</p>
+                    <div class="sig-name">M. Nasyruddin Mujtaba M.A</div>
+                    <div class="font-bold uppercase text-[6pt] md:text-[7pt] text-slate-600 mt-1">Accounting & Administrasi</div>
+                </div>
+            </div>
+        </div>
+
       </div>
     </main>
 
@@ -434,7 +465,7 @@
   </div>
 
   <script>
-    // === DEKLARASI GLOBAL MENCEGAH REFERENCE ERROR ===
+    // === DEKLARASI GLOBAL ===
     window.userProfile = null; 
     window.allTransactions = []; 
     window.allMitras = []; 
@@ -593,15 +624,12 @@
 
     // === CORE LOGIC ===
     window.handleAdminMitraSelect = () => { 
-        // Logika memunculkan field input jika mitra terpilih
         const fMitra = document.getElementById('f-mitra');
         const mFields = document.getElementById('mitraOnlyFields');
         if (mFields && fMitra) {
             if (fMitra.value && fMitra.value !== "") mFields.classList.remove('hidden');
             else mFields.classList.add('hidden');
         }
-        
-        // Segarkan data sidebar
         window.refreshSidebarHistory(); 
     };
     
@@ -622,7 +650,7 @@
           const bm = [{u: 'albarokahshop30', p: 'mitrasubur1', n: 'ALBAROKAHSHOP30'}, {u: 'radiator tunggaksemi', p: 'mitrasubur2', n: 'RADIATOR TUNGGAKSEMI'}].find(x => x.u === u && x.p === p);
           if (bm) { loginSuccess('mitra', bm.n, u, p, remember, silent); return; }
           if (supabaseClient) { const { data } = await supabaseClient.from('mitras').select('*').eq('username', u).eq('password', p).single(); if (data) { loginSuccess('mitra', data.display_name, u, p, remember, silent); return; } }
-          if (!silent) window.showSRGModal({title: "Gagal", message: "ID atau Sandi Akses yang Anda masukkan salah."});
+          if (!silent) window.showSRGModal({title: "Autentikasi Gagal", message: "ID atau Kata Sandi yang Anda masukkan salah."});
       } catch (e) { console.error(e); } finally { hideLoadingSafe(); }
     };
 
@@ -657,7 +685,6 @@
         const fm = document.getElementById('f-mitra'); if(window.userProfile?.appRole === 'mitra' && fm) { fm.value = window.userProfile.appDisplayName; fm.disabled = true; }
     }
 
-    // === FUNGSI TAMBAH & EDIT MITRA (PENYEMPURNAAN) ===
     window.addNewMitra = async () => {
         const u = document.getElementById('m-user').value.trim(), p = document.getElementById('m-pass').value.trim(), n = document.getElementById('m-name').value.trim(), ppt = parseFloat(document.getElementById('m-pct-pt').value) || 20, pmt = parseFloat(document.getElementById('m-pct-mitra').value) || 80;
         if ((ppt + pmt) !== 100) { window.showSRGModal({title:"Validasi Gagal", message:"Total bagi hasil harus tepat 100%!"}); return; }
@@ -681,7 +708,6 @@
 
     window.toggleMitraPassVisibility = (id) => { mitraPassVisibility[id] = !mitraPassVisibility[id]; renderMitraManagement(); };
     
-    // Fitur Baru: Admin kini bisa mengganti Nama Bisnis Mitra (display_name)
     window.handleEditMitra = (id) => {
         const m = window.allMitras.find(x => x.id === id); if(!m) return;
         window.showSRGModal({ 
@@ -801,24 +827,19 @@
     window.handleSyncRequest = () => { document.getElementById('loadingOverlay').classList.remove('hidden'); fetchMitras(); fetchTransactions().then(() => window.showSRGModal({ title: "SINKRONISASI", message: "Data terbaru telah dimuat." })); };
     window.handleLogoutRequest = () => { window.showSRGModal({ title: "KELUAR?", message: "Hapus sesi Anda?", confirmText: "YA", showCancel: true, onConfirm: () => { localStorage.removeItem('srg_user'); localStorage.removeItem('srg_pass'); location.reload(); } }); };
 
+    // === FUNGSI CETAK BROWSER ASLI (BERFUNGSI PENUH DI VERCEL) ===
     window.handlePrintRequest = () => {
-        const mitraVal = document.getElementById('rMitra')?.value || 'all'; document.getElementById('printMitraLabel').innerText = mitraVal === 'all' ? 'SEMUA MITRA' : mitraVal.toUpperCase();
-        const now = new Date(); const m = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"]; 
+        // Atur label dan tanggal di header dokumen cetak
+        const mitraVal = document.getElementById('rMitra')?.value || 'all'; 
+        document.getElementById('printMitraLabel').innerText = mitraVal === 'all' ? 'SEMUA MITRA' : mitraVal.toUpperCase();
+        
+        const now = new Date(); 
+        const m = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"]; 
         document.getElementById('printTimeLabel').innerText = `${now.getDate()} ${m[now.getMonth()]} ${now.getFullYear()} | ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')} WIB`; 
         document.getElementById('sig-location').innerText = "Bojonegoro, " + now.getDate() + " " + m[now.getMonth()] + " " + now.getFullYear(); 
         
-        // Panggil dialog cetak bawaan sistem
+        // Panggil dialog cetak bawaan browser (Langsung bekerja di Vercel)
         window.print();
-        
-        // Deteksi perlindungan layar Iframe (Pratinjau) dan berikan instruksi
-        setTimeout(() => {
-            if (window.self !== window.top) {
-                window.showSRGModal({
-                    title: "INFO MODE PRATINJAU", 
-                    message: "Layar cetak mungkin tidak muncul karena diblokir oleh sistem layar Pratinjau. Silakan buka aplikasi ini di Tab Baru (ikon panah kotak di pojok kanan atas layar Anda) agar bisa mencetak & menyimpan PDF."
-                });
-            }
-        }, 1000);
     };
 
     window.saveTransaction = async () => { 
