@@ -405,17 +405,17 @@
 
       <!-- PAGE REKAP/LAPORAN -->
       <div id="page-rekap" class="page-content hidden space-y-5 text-left">
-        <div id="report-kop" class="hidden print:block text-left">
-            <div id="defaultKop" class="flex items-center space-x-4 text-left">
-                <div id="printLogoContainer" style="background-color: var(--srg-green); border: 2px solid var(--srg-gold);" class="w-14 h-14 rounded-xl flex items-center justify-center overflow-hidden shrink-0">
+        <div id="report-kop" class="hidden print:block">
+            <div id="defaultKop" class="relative flex items-center justify-center min-h-[70px] w-full">
+                <div id="printLogoContainer" style="background-color: var(--srg-green); border: 2px solid var(--srg-gold);" class="absolute left-2 top-1/2 -translate-y-1/2 w-14 h-14 rounded-xl flex items-center justify-center overflow-hidden shrink-0">
                     <span class="default-logo text-[var(--srg-gold)] font-black text-xl">SRG</span>
                 </div>
-                <div class="text-left flex-grow">
-                    <h1 id="printTitleLong" class="text-2xl font-black text-slate-900 uppercase tracking-tight text-left leading-none mb-1">PT SUBUR RAYA GROUP</h1>
-                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest text-left">Laporan Keuangan Resmi Perusahaan</p>
+                <div class="text-center px-20">
+                    <h1 id="printTitleLong" class="text-2xl font-black text-slate-900 uppercase tracking-tight leading-none mb-1.5">PT SUBUR RAYA GROUP</h1>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Laporan Keuangan Resmi Perusahaan</p>
                 </div>
             </div>
-            <img id="customKopImg" class="hidden">
+            <img id="customKopImg" class="hidden mx-auto">
         </div>
 
         <div class="premium-card p-5 md:p-8 no-print text-left">
