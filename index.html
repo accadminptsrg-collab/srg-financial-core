@@ -159,6 +159,9 @@
     td { padding: 16px 12px; vertical-align: middle; font-size: 13px; font-weight: 500; border-bottom: 1px solid #f1f5f9; }
     tr:hover td { background-color: #f8fafc; }
 
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
@@ -308,9 +311,26 @@
     <main class="mx-auto pt-24 md:pt-28 pb-safe-nav md:pb-20 w-full max-w-6xl px-3 md:px-4 relative z-10 text-left">
       <!-- PAGE DASHBOARD -->
       <div id="page-dashboard" class="page-content hidden space-y-6 md:space-y-8">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-4 text-left">
-            <div><h2 class="text-xl md:text-2xl font-extrabold text-slate-800 tracking-tight">Kinerja Keuangan</h2><p id="dashboardScope" class="text-[10px] md:text-xs text-slate-500 font-medium mt-0.5 md:mt-1"></p></div>
-            <div id="adminFilter" class="hidden flex items-center bg-white p-1 md:p-1.5 rounded-xl border border-slate-200 shadow-sm w-full md:w-auto"><span class="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase ml-3 mr-2"><i class="fas fa-filter mr-1"></i> Filter:</span><select id="mitraFilter" onchange="window.refreshDashboard()" class="bg-transparent w-full border-none text-[10px] md:text-xs font-bold text-slate-700 outline-none cursor-pointer py-1.5 px-2 hover:bg-slate-50 rounded-lg transition-colors"></select></div>
+        <div class="flex flex-col xl:flex-row xl:items-start justify-between gap-3 md:gap-4 text-left">
+            <div class="shrink-0">
+                <h2 class="text-xl md:text-2xl font-extrabold text-slate-800 tracking-tight">Kinerja Keuangan</h2>
+                <p id="dashboardScope" class="text-[10px] md:text-xs text-slate-500 font-medium mt-0.5 md:mt-1"></p>
+            </div>
+            
+            <div id="adminFilter" class="hidden flex-col xl:flex-row items-end xl:items-center gap-2 xl:gap-3 w-full md:w-auto mt-2 md:mt-0">
+                <div class="flex bg-slate-100/80 p-1 md:p-1.5 rounded-xl w-full xl:w-auto overflow-x-auto no-scrollbar shrink-0">
+                    <button onclick="window.setMacroFilter('all')" id="tab-macro-all" class="flex-1 px-3 py-2 text-[10px] md:text-xs font-extrabold rounded-lg bg-white shadow-sm text-[var(--srg-green)] border border-slate-200 transition-all whitespace-nowrap">Semua Jaringan</button>
+                    <button onclick="window.setMacroFilter('unit')" id="tab-macro-unit" class="flex-1 px-3 py-2 text-[10px] md:text-xs font-bold rounded-lg text-slate-500 hover:text-slate-800 transition-all whitespace-nowrap">Unit Usaha PT</button>
+                    <button onclick="window.setMacroFilter('mitra')" id="tab-macro-mitra" class="flex-1 px-3 py-2 text-[10px] md:text-xs font-bold rounded-lg text-slate-500 hover:text-slate-800 transition-all whitespace-nowrap">Mitra Usaha PT</button>
+                </div>
+                <div id="microFilterContainer" class="hidden w-full xl:w-auto shrink-0">
+                    <div class="flex items-center bg-white p-1 md:p-1.5 rounded-xl border border-slate-200 shadow-sm w-full">
+                        <span class="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase ml-3 mr-2 shrink-0"><i class="fas fa-search mr-1"></i> Rincian:</span>
+                        <select id="mitraFilter" onchange="window.refreshDashboard()" class="bg-transparent w-full border-none text-[10px] md:text-xs font-bold text-[var(--srg-gold)] outline-none cursor-pointer py-1.5 px-2 hover:bg-slate-50 rounded-lg transition-colors max-w-[200px] truncate"></select>
+                    </div>
+                </div>
+            </div>
+
         </div>
         <div id="dashboardStats" class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-5 mb-6 md:mb-8 text-left"></div>
         <div id="adminChartsWrapper" class="hidden text-left">
@@ -332,7 +352,7 @@
             <h2 class="text-xl md:text-2xl font-extrabold text-slate-800 tracking-tight mb-5 md:mb-6 text-left">Pendaftaran Entitas Baru</h2>
             <form id="mitraForm" onsubmit="event.preventDefault(); window.addNewMitra();" class="space-y-4 md:space-y-6">
                 <div class="flex items-center space-x-6 pb-2 border-b border-slate-100">
-                    <label class="flex items-center space-x-2 cursor-pointer group"><input type="radio" name="entityType" value="mitra" checked onchange="window.toggleEntityType()" class="w-4 h-4 text-[var(--srg-green)] focus:ring-[var(--srg-green)]"><span class="text-xs md:text-sm font-bold text-slate-700 group-hover:text-[var(--srg-green)]">Mitra PT SR Group</span></label>
+                    <label class="flex items-center space-x-2 cursor-pointer group"><input type="radio" name="entityType" value="mitra" checked onchange="window.toggleEntityType()" class="w-4 h-4 text-[var(--srg-green)] focus:ring-[var(--srg-green)]"><span class="text-xs md:text-sm font-bold text-slate-700 group-hover:text-[var(--srg-green)]">Mitra Usaha PT</span></label>
                     <label class="flex items-center space-x-2 cursor-pointer group"><input type="radio" name="entityType" value="unit" onchange="window.toggleEntityType()" class="w-4 h-4 text-[var(--srg-green)] focus:ring-[var(--srg-green)]"><span class="text-xs md:text-sm font-bold text-slate-700 group-hover:text-[var(--srg-green)]">Unit Usaha PT</span></label>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5 text-left">
@@ -344,7 +364,7 @@
                     <p class="text-[10px] md:text-xs font-bold text-slate-700 mb-3 md:mb-4 flex items-center"><i class="fas fa-sliders-h mr-2 text-[var(--srg-gold)]"></i> Konfigurasi Bagi Hasil</p>
                     <div class="grid grid-cols-2 gap-4 md:gap-5 text-left">
                         <div><label class="block text-[8px] md:text-[10px] font-bold text-slate-500 uppercase mb-1 text-left">Jatah PT (%)</label><input type="number" id="m-pct-pt" required value="20" oninput="window.syncPct('pt')" class="premium-input w-full px-3 md:px-4 py-2.5 md:py-3 text-base md:text-lg font-bold text-[var(--srg-green)]"></div>
-                        <div><label class="block text-[8px] md:text-[10px] font-bold text-slate-500 uppercase mb-1 text-left" id="label-m-pct-mitra">Jatah Mitra PT SR Group (%)</label><input type="number" id="m-pct-mitra" required value="80" oninput="window.syncPct('mitra')" class="premium-input w-full px-3 md:px-4 py-2.5 md:py-3 text-base md:text-lg font-bold text-orange-600"></div>
+                        <div><label class="block text-[8px] md:text-[10px] font-bold text-slate-500 uppercase mb-1 text-left" id="label-m-pct-mitra">Jatah Mitra Usaha PT (%)</label><input type="number" id="m-pct-mitra" required value="80" oninput="window.syncPct('mitra')" class="premium-input w-full px-3 md:px-4 py-2.5 md:py-3 text-base md:text-lg font-bold text-orange-600"></div>
                     </div>
                 </div>
                 <div class="pt-2"><button type="submit" id="btnRegisMitra" class="btn-premium w-full py-3.5 md:py-4 text-xs md:text-sm shadow-md uppercase font-black tracking-widest">Simpan Entitas Baru <i class="fas fa-check ml-2"></i></button></div>
@@ -358,7 +378,7 @@
             </div>
             
             <div class="premium-card p-5 md:p-6 text-left border-l-4 border-l-orange-400">
-                <div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-3"><h3 class="font-bold text-orange-700 text-sm md:text-base flex items-center"><i class="fas fa-handshake mr-2 text-[var(--srg-gold)]"></i> Mitra PT SR Group</h3><span class="bg-orange-100 text-orange-700 text-[9px] px-2 py-1 rounded font-bold uppercase">Bagi Hasil</span></div>
+                <div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-3"><h3 class="font-bold text-orange-700 text-sm md:text-base flex items-center"><i class="fas fa-handshake mr-2 text-[var(--srg-gold)]"></i> Mitra Usaha PT</h3><span class="bg-orange-100 text-orange-700 text-[9px] px-2 py-1 rounded font-bold uppercase">Bagi Hasil</span></div>
                 <p class="table-scroll-hint text-right">Geser tabel ke samping <i class="fas fa-arrows-alt-h mx-1"></i></p>
                 <div class="table-container overflow-x-auto text-left"><table class="w-full text-left"><thead><tr><th class="w-[120px] md:w-[150px]">ID Login</th><th class="w-[150px] md:w-[200px]">Nama Mitra</th><th class="w-[160px] md:w-[180px]">Bagi Hasil</th><th class="w-[120px] md:w-[150px]">Keamanan</th><th class="text-center w-[100px] md:w-[120px]">Aksi</th></tr></thead><tbody id="mitraTableBody"></tbody></table></div>
             </div>
@@ -415,7 +435,23 @@
                 </form>
             </div>
             <div id="inputSidebar" class="lg:col-span-5 space-y-5 md:space-y-6 text-left">
-              <div class="premium-card p-5 md:p-6 h-full flex flex-col text-left"><div class="flex items-center justify-between mb-5 md:mb-6 pb-3 md:pb-4 border-b border-slate-100 text-left"><h3 class="font-extrabold text-slate-800 text-base md:text-lg">Arsip & Kalkulasi</h3><i class="fas fa-chart-line text-[var(--srg-gold)] text-lg md:text-xl"></i></div><div id="adminMonitorSelect" class="hidden mb-4 md:mb-5 text-left"><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1 text-left">Pilih Mitra Dimonitor</label><select id="f-mitra-monitor" onchange="window.handleAdminMitraSelect()" class="premium-input w-full px-3 py-2.5 text-xs md:text-sm font-semibold cursor-pointer"></select></div><div class="space-y-3 md:space-y-4 flex-grow text-left"><div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1">Filter Waktu</label><select id="sidebarFilterType" onchange="window.toggleSidebarInputs()" class="premium-input w-full px-3 py-2.5 text-[10px] md:text-xs font-semibold cursor-pointer"><option value="range">Range Tanggal Khusus</option><option value="month">Periode Bulanan</option><option value="year">Periode Tahunan</option></select></div><div id="s-range-inputs" class="grid grid-cols-2 gap-2 text-left"><div><input type="date" id="mStart" class="premium-input w-full px-2 py-2 text-[10px] font-semibold text-left"></div><div><input type="date" id="mEnd" class="premium-input w-full px-2 py-2 text-[10px] font-semibold text-left"></div></div><div id="s-month-inputs" class="hidden text-left"><input type="month" id="mMonth" class="premium-input w-full px-3 py-2 text-[10px] font-semibold"></div><div id="s-year-inputs" class="hidden text-left"><input type="number" id="mYear" class="premium-input w-full px-3 py-2 text-[10px] font-semibold" placeholder="2026"></div><button onclick="window.refreshSidebarHistory()" class="w-full py-2.5 mt-1 md:mt-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[10px] md:text-xs rounded-lg border border-slate-200 uppercase tracking-widest text-center">Hitung Data</button><div id="historyResult" class="pt-5 mt-5 border-t border-slate-100 space-y-2 text-left"><div class="p-3 md:p-4 rounded-xl stat-card-gold flex justify-between items-center text-left"><p class="text-[9px] md:text-[10px] font-bold uppercase text-[var(--srg-gold)] text-left">Total Pemasukan</p><h4 id="hOmset" class="text-base md:text-lg font-extrabold text-slate-800 text-right">Rp 0</h4></div><div class="grid grid-cols-2 gap-2 text-left"><div class="p-2.5 md:p-3.5 rounded-xl stat-card-success text-left"><p class="text-[8px] md:text-[9px] font-bold uppercase text-emerald-600 mb-0.5 text-left">Laba Kotor</p><h5 id="hLabaKotor" class="text-xs md:text-sm font-extrabold text-emerald-800 text-left">Rp 0</h5></div><div class="p-2.5 md:p-3.5 rounded-xl bg-slate-100 border border-slate-200 text-left"><p class="text-[8px] md:text-[9px] font-bold uppercase text-slate-500 mb-0.5 text-left">Alokasi CSR (5%)</p><h5 id="hCSR" class="text-xs md:text-sm font-extrabold text-slate-700 text-left">Rp 0</h5></div><div class="p-2.5 md:p-3.5 rounded-xl stat-card-dark text-left"><p id="labelPT" class="text-[8px] md:text-[9px] font-bold uppercase text-[var(--srg-gold)] mb-0.5 text-left">Jatah PT (..%)</p><h5 id="hPT" class="text-xs md:text-sm font-extrabold text-left">Rp 0</h5></div><div class="p-2.5 md:p-3.5 rounded-xl bg-orange-50 border border-orange-100 text-left"><p id="labelMitra" class="text-[8px] md:text-[9px] font-bold uppercase text-orange-600 mb-0.5 text-left">Jatah Mitra (..%)</p><h5 id="hPartner" class="text-xs md:text-sm font-extrabold text-orange-700 text-left">Rp 0</h5></div></div></div></div></div>
+              <div class="premium-card p-5 md:p-6 h-full flex flex-col text-left">
+                  <div class="flex items-center justify-between mb-5 md:mb-6 pb-3 md:pb-4 border-b border-slate-100 text-left"><h3 class="font-extrabold text-slate-800 text-base md:text-lg">Arsip & Kalkulasi</h3><i class="fas fa-chart-line text-[var(--srg-gold)] text-lg md:text-xl"></i></div>
+                  
+                  <div id="adminMonitorSelect" class="hidden mb-4 md:mb-5 text-left flex-col gap-2">
+                      <label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1 text-left">Target Pemantauan</label>
+                      <div class="flex bg-slate-100/80 p-1 md:p-1.5 rounded-xl w-full overflow-x-auto no-scrollbar shrink-0">
+                          <button onclick="window.setSidebarMacroFilter('all')" id="tab-sidebar-all" class="flex-1 px-2 py-1.5 text-[9px] md:text-[10px] font-extrabold rounded-lg bg-white shadow-sm text-[var(--srg-green)] border border-slate-200 transition-all whitespace-nowrap">Semua</button>
+                          <button onclick="window.setSidebarMacroFilter('unit')" id="tab-sidebar-unit" class="flex-1 px-2 py-1.5 text-[9px] md:text-[10px] font-bold rounded-lg text-slate-500 hover:text-slate-800 transition-all whitespace-nowrap">Unit PT</button>
+                          <button onclick="window.setSidebarMacroFilter('mitra')" id="tab-sidebar-mitra" class="flex-1 px-2 py-1.5 text-[9px] md:text-[10px] font-bold rounded-lg text-slate-500 hover:text-slate-800 transition-all whitespace-nowrap">Mitra SRG</button>
+                      </div>
+                      <div id="sidebarMicroContainer" class="hidden w-full shrink-0">
+                          <select id="f-mitra-monitor" onchange="window.refreshSidebarHistory()" class="premium-input w-full px-3 py-2 text-[9px] md:text-[10px] font-bold text-[var(--srg-gold)] cursor-pointer"></select>
+                      </div>
+                  </div>
+
+                  <div class="space-y-3 md:space-y-4 flex-grow text-left"><div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1">Filter Waktu</label><select id="sidebarFilterType" onchange="window.toggleSidebarInputs()" class="premium-input w-full px-3 py-2.5 text-[10px] md:text-xs font-semibold cursor-pointer"><option value="range">Range Tanggal Khusus</option><option value="month">Periode Bulanan</option><option value="year">Periode Tahunan</option></select></div><div id="s-range-inputs" class="grid grid-cols-2 gap-2 text-left"><div><input type="date" id="mStart" class="premium-input w-full px-2 py-2 text-[10px] font-semibold text-left"></div><div><input type="date" id="mEnd" class="premium-input w-full px-2 py-2 text-[10px] font-semibold text-left"></div></div><div id="s-month-inputs" class="hidden text-left"><input type="month" id="mMonth" class="premium-input w-full px-3 py-2 text-[10px] font-semibold"></div><div id="s-year-inputs" class="hidden text-left"><input type="number" id="mYear" class="premium-input w-full px-3 py-2 text-[10px] font-semibold" placeholder="2026"></div><button onclick="window.refreshSidebarHistory()" class="w-full py-2.5 mt-1 md:mt-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[10px] md:text-xs rounded-lg border border-slate-200 uppercase tracking-widest text-center">Hitung Data</button><div id="historyResult" class="pt-5 mt-5 border-t border-slate-100 space-y-2 text-left"><div class="p-3 md:p-4 rounded-xl stat-card-gold flex justify-between items-center text-left"><p class="text-[9px] md:text-[10px] font-bold uppercase text-[var(--srg-gold)] text-left">Total Pemasukan</p><h4 id="hOmset" class="text-base md:text-lg font-extrabold text-slate-800 text-right">Rp 0</h4></div><div class="grid grid-cols-2 gap-2 text-left"><div class="p-2.5 md:p-3.5 rounded-xl stat-card-success text-left"><p class="text-[8px] md:text-[9px] font-bold uppercase text-emerald-600 mb-0.5 text-left">Laba Kotor</p><h5 id="hLabaKotor" class="text-xs md:text-sm font-extrabold text-emerald-800 text-left">Rp 0</h5></div><div class="p-2.5 md:p-3.5 rounded-xl bg-slate-100 border border-slate-200 text-left"><p class="text-[8px] md:text-[9px] font-bold uppercase text-slate-500 mb-0.5 text-left">Alokasi CSR (5%)</p><h5 id="hCSR" class="text-xs md:text-sm font-extrabold text-slate-700 text-left">Rp 0</h5></div><div class="p-2.5 md:p-3.5 rounded-xl stat-card-dark text-left"><p id="labelPT" class="text-[8px] md:text-[9px] font-bold uppercase text-[var(--srg-gold)] mb-0.5 text-left">Jatah PT (..%)</p><h5 id="hPT" class="text-xs md:text-sm font-extrabold text-left">Rp 0</h5></div><div class="p-2.5 md:p-3.5 rounded-xl bg-orange-50 border border-orange-100 text-left"><p id="labelMitra" class="text-[8px] md:text-[9px] font-bold uppercase text-orange-600 mb-0.5 text-left">Jatah Mitra (..%)</p><h5 id="hPartner" class="text-xs md:text-sm font-extrabold text-orange-700 text-left">Rp 0</h5></div></div></div></div>
+              </div>
             </div>
           </div>
       </div>
@@ -437,7 +473,27 @@
 
         <div class="premium-card p-5 md:p-8 no-print text-left">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 border-b border-slate-100 pb-4 mb-4 text-left"><div><h2 class="text-xl md:text-2xl font-extrabold text-slate-800 tracking-tight text-left">Eksplorasi Laporan</h2><p class="text-[10px] md:text-xs text-slate-500 font-medium mt-1">Cetak & Ekspor Data Keuangan.</p></div><div class="flex flex-wrap w-full md:w-auto gap-2 text-left"><button onclick="window.handlePrintRequest()" class="btn-premium flex-1 md:flex-none px-4 py-2 text-[10px] shadow-md uppercase font-bold tracking-wider"><i class="fas fa-print mr-1.5"></i> PDF Cetak</button><button onclick="window.exportToCSV()" class="px-4 py-2 text-[10px] shadow-md rounded-xl font-black flex-1 md:flex-none flex justify-center items-center bg-emerald-600 hover:bg-emerald-700 text-white transition-colors uppercase tracking-wider"><i class="fas fa-file-excel mr-1.5"></i> CSV</button></div></div>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 items-end text-left"><div class="col-span-2 md:col-span-1 text-left"><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1">Metode Periode</label><select id="rekapFilterType" onchange="window.toggleRekapInputs()" class="premium-input w-full px-3 py-2 text-[10px] font-semibold"><option value="range">Rentang Tanggal</option><option value="month">Satu Bulan</option><option value="year">Satu Tahun</option></select></div><div id="r-range-fields" class="contents text-left"><div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1 text-left">Awal</label><input type="date" id="rStart" class="premium-input w-full px-2 py-2 text-[10px] font-semibold text-left"></div><div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1 text-left">Akhir</label><input type="date" id="rEnd" class="premium-input w-full px-2 py-2 text-[10px] font-semibold text-left"></div></div><div id="r-month-fields" class="hidden col-span-2 md:col-span-1 text-left"><div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1 text-left">Bulan</label><input type="month" id="rMonth" class="premium-input w-full px-3 py-2 text-[10px] font-semibold text-left"></div></div><div id="r-year-fields" class="hidden col-span-2 md:col-span-1 text-left"><div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1 text-left">Tahun</label><input type="number" id="rYear" class="premium-input w-full px-3 py-2 text-[10px] font-semibold text-left" placeholder="2026"></div></div><div class="col-span-2 md:col-span-1 text-left"><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1 text-left">Target Mitra</label><select id="rMitra" class="premium-input w-full px-3 py-2 text-[10px] font-semibold cursor-pointer"></select></div></div>
+            
+            <div id="rekapAdminTarget" class="hidden mb-4 border-b border-slate-100 pb-4 text-left flex-col gap-2 w-full">
+                <label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase text-left mb-1">Target Filter Laporan</label>
+                <div class="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-3 w-full">
+                    <div class="flex bg-slate-100/80 p-1 md:p-1.5 rounded-xl w-full md:w-auto overflow-x-auto no-scrollbar shrink-0">
+                        <button onclick="window.setRekapMacroFilter('all')" id="tab-rekap-all" class="flex-1 px-3 py-2 text-[10px] md:text-xs font-extrabold rounded-lg bg-white shadow-sm text-[var(--srg-green)] border border-slate-200 transition-all whitespace-nowrap">Semua Jaringan</button>
+                        <button onclick="window.setRekapMacroFilter('unit')" id="tab-rekap-unit" class="flex-1 px-3 py-2 text-[10px] md:text-xs font-bold rounded-lg text-slate-500 hover:text-slate-800 transition-all whitespace-nowrap">Unit Usaha PT</button>
+                        <button onclick="window.setRekapMacroFilter('mitra')" id="tab-rekap-mitra" class="flex-1 px-3 py-2 text-[10px] md:text-xs font-bold rounded-lg text-slate-500 hover:text-slate-800 transition-all whitespace-nowrap">Mitra Usaha PT</button>
+                    </div>
+                    <div id="rekapMicroContainer" class="hidden w-full md:w-auto shrink-0">
+                        <select id="rMitra" onchange="window.refreshRekapDashboard()" class="premium-input w-full px-3 py-2 text-[10px] md:text-xs font-bold text-[var(--srg-gold)] cursor-pointer min-w-[200px]"></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 items-end text-left">
+                <div class="col-span-2 md:col-span-1 text-left"><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1">Metode Periode</label><select id="rekapFilterType" onchange="window.toggleRekapInputs()" class="premium-input w-full px-3 py-2 text-[10px] font-semibold"><option value="range">Rentang Tanggal</option><option value="month">Satu Bulan</option><option value="year">Satu Tahun</option></select></div>
+                <div id="r-range-fields" class="contents text-left"><div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1 text-left">Awal</label><input type="date" id="rStart" class="premium-input w-full px-2 py-2 text-[10px] font-semibold text-left"></div><div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1 text-left">Akhir</label><input type="date" id="rEnd" class="premium-input w-full px-2 py-2 text-[10px] font-semibold text-left"></div></div>
+                <div id="r-month-fields" class="hidden col-span-2 md:col-span-1 text-left"><div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1 text-left">Bulan</label><input type="month" id="rMonth" class="premium-input w-full px-3 py-2 text-[10px] font-semibold text-left"></div></div>
+                <div id="r-year-fields" class="hidden col-span-2 md:col-span-1 text-left"><div><label class="block text-[9px] md:text-[10px] font-bold text-slate-500 uppercase mb-1 text-left">Tahun</label><input type="number" id="rYear" class="premium-input w-full px-3 py-2 text-[10px] font-semibold text-left" placeholder="2026"></div></div>
+            </div>
             <button onclick="window.refreshRekapDashboard()" class="w-full mt-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[10px] rounded-xl transition-colors border border-slate-200 uppercase tracking-widest"><i class="fas fa-search mr-2"></i> Terapkan Filter</button>
         </div>
         <div id="print-info-bar" class="hidden print:flex mb-4 md:mb-6 px-2 text-[8pt] md:text-[9pt] justify-between items-end">
@@ -589,7 +645,14 @@
     window.initAppContent = function() {
       const role = window.userProfile?.appRole; const isAdmin = role === 'admin';
       const setVis = (id, show) => { const el = document.getElementById(id); if(el) show ? el.classList.remove('hidden') : el.classList.add('hidden'); };
-      setVis('inputFormWrapper', !isAdmin); setVis('adminMonitorSelect', isAdmin); setVis('adminFilter', isAdmin); setVis('nav-profil', isAdmin); setVis('adminChartsWrapper', isAdmin); setVis('nav-rekap', isAdmin); setVis('nav-mitra', isAdmin); setVis('mob-nav-rekap', isAdmin); setVis('mob-nav-mitra', isAdmin); setVis('mob-nav-profil', isAdmin);
+      const setVisFlex = (id, show) => { const el = document.getElementById(id); if(el) { if(show) { el.classList.remove('hidden'); el.classList.add('flex'); } else { el.classList.add('hidden'); el.classList.remove('flex'); } } };
+      
+      setVis('inputFormWrapper', !isAdmin); 
+      setVisFlex('adminMonitorSelect', isAdmin); 
+      setVisFlex('adminFilter', isAdmin); 
+      setVisFlex('rekapAdminTarget', isAdmin);
+      setVis('nav-profil', isAdmin); setVis('adminChartsWrapper', isAdmin); setVis('nav-rekap', isAdmin); setVis('nav-mitra', isAdmin); setVis('mob-nav-rekap', isAdmin); setVis('mob-nav-mitra', isAdmin); setVis('mob-nav-profil', isAdmin);
+      
       const sidebar = document.getElementById('inputSidebar'); if(sidebar) sidebar.className = isAdmin ? "lg:col-span-8 lg:col-start-3 space-y-5 md:space-y-6 text-left" : "lg:col-span-5 space-y-5 md:space-y-6 text-left";
       fetchMitras(); fetchTransactions();
     };
@@ -630,8 +693,17 @@
 
     // === EXPORT LOGIC ===
     window.exportToCSV = () => {
-        const type = document.getElementById('rekapFilterType')?.value; const options = { start: document.getElementById('rStart')?.value, end: document.getElementById('rEnd')?.value, month: document.getElementById('rMonth')?.value, year: document.getElementById('rYear')?.value, mitra: document.getElementById('rMitra')?.value || 'all' };
+        const macro = window.currentRekapMacro || 'all';
+        let mName = "all";
+        if (macro !== 'all') {
+            const microVal = document.getElementById('rMitra')?.value || 'all_micro';
+            mName = microVal === 'all_micro' ? (macro === 'unit' ? 'all_unit' : 'all_mitra') : microVal;
+        }
+
+        const type = document.getElementById('rekapFilterType')?.value; 
+        const options = { start: document.getElementById('rStart')?.value, end: document.getElementById('rEnd')?.value, month: document.getElementById('rMonth')?.value, year: document.getElementById('rYear')?.value, mitra: mName };
         const data = window.getFilteredData(window.allTransactions, type, options);
+        
         if(data.length === 0) { window.showSRGModal({title:"Info", message:"Tidak ada data untuk diekspor."}); return; }
         let csvContent = "Tanggal,Cabang/Mitra,Omset,Modal,Ops,Laba Kotor,Laba Bersih,CSR,PT,Mitra/Unit Part,Keterangan\n";
         data.forEach(t => { 
@@ -656,7 +728,7 @@
     
     window.toggleEntityType = () => {
         const type = document.querySelector('input[name="entityType"]:checked').value;
-        document.getElementById('label-m-pct-mitra').innerText = type === 'unit' ? 'Jatah Unit Usaha PT (%)' : 'Jatah Mitra PT SR Group (%)';
+        document.getElementById('label-m-pct-mitra').innerText = type === 'unit' ? 'Jatah Unit Usaha PT (%)' : 'Jatah Mitra Usaha PT (%)';
     };
 
     window.syncPct = (caller) => { const pt = document.getElementById('m-pct-pt'), mitra = document.getElementById('m-pct-mitra'), err = document.getElementById('pctError'), btn = document.getElementById('btnRegisMitra'); if (caller === 'pt') mitra.value = 100 - parseFloat(pt.value || 0); else pt.value = 100 - parseFloat(mitra.value || 0); const total = parseFloat(pt.value) + parseFloat(mitra.value); if (total !== 100) { err?.classList.remove('hidden'); if(btn) btn.disabled = true; } else { err?.classList.add('hidden'); if(btn) btn.disabled = false; } };
@@ -695,14 +767,12 @@
           }
           
           if (!loggedIn) {
-              // Master Data Cadangan langsung di Gerbang Login
               const baseMitras = [
                   { username: "albarokahshop30", password: "mitrasubur1", clean_name: "ALBAROKAHSHOP30", isUnit: false },
                   { username: "radiator tunggaksemi", password: "mitrasubur2", clean_name: "RADIATOR TUNGGAKSEMI", isUnit: false },
                   { username: "bengkel subur 1", password: "mitrasubur1", clean_name: "BENGKEL SUBUR 1", isUnit: true },
                   { username: "bengkel subur 2", password: "mitrasubur2", clean_name: "BENGKEL SUBUR 2", isUnit: true }
               ];
-              
               let bm = window.allMitras.find(x => x && x.username === u && x.password === p);
               if (!bm) bm = baseMitras.find(x => x.username === u && x.password === p);
               
@@ -727,7 +797,7 @@
         const isUnit = isUnitManual !== null ? isUnitManual : ((name||'').endsWith('\u200B') || (name||'').toUpperCase().includes('BENGKEL SUBUR'));
         
         document.getElementById('navUserName').innerText = (name||'').toLowerCase(); 
-        document.getElementById('navUserRole').innerText = role === 'admin' ? 'STRATEGIC ADMIN' : (isUnit ? 'UNIT USAHA PT' : 'MITRA PT SR GROUP'); 
+        document.getElementById('navUserRole').innerText = role === 'admin' ? 'STRATEGIC ADMIN' : (isUnit ? 'UNIT USAHA PT' : 'MITRA USAHA PT'); 
         document.getElementById('userInit').innerText = role === 'admin' ? 'A' : (name||'A').charAt(0).toUpperCase();
         document.getElementById('dashboardScope').innerText = role === 'admin' ? "Laporan Seluruh Jaringan" : "Kinerja Cabang Individu";
         
@@ -773,28 +843,105 @@
         } catch(e) { populateMitraSelects(); }
     }
 
+    window.currentMacro = 'all';
+    window.currentSidebarMacro = 'all';
+    window.currentRekapMacro = 'all';
+
     function populateMitraSelects() {
-        const setup = (id, all = true) => { 
-            const el = document.getElementById(id); if (!el) return; 
-            el.innerHTML = all ? '<option value="all">Semua Cabang & Mitra</option>' : '<option value="">-- Pilih Cabang --</option>'; 
-            
+        const elForm = document.getElementById('f-mitra');
+        if (elForm) {
+            elForm.innerHTML = '<option value="">-- Pilih Cabang / Mitra --</option>'; 
             const units = window.allMitras.filter(m => m.isUnit);
             const mitras = window.allMitras.filter(m => !m.isUnit);
             
             if (units.length > 0) {
-                const grpUnit = document.createElement('optgroup'); grpUnit.label = "Unit Usaha PT";
+                const grpUnit = document.createElement('optgroup'); grpUnit.label = "Daftar Unit Usaha PT";
                 units.forEach(m => grpUnit.appendChild(new Option(m.clean_name, m.display_name)));
-                el.appendChild(grpUnit);
+                elForm.appendChild(grpUnit);
             }
             if (mitras.length > 0) {
-                const grpMitra = document.createElement('optgroup'); grpMitra.label = "Mitra PT SR Group";
+                const grpMitra = document.createElement('optgroup'); grpMitra.label = "Daftar Mitra Usaha PT";
                 mitras.forEach(m => grpMitra.appendChild(new Option(m.clean_name, m.display_name)));
-                el.appendChild(grpMitra);
+                elForm.appendChild(grpMitra);
             }
-        };
-        setup('mitraFilter'); setup('f-mitra', false); setup('rMitra'); setup('f-mitra-monitor', false);
-        const fm = document.getElementById('f-mitra'); if(window.userProfile?.appRole === 'mitra' && fm) { const myData = window.allMitras.find(x => x && (x.clean_name||'').toUpperCase() === (window.userProfile?.appDisplayName||'').toUpperCase()); if(myData) fm.value = myData.display_name; fm.disabled = true; }
+        }
+        
+        if (window.userProfile?.appRole === 'mitra' && elForm) { 
+            const myData = window.allMitras.find(x => x && (x.clean_name||'').toUpperCase() === (window.userProfile?.appDisplayName||'').toUpperCase()); 
+            if(myData) elForm.value = myData.display_name; 
+            elForm.disabled = true; 
+        }
+        
+        if (window.userProfile?.appRole === 'admin') { 
+            window.setMacroFilter(window.currentMacro);
+            window.setSidebarMacroFilter(window.currentSidebarMacro);
+            window.setRekapMacroFilter(window.currentRekapMacro);
+        }
     }
+
+    window.setMacroFilter = (macro) => {
+        window.currentMacro = macro;
+        const aC = "flex-1 px-3 md:px-4 py-2 text-[10px] md:text-xs font-extrabold rounded-lg bg-white shadow-sm text-[var(--srg-green)] border border-slate-200 transition-all whitespace-nowrap";
+        const iC = "flex-1 px-3 md:px-4 py-2 text-[10px] md:text-xs font-bold rounded-lg text-slate-500 hover:text-slate-800 transition-all whitespace-nowrap";
+        
+        ['all', 'unit', 'mitra'].forEach(m => { const b = document.getElementById('tab-macro-' + m); if (b) b.className = m === macro ? aC : iC; });
+        
+        const mC = document.getElementById('microFilterContainer'), mS = document.getElementById('mitraFilter');
+        if (!mC || !mS) return;
+
+        if (macro === 'all') { 
+            mC.classList.add('hidden'); mC.classList.remove('flex'); 
+            mS.innerHTML = '<option value="all_micro">Semua</option>'; 
+        } else { 
+            mC.classList.remove('hidden'); mC.classList.add('flex'); mS.innerHTML = ''; 
+            if (macro === 'unit') { 
+                mS.add(new Option("Semua Unit Usaha PT", "all_micro")); 
+                window.allMitras.filter(m => m.isUnit).forEach(m => mS.add(new Option(m.clean_name, m.clean_name.toUpperCase()))); 
+            } else if (macro === 'mitra') { 
+                mS.add(new Option("Semua Mitra Usaha PT", "all_micro")); 
+                window.allMitras.filter(m => !m.isUnit).forEach(m => mS.add(new Option(m.clean_name, m.clean_name.toUpperCase()))); 
+            } 
+        }
+        window.refreshDashboard();
+    };
+
+    window.setSidebarMacroFilter = (macro) => {
+        window.currentSidebarMacro = macro;
+        const aC = "flex-1 px-2 py-1.5 text-[9px] md:text-[10px] font-extrabold rounded-lg bg-white shadow-sm text-[var(--srg-green)] border border-slate-200 transition-all whitespace-nowrap";
+        const iC = "flex-1 px-2 py-1.5 text-[9px] md:text-[10px] font-bold rounded-lg text-slate-500 hover:text-slate-800 transition-all whitespace-nowrap";
+        ['all', 'unit', 'mitra'].forEach(m => { const b = document.getElementById('tab-sidebar-' + m); if (b) b.className = m === macro ? aC : iC; });
+        
+        const mC = document.getElementById('sidebarMicroContainer'), mS = document.getElementById('f-mitra-monitor');
+        if (!mC || !mS) return;
+
+        if (macro === 'all') { 
+            mC.classList.add('hidden'); mS.innerHTML = '<option value="all_micro">Semua</option>'; 
+        } else { 
+            mC.classList.remove('hidden'); mS.innerHTML = '<option value="all_micro">Semua ' + (macro === 'unit' ? 'Unit PT' : 'Mitra Usaha PT') + '</option>'; 
+            const list = window.allMitras.filter(m => macro === 'unit' ? m.isUnit : !m.isUnit);
+            list.forEach(m => mS.add(new Option(m.clean_name, m.clean_name.toUpperCase()))); 
+        }
+        window.refreshSidebarHistory();
+    };
+
+    window.setRekapMacroFilter = (macro) => {
+        window.currentRekapMacro = macro;
+        const aC = "flex-1 px-3 py-2 text-[10px] md:text-xs font-extrabold rounded-lg bg-white shadow-sm text-[var(--srg-green)] border border-slate-200 transition-all whitespace-nowrap";
+        const iC = "flex-1 px-3 py-2 text-[10px] md:text-xs font-bold rounded-lg text-slate-500 hover:text-slate-800 transition-all whitespace-nowrap";
+        ['all', 'unit', 'mitra'].forEach(m => { const b = document.getElementById('tab-rekap-' + m); if (b) b.className = m === macro ? aC : iC; });
+        
+        const mC = document.getElementById('rekapMicroContainer'), mS = document.getElementById('rMitra');
+        if (!mC || !mS) return;
+
+        if (macro === 'all') { 
+            mC.classList.add('hidden'); mS.innerHTML = '<option value="all_micro">Semua</option>'; 
+        } else { 
+            mC.classList.remove('hidden'); mS.innerHTML = '<option value="all_micro">Semua ' + (macro === 'unit' ? 'Unit Usaha PT' : 'Mitra Usaha PT') + '</option>'; 
+            const list = window.allMitras.filter(m => macro === 'unit' ? m.isUnit : !m.isUnit);
+            list.forEach(m => mS.add(new Option(m.clean_name, m.clean_name.toUpperCase()))); 
+        }
+        window.refreshRekapDashboard();
+    };
 
     window.addNewMitra = async () => {
         const u = document.getElementById('m-user').value.trim(), p = document.getElementById('m-pass').value.trim();
@@ -829,7 +976,7 @@
         };
 
         uBody.innerHTML = units.length ? units.map(m => generateRow(m, true)).join('') : `<tr><td colspan="5" class="text-center py-6 text-xs text-slate-400 font-medium border-none">Belum ada Unit Usaha PT</td></tr>`;
-        mBody.innerHTML = mitras.length ? mitras.map(m => generateRow(m, false)).join('') : `<tr><td colspan="5" class="text-center py-6 text-xs text-slate-400 font-medium border-none">Belum ada Mitra PT SR Group</td></tr>`;
+        mBody.innerHTML = mitras.length ? mitras.map(m => generateRow(m, false)).join('') : `<tr><td colspan="5" class="text-center py-6 text-xs text-slate-400 font-medium border-none">Belum ada Mitra Usaha PT</td></tr>`;
     }
 
     window.toggleMitraPassVisibility = (id) => { mitraPassVisibility[id] = !mitraPassVisibility[id]; renderMitraManagement(); };
@@ -903,27 +1050,99 @@
     };
 
     window.refreshDashboard = () => {
-      const mfVal = document.getElementById('mitraFilter')?.value || 'all'; let data = Array.isArray(window.allTransactions) ? [...window.allTransactions] : []; 
-      let rawCurrentName = (window.userProfile?.appRole !== 'admin') ? (window.userProfile?.appDisplayName || "") : (mfVal !== 'all' ? mfVal : "");
-      let currentMitraName = rawCurrentName.replace(/\u200B/g, '').toUpperCase();
+      let data = Array.isArray(window.allTransactions) ? [...window.allTransactions] : []; 
+      const isAdmin = window.userProfile?.appRole === 'admin';
       
-      if (currentMitraName) data = data.filter(t => (t.mitra || '').replace(/\u200B/g, '').toUpperCase() === currentMitraName); 
-      const mData = window.allMitras.find(m => m && (m.clean_name || m.display_name || '').toUpperCase() === currentMitraName); 
-      
-      const isAll = (window.userProfile?.appRole === 'admin' && mfVal === 'all'); const targetType = isAll ? 'all' : (mData && mData.isUnit ? 'unit' : 'mitra'); const pPT = isAll ? 'all' : (mData ? mData.pct_pt : 20); const pMitra = isAll ? 'all' : (mData ? mData.pct_mitra : 80);
-      renderStatsGrid(data, 'dashboardStats', false, pPT, pMitra, targetType); renderCharts(data); const isAdmin = window.userProfile?.appRole === 'admin';
+      let targetType = 'all';
+      let scopeText = "Laporan Seluruh Jaringan";
+      let pPT = 'all';
+      let pMitra = 'all';
+
+      if (!isAdmin) {
+          const currentMitraName = (window.userProfile?.appDisplayName || "").replace(/\u200B/g, '').toUpperCase();
+          data = data.filter(t => (t.mitra || '').replace(/\u200B/g, '').toUpperCase() === currentMitraName);
+          const mData = window.allMitras.find(m => m && (m.clean_name || m.display_name || '').toUpperCase() === currentMitraName);
+          targetType = (mData && mData.isUnit) ? 'unit' : 'mitra';
+          scopeText = "Kinerja Cabang Individu";
+          pPT = mData ? mData.pct_pt : 20;
+          pMitra = mData ? mData.pct_mitra : 80;
+      } else {
+          const macro = window.currentMacro || 'all';
+          const microVal = document.getElementById('mitraFilter')?.value || 'all_micro';
+          
+          if (macro === 'all') {
+              targetType = 'all';
+              scopeText = "Rekapitulasi Seluruh Jaringan";
+          } else if (macro === 'unit') {
+              if (microVal === 'all_micro') {
+                  const unitNames = window.allMitras.filter(m => m.isUnit).map(m => m.clean_name.toUpperCase());
+                  data = data.filter(t => unitNames.includes((t.mitra || '').replace(/\u200B/g, '').toUpperCase()));
+                  targetType = 'all_unit';
+                  scopeText = "Rekapitulasi Unit Usaha PT";
+              } else {
+                  data = data.filter(t => (t.mitra || '').replace(/\u200B/g, '').toUpperCase() === microVal);
+                  const mData = window.allMitras.find(m => m && (m.clean_name || m.display_name || '').toUpperCase() === microVal);
+                  targetType = 'unit';
+                  scopeText = "Kinerja Unit Usaha Spesifik";
+                  pPT = mData ? mData.pct_pt : 20;
+                  pMitra = mData ? mData.pct_mitra : 80;
+              }
+          } else if (macro === 'mitra') {
+              if (microVal === 'all_micro') {
+                  const mitraNames = window.allMitras.filter(m => !m.isUnit).map(m => m.clean_name.toUpperCase());
+                  data = data.filter(t => mitraNames.includes((t.mitra || '').replace(/\u200B/g, '').toUpperCase()));
+                  targetType = 'all_mitra';
+                  scopeText = "Rekapitulasi Mitra Usaha PT";
+              } else {
+                  data = data.filter(t => (t.mitra || '').replace(/\u200B/g, '').toUpperCase() === microVal);
+                  const mData = window.allMitras.find(m => m && (m.clean_name || m.display_name || '').toUpperCase() === microVal);
+                  targetType = 'mitra';
+                  scopeText = "Kinerja Mitra Spesifik";
+                  pPT = mData ? mData.pct_pt : 20;
+                  pMitra = mData ? mData.pct_mitra : 80;
+              }
+          }
+      }
+
+      document.getElementById('dashboardScope').innerText = scopeText;
+      renderStatsGrid(data, 'dashboardStats', false, pPT, pMitra, targetType); 
+      renderCharts(data); 
       
       document.getElementById('tableBody').innerHTML = data.slice(0, 15).map(t => { const eb = !isAdmin ? `<button onclick="window.handleEditRequest('${t.id}')" class="w-7 h-7 md:w-8 md:h-8 rounded bg-slate-100 hover:bg-blue-50 text-slate-400 hover:text-blue-500 transition-colors" title="Edit Dokumen"><i class="fas fa-edit text-[10px] md:text-xs"></i></button>` : ''; const db = `<button onclick="window.handleDeleteRequest('${t.id}')" class="w-7 h-7 md:w-8 md:h-8 rounded bg-slate-100 hover:bg-red-50 text-slate-400 hover:text-red-500 transition-colors" title="Hapus Dokumen"><i class="fas fa-trash text-[10px] md:text-xs"></i></button>`; return `<tr class="hover:bg-slate-50 transition-colors"><td class="font-medium text-[10px] md:text-xs text-slate-500 whitespace-nowrap">${t.tanggal}</td><td class="font-bold text-[10px] md:text-xs text-slate-800">${(t.mitra||'').replace(/\u200B/g,'')}</td><td class="text-right text-emerald-600 font-extrabold text-[10px] md:text-xs">${fmt(t.lb)}</td><td class="text-right"><div class="flex flex-col items-end text-right"><b class="text-slate-700 text-[10px] md:text-xs">${fmt(t.ops)}</b><small class="text-[8px] md:text-[9px] text-slate-400 mt-0.5 max-w-[120px] md:max-w-[180px] truncate text-right" title="${t.keterangan || '-'}">${t.keterangan || '-'}</small></div></td><td class="text-center"><div class="flex items-center justify-center space-x-1.5 md:space-x-2">${eb}${db}</div></td></tr>`; }).join('');
     };
 
     window.refreshRekapDashboard = () => {
-      if (window.userProfile?.appRole !== 'admin') return; const type = document.getElementById('rekapFilterType')?.value, options = { start: document.getElementById('rStart')?.value, end: document.getElementById('rEnd')?.value, month: document.getElementById('rMonth')?.value, year: document.getElementById('rYear')?.value, mitra: document.getElementById('rMitra')?.value || 'all' };
+      if (window.userProfile?.appRole !== 'admin') return; 
+      const type = document.getElementById('rekapFilterType')?.value;
+      
+      const macro = window.currentRekapMacro || 'all';
+      let mName = "all";
+      if (macro !== 'all') {
+          const microVal = document.getElementById('rMitra')?.value || 'all_micro';
+          mName = microVal === 'all_micro' ? (macro === 'unit' ? 'all_unit' : 'all_mitra') : microVal;
+      }
+      
+      const options = { start: document.getElementById('rStart')?.value, end: document.getElementById('rEnd')?.value, month: document.getElementById('rMonth')?.value, year: document.getElementById('rYear')?.value, mitra: mName };
       const data = window.getFilteredData(window.allTransactions, type, options); 
-      const targetMitra = (options.mitra || '').replace(/\u200B/g, '').toUpperCase();
+      
+      const isAll = mName === 'all';
+      const isAllUnit = mName === 'all_unit';
+      const isAllMitra = mName === 'all_mitra';
+      const targetMitra = (!isAll && !isAllUnit && !isAllMitra) ? mName.replace(/\u200B/g, '').toUpperCase() : "";
+
       const mData = window.allMitras.find(m => m && (m.clean_name || m.display_name || '').toUpperCase() === targetMitra); 
       
-      const isAll = options.mitra === 'all'; const targetType = isAll ? 'all' : (mData && mData.isUnit ? 'unit' : 'mitra'); const pPT = isAll ? 'all' : (mData ? mData.pct_pt : 20); const pMitra = isAll ? 'all' : (mData ? mData.pct_mitra : 80);
-      renderStatsGrid(data, 'rekapStats', true, pPT, pMitra, targetType); document.getElementById('rekapTable').innerHTML = data.map(t => {
+      let targetType = 'all';
+      if (isAllUnit) targetType = 'all_unit';
+      else if (isAllMitra) targetType = 'all_mitra';
+      else if (targetMitra) targetType = (mData && mData.isUnit) ? 'unit' : 'mitra';
+
+      const pPT = (targetType === 'unit' || targetType === 'mitra') ? (mData ? mData.pct_pt : 20) : 'all'; 
+      const pMitra = (targetType === 'unit' || targetType === 'mitra') ? (mData ? mData.pct_mitra : 80) : 'all';
+
+      renderStatsGrid(data, 'rekapStats', true, pPT, pMitra, targetType); 
+      
+      document.getElementById('rekapTable').innerHTML = data.map(t => {
           const cleanMitra = (t.mitra||'').replace(/\u200B/g, '').toUpperCase();
           const currM = window.allMitras.find(m => m && (m.clean_name || m.display_name || '').toUpperCase() === cleanMitra);
           const cPt = currM ? currM.pct_pt : (t.pct_pt ?? 20); const cMt = currM ? currM.pct_mitra : (t.pct_mitra ?? 80); const isUnitR = currM ? currM.isUnit : false;
@@ -947,27 +1166,53 @@
       }, {o:0, m:0, ops:0, lk:0, lb:0, csr:0, pt:0, bm:0, bu:0, res:0});
       
       let cards = [];
+      const ptLabel = (targetType === 'unit' || targetType === 'mitra') ? `PEMBAGIAN PT (${pPT}%)` : (targetType === 'all_unit' ? 'TOTAL JATAH PT (DARI UNIT)' : (targetType === 'all_mitra' ? 'TOTAL JATAH PT (DARI MITRA)' : 'TOTAL JATAH PT'));
+
       if (simplified) {
-        cards = [ {l:"Laba Bersih Akhir <span class='normal-case text-[8px] md:text-[9px] block mt-0.5 md:mt-1 text-emerald-700/80'>(Siap Bagi)</span>", v:fmt(s.res || (s.lb - s.csr)), t:"success", x:"text-emerald-800 font-extrabold text-lg md:text-2xl"}, {l:"CSR 5% <span class='normal-case text-[8px] md:text-[9px] block mt-0.5 md:mt-1 text-slate-400'>(Dari Laba Bersih)</span>", v:fmt(s.csr), t:"neutral", x:"text-slate-600 font-bold text-sm md:text-lg"}, {l:(targetType==='all'?'TOTAL JATAH PT':`PEMBAGIAN PT (${pPT}%)`), v:fmt(s.pt), t:"dark", x:"text-[var(--srg-gold)] font-extrabold text-base md:text-xl"} ];
-        if(targetType === 'all') { cards.push({l:"TOTAL JATAH MITRA PT SR GROUP", v:fmt(s.bm), t:"gold", x:"text-orange-700 font-extrabold text-base md:text-xl"}); cards.push({l:"TOTAL JATAH UNIT USAHA PT", v:fmt(s.bu), t:"success", x:"text-emerald-700 font-extrabold text-base md:text-xl"}); } 
+        cards = [ {l:"Laba Bersih Akhir <span class='normal-case text-[8px] md:text-[9px] block mt-0.5 md:mt-1 text-emerald-700/80'>(Siap Bagi)</span>", v:fmt(s.res || (s.lb - s.csr)), t:"success", x:"text-emerald-800 font-extrabold text-lg md:text-2xl"}, {l:"CSR 5% <span class='normal-case text-[8px] md:text-[9px] block mt-0.5 md:mt-1 text-slate-400'>(Dari Laba Bersih)</span>", v:fmt(s.csr), t:"neutral", x:"text-slate-600 font-bold text-sm md:text-lg"}, {l:ptLabel, v:fmt(s.pt), t:"dark", x:"text-[var(--srg-gold)] font-extrabold text-base md:text-xl"} ];
+        if(targetType === 'all') { cards.push({l:"TOTAL JATAH MITRA USAHA PT", v:fmt(s.bm), t:"gold", x:"text-orange-700 font-extrabold text-base md:text-xl"}); cards.push({l:"TOTAL JATAH UNIT USAHA PT", v:fmt(s.bu), t:"success", x:"text-emerald-700 font-extrabold text-base md:text-xl"}); } 
+        else if (targetType === 'all_unit') { cards.push({l:"TOTAL JATAH UNIT USAHA PT", v:fmt(s.bu), t:"success", x:"text-emerald-700 font-extrabold text-base md:text-xl"}); }
+        else if (targetType === 'all_mitra') { cards.push({l:"TOTAL JATAH MITRA USAHA PT", v:fmt(s.bm), t:"gold", x:"text-orange-700 font-extrabold text-base md:text-xl"}); }
         else if (targetType === 'unit') { cards.push({l:`PEMBAGIAN UNIT USAHA PT (${pMitra}%)`, v:fmt(s.bu), t:"success", x:"text-emerald-700 font-extrabold text-base md:text-xl"}); } 
-        else { cards.push({l:`PEMBAGIAN MITRA PT SR GROUP (${pMitra}%)`, v:fmt(s.bm), t:"gold", x:"text-orange-700 font-extrabold text-base md:text-xl"}); }
+        else { cards.push({l:`PEMBAGIAN MITRA USAHA PT (${pMitra}%)`, v:fmt(s.bm), t:"gold", x:"text-orange-700 font-extrabold text-base md:text-xl"}); }
       } else {
-        cards = [ {l:"Total Omset", v:fmt(s.o), t:"neutral", x:"text-slate-800 font-extrabold text-base md:text-xl"}, {l:"Modal Produksi", v:fmt(s.m), t:"neutral", x:"text-red-500 font-bold text-sm md:text-lg"}, {l:"Biaya Operasional", v:fmt(s.ops), t:"neutral", x:"text-slate-500 font-bold text-sm md:text-lg"}, {l:"Laba Kotor <span class='normal-case text-[8px] md:text-[9px] block mt-0.5 md:mt-1 text-emerald-600/80'>(Omset - Produksi)</span>", v:fmt(s.lk), t:"success", x:"text-emerald-600 font-bold text-sm md:text-lg"}, {l:"Laba Bersih Akhir <span class='normal-case text-[8px] md:text-[9px] block mt-0.5 md:mt-1 text-emerald-700/80'>(Siap Bagi)</span>", v:fmt(s.res || (s.lb - s.csr)), t:"success", x:"text-emerald-800 font-extrabold text-lg md:text-2xl"}, {l:"CSR 5% <span class='normal-case text-[8px] md:text-[9px] block mt-0.5 md:mt-1 text-slate-400'>(Dari Laba Bersih)</span>", v:fmt(s.csr), t:"neutral", x:"text-slate-600 font-bold text-sm md:text-lg"}, {l:"Margin (%) <span class='normal-case text-[8px] md:text-[9px] block mt-0.5 md:mt-1 text-slate-400'>(Laba Akhir ÷ Omset)</span>", v:(s.o>0?(((s.res || (s.lb - s.csr))/s.o)*100).toFixed(1)+"%":"0%"), t:"neutral", x:"text-blue-600 font-extrabold text-base md:text-xl", isMargin: true}, {l:(targetType==='all'?'TOTAL JATAH PT':`PEMBAGIAN PT (${pPT}%)`), v:fmt(s.pt), t:"dark", x:"text-[var(--srg-gold)] font-extrabold text-base md:text-xl"} ];
-        if(targetType === 'all') { cards.push({l:"TOTAL JATAH MITRA PT SR GROUP", v:fmt(s.bm), t:"gold", x:"text-orange-700 font-extrabold text-base md:text-xl"}); cards.push({l:"TOTAL JATAH UNIT USAHA PT", v:fmt(s.bu), t:"success", x:"text-emerald-700 font-extrabold text-base md:text-xl"}); } 
+        cards = [ {l:"Total Omset", v:fmt(s.o), t:"neutral", x:"text-slate-800 font-extrabold text-base md:text-xl"}, {l:"Modal Produksi", v:fmt(s.m), t:"neutral", x:"text-red-500 font-bold text-sm md:text-lg"}, {l:"Biaya Operasional", v:fmt(s.ops), t:"neutral", x:"text-slate-500 font-bold text-sm md:text-lg"}, {l:"Laba Kotor <span class='normal-case text-[8px] md:text-[9px] block mt-0.5 md:mt-1 text-emerald-600/80'>(Omset - Produksi)</span>", v:fmt(s.lk), t:"success", x:"text-emerald-600 font-bold text-sm md:text-lg"}, {l:"Laba Bersih Akhir <span class='normal-case text-[8px] md:text-[9px] block mt-0.5 md:mt-1 text-emerald-700/80'>(Siap Bagi)</span>", v:fmt(s.res || (s.lb - s.csr)), t:"success", x:"text-emerald-800 font-extrabold text-lg md:text-2xl"}, {l:"CSR 5% <span class='normal-case text-[8px] md:text-[9px] block mt-0.5 md:mt-1 text-slate-400'>(Dari Laba Bersih)</span>", v:fmt(s.csr), t:"neutral", x:"text-slate-600 font-bold text-sm md:text-lg"}, {l:"Margin (%) <span class='normal-case text-[8px] md:text-[9px] block mt-0.5 md:mt-1 text-slate-400'>(Laba Kotor ÷ Omset x 100 %)</span>", v:(s.o>0?((s.lk/s.o)*100).toFixed(1)+"%":"0%"), t:"neutral", x:"text-blue-600 font-extrabold text-base md:text-xl", isMargin: true}, {l:ptLabel, v:fmt(s.pt), t:"dark", x:"text-[var(--srg-gold)] font-extrabold text-base md:text-xl"} ];
+        if(targetType === 'all') { cards.push({l:"TOTAL JATAH MITRA USAHA PT", v:fmt(s.bm), t:"gold", x:"text-orange-700 font-extrabold text-base md:text-xl"}); cards.push({l:"TOTAL JATAH UNIT USAHA PT", v:fmt(s.bu), t:"success", x:"text-emerald-700 font-extrabold text-base md:text-xl"}); } 
+        else if (targetType === 'all_unit') { cards.push({l:"TOTAL JATAH UNIT USAHA PT", v:fmt(s.bu), t:"success", x:"text-emerald-700 font-extrabold text-base md:text-xl"}); }
+        else if (targetType === 'all_mitra') { cards.push({l:"TOTAL JATAH MITRA USAHA PT", v:fmt(s.bm), t:"gold", x:"text-orange-700 font-extrabold text-base md:text-xl"}); }
         else if (targetType === 'unit') { cards.push({l:`PEMBAGIAN UNIT USAHA PT (${pMitra}%)`, v:fmt(s.bu), t:"success", x:"text-emerald-700 font-extrabold text-base md:text-xl"}); } 
-        else { cards.push({l:`PEMBAGIAN MITRA PT SR GROUP (${pMitra}%)`, v:fmt(s.bm), t:"gold", x:"text-orange-700 font-extrabold text-base md:text-xl"}); }
+        else { cards.push({l:`PEMBAGIAN MITRA USAHA PT (${pMitra}%)`, v:fmt(s.bm), t:"gold", x:"text-orange-700 font-extrabold text-base md:text-xl"}); }
       }
       document.getElementById(containerId).innerHTML = cards.filter(c => !c.isMargin || window.userProfile?.appRole === 'admin').map(c => `<div class="premium-card p-4 md:p-5 stat-card-${c.t} flex flex-col justify-between h-full min-h-[90px] md:min-h-[100px]"><p class="text-[9px] md:text-[10px] uppercase font-bold text-slate-400 mb-2 md:mb-3 tracking-wide leading-snug">${c.l}</p><h3 class="${c.x}">${c.v}</h3></div>`).join('');
     }
 
     window.refreshSidebarHistory = () => {
-      const type = document.getElementById('sidebarFilterType')?.value, mName = (window.userProfile?.appRole === 'admin') ? (document.getElementById('f-mitra-monitor')?.value || "") : window.userProfile?.appDisplayName;
+      const type = document.getElementById('sidebarFilterType')?.value;
+      let mName = "";
+      if (window.userProfile?.appRole === 'admin') {
+          const macro = window.currentSidebarMacro || 'all';
+          if (macro === 'all') mName = "all";
+          else {
+              const microVal = document.getElementById('f-mitra-monitor')?.value || 'all_micro';
+              mName = microVal === 'all_micro' ? (macro === 'unit' ? 'all_unit' : 'all_mitra') : microVal;
+          }
+      } else {
+          mName = window.userProfile?.appDisplayName;
+      }
+      
       const options = { start: document.getElementById('mStart')?.value, end: document.getElementById('mEnd')?.value, month: document.getElementById('mMonth')?.value, year: document.getElementById('mYear')?.value, mitra: mName };
       const filtered = window.getFilteredData(window.allTransactions, type, options); 
-      const targetName = (mName || '').replace(/\u200B/g, '').toUpperCase();
+      
+      const isAll = mName === 'all';
+      const isAllUnit = mName === 'all_unit';
+      const isAllMitra = mName === 'all_mitra';
+      const targetName = (!isAll && !isAllUnit && !isAllMitra) ? (mName || '').replace(/\u200B/g, '').toUpperCase() : "";
+
       const mData = window.allMitras.find(m => m && (m.clean_name || m.display_name || '').toUpperCase() === targetName); 
-      const pPT = mData ? mData.pct_pt : 20, pMT = mData ? mData.pct_mitra : 80;
+      const isUnitTarget = isAllUnit ? true : (isAllMitra ? false : (mData ? mData.isUnit : false));
+
+      const pPT = (isAllUnit || isAllMitra || targetName) ? (mData ? mData.pct_pt : 20) : 'all'; 
+      const pMT = (isAllUnit || isAllMitra || targetName) ? (mData ? mData.pct_mitra : 80) : 'all';
       
       const s = filtered.reduce((a, b) => { 
           const cleanMitra = (b.mitra||'').replace(/\u200B/g, '').toUpperCase();
@@ -978,13 +1223,20 @@
           const ptVal = Math.round(rs*(cPt/100) / 100) * 100; const mtVal = rs - ptVal;
           return { o: a.o+om, lk: a.lk+lk, csr: a.csr+cs, pt: a.pt+ptVal, bm: a.bm+(!isUnit?mtVal:0), bu: a.bu+(isUnit?mtVal:0) }; 
       }, {o:0, lk:0, csr:0, pt:0, bm:0, bu:0});
-      const isAll = (window.userProfile?.appRole === 'admin' && mName === "");
-      const isUnitTarget = mData ? mData.isUnit : false;
       
-      Object.entries({hOmset: s.o, hLabaKotor: s.lk, hCSR: s.csr, hPT: s.pt}).forEach(([id, val]) => { const el = document.getElementById(id); if(el) { el.innerText = fmt(val); if (id === 'hPT') document.getElementById('labelPT').innerText = isAll ? 'TOTAL JATAH PT' : `PEMBAGIAN PT (${pPT}%)`; } });
+      Object.entries({hOmset: s.o, hLabaKotor: s.lk, hCSR: s.csr, hPT: s.pt}).forEach(([id, val]) => { 
+          const el = document.getElementById(id); 
+          if(el) { 
+              el.innerText = fmt(val); 
+              if (id === 'hPT') document.getElementById('labelPT').innerText = (isAll || isAllUnit || isAllMitra) ? 'TOTAL JATAH PT' : `PEMBAGIAN PT (${pPT}%)`; 
+          } 
+      });
+      
       const elPartner = document.getElementById('hPartner'); const elLabel = document.getElementById('labelMitra');
       if (elPartner && elLabel) {
           if (isAll) { elPartner.innerText = fmt(s.bm + s.bu); elLabel.innerText = "TOTAL MITRA + UNIT"; } 
+          else if (isAllUnit) { elPartner.innerText = fmt(s.bu); elLabel.innerText = "TOTAL JATAH UNIT USAHA PT"; }
+          else if (isAllMitra) { elPartner.innerText = fmt(s.bm); elLabel.innerText = "TOTAL JATAH MITRA USAHA PT"; }
           else if (isUnitTarget) { elPartner.innerText = fmt(s.bu); elLabel.innerText = `PEMBAGIAN UNIT (${pMT}%)`; } 
           else { elPartner.innerText = fmt(s.bm); elLabel.innerText = `PEMBAGIAN MITRA (${pMT}%)`; }
       }
@@ -992,7 +1244,19 @@
 
     window.getFilteredData = (allData, type, options) => {
         let data = [...allData]; if (type === 'range') { if (options.start) data = data.filter(t => t.tanggal >= options.start); if (options.end) data = data.filter(t => t.tanggal <= options.end); } else if (type === 'month' && options.month) { data = data.filter(t => t.tanggal.substring(0, 7) === options.month); } else if (type === 'year' && options.year) { data = data.filter(t => t.tanggal.substring(0, 4) === options.year.toString()); }
-        if (options.mitra && options.mitra !== 'all') data = data.filter(t => (t.mitra || '').replace(/\u200B/g, '').toUpperCase() === options.mitra.replace(/\u200B/g, '').toUpperCase()); return data;
+        
+        if (options.mitra && options.mitra !== 'all') {
+            if (options.mitra === 'all_unit') {
+                const unitNames = window.allMitras.filter(m => m.isUnit).map(m => m.clean_name.toUpperCase());
+                data = data.filter(t => unitNames.includes((t.mitra || '').replace(/\u200B/g, '').toUpperCase()));
+            } else if (options.mitra === 'all_mitra') {
+                const mitraNames = window.allMitras.filter(m => !m.isUnit).map(m => m.clean_name.toUpperCase());
+                data = data.filter(t => mitraNames.includes((t.mitra || '').replace(/\u200B/g, '').toUpperCase()));
+            } else {
+                data = data.filter(t => (t.mitra || '').replace(/\u200B/g, '').toUpperCase() === options.mitra.replace(/\u200B/g, '').toUpperCase());
+            }
+        }
+        return data;
     };
 
     window.toggleSidebarInputs = () => { const t = document.getElementById('sidebarFilterType')?.value; document.getElementById('s-range-inputs')?.classList.toggle('hidden', t !== 'range'); document.getElementById('s-month-inputs')?.classList.toggle('hidden', t !== 'month'); document.getElementById('s-year-inputs')?.classList.toggle('hidden', t !== 'year'); };
@@ -1002,7 +1266,19 @@
     window.handleLogoutRequest = () => { window.showSRGModal({ title: "KELUAR?", message: "Hapus sesi Anda?", confirmText: "YA", showCancel: true, onConfirm: () => { localStorage.removeItem('srg_user'); localStorage.removeItem('srg_pass'); location.reload(); } }); };
 
     window.handlePrintRequest = () => {
-        const mitraVal = document.getElementById('rMitra')?.value || 'all'; document.getElementById('printMitraLabel').innerText = mitraVal === 'all' ? 'SEMUA CABANG & MITRA' : mitraVal.replace(/\u200B/g, '').toUpperCase();
+        const macro = window.currentRekapMacro || 'all';
+        let mitraVal = "all";
+        if (macro !== 'all') {
+            const microVal = document.getElementById('rMitra')?.value || 'all_micro';
+            mitraVal = microVal === 'all_micro' ? (macro === 'unit' ? 'all_unit' : 'all_mitra') : microVal;
+        }
+
+        let printLabel = 'SEMUA CABANG & MITRA';
+        if (mitraVal === 'all_unit') printLabel = 'REKAPITULASI UNIT USAHA PT';
+        else if (mitraVal === 'all_mitra') printLabel = 'REKAPITULASI MITRA USAHA PT';
+        else if (mitraVal !== 'all') printLabel = mitraVal.replace(/\u200B/g, '').toUpperCase();
+        
+        document.getElementById('printMitraLabel').innerText = printLabel;
         const now = new Date(); const m = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"]; document.getElementById('printTimeLabel').innerText = `${now.getDate()} ${m[now.getMonth()]} ${now.getFullYear()} | ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')} WIB`; document.getElementById('sig-location').innerText = "Bojonegoro, " + now.getDate() + " " + m[now.getMonth()] + " " + now.getFullYear(); window.print();
     };
 
