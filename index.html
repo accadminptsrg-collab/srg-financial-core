@@ -133,17 +133,19 @@
     .growth-down { color: #dc2626; font-weight: bold; font-size: 9px; display: inline-flex; align-items: center; margin-top: 4px;}
 
     /* MEDIA PRINT SETTINGS */
+    #srg-print-area { display: none; }
     @media print {
       @page { margin: 10mm; }
-      body { background: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      body.print-mode-active * { visibility: hidden; }
-      body.print-mode-active .print-target-active, body.print-mode-active .print-target-active * { visibility: visible; }
-      body.print-mode-active .print-target-active { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 10px; }
-      .print-target-active table { min-width: 100% !important; border: 1pt solid black !important; border-collapse: collapse !important; margin-top: 15px !important;}
-      .print-target-active th { background-color: #f1f5f9 !important; border: 1pt solid black !important; color: black !important; font-size: 10pt !important; padding: 8px !important; }
-      .print-target-active td { border: 1pt solid black !important; color: black !important; font-size: 10pt !important; padding: 8px !important; }
-      .print-target-active .premium-card { border: none !important; box-shadow: none !important; padding: 0 !important; }
-      .no-print, .print-target-active .no-print, .print-target-active .no-print * { display: none !important; height: 0 !important; }
+      body.is-printing > *:not(#srg-print-area) { display: none !important; }
+      body.is-printing { background: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; padding: 0 !important; margin: 0 !important; }
+      #srg-print-area { display: block !important; position: static !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
+      
+      #srg-print-area table { min-width: 100% !important; border: 1pt solid black !important; border-collapse: collapse !important; margin-top: 15px !important; margin-bottom: 20px !important; }
+      #srg-print-area th { background-color: #f1f5f9 !important; border: 1pt solid black !important; color: black !important; font-size: 10pt !important; padding: 8px !important; }
+      #srg-print-area td { border: 1pt solid black !important; color: black !important; font-size: 10pt !important; padding: 8px !important; }
+      #srg-print-area .premium-card { border: none !important; box-shadow: none !important; padding: 0 !important; }
+      
+      .no-print { display: none !important; }
     }
   </style>
 </head>
@@ -1339,13 +1341,21 @@
         const target = document.getElementById(targetId);
         if(!target) return;
         
-        let kopDiv = null, sigDiv = null;
-        
+        let printArea = document.getElementById('srg-print-area');
+        if(!printArea) {
+            printArea = document.createElement('div');
+            printArea.id = 'srg-print-area';
+            document.body.appendChild(printArea);
+        }
+
+        printArea.innerHTML = target.innerHTML;
+        printArea.className = target.className;
+
         if (withKop) {
             const kopSource = document.getElementById('global-print-kop');
             if (kopSource) {
-                kopDiv = document.createElement('div');
-                kopDiv.className = 'print-only-kop w-full mb-5';
+                const kopDiv = document.createElement('div');
+                kopDiv.className = 'print-only-kop w-full mb-6 border-b-[3px] border-double border-slate-800 pb-3';
                 kopDiv.innerHTML = kopSource.innerHTML;
                 
                 const dtEl = kopDiv.querySelector('.print-datetime');
@@ -1364,29 +1374,29 @@
                     }
                 }
                 
-                target.insertBefore(kopDiv, target.firstChild);
+                printArea.insertBefore(kopDiv, printArea.firstChild);
             }
         }
 
         if (withSig) {
-            sigDiv = document.createElement('div');
-            sigDiv.className = 'print-only-sig flex justify-between text-[10px] md:text-xs text-center px-8 mt-12 mb-8 page-break-inside-avoid w-full';
+            const sigDiv = document.createElement('div');
+            sigDiv.className = 'print-only-sig flex justify-between text-[10px] md:text-xs text-center px-8 mt-16 mb-8 page-break-inside-avoid w-full';
             sigDiv.innerHTML = `
                 <div class="w-1/2 flex flex-col items-center"><p class="mb-20">Dibuat Oleh,</p><p class="font-bold border-b border-black inline-block px-6 pb-1">M.Nasyruddin Mujtaba.M.A</p><p class="text-[9px] mt-1 font-bold text-slate-500 uppercase tracking-wider">Dir. Accounting & Administrasi</p></div>
                 <div class="w-1/2 flex flex-col items-center"><p class="mb-20">Mengetahui & Menyetujui,</p><p class="font-bold border-b border-black inline-block px-6 pb-1">Burhan Ari Mukti</p><p class="text-[9px] mt-1 font-bold text-slate-500 uppercase tracking-wider">Direktur Utama</p></div>
             `;
-            target.appendChild(sigDiv);
+            printArea.appendChild(sigDiv);
         }
 
-        document.body.classList.add('print-mode-active');
-        target.classList.add('print-target-active');
+        const noPrints = printArea.querySelectorAll('.no-print');
+        noPrints.forEach(el => el.remove());
+
+        document.body.classList.add('is-printing');
 
         setTimeout(() => {
             window.print();
-            document.body.classList.remove('print-mode-active');
-            target.classList.remove('print-target-active');
-            if(kopDiv && target.contains(kopDiv)) target.removeChild(kopDiv);
-            if(sigDiv && target.contains(sigDiv)) target.removeChild(sigDiv);
+            document.body.classList.remove('is-printing');
+            printArea.innerHTML = '';
         }, 300);
     };
 
