@@ -148,6 +148,7 @@
       body:not(.printing-slip-modal) #customKopImg:not(.hidden) { display: block !important; width: 100% !important; height: auto !important; max-height: 3.5cm !important; object-fit: contain !important; object-position: center !important; mix-blend-mode: multiply !important; margin: 0 auto !important; }
       body:not(.printing-slip-modal) #print-info-bar { display: flex !important; justify-content: space-between !important; margin-bottom: 15px !important; }
       body:not(.printing-slip-modal) #print-signature { display: block !important; page-break-inside: avoid !important; }
+      body:not(.printing-slip-modal) #rekapSignature { display: flex !important; page-break-inside: avoid !important; }
       body:not(.printing-slip-modal) .sig-name { font-weight: bold; border-bottom: 1.5pt solid black; margin-top: 70px; display: inline-block; min-width: 150px; }
       body.printing-slip-modal > *:not(#slipModal) { display: none !important; }
       body.printing-slip-modal { background: white !important; padding: 0 !important; }
@@ -687,6 +688,11 @@
               <span id="rekapPageInfo">Hal 1 dari 1</span>
               <button onclick="window.changeRekapPage(1)" id="btnNextRekap" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 rounded text-slate-600 disabled:opacity-50 border border-slate-200">Selanjutnya</button>
           </div>
+          <!-- TTD untuk PDF / Print Native -->
+          <div id="rekapSignature" class="hidden justify-between text-xs md:text-sm text-center px-8 mt-12 mb-8 page-break-inside-avoid">
+              <div class="w-1/2 flex flex-col items-center"><p class="mb-20">Dibuat Oleh,</p><p class="font-bold border-b border-black inline-block px-6 pb-1">M.Nasyruddin Mujtaba.M.A</p><p class="text-[10px] mt-1 font-bold text-slate-500 uppercase tracking-wider">Dir. Accounting & Administrasi</p></div>
+              <div class="w-1/2 flex flex-col items-center"><p class="mb-20">Mengetahui & Menyetujui,</p><p class="font-bold border-b border-black inline-block px-6 pb-1">Burhan Ari Mukti</p><p class="text-[10px] mt-1 font-bold text-slate-500 uppercase tracking-wider">Direktur Utama</p></div>
+          </div>
         </div>
       </div>
 
@@ -955,13 +961,13 @@
           </div></div>
           <div class="mb-8 pt-4 border-t text-xs md:text-sm space-y-3">
               <div class="flex justify-between text-slate-400"><span>Jatah Jasa Manajemen PT</span><span class="font-bold" id="mslipPt"></span></div>
-              <div class="flex justify-between text-slate-400"><span>Jatah Cabang (Kotor)</span><span class="font-bold" id="mslipCabangKotor"></span></div>
-              <div class="flex justify-between text-red-600 font-bold border-b pb-2"><span>Total Potongan Kasbon (-)</span><span id="mslipKasbon"></span></div>
-              <div class="flex justify-between items-center bg-slate-800 text-[var(--srg-gold)] p-4 rounded-lg mt-3 shadow-inner"><span class="font-black text-[10px] md:text-xs">PENERIMAAN BERSIH</span><span class="font-black text-xl md:text-2xl" id="mslipNetto"></span></div>
+          <div class="p-4 bg-amber-50 rounded text-[9px] md:text-xs text-amber-800 mb-8">Sisa piutang berjalan cabang ke pusat: <span class="font-black text-red-600 ml-1" id="mslipPiutang"></span>.</div>
+          <div class="flex justify-between text-[10px] md:text-xs text-center px-2 mt-4">
+              <div class="w-1/3 flex flex-col items-center"><p class="mb-16">Dibuat Oleh,</p><p class="font-bold border-b border-black inline-block px-2 pb-1">M.Nasyruddin Mujtaba.M.A</p><p class="text-[8px] mt-1 font-bold text-slate-500 uppercase tracking-wider">Dir. Accounting & Adm</p></div>
+              <div class="w-1/3 flex flex-col items-center"><p class="mb-16">Disetujui Oleh,</p><p class="font-bold border-b border-black inline-block px-2 pb-1">Burhan Ari Mukti</p><p class="text-[8px] mt-1 font-bold text-slate-500 uppercase tracking-wider">Direktur Utama</p></div>
+              <div class="w-1/3 flex flex-col items-center"><p class="mb-16">Diterima Oleh,</p><p class="font-bold border-b border-black inline-block px-2 pb-1" id="mslipNamaTtd"></p><p class="text-[8px] mt-1 font-bold text-slate-500 uppercase tracking-wider">Mitra / Cabang</p></div>
           </div>
-          <div class="p-4 bg-amber-50 rounded text-[9px] md:text-xs text-amber-800 mb-12">Sisa piutang berjalan cabang ke pusat: <span class="font-black text-red-600 ml-1" id="mslipPiutang"></span>.</div>
-          <div class="flex justify-between text-xs md:text-sm text-center px-4"><div class="w-1/2 flex flex-col items-center"><p class="mb-20">Disetujui Oleh,</p><p class="font-bold border-b border-black inline-block px-4 pb-1">Direktur Utama</p></div><div class="w-1/2 flex flex-col items-center"><p class="mb-20">Diterima Oleh,</p><p class="font-bold border-b border-black inline-block px-4 pb-1" id="mslipNamaTtd"></p></div></div>
-          <div class="mt-16 text-[8px] text-slate-300 text-center uppercase font-bold tracking-[3px]">Financial Core Enterprise - <span id="mslipDate"></span></div>
+          <div class="mt-12 text-[8px] text-slate-300 text-center uppercase font-bold tracking-[3px]">Financial Core Enterprise - <span id="mslipDate"></span></div>
       </div>
       <div class="p-6 bg-slate-50 border-t flex justify-end space-x-3 no-print"><button onclick="window.closeSlipModal()" class="px-6 py-2.5 text-xs font-bold text-slate-500 hover:bg-slate-200 rounded-xl transition-colors">Tutup</button><button onclick="window.downloadSlipPDF()" class="btn-premium px-8 py-2.5 text-xs font-black uppercase shadow-lg"><i class="fas fa-file-pdf mr-2"></i> Unduh PDF</button></div>
     </div>
@@ -1334,7 +1340,37 @@
 
     // --- 11. EXPORT & PRINTING ---
     window.exportToExcel = () => { if(typeof XLSX === 'undefined') return; const t = document.getElementById('rekapFilterType')?.value; const opts = { start: document.getElementById('rStart')?.value, end: document.getElementById('rEnd')?.value, month: document.getElementById('rMonth')?.value, year: document.getElementById('rYear')?.value, mitra: document.getElementById('rMitra')?.value }; const data = window.getFilteredData(window.allTransactions, t, opts).filter(d => d.status === 'approved' || !d.status); const excelData = data.map(tx => { const mD = window.allMitras.find(m => m.display_name === tx.mitra) || {pct_pt:20}; const res = tx.lb - (tx.lb > 0 ? Math.round(tx.lb*0.05/100)*100 : 0); const jPt = Math.round(res*(mD.pct_pt/100)/100)*100; return { "Tanggal": tx.tanggal, "Cabang / Mitra": tx.mitra.replace(/\u200B/g,''), "Omset Kotor": tx.omset, "Modal Produksi": tx.modal, "Biaya Operasional": tx.ops, "Pajak": (tx.pajak||0), "Laba Bersih": tx.lb, "Potongan CSR (5%)": (tx.lb - res), "Jatah Manajemen PT": jPt, "Kasbon": (tx.kasbon||0), "Penerimaan Netto Cabang": (res - jPt - (tx.kasbon||0)) }; }); const ws = XLSX.utils.json_to_sheet(excelData); const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, "Rekap Laporan SRG"); XLSX.writeFile(wb, "Rekap_Data_SRG.xlsx"); };
-    window.downloadRekapPDF = () => { if(typeof html2pdf === 'undefined') { window.handlePrintRequest(); return; } const pagination = document.getElementById('rekapPagination'); if (pagination) pagination.classList.add('hidden'); const savedPage = rekapCurrentPage; rekapCurrentPage = 1; const data = window.getFilteredData(window.allTransactions, document.getElementById('rekapFilterType').value, { start: document.getElementById('rStart').value, end: document.getElementById('rEnd').value, month: document.getElementById('rMonth').value, year: document.getElementById('rYear').value, mitra: document.getElementById('rMitra').value }).filter(d => d.status === 'approved' || !d.status); const rT = document.getElementById('rekapTable'); if(rT) { rT.innerHTML = data.map(t => { const clean = t.mitra.replace(/\u200B/g,''); const mDx = window.allMitras.find(mx => mx.display_name === t.mitra) || {pct_pt:20, pct_mitra:80}; const lb = t.lb; const csr = lb>0 ? Math.round(lb*0.05/100)*100 : 0; const res = lb-csr; const jPt = Math.round(res*(mDx.pct_pt/100)/100)*100; const kas = Number(t.kasbon)||0; return `<tr><td style="padding: 10px; font-size: 11px;">${t.tanggal}</td><td style="padding: 10px; font-size: 11px; font-weight: bold;">${clean}</td><td style="padding: 10px; font-size: 11px; text-align: right; font-weight: bold; color: #059669;">${fmt(lb)}</td><td style="padding: 10px; font-size: 11px; text-align: right;">${fmt(csr)}</td><td style="padding: 10px; font-size: 11px; text-align: right; font-weight: bold; color: #052e25;">${fmt(jPt)}</td><td style="padding: 10px; font-size: 11px; text-align: right; color: #ef4444;">${fmt(kas)}</td><td style="padding: 10px; font-size: 11px; text-align: right; font-weight: bold; color: #ea580c;">${fmt((res-jPt)-kas)}</td></tr>`; }).join(''); } const element = document.getElementById('rekapTableWrapper'); const opt = { margin: 0.5, filename: 'Rekap_Laporan_SRG.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' } }; html2pdf().set(opt).from(element).save().then(() => { rekapCurrentPage = savedPage; if (pagination) pagination.classList.remove('hidden'); window.refreshRekapDashboard(false); }); };
+    window.downloadRekapPDF = () => { 
+        if(typeof html2pdf === 'undefined') { window.handlePrintRequest(); return; } 
+        const pagination = document.getElementById('rekapPagination'); 
+        if (pagination) pagination.classList.add('hidden'); 
+        const savedPage = rekapCurrentPage; rekapCurrentPage = 1; 
+        const data = window.getFilteredData(window.allTransactions, document.getElementById('rekapFilterType').value, { start: document.getElementById('rStart').value, end: document.getElementById('rEnd').value, month: document.getElementById('rMonth').value, year: document.getElementById('rYear').value, mitra: document.getElementById('rMitra').value }).filter(d => d.status === 'approved' || !d.status); 
+        const rT = document.getElementById('rekapTable'); 
+        if(rT) { rT.innerHTML = data.map(t => { const clean = t.mitra.replace(/\u200B/g,''); const mDx = window.allMitras.find(mx => mx.display_name === t.mitra) || {pct_pt:20, pct_mitra:80}; const lb = t.lb; const csr = lb>0 ? Math.round(lb*0.05/100)*100 : 0; const res = lb-csr; const jPt = Math.round(res*(mDx.pct_pt/100)/100)*100; const kas = Number(t.kasbon)||0; return `<tr><td style="padding: 10px; font-size: 11px;">${t.tanggal}</td><td style="padding: 10px; font-size: 11px; font-weight: bold;">${clean}</td><td style="padding: 10px; font-size: 11px; text-align: right; font-weight: bold; color: #059669;">${fmt(lb)}</td><td style="padding: 10px; font-size: 11px; text-align: right;">${fmt(csr)}</td><td style="padding: 10px; font-size: 11px; text-align: right; font-weight: bold; color: #052e25;">${fmt(jPt)}</td><td style="padding: 10px; font-size: 11px; text-align: right; color: #ef4444;">${fmt(kas)}</td><td style="padding: 10px; font-size: 11px; text-align: right; font-weight: bold; color: #ea580c;">${fmt((res-jPt)-kas)}</td></tr>`; }).join(''); } 
+        
+        const element = document.getElementById('rekapTableWrapper'); 
+        const kop = document.getElementById('report-kop');
+        const sig = document.getElementById('rekapSignature');
+        
+        element.insertBefore(kop, element.firstChild);
+        kop.classList.remove('hidden', 'print:block');
+        kop.classList.add('block');
+        sig.classList.remove('hidden');
+        sig.classList.add('flex');
+
+        const opt = { margin: 0.4, filename: 'Rekap_Laporan_SRG.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true }, jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' } }; 
+        html2pdf().set(opt).from(element).save().then(() => { 
+            rekapCurrentPage = savedPage; 
+            if (pagination) pagination.classList.remove('hidden'); 
+            kop.classList.add('hidden', 'print:block');
+            kop.classList.remove('block');
+            sig.classList.add('hidden');
+            sig.classList.remove('flex');
+            document.getElementById('page-rekap').insertBefore(kop, document.getElementById('rekapFilterBox'));
+            window.refreshRekapDashboard(false); 
+        }); 
+    };
     window.handlePrintRequest = () => { const rM = document.getElementById('rMitra').value; document.getElementById('printMitraLabel').innerText = rM==='all_micro'?'SEMUA JARINGAN':(rM==='all_unit'?'UNIT USAHA PT':(rM==='all_mitra'?'MITRA USAHA PT':rM.replace(/\u200B/g,'').toUpperCase())); window.print(); };
     window.handlePrintSlip = () => { const rM = document.getElementById('rMitra').value; if(rM === 'all_micro' || rM === 'all_unit' || rM === 'all_mitra' || rM === 'all') { window.showSRGModal({title:"Pilih Mitra", message:"Pilih satu mitra spesifik."}); return; } const m = window.allMitras.find(x => x.clean_name === rM.replace(/\u200B/g,'')); if(!m) return; const t = document.getElementById('rekapFilterType').value; const bln = document.getElementById('rMonth').value; if (t !== 'month' || !bln) { window.showSRGModal({title:"Filter", message:"Hanya bisa dicetak untuk filter 'Satu Bulan'."}); return; } const data = window.getFilteredData(window.allTransactions, 'month', {month: bln, mitra: rM}).filter(d => d.status === 'approved' || !d.status); if(data.length === 0) { window.showSRGModal({title:"Kosong", message:"Tidak ada laporan di bulan ini."}); return; } let sOmset = 0, sModal = 0, sOps = 0, sKasbon = 0, sPajak = 0; data.forEach(d => { sOmset+=d.omset; sModal+=d.modal; sOps+=d.ops; sKasbon+=d.kasbon; sPajak+=(d.pajak||0); }); const lk = sOmset - sModal; const lb = lk - sOps - sPajak; const csr = lb > 0 ? Math.round(lb*0.05/100)*100 : 0; const res = lb - csr; const jPt = Math.round(res*(m.pct_pt/100)/100)*100; const netto = res - jPt - sKasbon; document.getElementById('mslipPeriode').innerText = `Periode: ${bln}`; document.getElementById('mslipNama').innerText = m.display_name; document.getElementById('mslipKategori').innerText = m.isUnit ? "Unit Usaha PT" : "Mitra Usaha PT"; document.getElementById('mslipSkema').innerText = `PT ${m.pct_pt}% : Cabang ${m.pct_mitra}%`; document.getElementById('mslipOmset').innerText = fmt(sOmset); document.getElementById('mslipModal').innerText = `(${fmt(sModal)})`; document.getElementById('mslipOps').innerText = `(${fmt(sOps + sPajak)})`; document.getElementById('mslipLbs').innerText = fmt(lb); document.getElementById('mslipCsr').innerText = `(${fmt(csr)})`; document.getElementById('mslipLba').innerText = fmt(res); document.getElementById('mslipPt').innerText = fmt(jPt); document.getElementById('mslipCabangKotor').innerText = fmt(res - jPt); document.getElementById('mslipKasbon').innerText = `(${fmt(sKasbon)})`; document.getElementById('mslipNetto').innerText = fmt(netto); document.getElementById('mslipPiutang').innerText = fmt(m.piutang); document.getElementById('mslipNamaTtd').innerText = m.clean_name; document.getElementById('mslipDate').innerText = new Date().toLocaleString(); document.getElementById('slipModal').classList.remove('hidden'); document.getElementById('slipModal').classList.add('flex'); };
     window.closeSlipModal = () => { document.getElementById('slipModal').classList.add('hidden'); document.getElementById('slipModal').classList.remove('flex'); };
