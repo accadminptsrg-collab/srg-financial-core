@@ -1060,7 +1060,7 @@
     };
 
     window.toggleRekapInputs = () => { const v = document.getElementById('rekapFilterType')?.value; if(!v) return; document.getElementById('r-range-fields')?.classList.toggle('hidden', v !== 'range'); document.getElementById('r-month-fields')?.classList.toggle('hidden', v !== 'month'); document.getElementById('r-year-fields')?.classList.toggle('hidden', v !== 'year'); window.toggleSlipButton(); };
-    window.toggleSlipButton = () => { const btn = document.getElementById('btnCetakSlip'); const t = document.getElementById('rekapFilterType'); const m = document.getElementById('rMitra'); if(!btn||!t||!m)return; if(t.value==='month' && m.value && m.value!=='all_micro' && m.value!=='all') { btn.classList.replace('hidden', 'flex'); } else { btn.classList.replace('flex', 'hidden'); } };
+    window.toggleSlipButton = () => { const btn = document.getElementById('btnCetakSlip'); const t = document.getElementById('rekapFilterType'); const m = document.getElementById('rMitra'); if(!btn||!t||!m)return; if(t.value==='month' && m.value && m.value!=='all_micro' && m.value!=='all' && m.value!=='all_unit' && m.value!=='all_mitra') { btn.classList.replace('hidden', 'flex'); } else { btn.classList.replace('flex', 'hidden'); } };
     window.toggleSidebarInputs = () => { const v = document.getElementById('sidebarFilterType')?.value; if(!v) return; document.getElementById('s-range-inputs')?.classList.toggle('hidden', v !== 'range'); document.getElementById('s-month-inputs')?.classList.toggle('hidden', v !== 'month'); document.getElementById('s-year-inputs')?.classList.toggle('hidden', v !== 'year'); };
 
     window.setMacroFilter = (macro) => { window.currentMacro = macro; ['all', 'unit', 'mitra'].forEach(m => { const b = document.getElementById('tab-macro-' + m); if(b) { if(m === macro) { b.classList.add('bg-white', 'shadow-sm', 'text-[var(--srg-green)]', 'border', 'border-slate-200', 'font-extrabold'); b.classList.remove('text-slate-500', 'hover:text-slate-800', 'font-bold'); } else { b.classList.add('text-slate-500', 'hover:text-slate-800', 'font-bold'); b.classList.remove('bg-white', 'shadow-sm', 'text-[var(--srg-green)]', 'border', 'border-slate-200', 'font-extrabold'); } } }); const mC = document.getElementById('microFilterContainer'), mS = document.getElementById('mitraFilter'); if(!mC || !mS) return; if(macro === 'all') { mC.classList.replace('flex', 'hidden'); mS.innerHTML = '<option value="all_micro">Semua</option>'; } else { mC.classList.replace('hidden', 'flex'); mS.innerHTML = ''; if (macro === 'unit') { mS.add(new Option("Semua Unit Usaha PT", "all_micro")); window.allMitras.filter(m => m.isUnit).forEach(m => mS.add(new Option(m.clean_name, m.clean_name.toUpperCase()))); } else { mS.add(new Option("Semua Mitra Usaha PT", "all_micro")); window.allMitras.filter(m => !m.isUnit).forEach(m => mS.add(new Option(m.clean_name, m.clean_name.toUpperCase()))); } } window.refreshDashboard(); };
@@ -1430,7 +1430,59 @@
     
     window.handlePrintRequest = () => { window.downloadRekapPDF(); };
     
-    window.handlePrintSlip = () => { const rM = document.getElementById('rMitra').value; if(rM === 'all_micro' || rM === 'all_unit' || rM === 'all_mitra' || rM === 'all') { window.showSRGModal({title:"Pilih Mitra", message:"Pilih satu mitra spesifik."}); return; } const m = window.allMitras.find(x => x.clean_name === rM.replace(/\u200B/g,'')); if(!m) return; const t = document.getElementById('rekapFilterType').value; const bln = document.getElementById('rMonth').value; if (t !== 'month' || !bln) { window.showSRGModal({title:"Filter", message:"Hanya bisa dicetak untuk filter 'Satu Bulan'."}); return; } const data = window.getFilteredData(window.allTransactions, 'month', {month: bln, mitra: rM}).filter(d => d.status === 'approved' || !d.status); if(data.length === 0) { window.showSRGModal({title:"Kosong", message:"Tidak ada laporan di bulan ini."}); return; } let sOmset = 0, sModal = 0, sOps = 0, sKasbon = 0, sPajak = 0; data.forEach(d => { sOmset+=d.omset; sModal+=d.modal; sOps+=d.ops; sKasbon+=d.kasbon; sPajak+=(d.pajak||0); }); const lk = sOmset - sModal; const lb = lk - sOps - sPajak; const csr = lb > 0 ? Math.round(lb*0.05/100)*100 : 0; const res = lb - csr; const jPt = Math.round(res*(m.pct_pt/100)/100)*100; const netto = res - jPt - sKasbon; document.getElementById('mslipPeriode').innerText = `Periode: ${bln}`; document.getElementById('mslipNama').innerText = m.display_name; document.getElementById('mslipKategori').innerText = m.isUnit ? "Unit Usaha PT" : "Mitra Usaha PT"; document.getElementById('mslipSkema').innerText = `PT ${m.pct_pt}% : Cabang ${m.pct_mitra}%`; document.getElementById('mslipOmset').innerText = fmt(sOmset); document.getElementById('mslipModal').innerText = `(${fmt(sModal)})`; document.getElementById('mslipOps').innerText = `(${fmt(sOps + sPajak)})`; document.getElementById('mslipLbs').innerText = fmt(lb); document.getElementById('mslipCsr').innerText = `(${fmt(csr)})`; document.getElementById('mslipLba').innerText = fmt(res); document.getElementById('mslipPt').innerText = fmt(jPt); document.getElementById('mslipCabangKotor').innerText = fmt(res - jPt); document.getElementById('mslipKasbon').innerText = `(${fmt(sKasbon)})`; document.getElementById('mslipNetto').innerText = fmt(netto); document.getElementById('mslipPiutang').innerText = fmt(m.piutang); document.getElementById('mslipNamaTtd').innerText = m.clean_name; document.getElementById('mslipDate').innerText = new Date().toLocaleString('id-ID', { dateStyle: 'full', timeStyle: 'long' }); document.getElementById('slipModal').classList.remove('hidden'); document.getElementById('slipModal').classList.add('flex'); };
+    window.handlePrintSlip = () => { 
+        const rM = document.getElementById('rMitra').value; 
+        if(rM === 'all_micro' || rM === 'all_unit' || rM === 'all_mitra' || rM === 'all') { 
+            window.showSRGModal({title:"Pilih Mitra", message:"Pilih satu mitra spesifik."}); 
+            return; 
+        } 
+        const m = window.allMitras.find(x => x.clean_name === rM.replace(/\u200B/g,'')); 
+        if(!m) return; 
+        const t = document.getElementById('rekapFilterType').value; 
+        const bln = document.getElementById('rMonth').value; 
+        if (t !== 'month' || !bln) { 
+            window.showSRGModal({title:"Filter", message:"Hanya bisa dicetak untuk filter 'Satu Bulan'."}); 
+            return; 
+        } 
+        const data = window.getFilteredData(window.allTransactions, 'month', {month: bln, mitra: rM}).filter(d => d.status === 'approved' || !d.status); 
+        if(data.length === 0) { 
+            window.showSRGModal({title:"Kosong", message:"Tidak ada laporan di bulan ini."}); 
+            return; 
+        } 
+        let sOmset = 0, sModal = 0, sOps = 0, sKasbon = 0, sPajak = 0; 
+        data.forEach(d => { sOmset+=d.omset; sModal+=d.modal; sOps+=d.ops; sKasbon+=d.kasbon; sPajak+=(d.pajak||0); }); 
+        const lk = sOmset - sModal; 
+        const lb = lk - sOps - sPajak; 
+        const csr = lb > 0 ? Math.round(lb*0.05/100)*100 : 0; 
+        const res = lb - csr; 
+        const jPt = Math.round(res*(m.pct_pt/100)/100)*100; 
+        const netto = res - jPt - sKasbon; 
+        
+        document.getElementById('mslipPeriode').innerText = `Periode: ${bln}`; 
+        document.getElementById('mslipNama').innerText = m.display_name; 
+        document.getElementById('mslipKategori').innerText = m.isUnit ? "Unit Usaha PT" : "Mitra Usaha PT"; 
+        document.getElementById('mslipSkema').innerText = `PT ${m.pct_pt}% : Cabang ${m.pct_mitra}%`; 
+        document.getElementById('mslipOmset').innerText = fmt(sOmset); 
+        document.getElementById('mslipModal').innerText = `(${fmt(sModal)})`; 
+        document.getElementById('mslipOps').innerText = `(${fmt(sOps + sPajak)})`; 
+        document.getElementById('mslipLbs').innerText = fmt(lb); 
+        document.getElementById('mslipCsr').innerText = `(${fmt(csr)})`; 
+        document.getElementById('mslipLba').innerText = fmt(res); 
+        document.getElementById('mslipPt').innerText = fmt(jPt); 
+        document.getElementById('mslipCabangKotor').innerText = fmt(res - jPt); 
+        document.getElementById('mslipKasbon').innerText = `(${fmt(sKasbon)})`; 
+        document.getElementById('mslipNetto').innerText = fmt(netto); 
+        document.getElementById('mslipPiutang').innerText = fmt(m.piutang); 
+        document.getElementById('mslipNamaTtd').innerText = m.clean_name; 
+        document.getElementById('mslipDate').innerText = new Date().toLocaleString('id-ID', { dateStyle: 'full', timeStyle: 'long' }); 
+        
+        const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']; 
+        const [yy, mm] = bln.split('-');
+        const periodStr = `Bulan ${monthNames[parseInt(mm)-1]} ${yy}`;
+
+        window.triggerPrint('slipPrintArea', true, false, periodStr, m.clean_name); 
+    };
+    
     window.closeSlipModal = () => { document.getElementById('slipModal').classList.add('hidden'); document.getElementById('slipModal').classList.remove('flex'); };
     window.downloadSlipPDF = () => { 
         window.triggerPrint('slipPrintArea', false, false);
