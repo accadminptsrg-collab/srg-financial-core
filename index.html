@@ -144,8 +144,8 @@
       body:not(.printing-slip-modal) th { background-color: #f1f5f9 !important; border: 1pt solid black !important; color: black !important; font-size: 8pt !important; padding: 6px !important; }
       body:not(.printing-slip-modal) td { border: 1pt solid black !important; color: black !important; font-size: 8pt !important; padding: 6px !important; }
       body:not(.printing-slip-modal) .premium-card { border: none !important; box-shadow: none !important; padding: 0 !important; }
-      body:not(.printing-slip-modal) #report-kop { display: block !important; width: 100% !important; border-bottom: 2pt solid black !important; padding-bottom: 8px !important; margin-bottom: 20px !important; margin-top: 0 !important; background: white !important; }
-      body:not(.printing-slip-modal) #customKopImg:not(.hidden) { display: block !important; width: 100% !important; height: auto !important; max-height: 3.5cm !important; object-fit: contain !important; object-position: center !important; mix-blend-mode: multiply !important; margin: 0 auto !important; }
+      body:not(.printing-slip-modal) #report-kop { display: block !important; width: 100% !important; border-bottom: 3px double black !important; padding-bottom: 8px !important; margin-bottom: 20px !important; margin-top: 0 !important; background: white !important; }
+      body:not(.printing-slip-modal) #customKopImg:not(.hidden) { display: block !important; max-width: 100% !important; height: auto !important; max-height: 2.5cm !important; object-fit: contain !important; object-position: center !important; mix-blend-mode: multiply !important; margin: 0 auto !important; }
       body:not(.printing-slip-modal) #print-info-bar { display: flex !important; justify-content: space-between !important; margin-bottom: 15px !important; }
       body:not(.printing-slip-modal) #print-signature { display: block !important; page-break-inside: avoid !important; }
       body:not(.printing-slip-modal) #rekapSignature { display: flex !important; page-break-inside: avoid !important; }
@@ -635,12 +635,12 @@
 
       <!-- PAGE REKAP/LAPORAN DENGAN EXPORT PROFESIONAL -->
       <div id="page-rekap" class="page-content hidden space-y-5 text-left">
-        <div id="report-kop" class="hidden print:block">
-            <div id="defaultKop" class="relative flex items-center justify-center min-h-[70px] w-full">
-                <div id="printLogoContainer" style="background-color: var(--srg-green); border: 2px solid var(--srg-gold);" class="absolute left-2 top-1/2 -translate-y-1/2 w-14 h-14 rounded-xl flex items-center justify-center overflow-hidden shrink-0"><span class="default-logo text-[var(--srg-gold)] font-black text-xl">SRG</span></div>
-                <div class="text-center px-20"><h1 id="printTitleLong" class="text-2xl font-black text-slate-900 uppercase tracking-tight leading-none mb-1.5">PT SUBUR RAYA GROUP</h1><p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Laporan Keuangan Resmi Perusahaan</p></div>
+        <div id="report-kop" class="hidden print:block w-full border-b-[3px] border-double border-slate-800 pb-3 mb-5">
+            <div id="defaultKop" class="relative flex items-center justify-center min-h-[60px] w-full">
+                <div id="printLogoContainer" style="background-color: var(--srg-green); border: 2px solid var(--srg-gold);" class="absolute left-0 top-1/2 -translate-y-1/2 w-12 h-12 rounded-lg flex items-center justify-center overflow-hidden shrink-0"><span class="default-logo text-[var(--srg-gold)] font-black text-lg">SRG</span></div>
+                <div class="text-center px-16"><h1 id="printTitleLong" class="text-xl font-black text-slate-900 uppercase tracking-tight leading-none mb-1">PT SUBUR RAYA GROUP</h1><p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Laporan Keuangan Resmi Perusahaan</p></div>
             </div>
-            <img id="customKopImg" class="hidden mx-auto">
+            <img id="customKopImg" class="hidden mx-auto" style="max-width: 100%; max-height: 2.5cm; object-fit: contain; object-position: center;">
         </div>
 
         <div class="premium-card p-5 md:p-8 no-print text-left" id="rekapFilterBox">
