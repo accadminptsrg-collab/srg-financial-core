@@ -1255,8 +1255,53 @@
     window.syncEditPct = (caller) => { const pt = document.getElementById('e-pct-pt'), mi = document.getElementById('e-pct-mitra'); if(caller==='pt') mi.value = 100 - (Number(pt.value)||0); else pt.value = 100 - (Number(mi.value)||0); };
     window.toggleMitraPassVisibility = (id) => { mitraPassVisibility[id] = !mitraPassVisibility[id]; window.renderMitraManagement(); };
     window.handleEditMitra = (id) => { const m = window.allMitras.find(x => x.id === id); if(!m) return; const pL = m.isUnit ? 'Porsi Unit Usaha (%)' : 'Porsi Mitra (%)'; window.showSRGModal({ title: "Pengaturan Cabang", showCancel: true, content: `<div class="space-y-4 text-left"><div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">ID Login / Username</label><input type="text" id="e-mitra-user" value="${m.username}" class="premium-input w-full p-2.5 font-semibold text-sm"></div><div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Nama Tampilan</label><input type="text" id="e-mitra-name" value="${m.clean_name}" class="premium-input w-full p-2.5 font-semibold text-sm"></div><div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Sandi Akses</label><input type="text" id="e-mitra-pass" value="${m.password}" class="premium-input w-full p-2.5 font-semibold text-sm"></div><div class="grid grid-cols-2 gap-3"><div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Porsi PT (%)</label><input type="number" id="e-pct-pt" value="${m.pct_pt}" oninput="window.syncEditPct('pt')" class="premium-input w-full p-2.5 text-[var(--srg-green)] font-bold text-sm"></div><div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">${pL}</label><input type="number" id="e-pct-mitra" value="${m.pct_mitra}" oninput="window.syncEditPct('mitra')" class="premium-input w-full p-2.5 text-orange-600 font-bold text-sm"></div></div><div class="grid grid-cols-1 gap-3 pt-2 border-t"><div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Suntikan Modal PT (Rp)</label><input type="number" id="e-modal-awal" value="${m.modal_awal || 0}" class="premium-input w-full p-2.5 text-blue-600 font-bold text-sm"></div><div><label class="block text-[10px] font-bold text-orange-500 uppercase mb-1">Piutang Mengendap (Rp)</label><input type="number" id="e-piutang" value="${m.piutang || 0}" class="premium-input w-full p-2.5 text-orange-600 font-bold text-sm border-orange-200"></div></div></div>`, onConfirm: () => window.updateMitraData(id) }); };
-    window.updateMitraData = async (id) => { const m = window.allMitras.find(x => x.id === id); if(!m) return; const u = document.getElementById('e-mitra-user').value.trim(); const p = document.getElementById('e-mitra-pass').value.trim(); let n = document.getElementById('e-mitra-name').value.trim(); if(m.isUnit) n += '\u200B'; const ppt = parseFloat(document.getElementById('e-pct-pt').value); const pmt = parseFloat(document.getElementById('e-pct-mitra').value); const mA = parseFloat(document.getElementById('e-modal-awal').value) || 0; const eP = parseFloat(document.getElementById('e-piutang').value) || 0; if ((ppt + pmt) !== 100) return; document.getElementById('loadingOverlay').classList.remove('hidden'); const idx = window.allMitras.findIndex(x => x.id === id); if(idx !== -1) { window.allMitras[idx].username = u; window.allMitras[idx].password = p; window.allMitras[idx].display_name = n; window.allMitras[idx].clean_name = n.replace(/\u200B/g,''); window.allMitras[idx].pct_pt = ppt; window.allMitras[idx].pct_mitra = pmt; window.allMitras[idx].modal_awal = mA; window.allMitras[idx].piutang = eP; } try { if (id && !id.toString().includes('local-')) { await supabaseClient.from('mitras').update({ username: u, password: p, display_name: n, pct_pt: ppt, pct_mitra: pmt, modal_awal: mA, piutang: eP }).eq('id', id); } window.closeSRGModal(); window.renderMitraManagement(); window.populateMitraSelects(); window.addAuditLog('Edit Mitra', `Memperbarui profil: ${m.clean_name}`); window.showSRGModal({title: "Sukses", message: "Data diperbarui."}); } catch(e) {} finally { document.getElementById('loadingOverlay').classList.add('hidden'); } };
-    window.deleteMitra = (id) => { window.showSRGModal({ title: "Hapus Entitas?", showCancel: true, onConfirm: async () => { try { const ex = window.allMitras.find(x=>x.id===id); if (!id.toString().includes('local-')) await supabaseClient.from('mitras').delete().eq('id', id); if(ex) window.addAuditLog('Hapus Mitra', `Menghapus entitas: ${ex.clean_name}`); } catch(e) {} window.allMitras = window.allMitras.filter(x => x.id !== id); window.closeSRGModal(); window.renderMitraManagement(); window.populateMitraSelects(); } }); };
+    
+    window.updateMitraData = async (id) => { 
+        const m = window.allMitras.find(x => x.id === id); if(!m) return; 
+        const u = document.getElementById('e-mitra-user').value.trim(); 
+        const p = document.getElementById('e-mitra-pass').value.trim(); 
+        let n = document.getElementById('e-mitra-name').value.trim(); 
+        if(m.isUnit) n += '\u200B'; 
+        const ppt = parseFloat(document.getElementById('e-pct-pt').value); 
+        const pmt = parseFloat(document.getElementById('e-pct-mitra').value); 
+        const mA = parseFloat(document.getElementById('e-modal-awal').value) || 0; 
+        const eP = parseFloat(document.getElementById('e-piutang').value) || 0; 
+        
+        if ((ppt + pmt) !== 100) return; 
+        
+        document.getElementById('loadingOverlay').classList.remove('hidden'); 
+        
+        const idx = window.allMitras.findIndex(x => x.id === id); 
+        if(idx !== -1) { 
+            window.allMitras[idx].username = u; 
+            window.allMitras[idx].password = p; 
+            window.allMitras[idx].display_name = n; 
+            window.allMitras[idx].clean_name = n.replace(/\u200B/g,''); 
+            window.allMitras[idx].pct_pt = ppt; 
+            window.allMitras[idx].pct_mitra = pmt; 
+            window.allMitras[idx].modal_awal = mA; 
+            window.allMitras[idx].piutang = eP; 
+        } 
+        
+        try { 
+            if (id && !id.toString().includes('local-') && supabaseClient) { 
+                await supabaseClient.from('mitras').update({ username: u, password: p, display_name: n, pct_pt: ppt, pct_mitra: pmt, modal_awal: mA, piutang: eP }).eq('id', id); 
+            } 
+        } catch(e) {
+            console.warn("Mode Offline: Data tersimpan lokal.");
+        } finally { 
+            document.getElementById('loadingOverlay').classList.add('hidden'); 
+            window.closeSRGModal(); 
+            window.renderMitraManagement(); 
+            window.populateMitraSelects(); 
+            window.addAuditLog('Edit Mitra', `Memperbarui profil: ${n.replace(/\u200B/g,'')}`); 
+            setTimeout(() => {
+                window.showSRGModal({title: "Sukses", message: "Data Cabang/Mitra berhasil diperbarui."});
+            }, 300);
+        } 
+    };
+
+    window.deleteMitra = (id) => { window.showSRGModal({ title: "Hapus Entitas?", showCancel: true, onConfirm: async () => { try { const ex = window.allMitras.find(x=>x.id===id); if (!id.toString().includes('local-') && supabaseClient) await supabaseClient.from('mitras').delete().eq('id', id); if(ex) window.addAuditLog('Hapus Mitra', `Menghapus entitas: ${ex.clean_name}`); } catch(e) {} window.allMitras = window.allMitras.filter(x => x.id !== id); window.closeSRGModal(); window.renderMitraManagement(); window.populateMitraSelects(); } }); };
     window.addNewMitra = async () => { const u = document.getElementById('m-user').value.trim(), p = document.getElementById('m-pass').value.trim(); const isU = document.querySelector('input[name="entityType"]:checked').value === 'unit'; let n = document.getElementById('m-name').value.trim(); if(isU) n += '\u200B'; const ppt = parseFloat(document.getElementById('m-pct-pt').value) || 20, pmt = parseFloat(document.getElementById('m-pct-mitra').value) || 80; const mA = parseFloat(document.getElementById('m-modal-awal').value) || 0, piutang = parseFloat(document.getElementById('m-piutang').value) || 0; if ((ppt + pmt) !== 100) return; document.getElementById('loadingOverlay').classList.remove('hidden'); try { if(supabaseClient){ await supabaseClient.from('mitras').insert([{ username: u, password: p, display_name: n, pct_pt: ppt, pct_mitra: pmt, modal_awal: mA, piutang: piutang }]); document.getElementById('mitraForm').reset(); window.fetchMitras(); window.addAuditLog('Tambah Mitra', `Menambahkan: ${n}`); window.showSRGModal({title:"Sukses", message:`Berhasil didaftarkan.`}); } else throw new Error(); } catch(e) { window.allMitras.push({ id: 'local-'+Date.now(), username: u, password: p, display_name: n, clean_name: n.replace(/\u200B/g,''), isUnit: isU, pct_pt: ppt, pct_mitra: pmt, modal_awal: mA, piutang: piutang }); window.renderMitraManagement(); window.populateMitraSelects(); document.getElementById('mitraForm').reset(); window.addAuditLog('Tambah Mitra (Lokal)', `Menambahkan: ${n}`); window.showSRGModal({title:"Mode Lokal", message: "Tersimpan di browser."}); } finally { document.getElementById('loadingOverlay').classList.add('hidden'); } };
 
     // --- 10. BUKU BESAR & JURNAL MANUAL ---
