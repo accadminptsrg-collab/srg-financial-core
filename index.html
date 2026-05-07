@@ -133,18 +133,16 @@
     .growth-down { color: #dc2626; font-weight: bold; font-size: 9px; display: inline-flex; align-items: center; margin-top: 4px;}
 
     /* MEDIA PRINT SETTINGS */
-    #srg-print-area { display: none; }
+    #print-root { display: none; }
     @media print {
       @page { margin: 10mm; }
-      body.is-printing > *:not(#srg-print-area) { display: none !important; }
-      body.is-printing { background: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; padding: 0 !important; margin: 0 !important; }
-      #srg-print-area { display: block !important; position: static !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
-      
-      #srg-print-area table { min-width: 100% !important; border: 1pt solid black !important; border-collapse: collapse !important; margin-top: 15px !important; margin-bottom: 20px !important; }
-      #srg-print-area th { background-color: #f1f5f9 !important; border: 1pt solid black !important; color: black !important; font-size: 10pt !important; padding: 8px !important; }
-      #srg-print-area td { border: 1pt solid black !important; color: black !important; font-size: 10pt !important; padding: 8px !important; }
-      #srg-print-area .premium-card { border: none !important; box-shadow: none !important; padding: 0 !important; }
-      
+      body { background: white !important; padding: 0 !important; margin: 0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      body > *:not(#print-root) { display: none !important; }
+      #print-root { display: block !important; position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 0; }
+      #print-root * { visibility: visible; color: black !important; }
+      #print-root table { min-width: 100% !important; border: 1pt solid black !important; border-collapse: collapse !important; margin-top: 15px !important; margin-bottom: 20px !important; }
+      #print-root th { background-color: #f1f5f9 !important; border: 1pt solid black !important; font-size: 10pt !important; padding: 8px !important; }
+      #print-root td { border: 1pt solid black !important; font-size: 10pt !important; padding: 8px !important; }
       .no-print { display: none !important; }
     }
   </style>
@@ -158,7 +156,6 @@
           <div class="text-center px-16"><h1 id="globalPrintTitleLong" class="text-xl font-black text-slate-900 uppercase tracking-tight leading-none mb-1">PT SUBUR RAYA GROUP</h1><p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Laporan Keuangan Resmi Perusahaan</p></div>
       </div>
       <img id="globalCustomKopImg" class="hidden mx-auto mb-2" style="max-width: 100%; max-height: 2.5cm; object-fit: contain; object-position: center;">
-      
       <div class="text-[10px] border-b-[3px] border-double border-slate-800 pb-2 mb-4 flex justify-between items-end">
           <div class="text-left space-y-1">
               <p><span class="font-bold text-slate-500 uppercase">Waktu Cetak:</span><br><span class="print-datetime text-[11px] font-bold text-slate-800"></span></p>
@@ -939,36 +936,35 @@
     </div>
   </div>
 
-  <!-- MODAL PRATINJAU SLIP BAGI HASIL (UNTUK HTML2PDF) -->
-  <div id="slipModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[99999] hidden items-center justify-center overflow-y-auto p-4 md:p-10 no-print">
-    <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl relative my-auto mx-auto overflow-hidden">
-      <div id="slipPrintArea" class="w-full bg-white p-8 md:p-12 text-left relative">
-          <div class="flex flex-col items-center border-b-4 border-slate-900 pb-5 mb-8 text-center">
-              <h2 class="text-2xl md:text-3xl font-black text-slate-800 uppercase tracking-widest">SLIP BAGI HASIL</h2>
-              <p class="text-[10px] md:text-xs font-bold text-slate-400 tracking-[2px] mt-1">DOKUMEN RESMI PT SUBUR RAYA GROUP</p>
-              <div class="mt-4 px-6 py-1 bg-slate-800 text-white rounded-full text-[10px] font-black uppercase tracking-widest" id="mslipPeriode"></div>
-          </div>
-          <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 mb-8 text-xs md:text-sm"><table class="w-full text-left"><tr><td class="py-1 text-slate-500 w-1/3">Nama Entitas</td><td class="py-1 font-black text-slate-800" id="mslipNama"></td></tr><tr><td class="py-1 text-slate-500">Kategori</td><td class="py-1 font-bold" id="mslipKategori"></td></tr><tr><td class="py-1 text-slate-500">Skema Profit</td><td class="py-1 font-bold text-emerald-600" id="mslipSkema"></td></tr></table></div>
-          <div class="mb-8"><h3 class="font-black text-slate-800 mb-4 uppercase text-[10px] md:text-xs border-b pb-2">Rincian Perhitungan</h3><div class="space-y-3 text-xs md:text-sm">
-              <div class="flex justify-between"><span>Omset Kotor</span><span class="font-bold" id="mslipOmset"></span></div>
-              <div class="flex justify-between text-red-500"><span>Modal Produksi (-)</span><span class="font-bold" id="mslipModal"></span></div>
-              <div class="flex justify-between text-red-500 border-b pb-2"><span>Operasional (-)</span><span class="font-bold" id="mslipOps"></span></div>
-              <div class="flex justify-between font-black pt-1"><span>LABA BERSIH SEMENTARA</span><span id="mslipLbs"></span></div>
-              <div class="flex justify-between text-red-500 pt-2 border-t mt-3"><span>Potongan CSR 5% (-)</span><span class="font-bold" id="mslipCsr"></span></div>
-              <div class="flex justify-between font-black text-emerald-700"><span>LABA BERSIH SIAP BAGI</span><span id="mslipLba"></span></div>
-          </div></div>
-          <div class="mb-8 pt-4 border-t text-xs md:text-sm space-y-3">
-              <div class="flex justify-between text-slate-400"><span>Jatah Jasa Manajemen PT</span><span class="font-bold" id="mslipPt"></span></div>
-          <div class="p-4 bg-amber-50 rounded text-[9px] md:text-xs text-amber-800 mb-8">Sisa piutang berjalan cabang ke pusat: <span class="font-black text-red-600 ml-1" id="mslipPiutang"></span>.</div>
-          <div class="flex justify-between text-[10px] md:text-xs text-center px-2 mt-4">
-              <div class="w-1/3 flex flex-col items-center"><p class="mb-16">Dibuat Oleh,</p><p class="font-bold border-b border-black inline-block px-2 pb-1">M.Nasyruddin Mujtaba.M.A</p><p class="text-[8px] mt-1 font-bold text-slate-500 uppercase tracking-wider">Dir. Accounting & Adm</p></div>
-              <div class="w-1/3 flex flex-col items-center"><p class="mb-16">Disetujui Oleh,</p><p class="font-bold border-b border-black inline-block px-2 pb-1">Burhan Ari Mukti</p><p class="text-[8px] mt-1 font-bold text-slate-500 uppercase tracking-wider">Direktur Utama</p></div>
-              <div class="w-1/3 flex flex-col items-center"><p class="mb-16">Diterima Oleh,</p><p class="font-bold border-b border-black inline-block px-2 pb-1" id="mslipNamaTtd"></p><p class="text-[8px] mt-1 font-bold text-slate-500 uppercase tracking-wider">Mitra / Cabang</p></div>
-          </div>
-          <div class="mt-12 text-[8px] text-slate-300 text-center uppercase font-bold tracking-[3px]">Financial Core Enterprise - <span id="mslipDate"></span></div>
+  <!-- HIDDEN SLIP TEMPLATE -->
+  <div id="hiddenSlipTemplate" class="hidden">
+      <div class="flex flex-col items-center border-b-4 border-slate-900 pb-5 mb-8 text-center">
+          <h2 class="text-2xl md:text-3xl font-black text-slate-800 uppercase tracking-widest">SLIP BAGI HASIL</h2>
+          <p class="text-[10px] md:text-xs font-bold text-slate-400 tracking-[2px] mt-1">DOKUMEN RESMI PT SUBUR RAYA GROUP</p>
+          <div class="mt-4 px-6 py-1 bg-slate-800 text-white rounded-full text-[10px] font-black uppercase tracking-widest" id="mslipPeriode"></div>
       </div>
-      <div class="p-6 bg-slate-50 border-t flex justify-end space-x-3 no-print"><button onclick="window.closeSlipModal()" class="px-6 py-2.5 text-xs font-bold text-slate-500 hover:bg-slate-200 rounded-xl transition-colors">Tutup</button><button onclick="window.downloadSlipPDF()" class="btn-premium px-8 py-2.5 text-xs font-black uppercase shadow-lg"><i class="fas fa-file-pdf mr-2"></i> Unduh PDF</button></div>
-    </div>
+      <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 mb-8 text-xs md:text-sm"><table class="w-full text-left"><tr><td class="py-1 text-slate-500 w-1/3">Nama Entitas</td><td class="py-1 font-black text-slate-800" id="mslipNama"></td></tr><tr><td class="py-1 text-slate-500">Kategori</td><td class="py-1 font-bold" id="mslipKategori"></td></tr><tr><td class="py-1 text-slate-500">Skema Profit</td><td class="py-1 font-bold text-emerald-600" id="mslipSkema"></td></tr></table></div>
+      <div class="mb-8"><h3 class="font-black text-slate-800 mb-4 uppercase text-[10px] md:text-xs border-b pb-2">Rincian Perhitungan</h3><div class="space-y-3 text-xs md:text-sm"><div class="flex justify-between"><span>Omset Kotor</span><span class="font-bold" id="mslipOmset"></span></div><div class="flex justify-between text-red-500"><span>Modal Produksi (-)</span><span class="font-bold" id="mslipModal"></span></div><div class="flex justify-between text-red-500 border-b pb-2"><span>Operasional (-)</span><span class="font-bold" id="mslipOps"></span></div><div class="flex justify-between font-black pt-1"><span>LABA BERSIH SEMENTARA</span><span id="mslipLbs"></span></div><div class="flex justify-between text-red-500 pt-2 border-t mt-3"><span>Potongan CSR 5% (-)</span><span class="font-bold" id="mslipCsr"></span></div><div class="flex justify-between font-black text-emerald-700"><span>LABA BERSIH SIAP BAGI</span><span id="mslipLba"></span></div></div></div>
+      <div class="mb-8 pt-4 border-t text-xs md:text-sm space-y-3"><div class="flex justify-between text-slate-400"><span>Jatah Jasa Manajemen PT</span><span class="font-bold" id="mslipPt"></span></div><div class="flex justify-between text-slate-400"><span>Jatah Cabang (Kotor)</span><span class="font-bold" id="mslipCabangKotor"></span></div><div class="flex justify-between text-red-600 font-bold border-b pb-2"><span>Total Potongan Kasbon (-)</span><span id="mslipKasbon"></span></div><div class="flex justify-between items-center bg-slate-800 text-[var(--srg-gold)] p-4 rounded-lg mt-3 shadow-inner"><span class="font-black text-[10px] md:text-xs">PENERIMAAN BERSIH</span><span class="font-black text-xl md:text-2xl" id="mslipNetto"></span></div></div>
+      <div class="p-4 bg-amber-50 rounded text-[9px] md:text-xs text-amber-800">Sisa piutang berjalan cabang ke pusat: <span class="font-black text-red-600 ml-1" id="mslipPiutang"></span>.</div>
+  </div>
+
+  <!-- UNIVERSAL REVIEW PREVIEW MODAL -->
+  <div id="previewModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[99999] hidden items-center justify-center overflow-y-auto p-4 md:p-10 no-print">
+      <div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl relative my-auto mx-auto flex flex-col max-h-[90vh]">
+          <div class="p-4 border-b flex justify-between items-center bg-slate-50 rounded-t-2xl shrink-0">
+              <h3 class="font-bold text-slate-800"><i class="fas fa-search mr-2 text-[var(--srg-gold)]"></i> Review Laporan PDF</h3>
+              <button onclick="window.closePreviewModal()" class="text-slate-400 hover:text-red-500"><i class="fas fa-times text-xl"></i></button>
+          </div>
+          <div id="previewContentArea" class="p-8 md:p-12 overflow-y-auto bg-white flex-1 relative w-full text-slate-900">
+              <!-- Dynamic Content Inject -->
+          </div>
+          <div class="p-4 border-t flex justify-end gap-3 bg-slate-50 rounded-b-2xl shrink-0">
+              <button onclick="window.closePreviewModal()" class="px-6 py-2.5 text-xs font-bold text-slate-500 hover:bg-slate-200 rounded-xl transition-colors">Batal</button>
+              <button onclick="window.executeNativePrint()" class="px-6 py-2.5 text-xs font-black bg-slate-800 text-white rounded-xl shadow-lg hover:bg-slate-900 uppercase tracking-widest"><i class="fas fa-print mr-2"></i> Cetak Printer</button>
+              <button onclick="window.executeDownloadPDF()" class="btn-premium px-8 py-2.5 text-xs font-black uppercase shadow-lg"><i class="fas fa-file-pdf mr-2"></i> Simpan PDF</button>
+          </div>
+      </div>
   </div>
 
   <script>
@@ -1337,67 +1333,93 @@
     };
 
     // --- 11. EXPORT & PRINTING ---
-    window.triggerPrint = (targetId, withKop = false, withSig = false, periodeStr = '', targetName = '') => {
-        const target = document.getElementById(targetId);
-        if(!target) return;
+    window.currentPrintFilename = 'Laporan.pdf';
+    window.currentPrintOrientation = 'portrait';
+
+    window.openReviewModal = (sourceId, docType, periodeStr, targetName) => {
+        const sourceEl = document.getElementById(sourceId);
+        if (!sourceEl) return;
         
-        let printArea = document.getElementById('srg-print-area');
-        if(!printArea) {
-            printArea = document.createElement('div');
-            printArea.id = 'srg-print-area';
-            document.body.appendChild(printArea);
-        }
-
-        printArea.innerHTML = target.innerHTML;
-        printArea.className = target.className;
-
-        if (withKop) {
-            const kopSource = document.getElementById('global-print-kop');
-            if (kopSource) {
-                const kopDiv = document.createElement('div');
-                kopDiv.className = 'print-only-kop w-full mb-6 border-b-[3px] border-double border-slate-800 pb-3';
-                kopDiv.innerHTML = kopSource.innerHTML;
-                
-                const dtEl = kopDiv.querySelector('.print-datetime');
-                if(dtEl) dtEl.innerText = new Date().toLocaleString('id-ID', { dateStyle: 'full', timeStyle: 'long' });
-                
-                const perEl = kopDiv.querySelector('.print-periode');
-                if(perEl) perEl.innerText = periodeStr || 'Semua Waktu (Akumulasi)';
-                
-                const tgtWrap = kopDiv.querySelector('.print-target-wrapper');
-                const tgtEl = kopDiv.querySelector('.print-target-name');
-                if(tgtWrap && tgtEl) {
-                    if(targetName) {
-                        tgtEl.innerText = targetName;
-                    } else {
-                        tgtWrap.style.display = 'none';
-                    }
-                }
-                
-                printArea.insertBefore(kopDiv, printArea.firstChild);
+        let finalHtml = '';
+        const kopSource = document.getElementById('global-print-kop');
+        
+        if (kopSource) {
+            let kopHtml = kopSource.innerHTML;
+            const dtStr = new Date().toLocaleString('id-ID', { dateStyle: 'full', timeStyle: 'long' });
+            kopHtml = kopHtml.replace('<span class="print-datetime text-[11px] font-bold text-slate-800"></span>', `<span class="text-[11px] font-bold text-slate-800">${dtStr}</span>`);
+            kopHtml = kopHtml.replace('<span class="print-periode text-[11px] font-bold text-slate-800"></span>', `<span class="text-[11px] font-bold text-slate-800">${periodeStr || 'Semua Waktu'}</span>`);
+            
+            if (targetName) {
+                kopHtml = kopHtml.replace('<span class="print-target-name text-[11px] font-bold text-slate-800"></span>', `<span class="text-[11px] font-bold text-slate-800">${targetName}</span>`);
+            } else {
+                kopHtml = kopHtml.replace('print-target-wrapper', 'hidden');
             }
+            finalHtml += `<div class="w-full mb-6">${kopHtml}</div>`;
         }
-
-        if (withSig) {
-            const sigDiv = document.createElement('div');
-            sigDiv.className = 'print-only-sig flex justify-between text-[10px] md:text-xs text-center px-8 mt-16 mb-8 page-break-inside-avoid w-full';
-            sigDiv.innerHTML = `
-                <div class="w-1/2 flex flex-col items-center"><p class="mb-20">Dibuat Oleh,</p><p class="font-bold border-b border-black inline-block px-6 pb-1">M.Nasyruddin Mujtaba.M.A</p><p class="text-[9px] mt-1 font-bold text-slate-500 uppercase tracking-wider">Dir. Accounting & Administrasi</p></div>
-                <div class="w-1/2 flex flex-col items-center"><p class="mb-20">Mengetahui & Menyetujui,</p><p class="font-bold border-b border-black inline-block px-6 pb-1">Burhan Ari Mukti</p><p class="text-[9px] mt-1 font-bold text-slate-500 uppercase tracking-wider">Direktur Utama</p></div>
-            `;
-            printArea.appendChild(sigDiv);
+        
+        finalHtml += `<div class="w-full text-slate-900">${sourceEl.innerHTML}</div>`;
+        
+        if (docType === 'slip') {
+            finalHtml += `
+            <div class="flex justify-between text-[10px] md:text-xs text-center px-2 mt-12 mb-4 page-break-inside-avoid w-full">
+                <div class="w-1/3 flex flex-col items-center"><p class="mb-16">Dibuat Oleh,</p><p class="font-bold border-b border-black inline-block px-2 pb-1">M.Nasyruddin Mujtaba.M.A</p><p class="text-[9px] mt-1 font-bold text-slate-500 uppercase tracking-wider">Dir. Accounting & Adm</p></div>
+                <div class="w-1/3 flex flex-col items-center"><p class="mb-16">Disetujui Oleh,</p><p class="font-bold border-b border-black inline-block px-2 pb-1">Burhan Ari Mukti</p><p class="text-[9px] mt-1 font-bold text-slate-500 uppercase tracking-wider">Direktur Utama</p></div>
+                <div class="w-1/3 flex flex-col items-center"><p class="mb-16">Diterima Oleh,</p><p class="font-bold border-b border-black inline-block px-2 pb-1">${targetName}</p><p class="text-[9px] mt-1 font-bold text-slate-500 uppercase tracking-wider">Mitra / Cabang</p></div>
+            </div>`;
+            window.currentPrintFilename = `Slip_Bagi_Hasil_${targetName.replace(/\s+/g, '_')}.pdf`;
+            window.currentPrintOrientation = 'portrait';
+        } else {
+            finalHtml += `
+            <div class="flex justify-between text-[10px] md:text-xs text-center px-8 mt-16 mb-4 page-break-inside-avoid w-full">
+                <div class="w-1/2 flex flex-col items-center"><p class="mb-16">Dibuat Oleh,</p><p class="font-bold border-b border-black inline-block px-6 pb-1">M.Nasyruddin Mujtaba.M.A</p><p class="text-[9px] mt-1 font-bold text-slate-500 uppercase tracking-wider">Dir. Accounting & Administrasi</p></div>
+                <div class="w-1/2 flex flex-col items-center"><p class="mb-16">Mengetahui & Menyetujui,</p><p class="font-bold border-b border-black inline-block px-6 pb-1">Burhan Ari Mukti</p><p class="text-[9px] mt-1 font-bold text-slate-500 uppercase tracking-wider">Direktur Utama</p></div>
+            </div>`;
+            window.currentPrintFilename = `Laporan_SRG_${docType}.pdf`;
+            window.currentPrintOrientation = 'landscape';
         }
+        
+        const noPrints = document.createElement('div');
+        noPrints.innerHTML = finalHtml;
+        noPrints.querySelectorAll('.no-print, #rekapPagination, #rekapFilterBox, #printMitraLabel').forEach(el => el.remove());
+        
+        document.getElementById('previewContentArea').innerHTML = noPrints.innerHTML;
+        document.getElementById('previewModal').classList.remove('hidden');
+        document.getElementById('previewModal').classList.add('flex');
+        document.body.style.overflow = 'hidden';
+    };
 
-        const noPrints = printArea.querySelectorAll('.no-print');
-        noPrints.forEach(el => el.remove());
+    window.closePreviewModal = () => {
+        document.getElementById('previewModal').classList.add('hidden');
+        document.getElementById('previewModal').classList.remove('flex');
+        document.body.style.overflow = 'auto';
+    };
 
-        document.body.classList.add('is-printing');
-
+    window.executeNativePrint = () => {
+        let printRoot = document.getElementById('print-root');
+        if (!printRoot) {
+            printRoot = document.createElement('div');
+            printRoot.id = 'print-root';
+            document.body.appendChild(printRoot);
+        }
+        printRoot.innerHTML = document.getElementById('previewContentArea').innerHTML;
+        
         setTimeout(() => {
             window.print();
-            document.body.classList.remove('is-printing');
-            printArea.innerHTML = '';
+            printRoot.innerHTML = '';
         }, 300);
+    };
+
+    window.executeDownloadPDF = () => {
+        if(typeof html2pdf === 'undefined') { window.executeNativePrint(); return; }
+        const element = document.getElementById('previewContentArea');
+        const opt = { 
+            margin: 0.5, 
+            filename: window.currentPrintFilename, 
+            image: { type: 'jpeg', quality: 0.98 }, 
+            html2canvas: { scale: 2, useCORS: true }, 
+            jsPDF: { unit: 'in', format: 'a4', orientation: window.currentPrintOrientation } 
+        };
+        html2pdf().set(opt).from(element).save();
     };
 
     window.printBukuBesar = () => {
@@ -1411,7 +1433,7 @@
             const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']; 
             periodStr = `Bulan ${monthNames[parseInt(mm)-1]} ${yy}`;
         }
-        window.triggerPrint('bb-content-area', true, true, periodStr, '');
+        window.openReviewModal('bb-content-area', 'Buku_Besar', periodStr, '');
     };
 
     window.exportToExcel = () => { if(typeof XLSX === 'undefined') return; const t = document.getElementById('rekapFilterType')?.value; const opts = { start: document.getElementById('rStart')?.value, end: document.getElementById('rEnd')?.value, month: document.getElementById('rMonth')?.value, year: document.getElementById('rYear')?.value, mitra: document.getElementById('rMitra')?.value }; const data = window.getFilteredData(window.allTransactions, t, opts).filter(d => d.status === 'approved' || !d.status); const excelData = data.map(tx => { const mD = window.allMitras.find(m => m.display_name === tx.mitra) || {pct_pt:20}; const res = tx.lb - (tx.lb > 0 ? Math.round(tx.lb*0.05/100)*100 : 0); const jPt = Math.round(res*(mD.pct_pt/100)/100)*100; return { "Tanggal": tx.tanggal, "Cabang / Mitra": tx.mitra.replace(/\u200B/g,''), "Omset Kotor": tx.omset, "Modal Produksi": tx.modal, "Biaya Operasional": tx.ops, "Pajak": (tx.pajak||0), "Laba Bersih": tx.lb, "Potongan CSR (5%)": (tx.lb - res), "Jatah Manajemen PT": jPt, "Kasbon": (tx.kasbon||0), "Penerimaan Netto Cabang": (res - jPt - (tx.kasbon||0)) }; }); const ws = XLSX.utils.json_to_sheet(excelData); const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, "Rekap Laporan SRG"); XLSX.writeFile(wb, "Rekap_Data_SRG.xlsx"); };
@@ -1425,7 +1447,7 @@
         if (t === 'year') periodeStr = 'Tahun ' + (document.getElementById('rYear').value || '-');
         if (t === 'range') periodeStr = (document.getElementById('rStart').value || '-') + ' s/d ' + (document.getElementById('rEnd').value || '-');
         
-        window.triggerPrint('rekapTableWrapper', true, true, periodeStr, targetName);
+        window.openReviewModal('rekapTableWrapper', 'Rekapitulasi', periodeStr, targetName);
     };
     
     window.handlePrintRequest = () => { window.downloadRekapPDF(); };
@@ -1473,21 +1495,14 @@
         document.getElementById('mslipKasbon').innerText = `(${fmt(sKasbon)})`; 
         document.getElementById('mslipNetto').innerText = fmt(netto); 
         document.getElementById('mslipPiutang').innerText = fmt(m.piutang); 
-        document.getElementById('mslipNamaTtd').innerText = m.clean_name; 
-        document.getElementById('mslipDate').innerText = new Date().toLocaleString('id-ID', { dateStyle: 'full', timeStyle: 'long' }); 
         
         const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']; 
         const [yy, mm] = bln.split('-');
         const periodStr = `Bulan ${monthNames[parseInt(mm)-1]} ${yy}`;
 
-        window.triggerPrint('slipPrintArea', true, false, periodStr, m.clean_name); 
+        window.openReviewModal('hiddenSlipTemplate', 'slip', periodStr, m.clean_name); 
     };
     
-    window.closeSlipModal = () => { document.getElementById('slipModal').classList.add('hidden'); document.getElementById('slipModal').classList.remove('flex'); };
-    window.downloadSlipPDF = () => { 
-        window.triggerPrint('slipPrintArea', false, false);
-    };
-
     // --- 12. GUDANG & HRIS ---
     window.switchInvTab = (t) => { ['master', 'mutasi'].forEach(tab => { document.getElementById(`tab-inv-${tab}`).className = (t === tab) ? "px-4 py-2 text-xs font-extrabold rounded-lg bg-[var(--srg-green)] text-[var(--srg-gold)] shadow-md" : "px-4 py-2 text-xs font-bold rounded-lg text-slate-500 hover:bg-slate-50"; document.getElementById(`inv-${tab}-area`).classList.toggle('hidden', t !== tab); }); window.renderGudang(); };
     window.saveBarangBaru = () => { const sku = document.getElementById('inv-sku').value; const name = document.getElementById('inv-name').value; const price = Number(document.getElementById('inv-price').value); if(window.inventoryItems.some(i => i.sku === sku)) { window.showSRGModal({title:"Error", message:"SKU sudah terdaftar!"}); return; } window.inventoryItems.push({ id: Date.now(), sku, name, price, stock: 0 }); localStorage.setItem('srg_inventory', JSON.stringify(window.inventoryItems)); document.getElementById('inv-sku').value = ''; document.getElementById('inv-name').value = ''; document.getElementById('inv-price').value = ''; window.addAuditLog('Gudang', `Tambah Item Baru: ${sku} - ${name}`); window.renderGudang(); };
