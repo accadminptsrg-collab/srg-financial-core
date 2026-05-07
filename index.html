@@ -134,31 +134,29 @@
 
     /* MEDIA PRINT SETTINGS */
     @media print {
-      .no-print { display: none !important; }
-      @page { margin-top: 5mm; margin-bottom: 15mm; margin-left: 15mm; margin-right: 15mm; }
-      body { background: white !important; padding: 0 !important; margin: 0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      #dynamic-bg-pattern, body::before, body::after { display: none !important; }
-      body:not(.printing-slip-modal) .nav-container, body:not(.printing-slip-modal) .page-content:not(#page-rekap):not(#page-bukubesar) { display: none !important; }
-      body:not(.printing-slip-modal) #appSection { display: block !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
-      body:not(.printing-slip-modal) table { min-width: 100% !important; border: 1pt solid black !important; border-collapse: collapse !important; margin-top: 15px !important;}
-      body:not(.printing-slip-modal) th { background-color: #f1f5f9 !important; border: 1pt solid black !important; color: black !important; font-size: 8pt !important; padding: 6px !important; }
-      body:not(.printing-slip-modal) td { border: 1pt solid black !important; color: black !important; font-size: 8pt !important; padding: 6px !important; }
-      body:not(.printing-slip-modal) .premium-card { border: none !important; box-shadow: none !important; padding: 0 !important; }
-      body:not(.printing-slip-modal) #report-kop { display: block !important; width: 100% !important; border-bottom: 3px double black !important; padding-bottom: 8px !important; margin-bottom: 20px !important; margin-top: 0 !important; background: white !important; }
-      body:not(.printing-slip-modal) #customKopImg:not(.hidden) { display: block !important; max-width: 100% !important; height: auto !important; max-height: 2.5cm !important; object-fit: contain !important; object-position: center !important; mix-blend-mode: multiply !important; margin: 0 auto !important; }
-      body:not(.printing-slip-modal) #print-info-bar { display: flex !important; justify-content: space-between !important; margin-bottom: 15px !important; }
-      body:not(.printing-slip-modal) #print-signature { display: block !important; page-break-inside: avoid !important; }
-      body:not(.printing-slip-modal) #rekapSignature { display: flex !important; page-break-inside: avoid !important; }
-      body:not(.printing-slip-modal) .sig-name { font-weight: bold; border-bottom: 1.5pt solid black; margin-top: 70px; display: inline-block; min-width: 150px; }
-      body.printing-slip-modal > *:not(#slipModal) { display: none !important; }
-      body.printing-slip-modal { background: white !important; padding: 0 !important; }
-      body.printing-slip-modal #slipModal { display: block !important; position: static !important; width: 100% !important; height: auto !important; }
-      body.printing-slip-modal #slipPrintArea { visibility: visible !important; width: 100% !important; max-width: 190mm !important; margin: 0 auto !important; padding: 30px !important; border: 1.5pt solid #000 !important; border-radius: 0 !important; background: white !important; box-shadow: none !important; }
-      body.printing-slip-modal #slipPrintArea * { visibility: visible !important; color: black !important; }
+      @page { margin: 10mm; }
+      body { background: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      body.print-mode-active * { visibility: hidden; }
+      body.print-mode-active .print-target-active, body.print-mode-active .print-target-active * { visibility: visible; }
+      body.print-mode-active .print-target-active { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 10px; }
+      .print-target-active table { min-width: 100% !important; border: 1pt solid black !important; border-collapse: collapse !important; margin-top: 15px !important;}
+      .print-target-active th { background-color: #f1f5f9 !important; border: 1pt solid black !important; color: black !important; font-size: 10pt !important; padding: 8px !important; }
+      .print-target-active td { border: 1pt solid black !important; color: black !important; font-size: 10pt !important; padding: 8px !important; }
+      .print-target-active .premium-card { border: none !important; box-shadow: none !important; padding: 0 !important; }
+      .no-print, .print-target-active .no-print, .print-target-active .no-print * { display: none !important; height: 0 !important; }
     }
   </style>
 </head>
 <body class="min-h-screen">
+
+  <!-- GLOBAL PRINT KOP SURAT TEMPLATE -->
+  <div id="global-print-kop" class="hidden">
+      <div id="globalDefaultKop" class="relative flex items-center justify-center min-h-[60px] w-full mb-4">
+          <div id="globalPrintLogoContainer" style="background-color: var(--srg-green); border: 2px solid var(--srg-gold);" class="absolute left-0 top-1/2 -translate-y-1/2 w-12 h-12 rounded-lg flex items-center justify-center overflow-hidden shrink-0"><span class="default-logo text-[var(--srg-gold)] font-black text-lg">SRG</span></div>
+          <div class="text-center px-16"><h1 id="globalPrintTitleLong" class="text-xl font-black text-slate-900 uppercase tracking-tight leading-none mb-1">PT SUBUR RAYA GROUP</h1><p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Laporan Keuangan Resmi Perusahaan</p></div>
+      </div>
+      <img id="globalCustomKopImg" class="hidden mx-auto mb-4" style="max-width: 100%; max-height: 2.5cm; object-fit: contain; object-position: center;">
+  </div>
 
   <!-- LATAR BELAKANG PATTERN / LOGO WATERMARK -->
   <div id="dynamic-bg-pattern" class="fixed inset-0 pointer-events-none z-[-3] opacity-[0.08] bg-repeat transition-opacity duration-500" style="background-size: 100px 100px;"></div>
@@ -635,14 +633,6 @@
 
       <!-- PAGE REKAP/LAPORAN DENGAN EXPORT PROFESIONAL -->
       <div id="page-rekap" class="page-content hidden space-y-5 text-left">
-        <div id="report-kop" class="hidden print:block w-full border-b-[3px] border-double border-slate-800 pb-3 mb-5">
-            <div id="defaultKop" class="relative flex items-center justify-center min-h-[60px] w-full">
-                <div id="printLogoContainer" style="background-color: var(--srg-green); border: 2px solid var(--srg-gold);" class="absolute left-0 top-1/2 -translate-y-1/2 w-12 h-12 rounded-lg flex items-center justify-center overflow-hidden shrink-0"><span class="default-logo text-[var(--srg-gold)] font-black text-lg">SRG</span></div>
-                <div class="text-center px-16"><h1 id="printTitleLong" class="text-xl font-black text-slate-900 uppercase tracking-tight leading-none mb-1">PT SUBUR RAYA GROUP</h1><p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Laporan Keuangan Resmi Perusahaan</p></div>
-            </div>
-            <img id="customKopImg" class="hidden mx-auto" style="max-width: 100%; max-height: 2.5cm; object-fit: contain; object-position: center;">
-        </div>
-
         <div class="premium-card p-5 md:p-8 no-print text-left" id="rekapFilterBox">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 border-b border-slate-100 pb-4 mb-4">
                 <div><h2 class="text-xl md:text-2xl font-extrabold text-slate-800 tracking-tight">Eksplorasi Laporan</h2><p class="text-[10px] md:text-xs text-slate-500 font-medium mt-1">Ekspor menjadi <span class="text-emerald-600 font-bold">XLSX (Excel)</span> atau PDF Kustom.</p></div>
@@ -688,11 +678,6 @@
               <span id="rekapPageInfo">Hal 1 dari 1</span>
               <button onclick="window.changeRekapPage(1)" id="btnNextRekap" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 rounded text-slate-600 disabled:opacity-50 border border-slate-200">Selanjutnya</button>
           </div>
-          <!-- TTD untuk PDF / Print Native -->
-          <div id="rekapSignature" class="hidden justify-between text-xs md:text-sm text-center px-8 mt-12 mb-8 page-break-inside-avoid">
-              <div class="w-1/2 flex flex-col items-center"><p class="mb-20">Dibuat Oleh,</p><p class="font-bold border-b border-black inline-block px-6 pb-1">M.Nasyruddin Mujtaba.M.A</p><p class="text-[10px] mt-1 font-bold text-slate-500 uppercase tracking-wider">Dir. Accounting & Administrasi</p></div>
-              <div class="w-1/2 flex flex-col items-center"><p class="mb-20">Mengetahui & Menyetujui,</p><p class="font-bold border-b border-black inline-block px-6 pb-1">Burhan Ari Mukti</p><p class="text-[10px] mt-1 font-bold text-slate-500 uppercase tracking-wider">Direktur Utama</p></div>
-          </div>
         </div>
       </div>
 
@@ -712,7 +697,7 @@
                       </select>
                       <input type="number" id="bb-filter-year-val" placeholder="YYYY" class="hidden premium-input w-20 px-2 py-1.5 text-[10px] md:text-xs font-bold text-slate-700 h-full border border-slate-200 shadow-sm" onchange="window.renderBukuBesar()" value="2026">
                       <input type="month" id="bb-filter-month-val" class="hidden premium-input w-32 px-2 py-1.5 text-[10px] md:text-xs font-bold text-slate-700 h-full border border-slate-200 shadow-sm" onchange="window.renderBukuBesar()">
-                      <button onclick="window.print()" class="btn-premium px-4 py-1.5 text-[10px] uppercase font-bold tracking-widest h-full"><i class="fas fa-print mr-1.5"></i> Cetak</button>
+                      <button onclick="window.triggerPrint('bb-content-area', true, true)" class="btn-premium px-4 py-1.5 text-[10px] uppercase font-bold tracking-widest h-full"><i class="fas fa-print mr-1.5"></i> Cetak</button>
                   </div>
               </div>
 
@@ -1339,42 +1324,54 @@
     };
 
     // --- 11. EXPORT & PRINTING ---
+    window.triggerPrint = (targetId, withKop = false, withSig = false) => {
+        const target = document.getElementById(targetId);
+        if(!target) return;
+        
+        let kopDiv = null, sigDiv = null;
+        
+        if (withKop) {
+            const kopSource = document.getElementById('global-print-kop');
+            if (kopSource) {
+                kopDiv = document.createElement('div');
+                kopDiv.className = 'print-only-kop w-full border-b-[3px] border-double border-slate-800 pb-3 mb-5';
+                kopDiv.innerHTML = kopSource.innerHTML;
+                target.insertBefore(kopDiv, target.firstChild);
+            }
+        }
+
+        if (withSig) {
+            sigDiv = document.createElement('div');
+            sigDiv.className = 'print-only-sig flex justify-between text-[10px] md:text-xs text-center px-8 mt-12 mb-8 page-break-inside-avoid w-full';
+            sigDiv.innerHTML = `
+                <div class="w-1/2 flex flex-col items-center"><p class="mb-20">Dibuat Oleh,</p><p class="font-bold border-b border-black inline-block px-6 pb-1">M.Nasyruddin Mujtaba.M.A</p><p class="text-[9px] mt-1 font-bold text-slate-500 uppercase tracking-wider">Dir. Accounting & Administrasi</p></div>
+                <div class="w-1/2 flex flex-col items-center"><p class="mb-20">Mengetahui & Menyetujui,</p><p class="font-bold border-b border-black inline-block px-6 pb-1">Burhan Ari Mukti</p><p class="text-[9px] mt-1 font-bold text-slate-500 uppercase tracking-wider">Direktur Utama</p></div>
+            `;
+            target.appendChild(sigDiv);
+        }
+
+        document.body.classList.add('print-mode-active');
+        target.classList.add('print-target-active');
+
+        setTimeout(() => {
+            window.print();
+            document.body.classList.remove('print-mode-active');
+            target.classList.remove('print-target-active');
+            if(kopDiv && target.contains(kopDiv)) target.removeChild(kopDiv);
+            if(sigDiv && target.contains(sigDiv)) target.removeChild(sigDiv);
+        }, 300);
+    };
+
     window.exportToExcel = () => { if(typeof XLSX === 'undefined') return; const t = document.getElementById('rekapFilterType')?.value; const opts = { start: document.getElementById('rStart')?.value, end: document.getElementById('rEnd')?.value, month: document.getElementById('rMonth')?.value, year: document.getElementById('rYear')?.value, mitra: document.getElementById('rMitra')?.value }; const data = window.getFilteredData(window.allTransactions, t, opts).filter(d => d.status === 'approved' || !d.status); const excelData = data.map(tx => { const mD = window.allMitras.find(m => m.display_name === tx.mitra) || {pct_pt:20}; const res = tx.lb - (tx.lb > 0 ? Math.round(tx.lb*0.05/100)*100 : 0); const jPt = Math.round(res*(mD.pct_pt/100)/100)*100; return { "Tanggal": tx.tanggal, "Cabang / Mitra": tx.mitra.replace(/\u200B/g,''), "Omset Kotor": tx.omset, "Modal Produksi": tx.modal, "Biaya Operasional": tx.ops, "Pajak": (tx.pajak||0), "Laba Bersih": tx.lb, "Potongan CSR (5%)": (tx.lb - res), "Jatah Manajemen PT": jPt, "Kasbon": (tx.kasbon||0), "Penerimaan Netto Cabang": (res - jPt - (tx.kasbon||0)) }; }); const ws = XLSX.utils.json_to_sheet(excelData); const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, "Rekap Laporan SRG"); XLSX.writeFile(wb, "Rekap_Data_SRG.xlsx"); };
     window.downloadRekapPDF = () => { 
-        if(typeof html2pdf === 'undefined') { window.handlePrintRequest(); return; } 
-        const pagination = document.getElementById('rekapPagination'); 
-        if (pagination) pagination.classList.add('hidden'); 
-        const savedPage = rekapCurrentPage; rekapCurrentPage = 1; 
-        const data = window.getFilteredData(window.allTransactions, document.getElementById('rekapFilterType').value, { start: document.getElementById('rStart').value, end: document.getElementById('rEnd').value, month: document.getElementById('rMonth').value, year: document.getElementById('rYear').value, mitra: document.getElementById('rMitra').value }).filter(d => d.status === 'approved' || !d.status); 
-        const rT = document.getElementById('rekapTable'); 
-        if(rT) { rT.innerHTML = data.map(t => { const clean = t.mitra.replace(/\u200B/g,''); const mDx = window.allMitras.find(mx => mx.display_name === t.mitra) || {pct_pt:20, pct_mitra:80}; const lb = t.lb; const csr = lb>0 ? Math.round(lb*0.05/100)*100 : 0; const res = lb-csr; const jPt = Math.round(res*(mDx.pct_pt/100)/100)*100; const kas = Number(t.kasbon)||0; return `<tr><td style="padding: 10px; font-size: 11px;">${t.tanggal}</td><td style="padding: 10px; font-size: 11px; font-weight: bold;">${clean}</td><td style="padding: 10px; font-size: 11px; text-align: right; font-weight: bold; color: #059669;">${fmt(lb)}</td><td style="padding: 10px; font-size: 11px; text-align: right;">${fmt(csr)}</td><td style="padding: 10px; font-size: 11px; text-align: right; font-weight: bold; color: #052e25;">${fmt(jPt)}</td><td style="padding: 10px; font-size: 11px; text-align: right; color: #ef4444;">${fmt(kas)}</td><td style="padding: 10px; font-size: 11px; text-align: right; font-weight: bold; color: #ea580c;">${fmt((res-jPt)-kas)}</td></tr>`; }).join(''); } 
-        
-        const element = document.getElementById('rekapTableWrapper'); 
-        const kop = document.getElementById('report-kop');
-        const sig = document.getElementById('rekapSignature');
-        
-        element.insertBefore(kop, element.firstChild);
-        kop.classList.remove('hidden', 'print:block');
-        kop.classList.add('block');
-        sig.classList.remove('hidden');
-        sig.classList.add('flex');
-
-        const opt = { margin: 0.4, filename: 'Rekap_Laporan_SRG.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true }, jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' } }; 
-        html2pdf().set(opt).from(element).save().then(() => { 
-            rekapCurrentPage = savedPage; 
-            if (pagination) pagination.classList.remove('hidden'); 
-            kop.classList.add('hidden', 'print:block');
-            kop.classList.remove('block');
-            sig.classList.add('hidden');
-            sig.classList.remove('flex');
-            document.getElementById('page-rekap').insertBefore(kop, document.getElementById('rekapFilterBox'));
-            window.refreshRekapDashboard(false); 
-        }); 
+        window.triggerPrint('rekapTableWrapper', true, true);
     };
-    window.handlePrintRequest = () => { const rM = document.getElementById('rMitra').value; document.getElementById('printMitraLabel').innerText = rM==='all_micro'?'SEMUA JARINGAN':(rM==='all_unit'?'UNIT USAHA PT':(rM==='all_mitra'?'MITRA USAHA PT':rM.replace(/\u200B/g,'').toUpperCase())); window.print(); };
+    window.handlePrintRequest = () => { window.triggerPrint('rekapTableWrapper', true, true); };
     window.handlePrintSlip = () => { const rM = document.getElementById('rMitra').value; if(rM === 'all_micro' || rM === 'all_unit' || rM === 'all_mitra' || rM === 'all') { window.showSRGModal({title:"Pilih Mitra", message:"Pilih satu mitra spesifik."}); return; } const m = window.allMitras.find(x => x.clean_name === rM.replace(/\u200B/g,'')); if(!m) return; const t = document.getElementById('rekapFilterType').value; const bln = document.getElementById('rMonth').value; if (t !== 'month' || !bln) { window.showSRGModal({title:"Filter", message:"Hanya bisa dicetak untuk filter 'Satu Bulan'."}); return; } const data = window.getFilteredData(window.allTransactions, 'month', {month: bln, mitra: rM}).filter(d => d.status === 'approved' || !d.status); if(data.length === 0) { window.showSRGModal({title:"Kosong", message:"Tidak ada laporan di bulan ini."}); return; } let sOmset = 0, sModal = 0, sOps = 0, sKasbon = 0, sPajak = 0; data.forEach(d => { sOmset+=d.omset; sModal+=d.modal; sOps+=d.ops; sKasbon+=d.kasbon; sPajak+=(d.pajak||0); }); const lk = sOmset - sModal; const lb = lk - sOps - sPajak; const csr = lb > 0 ? Math.round(lb*0.05/100)*100 : 0; const res = lb - csr; const jPt = Math.round(res*(m.pct_pt/100)/100)*100; const netto = res - jPt - sKasbon; document.getElementById('mslipPeriode').innerText = `Periode: ${bln}`; document.getElementById('mslipNama').innerText = m.display_name; document.getElementById('mslipKategori').innerText = m.isUnit ? "Unit Usaha PT" : "Mitra Usaha PT"; document.getElementById('mslipSkema').innerText = `PT ${m.pct_pt}% : Cabang ${m.pct_mitra}%`; document.getElementById('mslipOmset').innerText = fmt(sOmset); document.getElementById('mslipModal').innerText = `(${fmt(sModal)})`; document.getElementById('mslipOps').innerText = `(${fmt(sOps + sPajak)})`; document.getElementById('mslipLbs').innerText = fmt(lb); document.getElementById('mslipCsr').innerText = `(${fmt(csr)})`; document.getElementById('mslipLba').innerText = fmt(res); document.getElementById('mslipPt').innerText = fmt(jPt); document.getElementById('mslipCabangKotor').innerText = fmt(res - jPt); document.getElementById('mslipKasbon').innerText = `(${fmt(sKasbon)})`; document.getElementById('mslipNetto').innerText = fmt(netto); document.getElementById('mslipPiutang').innerText = fmt(m.piutang); document.getElementById('mslipNamaTtd').innerText = m.clean_name; document.getElementById('mslipDate').innerText = new Date().toLocaleString(); document.getElementById('slipModal').classList.remove('hidden'); document.getElementById('slipModal').classList.add('flex'); };
     window.closeSlipModal = () => { document.getElementById('slipModal').classList.add('hidden'); document.getElementById('slipModal').classList.remove('flex'); };
-    window.downloadSlipPDF = () => { if(typeof html2pdf === 'undefined') { window.print(); return; } const element = document.getElementById('slipPrintArea'); const opt = { margin: 0, filename: 'Slip_Bagi_Hasil_SRG.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' } }; html2pdf().set(opt).from(element).save(); };
+    window.downloadSlipPDF = () => { 
+        window.triggerPrint('slipPrintArea', true, false);
+    };
 
     // --- 12. GUDANG & HRIS ---
     window.switchInvTab = (t) => { ['master', 'mutasi'].forEach(tab => { document.getElementById(`tab-inv-${tab}`).className = (t === tab) ? "px-4 py-2 text-xs font-extrabold rounded-lg bg-[var(--srg-green)] text-[var(--srg-gold)] shadow-md" : "px-4 py-2 text-xs font-bold rounded-lg text-slate-500 hover:bg-slate-50"; document.getElementById(`inv-${tab}-area`).classList.toggle('hidden', t !== tab); }); window.renderGudang(); };
@@ -1405,16 +1402,16 @@
 
     window.applyBranding = function(dataObj) {
         const nLong = dataObj?.srg_name_long || localStorage.getItem('srg_name_long') || "PT SUBUR RAYA GROUP"; const nShort = dataObj?.srg_name_short || localStorage.getItem('srg_name_short') || "PT SR Group"; const cLogo = dataObj?.srg_custom_logo || localStorage.getItem('srg_custom_logo') || ""; const cKop = dataObj?.srg_custom_kop || localStorage.getItem('srg_custom_kop') || "";
-        [document.getElementById('loginTitleText'), document.getElementById('printTitleLong')].forEach(el => { if(el) el.innerText = nLong.toUpperCase(); });
+        [document.getElementById('loginTitleText'), document.getElementById('globalPrintTitleLong')].forEach(el => { if(el) el.innerText = nLong.toUpperCase(); });
         [document.getElementById('navTitleText')].forEach(el => { if(el) el.innerText = nShort.toUpperCase(); });
         
-        ['modalLogoContainer', 'loginLogoContainer', 'navLogoContainer', 'printLogoContainer'].forEach(id => { 
+        ['modalLogoContainer', 'loginLogoContainer', 'navLogoContainer', 'globalPrintLogoContainer'].forEach(id => { 
             const el = document.getElementById(id); if (!el) return; 
             if (cLogo && cLogo.startsWith('data:image')) { el.innerHTML = `<img src="${cLogo}" class="w-full h-full object-contain rounded-xl p-0.5">`; el.style.backgroundColor = "transparent"; el.style.borderWidth = "0"; } 
             else { el.style.backgroundColor = "var(--srg-green)"; el.style.borderWidth = id === 'navLogoContainer' ? '0' : '4px'; el.innerHTML = id === 'navLogoContainer' ? `<span class="default-logo text-white text-xs">SR</span>` : `<span class="default-logo font-bold text-xl md:text-2xl text-[var(--srg-gold)]">SRG</span>`; } 
         });
         
-        const defKop = document.getElementById('defaultKop'), imgKop = document.getElementById('customKopImg');
+        const defKop = document.getElementById('globalDefaultKop'), imgKop = document.getElementById('globalCustomKopImg');
         if (defKop && imgKop) { if (cKop && cKop.startsWith('data:image')) { imgKop.setAttribute('src', cKop); imgKop.classList.remove('hidden'); defKop.classList.add('hidden'); } else { imgKop.removeAttribute('src'); imgKop.classList.add('hidden'); defKop.classList.remove('hidden'); } }
         
         const inLong = document.getElementById('pt-name-long'); if(inLong) inLong.value = nLong;
