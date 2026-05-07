@@ -132,17 +132,34 @@
     .growth-up { color: #16a34a; font-weight: bold; font-size: 9px; display: inline-flex; align-items: center; margin-top: 4px;}
     .growth-down { color: #dc2626; font-weight: bold; font-size: 9px; display: inline-flex; align-items: center; margin-top: 4px;}
 
-    /* MEDIA PRINT SETTINGS */
-    #print-root { display: none; }
+    /* SECURE PRINT SETTINGS */
+    .hidden { display: none !important; }
+    #global-print-kop, #hiddenSlipTemplate, #print-root { display: none !important; }
+    
     @media print {
       @page { margin: 10mm; }
       body { background: white !important; padding: 0 !important; margin: 0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      body > *:not(#print-root) { display: none !important; }
-      #print-root { display: block !important; position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 0; }
-      #print-root * { visibility: visible; color: black !important; }
-      #print-root table { min-width: 100% !important; border: 1pt solid black !important; border-collapse: collapse !important; margin-top: 15px !important; margin-bottom: 20px !important; }
-      #print-root th { background-color: #f1f5f9 !important; border: 1pt solid black !important; font-size: 10pt !important; padding: 8px !important; }
-      #print-root td { border: 1pt solid black !important; font-size: 10pt !important; padding: 8px !important; }
+      
+      body.is-printing #appSection,
+      body.is-printing #loginSection,
+      body.is-printing #loadingOverlay,
+      body.is-printing .srg-modal-overlay,
+      body.is-printing #previewModal,
+      body.is-printing #dynamic-bg-pattern {
+          display: none !important;
+      }
+
+      body.is-printing #print-root { 
+          display: block !important; 
+          position: relative; 
+          width: 100%; 
+          color: black !important;
+      }
+      
+      body.is-printing #print-root table { width: 100% !important; border: 1pt solid black !important; border-collapse: collapse !important; margin-top: 15px !important; margin-bottom: 20px !important; }
+      body.is-printing #print-root th { background-color: #f1f5f9 !important; border: 1pt solid black !important; font-size: 10pt !important; padding: 8px !important; text-align: left; }
+      body.is-printing #print-root td { border: 1pt solid black !important; font-size: 10pt !important; padding: 8px !important; }
+      
       .no-print { display: none !important; }
     }
   </style>
@@ -1403,8 +1420,11 @@
         }
         printRoot.innerHTML = document.getElementById('previewContentArea').innerHTML;
         
+        document.body.classList.add('is-printing');
+        
         setTimeout(() => {
             window.print();
+            document.body.classList.remove('is-printing');
             printRoot.innerHTML = '';
         }, 300);
     };
