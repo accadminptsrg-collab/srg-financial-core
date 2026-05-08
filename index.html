@@ -1267,42 +1267,39 @@
         const eP = parseFloat(document.getElementById('e-piutang').value) || 0; 
         
         if ((ppt + pmt) !== 100) return; 
-        
         document.getElementById('loadingOverlay').classList.remove('hidden'); 
-        
-        const idx = window.allMitras.findIndex(x => x.id === id); 
-        if(idx !== -1) { 
-            window.allMitras[idx].username = u; 
-            window.allMitras[idx].password = p; 
-            window.allMitras[idx].display_name = n; 
-            window.allMitras[idx].clean_name = n.replace(/\u200B/g,''); 
-            window.allMitras[idx].pct_pt = ppt; 
-            window.allMitras[idx].pct_mitra = pmt; 
-            window.allMitras[idx].modal_awal = mA; 
-            window.allMitras[idx].piutang = eP; 
-        } 
         
         try { 
             if (id && !id.toString().includes('local-') && supabaseClient) { 
-                await supabaseClient.from('mitras').update({ username: u, password: p, display_name: n, pct_pt: ppt, pct_mitra: pmt, modal_awal: mA, piutang: eP }).eq('id', id); 
+                const { error } = await supabaseClient.from('mitras').update({ username: u, password: p, display_name: n, pct_pt: ppt, pct_mitra: pmt, modal_awal: mA, piutang: eP }).eq('id', id); 
+                if(error) throw error;
             } 
-        } catch(e) {
-            console.warn("Mode Offline: Data tersimpan lokal.");
-        } finally { 
+            
+            const idx = window.allMitras.findIndex(x => x.id === id); 
+            if(idx !== -1) { 
+                window.allMitras[idx].username = u; window.allMitras[idx].password = p; 
+                window.allMitras[idx].display_name = n; window.allMitras[idx].clean_name = n.replace(/\u200B/g,''); 
+                window.allMitras[idx].pct_pt = ppt; window.allMitras[idx].pct_mitra = pmt; 
+                window.allMitras[idx].modal_awal = mA; window.allMitras[idx].piutang = eP; 
+            } 
+
             localStorage.setItem('srg_mitras', JSON.stringify(window.allMitras));
-            document.getElementById('loadingOverlay').classList.add('hidden'); 
             window.closeSRGModal(); 
             window.renderMitraManagement(); 
             window.populateMitraSelects(); 
             window.addAuditLog('Edit Mitra', `Memperbarui profil: ${n.replace(/\u200B/g,'')}`); 
-            setTimeout(() => {
-                window.showSRGModal({title: "Sukses", message: "Data Cabang/Mitra berhasil diperbarui."});
-            }, 300);
+            setTimeout(() => { window.showSRGModal({title: "Sukses", message: "Data Cabang/Mitra berhasil diperbarui."}); }, 300);
+        } catch(e) {
+            console.error("Supabase Error:", e);
+            window.showSRGModal({title: "Gagal Menyimpan", message: e.message || "Terjadi kesalahan saat menyimpan ke Supabase."});
+        } finally { 
+            document.getElementById('loadingOverlay').classList.add('hidden'); 
         } 
     };
 
-    window.deleteMitra = (id) => { window.showSRGModal({ title: "Hapus Entitas?", showCancel: true, onConfirm: async () => { try { const ex = window.allMitras.find(x=>x.id===id); if (!id.toString().includes('local-') && supabaseClient) await supabaseClient.from('mitras').delete().eq('id', id); if(ex) window.addAuditLog('Hapus Mitra', `Menghapus entitas: ${ex.clean_name}`); } catch(e) {} window.allMitras = window.allMitras.filter(x => x.id !== id); localStorage.setItem('srg_mitras', JSON.stringify(window.allMitras)); window.closeSRGModal(); window.renderMitraManagement(); window.populateMitraSelects(); } }); };
-    window.addNewMitra = async () => { const u = document.getElementById('m-user').value.trim(), p = document.getElementById('m-pass').value.trim(); const isU = document.querySelector('input[name="entityType"]:checked').value === 'unit'; let n = document.getElementById('m-name').value.trim(); if(isU) n += '\u200B'; const ppt = parseFloat(document.getElementById('m-pct-pt').value) || 20, pmt = parseFloat(document.getElementById('m-pct-mitra').value) || 80; const mA = parseFloat(document.getElementById('m-modal-awal').value) || 0, piutang = parseFloat(document.getElementById('m-piutang').value) || 0; if ((ppt + pmt) !== 100) return; document.getElementById('loadingOverlay').classList.remove('hidden'); try { if(supabaseClient){ await supabaseClient.from('mitras').insert([{ username: u, password: p, display_name: n, pct_pt: ppt, pct_mitra: pmt, modal_awal: mA, piutang: piutang }]); document.getElementById('mitraForm').reset(); window.fetchMitras(); window.addAuditLog('Tambah Mitra', `Menambahkan: ${n}`); window.showSRGModal({title:"Sukses", message:`Berhasil didaftarkan.`}); } else throw new Error(); } catch(e) { window.allMitras.push({ id: 'local-'+Date.now(), username: u, password: p, display_name: n, clean_name: n.replace(/\u200B/g,''), isUnit: isU, pct_pt: ppt, pct_mitra: pmt, modal_awal: mA, piutang: piutang }); localStorage.setItem('srg_mitras', JSON.stringify(window.allMitras)); window.renderMitraManagement(); window.populateMitraSelects(); document.getElementById('mitraForm').reset(); window.addAuditLog('Tambah Mitra (Lokal)', `Menambahkan: ${n}`); window.showSRGModal({title:"Mode Lokal", message: "Tersimpan di browser."}); } finally { document.getElementById('loadingOverlay').classList.add('hidden'); } };
+    window.deleteMitra = (id) => { window.showSRGModal({ title: "Hapus Entitas?", showCancel: true, onConfirm: async () => { document.getElementById('loadingOverlay').classList.remove('hidden'); try { const ex = window.allMitras.find(x=>x.id===id); if (!id.toString().includes('local-') && supabaseClient) { const { error } = await supabaseClient.from('mitras').delete().eq('id', id); if(error) throw error; } if(ex) window.addAuditLog('Hapus Mitra', `Menghapus entitas: ${ex.clean_name}`); window.allMitras = window.allMitras.filter(x => x.id !== id); localStorage.setItem('srg_mitras', JSON.stringify(window.allMitras)); window.closeSRGModal(); window.renderMitraManagement(); window.populateMitraSelects(); } catch(e) { console.error("Supabase Error:", e); window.showSRGModal({title: "Gagal Hapus", message: e.message || "Gagal menghapus data dari Supabase."}); } finally { document.getElementById('loadingOverlay').classList.add('hidden'); } } }); };
+    
+    window.addNewMitra = async () => { const u = document.getElementById('m-user').value.trim(), p = document.getElementById('m-pass').value.trim(); const isU = document.querySelector('input[name="entityType"]:checked').value === 'unit'; let n = document.getElementById('m-name').value.trim(); if(isU) n += '\u200B'; const ppt = parseFloat(document.getElementById('m-pct-pt').value) || 20, pmt = parseFloat(document.getElementById('m-pct-mitra').value) || 80; const mA = parseFloat(document.getElementById('m-modal-awal').value) || 0, piutang = parseFloat(document.getElementById('m-piutang').value) || 0; if ((ppt + pmt) !== 100) return; document.getElementById('loadingOverlay').classList.remove('hidden'); try { if(!supabaseClient) throw new Error("Supabase tidak terkoneksi."); const { data, error } = await supabaseClient.from('mitras').insert([{ username: u, password: p, display_name: n, pct_pt: ppt, pct_mitra: pmt, modal_awal: mA, piutang: piutang }]).select(); if(error) throw error; if(data && data.length > 0) { const newM = data[0]; newM.clean_name = (newM.display_name||'').replace(/\u200B/g,''); newM.isUnit = (newM.display_name||'').includes('\u200B'); window.allMitras.push(newM); } else { window.allMitras.push({ id: 'local-'+Date.now(), username: u, password: p, display_name: n, clean_name: n.replace(/\u200B/g,''), isUnit: isU, pct_pt: ppt, pct_mitra: pmt, modal_awal: mA, piutang: piutang }); } document.getElementById('mitraForm').reset(); window.renderMitraManagement(); window.populateMitraSelects(); window.addAuditLog('Tambah Mitra', `Menambahkan: ${n.replace(/\u200B/g,'')}`); window.showSRGModal({title:"Sukses", message:`Berhasil didaftarkan dan disimpan di Supabase.`}); } catch(e) { console.error("Supabase Error:", e); window.showSRGModal({title:"Gagal", message: e.message || "Gagal menyimpan ke database Supabase."}); } finally { document.getElementById('loadingOverlay').classList.add('hidden'); } };
 
     // --- 10. BUKU BESAR & JURNAL MANUAL ---
     window.switchBBTab = (tab) => { window.currentBBTab = tab; ['lr', 'nr', 'ak', 'pm', 'jm', 'as'].forEach(t => { const b = document.getElementById('tab-bb-' + t); if(b) { if(t === tab) { b.className = "px-4 py-2 text-xs md:text-sm font-extrabold rounded-lg transition-all shadow-md " + (t==='jm' ? 'bg-blue-600 text-white' : (t==='as' ? 'bg-orange-600 text-white' : 'bg-[var(--srg-green)] text-[var(--srg-gold)]')); } else { b.className = "px-4 py-2 text-xs md:text-sm font-bold rounded-lg transition-all hover:bg-slate-50 " + (t==='jm' ? 'text-blue-600 border border-transparent' : (t==='as' ? 'text-orange-600 border border-transparent' : 'text-slate-500 hover:text-slate-800')); } } }); window.renderBukuBesar(); };
