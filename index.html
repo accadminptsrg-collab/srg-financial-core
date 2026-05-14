@@ -131,6 +131,34 @@
     </div>
   </div>
 
+  <div id="editMitraModal" class="srg-modal-overlay no-print z-[99999]">
+    <div class="srg-modal-content text-left max-w-lg">
+      <div class="mt-2">
+        <h3 class="text-lg font-extrabold text-slate-800 uppercase tracking-tight mb-4 border-b pb-3"><i class="fas fa-edit text-amber-500 mr-2"></i> Edit Data Cabang</h3>
+        <div class="space-y-3 mb-6">
+          <input type="hidden" id="e-mitra-id">
+          <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Nama Bisnis</label><input type="text" id="e-name" class="premium-input w-full px-3 py-2 text-xs font-bold text-slate-800"></div>
+          <div class="grid grid-cols-2 gap-3">
+            <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">ID Login</label><input type="text" id="e-user" class="premium-input w-full px-3 py-2 text-xs font-bold text-slate-800"></div>
+            <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Password</label><input type="text" id="e-pass" class="premium-input w-full px-3 py-2 text-xs font-bold text-slate-800"></div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Jatah PT (%)</label><input type="number" id="e-pct-pt" oninput="document.getElementById('e-pct-mitra').value = 100 - this.value" class="premium-input w-full px-3 py-2 text-xs font-bold text-emerald-600"></div>
+            <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Jatah Mitra (%)</label><input type="number" id="e-pct-mitra" oninput="document.getElementById('e-pct-pt').value = 100 - this.value" class="premium-input w-full px-3 py-2 text-xs font-bold text-orange-600"></div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Modal Awal</label><input type="number" id="e-modal" class="premium-input w-full px-3 py-2 text-xs font-bold text-blue-600"></div>
+            <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Sisa Piutang</label><input type="number" id="e-piutang" class="premium-input w-full px-3 py-2 text-xs font-bold text-red-600"></div>
+          </div>
+        </div>
+        <div class="space-y-3">
+          <button onclick="window.saveEditMitra()" class="btn-premium w-full py-3 text-xs tracking-widest shadow-lg font-black uppercase">Simpan Perubahan</button>
+          <button onclick="document.getElementById('editMitraModal').classList.remove('active')" class="w-full py-3 text-[10px] font-bold text-slate-500 uppercase tracking-widest hover:text-red-500 bg-slate-100 rounded-xl">Batal</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div id="loadingOverlay" class="fixed inset-0 bg-slate-900/40 z-[11000] flex items-center justify-center hidden backdrop-blur-sm no-print">
     <div class="premium-card p-4 md:p-6 flex items-center space-x-4 mx-4"><div class="w-5 h-5 md:w-6 md:h-6 border-2 border-slate-200 border-t-[var(--srg-gold)] rounded-full animate-spin"></div><p class="font-bold text-slate-700 text-[10px] md:text-xs tracking-wider uppercase">Memproses Data...</p></div>
   </div>
@@ -180,7 +208,7 @@
           </div>
           <div class="flex items-center space-x-2 md:space-x-4 shrink-0">
             <div class="hidden sm:flex items-center space-x-3 border-r pr-4 border-slate-200"><div class="text-right"><p id="navUserName" class="text-[10px] md:text-xs font-bold text-slate-800 capitalize leading-none">-</p><p id="navUserRole" class="text-[8px] md:text-[9px] font-semibold text-[var(--srg-gold)] uppercase mt-0.5 tracking-wider">-</p></div><div id="userInit" style="background-color: #f1f5f9; color: var(--srg-green);" class="w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center font-bold text-xs border border-slate-200">A</div></div>
-            <div class="flex space-x-1.5 md:space-x-2"><button onclick="window.handleSyncRequest()" title="Sinkronisasi" class="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-slate-50 text-slate-500 hover:text-[var(--srg-green)] hover:bg-slate-100 transition-colors flex items-center justify-center border border-slate-200"><i class="fas fa-sync-alt text-[10px] md:text-xs"></i></button><button onclick="window.handleLogoutRequest()" title="Keluar" class="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition-colors flex items-center justify-center border border-red-100"><i class="fas fa-sign-out-alt text-[10px] md:text-xs"></i></button></div>
+            <div class="flex space-x-1.5 md:space-x-2"><button onclick="window.handleSyncRequest(this)" title="Sinkronisasi" class="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-slate-50 text-slate-500 hover:text-[var(--srg-green)] hover:bg-slate-100 transition-colors flex items-center justify-center border border-slate-200"><i class="fas fa-sync-alt text-[10px] md:text-xs"></i></button><button onclick="window.handleLogoutRequest()" title="Keluar" class="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition-colors flex items-center justify-center border border-red-100"><i class="fas fa-sign-out-alt text-[10px] md:text-xs"></i></button></div>
           </div>
         </nav>
     </div>
@@ -225,8 +253,8 @@
             </form>
         </div>
         <div class="grid grid-cols-1 gap-6 md:gap-8">
-            <div class="premium-card p-5 md:p-6 text-left border-l-4 border-l-emerald-500"><div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-3"><h3 class="font-bold text-emerald-700 text-sm md:text-base flex items-center"><i class="fas fa-building mr-2"></i> Unit Usaha PT</h3><span class="bg-emerald-100 text-emerald-700 text-[9px] px-2 py-1 rounded font-bold uppercase">Bagi Hasil</span></div><div class="table-container overflow-x-auto text-left"><table class="w-full text-left"><thead><tr><th class="w-[120px] md:w-[150px]">ID Login</th><th class="w-[150px] md:w-[200px]">Nama Unit & Info Saldo</th><th class="w-[160px] md:w-[180px]">Bagi Hasil</th><th class="w-[120px] md:w-[150px]">Keamanan</th><th class="text-center w-[100px] md:w-[120px]">Aksi</th></tr></thead><tbody id="unitTableBody"></tbody></table></div></div>
-            <div class="premium-card p-5 md:p-6 text-left border-l-4 border-l-orange-400"><div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-3"><h3 class="font-bold text-orange-700 text-sm md:text-base flex items-center"><i class="fas fa-handshake mr-2 text-[var(--srg-gold)]"></i> Mitra Usaha PT</h3><span class="bg-orange-100 text-orange-700 text-[9px] px-2 py-1 rounded font-bold uppercase">Bagi Hasil</span></div><p class="table-scroll-hint text-right">Geser tabel ke samping <i class="fas fa-arrows-alt-h mx-1"></i></p><div class="table-container overflow-x-auto text-left"><table class="w-full text-left"><thead><tr><th class="w-[120px] md:w-[150px]">ID Login</th><th class="w-[150px] md:w-[200px]">Nama Mitra & Info Saldo</th><th class="w-[160px] md:w-[180px]">Bagi Hasil</th><th class="w-[120px] md:w-[150px]">Keamanan</th><th class="text-center w-[100px] md:w-[120px]">Aksi</th></tr></thead><tbody id="mitraTableBody"></tbody></table></div></div>
+            <div class="premium-card p-5 md:p-6 text-left border-l-4 border-l-emerald-500"><div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-3"><h3 class="font-bold text-emerald-700 text-sm md:text-base flex items-center"><i class="fas fa-building mr-2"></i> Unit Usaha PT</h3><span class="bg-emerald-100 text-emerald-700 text-[9px] px-2 py-1 rounded font-bold uppercase">Bagi Hasil</span></div><div class="table-container overflow-x-auto text-left"><table class="w-full text-left"><thead><tr><th class="w-[120px] md:w-[150px]">ID Login</th><th class="w-[150px] md:w-[200px]">Nama Unit & Info Saldo</th><th class="w-[160px] md:w-[180px]">Bagi Hasil</th><th class="w-[120px] md:w-[150px]">Keamanan</th><th class="text-center w-[140px] md:w-[160px]">Aksi</th></tr></thead><tbody id="unitTableBody"></tbody></table></div></div>
+            <div class="premium-card p-5 md:p-6 text-left border-l-4 border-l-orange-400"><div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-3"><h3 class="font-bold text-orange-700 text-sm md:text-base flex items-center"><i class="fas fa-handshake mr-2 text-[var(--srg-gold)]"></i> Mitra Usaha PT</h3><span class="bg-orange-100 text-orange-700 text-[9px] px-2 py-1 rounded font-bold uppercase">Bagi Hasil</span></div><p class="table-scroll-hint text-right">Geser tabel ke samping <i class="fas fa-arrows-alt-h mx-1"></i></p><div class="table-container overflow-x-auto text-left"><table class="w-full text-left"><thead><tr><th class="w-[120px] md:w-[150px]">ID Login</th><th class="w-[150px] md:w-[200px]">Nama Mitra & Info Saldo</th><th class="w-[160px] md:w-[180px]">Bagi Hasil</th><th class="w-[120px] md:w-[150px]">Keamanan</th><th class="text-center w-[140px] md:w-[160px]">Aksi</th></tr></thead><tbody id="mitraTableBody"></tbody></table></div></div>
         </div>
       </div>
 
@@ -319,12 +347,12 @@
       <div id="page-profil" class="page-content hidden space-y-6 md:space-y-8 text-left">
           <div class="premium-card p-5 md:p-8 border-t-4 border-t-[var(--srg-green)]">
               <h2 class="text-xl md:text-2xl font-extrabold text-slate-800 tracking-tight border-b pb-4 mb-6">Profil & Sistem PT</h2>
+              <div class="bg-emerald-50 p-5 rounded-xl border border-emerald-200 mb-6"><h3 class="font-bold text-emerald-800 text-xs md:text-sm mb-4"><i class="fas fa-history mr-2"></i> Saldo Awal (Bawaan) Perusahaan</h3><div class="grid grid-cols-1 md:grid-cols-3 gap-4"><div><label class="block text-[9px] font-bold text-emerald-700 uppercase mb-1">Total Kas Tunai / Bank Lama</label><input type="number" id="pt-kas-awal" class="premium-input w-full px-3 py-2 text-xs font-bold text-slate-800"></div><div><label class="block text-[9px] font-bold text-emerald-700 uppercase mb-1">Total Nilai Aset Tetap Lama</label><input type="number" id="pt-aset-awal" class="premium-input w-full px-3 py-2 text-xs font-bold text-slate-800"></div><div><label class="block text-[9px] font-bold text-red-500 uppercase mb-1">Total Hutang/Kewajiban Lama</label><input type="number" id="pt-hutang-awal" class="premium-input w-full px-3 py-2 text-xs font-bold text-red-600"></div></div><p class="text-[9px] text-emerald-600 mt-3 font-semibold">Catatan: Modal awal saham PT akan otomatis dihitung berdasarkan (Kas + Aset - Hutang).</p></div>
               <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
                   <div class="space-y-4"><div><label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Nama Panjang PT</label><input type="text" id="pt-name-long" value="PT SUBUR RAYA GROUP" class="premium-input w-full px-4 py-3 font-bold text-slate-800"></div><div><label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Singkatan / Brand</label><input type="text" id="pt-name-short" value="PT SR Group" class="premium-input w-full px-4 py-3 font-bold text-slate-800"></div></div>
                   <div class="space-y-4"><label class="block text-[9px] font-bold text-slate-500 uppercase mb-1">Unggah Logo Utama</label><label class="upload-area block p-6 flex flex-col items-center justify-center cursor-pointer"><input type="file" accept="image/*" class="hidden" onchange="window.handleUpload(event, 'preview-logo')"><i class="fas fa-image text-2xl text-slate-200 mb-2"></i><p class="text-xs text-slate-400">Pilih File Logo</p><img id="preview-logo" class="upload-preview rounded-lg"></label></div>
               </div>
               <div class="mt-6 pt-6 border-t border-slate-100 text-left"><h3 class="font-bold text-slate-700 text-xs md:text-sm mb-4">Banner Kop Surat (Mode Cetak PDF)</h3><label class="upload-area block w-full p-8 flex flex-col items-center justify-center cursor-pointer"><input type="file" accept="image/*" class="hidden" onchange="window.handleUpload(event, 'preview-kop')"><i class="fas fa-file-invoice text-3xl text-slate-200 mb-2"></i><p class="text-xs text-slate-400">Pilih Desain Kop Surat</p><img id="preview-kop" class="upload-preview rounded-lg"></label></div>
-              <div class="bg-amber-50 p-5 rounded-xl border border-amber-200 mt-6"><h3 class="font-bold text-amber-800 text-xs md:text-sm mb-4"><i class="fas fa-history mr-2"></i> Saldo Awal (Bawaan) Perusahaan</h3><div class="grid grid-cols-1 md:grid-cols-3 gap-4"><div><label class="block text-[9px] font-bold text-amber-700 uppercase mb-1">Total Kas Tunai / Bank Lama</label><input type="number" id="pt-kas-awal" class="premium-input w-full px-3 py-2 text-xs font-bold text-slate-800"></div><div><label class="block text-[9px] font-bold text-amber-700 uppercase mb-1">Total Nilai Aset Tetap Lama</label><input type="number" id="pt-aset-awal" class="premium-input w-full px-3 py-2 text-xs font-bold text-slate-800"></div><div><label class="block text-[9px] font-bold text-red-500 uppercase mb-1">Total Hutang/Kewajiban Lama</label><input type="number" id="pt-hutang-awal" class="premium-input w-full px-3 py-2 text-xs font-bold text-red-600"></div></div><p class="text-[9px] text-amber-600 mt-3 font-semibold">Catatan: Modal awal saham PT akan otomatis dihitung berdasarkan (Kas + Aset - Hutang).</p></div>
               <div class="mt-8 pt-8 border-t"><button onclick="window.saveBranding()" class="btn-premium w-full py-4 text-xs font-black uppercase tracking-widest">Terapkan Pengaturan Sistem</button></div>
           </div>
           <div class="premium-card p-5 md:p-8 border-l-4 border-l-slate-800"><h2 class="text-xl md:text-2xl font-extrabold text-slate-800 mb-6 flex items-center"><i class="fas fa-user-secret mr-3"></i> Rekam Jejak Keamanan (Audit Trail)</h2><div class="bg-slate-50 p-4 rounded-xl max-h-[300px] overflow-y-auto space-y-3" id="auditLogContainer"></div></div>
@@ -341,159 +369,829 @@
   <div id="previewModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[99999] hidden items-center justify-center overflow-y-auto p-4 md:p-10 no-print"><div class="bg-white w-full max-w-5xl rounded-2xl shadow-2xl relative my-auto mx-auto flex flex-col max-h-[90vh]"><div class="p-4 border-b flex justify-between items-center bg-slate-50 rounded-t-2xl shrink-0"><h3 class="font-bold text-slate-800"><i class="fas fa-search mr-2 text-[var(--srg-gold)]"></i> Review Pratinjau Dokumen</h3><button onclick="window.closeReviewModal()" class="text-slate-400 hover:text-red-500"><i class="fas fa-times text-xl"></i></button></div><div id="previewContentArea" class="p-8 md:p-12 overflow-y-auto bg-white flex-1 relative w-full text-slate-900"></div><div class="p-4 border-t flex justify-end gap-3 bg-slate-50 rounded-b-2xl shrink-0"><button onclick="window.closeReviewModal()" class="px-6 py-2.5 text-xs font-bold text-slate-500 hover:bg-slate-200 rounded-xl transition-colors">Batal</button><button onclick="window.executeNativePrint()" class="px-6 py-2.5 text-xs font-black bg-slate-800 text-white rounded-xl shadow-lg hover:bg-slate-900 uppercase tracking-widest"><i class="fas fa-print mr-2"></i> Cetak Printer</button><button onclick="window.executeDownloadPDF()" class="btn-premium px-8 py-2.5 text-xs font-black uppercase shadow-lg"><i class="fas fa-file-pdf mr-2"></i> Simpan PDF</button></div></div></div>
 
   <script>
-    window.userProfile = null; window.allTransactions = []; window.allMitras = []; window.allCentralExpenses = []; window.auditLogs = []; window.mitraPassVisibility = {}; window.inventoryItems = []; window.inventoryMovements = []; window.trendChartInstance = null; window.donutChartInstance = null; window.currentMacro = 'all'; window.currentRekapMacro = 'all'; window.currentSidebarMacro = 'all'; window.currentBBTab = 'lr'; window.currentPrintFilename = 'Laporan.pdf'; window.currentPrintOrientation = 'portrait';
-    const supabaseUrl = "https://vqpnummybwkizboyfawd.supabase.co"; const supabaseKey = "sb_publishable_hpJ3r-fAVhAw7p0Xcp-zbw_s1oPNGrs"; let supabaseClient = null;
-    try { if (typeof supabase !== 'undefined') { supabaseClient = supabase.createClient(supabaseUrl, supabaseKey); } } catch (e) { console.warn("Supabase init failed", e); }
+    // Inisialisasi variabel global
+    window.userProfile = null;
+    window.allTransactions = [];
+    window.allMitras = [];
+    window.allCentralExpenses = [];
+    window.auditLogs = [];
+    window.mitraPassVisibility = {};
+    window.inventoryItems = [];
+    window.inventoryMovements = [];
+    window.trendChartInstance = null;
+    window.donutChartInstance = null;
+    window.currentMacro = 'all';
+    window.currentRekapMacro = 'all';
+    window.currentSidebarMacro = 'all';
+    window.currentBBTab = 'lr';
+    window.currentPrintFilename = 'Laporan.pdf';
+    window.currentPrintOrientation = 'portrait';
+
+    const supabaseUrl = "https://vqpnummybwkizboyfawd.supabase.co"; 
+    const supabaseKey = "sb_publishable_hpJ3r-fAVhAw7p0Xcp-zbw_s1oPNGrs"; 
+    let supabaseClient = null;
+    try { 
+        if (typeof supabase !== 'undefined') { 
+            supabaseClient = supabase.createClient(supabaseUrl, supabaseKey); 
+        } 
+    } catch (e) { 
+        console.warn("Supabase init failed", e); 
+    }
+
     const fmt = (v) => "Rp " + new Intl.NumberFormat('id-ID').format(Math.round(Number(v) || 0));
 
-    window.togglePass = () => { const i = document.getElementById('passInput'), ic = document.getElementById('passIcon'); if(i.type==='password'){ i.type='text'; ic.className='fas fa-eye'; } else { i.type='password'; ic.className='fas fa-eye-slash'; } };
-    window.showSRGModal = (o) => { const m = document.getElementById('srgModal'), t = document.getElementById('modalTitle'), b = document.getElementById('modalBody'), cB = document.getElementById('modalConfirmBtn'), canB = document.getElementById('modalCancelBtn'); if (!m || !t || !b || !cB || !canB) return; t.innerText = (o.title || "INFORMASI"); b.innerHTML = o.content || `<p class="text-sm text-slate-500 leading-relaxed font-medium">${o.message || ""}</p>`; cB.innerText = o.confirmText || "OK"; cB.onclick = () => { if(o.onConfirm) o.onConfirm(); else window.closeSRGModal(); }; if(o.showCancel) { canB.classList.remove('hidden'); canB.classList.add('inline-block'); } else { canB.classList.add('hidden'); canB.classList.remove('inline-block'); } m.classList.add('active'); };
-    window.closeSRGModal = () => { const m = document.getElementById('srgModal'); if(m) m.classList.remove('active'); };
-    window.openStrukModal = function(base64) { if(!base64) return; document.getElementById('strukFullImage').src = base64; document.getElementById('strukModal').classList.add('active'); };
-    window.closeStrukModal = function() { document.getElementById('strukModal').classList.remove('active'); };
-    window.addAuditLog = (action, details) => { if(window.userProfile?.appRole === 'mitra') return; window.auditLogs.unshift({ id: Date.now(), timestamp: new Date().toISOString(), actor: window.userProfile?.appDisplayName || 'Sistem', action, details }); localStorage.setItem('srg_audit_logs', JSON.stringify(window.auditLogs.slice(0,50))); window.renderAuditLogs(); };
-    window.renderAuditLogs = function() { const cont = document.getElementById('auditLogContainer'); if (!cont) return; if (window.auditLogs.length === 0) { cont.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-4">Belum ada rekam jejak aktivitas.</p>'; return; } cont.innerHTML = window.auditLogs.map(l => { const dt = new Date(l.timestamp); const timeStr = `${dt.getDate().toString().padStart(2,'0')}/${(dt.getMonth()+1).toString().padStart(2,'0')}/${dt.getFullYear()} ${dt.getHours().toString().padStart(2,'0')}:${dt.getMinutes().toString().padStart(2,'0')}`; return `<div class="p-3 border-b border-slate-200 bg-white rounded-lg mb-2 shadow-sm text-[10px] md:text-xs"><div class="flex justify-between mb-1"><span class="font-bold text-slate-800">${l.actor}</span><span class="text-slate-400 font-mono">${timeStr}</span></div><div><span class="font-bold text-[var(--srg-green)]">[${l.action}]</span> <span class="text-slate-600">${l.details}</span></div></div>`; }).join(''); };
+    // Utils & Modals
+    window.togglePass = () => { 
+        const i = document.getElementById('passInput');
+        const ic = document.getElementById('passIcon'); 
+        if(i.type === 'password'){ 
+            i.type = 'text'; ic.className = 'fas fa-eye'; 
+        } else { 
+            i.type = 'password'; ic.className = 'fas fa-eye-slash'; 
+        } 
+    };
 
-    // --- MODAL REVIEW PDF & CETAK ---
+    window.showSRGModal = (o) => { 
+        const m = document.getElementById('srgModal');
+        const t = document.getElementById('modalTitle');
+        const b = document.getElementById('modalBody');
+        const cB = document.getElementById('modalConfirmBtn');
+        const canB = document.getElementById('modalCancelBtn'); 
+        if (!m || !t || !b || !cB || !canB) return; 
+        
+        t.innerText = (o.title || "INFORMASI"); 
+        b.innerHTML = o.content || `<p class="text-sm text-slate-500 leading-relaxed font-medium">${o.message || ""}</p>`; 
+        cB.innerText = o.confirmText || "OK"; 
+        cB.onclick = () => { if(o.onConfirm) o.onConfirm(); else window.closeSRGModal(); }; 
+        
+        if(o.showCancel) { 
+            canB.classList.remove('hidden'); canB.classList.add('inline-block'); 
+        } else { 
+            canB.classList.add('hidden'); canB.classList.remove('inline-block'); 
+        } 
+        m.classList.add('active'); 
+    };
+
+    window.closeSRGModal = () => { 
+        const m = document.getElementById('srgModal'); 
+        if(m) m.classList.remove('active'); 
+    };
+
+    window.openStrukModal = function(base64) { 
+        if(!base64) return; 
+        document.getElementById('strukFullImage').src = base64; 
+        document.getElementById('strukModal').classList.add('active'); 
+    };
+
+    window.closeStrukModal = function() { 
+        document.getElementById('strukModal').classList.remove('active'); 
+    };
+
+    window.addAuditLog = (action, details) => { 
+        if(window.userProfile?.appRole === 'mitra') return; 
+        window.auditLogs.unshift({ 
+            id: Date.now(), 
+            timestamp: new Date().toISOString(), 
+            actor: window.userProfile?.appDisplayName || 'Sistem', 
+            action, 
+            details 
+        }); 
+        localStorage.setItem('srg_audit_logs', JSON.stringify(window.auditLogs.slice(0,50))); 
+        window.renderAuditLogs(); 
+    };
+
+    window.renderAuditLogs = function() { 
+        const cont = document.getElementById('auditLogContainer'); 
+        if (!cont) return; 
+        if (window.auditLogs.length === 0) { 
+            cont.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-4">Belum ada rekam jejak aktivitas.</p>'; 
+            return; 
+        } 
+        cont.innerHTML = window.auditLogs.map(l => { 
+            const dt = new Date(l.timestamp); 
+            const timeStr = `${dt.getDate().toString().padStart(2,'0')}/${(dt.getMonth()+1).toString().padStart(2,'0')}/${dt.getFullYear()} ${dt.getHours().toString().padStart(2,'0')}:${dt.getMinutes().toString().padStart(2,'0')}`; 
+            return `<div class="p-3 border-b border-slate-200 bg-white rounded-lg mb-2 shadow-sm text-[10px] md:text-xs"><div class="flex justify-between mb-1"><span class="font-bold text-slate-800">${l.actor}</span><span class="text-slate-400 font-mono">${timeStr}</span></div><div><span class="font-bold text-[var(--srg-green)]">[${l.action}]</span> <span class="text-slate-600">${l.details}</span></div></div>`; 
+        }).join(''); 
+    };
+
+    // Print & PDF Export
     window.openReviewModal = (sourceId, docType, periodeStr, targetName) => {
         const sourceEl = document.getElementById(sourceId); if (!sourceEl) return;
         let finalHtml = ''; const kopSource = document.getElementById('global-print-kop');
-        if (kopSource) { let kopHtml = kopSource.innerHTML; const dtStr = new Date().toLocaleString('id-ID', { dateStyle: 'full', timeStyle: 'long' }); kopHtml = kopHtml.replace('<span class="print-datetime text-[11px] font-bold text-slate-800"></span>', `<span class="text-[11px] font-bold text-slate-800">${dtStr}</span>`); kopHtml = kopHtml.replace('<span class="print-periode text-[11px] font-bold text-slate-800"></span>', `<span class="text-[11px] font-bold text-slate-800">${periodeStr || 'Semua Waktu'}</span>`); if (targetName) { kopHtml = kopHtml.replace('<span class="print-target-name text-[11px] font-bold text-slate-800"></span>', `<span class="text-[11px] font-bold text-slate-800">${targetName}</span>`); } else { kopHtml = kopHtml.replace('print-target-wrapper', 'hidden'); } finalHtml += `<div class="w-full mb-6">${kopHtml}</div>`; }
+        
+        if (kopSource) { 
+            let kopHtml = kopSource.innerHTML; 
+            const dtStr = new Date().toLocaleString('id-ID', { dateStyle: 'full', timeStyle: 'long' }); 
+            kopHtml = kopHtml.replace('<span class="print-datetime text-[11px] font-bold text-slate-800"></span>', `<span class="text-[11px] font-bold text-slate-800">${dtStr}</span>`); 
+            kopHtml = kopHtml.replace('<span class="print-periode text-[11px] font-bold text-slate-800"></span>', `<span class="text-[11px] font-bold text-slate-800">${periodeStr || 'Semua Waktu'}</span>`); 
+            
+            if (targetName) { 
+                kopHtml = kopHtml.replace('<span class="print-target-name text-[11px] font-bold text-slate-800"></span>', `<span class="text-[11px] font-bold text-slate-800">${targetName}</span>`); 
+            } else { 
+                kopHtml = kopHtml.replace('print-target-wrapper', 'hidden'); 
+            } 
+            finalHtml += `<div class="w-full mb-6">${kopHtml}</div>`; 
+        }
+        
         finalHtml += `<div class="w-full text-slate-900">${sourceEl.innerHTML}</div>`;
-        if (docType === 'slip') { window.currentPrintFilename = `Slip_Bagi_Hasil_${targetName.replace(/\s+/g, '_')}.pdf`; window.currentPrintOrientation = 'portrait'; } else { finalHtml += `<div class="flex justify-between text-[10px] md:text-xs text-center px-8 mt-16 mb-4 page-break-inside-avoid w-full"><div class="w-1/2 flex flex-col items-center"><p class="mb-16">Dibuat Oleh,</p><p class="font-bold border-b border-black inline-block px-6 pb-1">M.Nasyruddin Mujtaba.M.A</p><p class="text-[9px] mt-1 font-bold text-slate-500 uppercase tracking-wider">Dir. Accounting & Administrasi</p></div><div class="w-1/2 flex flex-col items-center"><p class="mb-16">Mengetahui & Menyetujui,</p><p class="font-bold border-b border-black inline-block px-6 pb-1">Burhan Ari Mukti</p><p class="text-[9px] mt-1 font-bold text-slate-500 uppercase tracking-wider">Direktur Utama</p></div></div>`; window.currentPrintFilename = `Laporan_SRG_${docType}.pdf`; window.currentPrintOrientation = 'landscape'; }
-        const noPrints = document.createElement('div'); noPrints.innerHTML = finalHtml; noPrints.querySelectorAll('.no-print, #rekapFilterBox, #printMitraLabel, .table-scroll-hint').forEach(el => el.remove());
-        document.getElementById('previewContentArea').innerHTML = noPrints.innerHTML; document.getElementById('previewModal').classList.remove('hidden'); document.getElementById('previewModal').classList.add('flex'); document.body.style.overflow = 'hidden';
+        
+        if (docType === 'slip') { 
+            window.currentPrintFilename = `Slip_Bagi_Hasil_${targetName.replace(/\s+/g, '_')}.pdf`; 
+            window.currentPrintOrientation = 'portrait'; 
+        } else { 
+            finalHtml += `<div class="flex justify-between text-[10px] md:text-xs text-center px-8 mt-16 mb-4 page-break-inside-avoid w-full"><div class="w-1/2 flex flex-col items-center"><p class="mb-16">Dibuat Oleh,</p><p class="font-bold border-b border-black inline-block px-6 pb-1">M.Nasyruddin Mujtaba.M.A</p><p class="text-[9px] mt-1 font-bold text-slate-500 uppercase tracking-wider">Dir. Accounting & Administrasi</p></div><div class="w-1/2 flex flex-col items-center"><p class="mb-16">Mengetahui & Menyetujui,</p><p class="font-bold border-b border-black inline-block px-6 pb-1">Burhan Ari Mukti</p><p class="text-[9px] mt-1 font-bold text-slate-500 uppercase tracking-wider">Direktur Utama</p></div></div>`; 
+            window.currentPrintFilename = `Laporan_SRG_${docType}.pdf`; 
+            window.currentPrintOrientation = 'landscape'; 
+        }
+        
+        const noPrints = document.createElement('div'); 
+        noPrints.innerHTML = finalHtml; 
+        noPrints.querySelectorAll('.no-print, #rekapFilterBox, #printMitraLabel, .table-scroll-hint').forEach(el => el.remove());
+        
+        document.getElementById('previewContentArea').innerHTML = noPrints.innerHTML; 
+        document.getElementById('previewModal').classList.remove('hidden'); 
+        document.getElementById('previewModal').classList.add('flex'); 
+        document.body.style.overflow = 'hidden';
     };
-    window.closeReviewModal = () => { document.getElementById('previewModal').classList.add('hidden'); document.getElementById('previewModal').classList.remove('flex'); document.body.style.overflow = 'auto'; };
-    window.executeNativePrint = () => { let printRoot = document.getElementById('print-root'); if (!printRoot) { printRoot = document.createElement('div'); printRoot.id = 'print-root'; document.body.appendChild(printRoot); } printRoot.innerHTML = document.getElementById('previewContentArea').innerHTML; document.body.classList.add('is-printing'); setTimeout(() => { window.print(); document.body.classList.remove('is-printing'); printRoot.innerHTML = ''; }, 300); };
-    window.executeDownloadPDF = () => { if(typeof html2pdf === 'undefined') { window.executeNativePrint(); return; } const element = document.getElementById('previewContentArea'); const opt = { margin: 0.5, filename: window.currentPrintFilename, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true }, jsPDF: { unit: 'in', format: 'a4', orientation: window.currentPrintOrientation } }; html2pdf().set(opt).from(element).save(); };
 
+    window.closeReviewModal = () => { 
+        document.getElementById('previewModal').classList.add('hidden'); 
+        document.getElementById('previewModal').classList.remove('flex'); 
+        document.body.style.overflow = 'auto'; 
+    };
+
+    window.executeNativePrint = () => { 
+        let printRoot = document.getElementById('print-root'); 
+        if (!printRoot) { 
+            printRoot = document.createElement('div'); 
+            printRoot.id = 'print-root'; 
+            document.body.appendChild(printRoot); 
+        } 
+        printRoot.innerHTML = document.getElementById('previewContentArea').innerHTML; 
+        document.body.classList.add('is-printing'); 
+        setTimeout(() => { 
+            window.print(); 
+            document.body.classList.remove('is-printing'); 
+            printRoot.innerHTML = ''; 
+        }, 300); 
+    };
+
+    window.executeDownloadPDF = () => { 
+        if(typeof html2pdf === 'undefined') { 
+            window.executeNativePrint(); return; 
+        } 
+        const element = document.getElementById('previewContentArea'); 
+        const opt = { 
+            margin: 0.5, 
+            filename: window.currentPrintFilename, 
+            image: { type: 'jpeg', quality: 0.98 }, 
+            html2canvas: { scale: 2, useCORS: true }, 
+            jsPDF: { unit: 'in', format: 'a4', orientation: window.currentPrintOrientation } 
+        }; 
+        html2pdf().set(opt).from(element).save(); 
+    };
+
+    // Branding & Global Settings
     window.loadGlobalSettings = async function() {
-        const localFallback = { srg_name_long: localStorage.getItem('srg_name_long'), srg_name_short: localStorage.getItem('srg_name_short'), srg_custom_logo: localStorage.getItem('srg_custom_logo'), srg_custom_kop: localStorage.getItem('srg_custom_kop'), srg_kas_awal: localStorage.getItem('srg_kas_awal'), srg_aset_awal: localStorage.getItem('srg_aset_awal'), srg_hutang_awal: localStorage.getItem('srg_hutang_awal') };
-        if (!supabaseClient) { window.applyBranding(localFallback); return; }
-        try { const { data, error } = await supabaseClient.from('app_settings').select('*').eq('id', 'global_config').single(); if (data && !error) { window.applyBranding(data); } else { window.applyBranding(localFallback); } } catch(e) { window.applyBranding(localFallback); }
+        const localFallback = { 
+            srg_name_long: localStorage.getItem('srg_name_long'), 
+            srg_name_short: localStorage.getItem('srg_name_short'), 
+            srg_custom_logo: localStorage.getItem('srg_custom_logo'), 
+            srg_custom_kop: localStorage.getItem('srg_custom_kop'), 
+            srg_kas_awal: localStorage.getItem('srg_kas_awal'), 
+            srg_aset_awal: localStorage.getItem('srg_aset_awal'), 
+            srg_hutang_awal: localStorage.getItem('srg_hutang_awal') 
+        };
+        
+        if (!supabaseClient) { 
+            window.applyBranding(localFallback); return; 
+        }
+        try { 
+            const { data, error } = await supabaseClient.from('app_settings').select('*').eq('id', 'global_config').single(); 
+            if (data && !error) { window.applyBranding(data); } else { window.applyBranding(localFallback); } 
+        } catch(e) { window.applyBranding(localFallback); }
     };
 
     window.applyBranding = function(dataObj) {
-        const nLong = dataObj?.srg_name_long || localStorage.getItem('srg_name_long') || "PT SUBUR RAYA GROUP"; const nShort = dataObj?.srg_name_short || localStorage.getItem('srg_name_short') || "PT SR Group"; const cLogo = dataObj?.srg_custom_logo || localStorage.getItem('srg_custom_logo') || ""; const cKop = dataObj?.srg_custom_kop || localStorage.getItem('srg_custom_kop') || "";
-        document.getElementById('pt-kas-awal').value = dataObj?.srg_kas_awal || localStorage.getItem('srg_kas_awal') || ''; document.getElementById('pt-aset-awal').value = dataObj?.srg_aset_awal || localStorage.getItem('srg_aset_awal') || ''; document.getElementById('pt-hutang-awal').value = dataObj?.srg_hutang_awal || localStorage.getItem('srg_hutang_awal') || '';
-        [document.getElementById('loginTitleText'), document.getElementById('globalPrintTitleLong')].forEach(el => { if(el) el.innerText = nLong.toUpperCase(); }); [document.getElementById('navTitleText')].forEach(el => { if(el) el.innerText = nShort.toUpperCase(); });
-        ['modalLogoContainer', 'loginLogoContainer', 'navLogoContainer', 'globalPrintLogoContainer'].forEach(id => { const el = document.getElementById(id); if (!el) return; if (cLogo && cLogo.startsWith('data:image')) { el.innerHTML = `<img src="${cLogo}" class="w-full h-full object-contain rounded-xl p-0.5">`; el.style.backgroundColor = "transparent"; el.style.borderWidth = "0"; } else { el.style.backgroundColor = "var(--srg-green)"; el.style.borderWidth = id === 'navLogoContainer' ? '0' : '4px'; el.innerHTML = id === 'navLogoContainer' ? `<span class="default-logo text-white text-xs">SR</span>` : `<span class="default-logo font-bold text-xl md:text-2xl text-[var(--srg-gold)]">SRG</span>`; } });
-        const defKop = document.getElementById('globalDefaultKop'), imgKop = document.getElementById('globalCustomKopImg'); if (defKop && imgKop) { if (cKop && cKop.startsWith('data:image')) { imgKop.setAttribute('src', cKop); imgKop.classList.remove('hidden'); defKop.classList.add('hidden'); } else { imgKop.removeAttribute('src'); imgKop.classList.add('hidden'); defKop.classList.remove('hidden'); } }
-        const inLong = document.getElementById('pt-name-long'); if(inLong) inLong.value = nLong; const inShort = document.getElementById('pt-name-short'); if(inShort) inShort.value = nShort; const pL = document.getElementById('preview-logo'); if(pL) { if (cLogo && cLogo.startsWith('data:image')) { pL.setAttribute('src', cLogo); pL.style.display = 'block'; } else { pL.removeAttribute('src'); pL.style.display = 'none'; } } const pK = document.getElementById('preview-kop'); if(pK) { if (cKop && cKop.startsWith('data:image')) { pK.setAttribute('src', cKop); pK.style.display = 'block'; } else { pK.removeAttribute('src'); pK.style.display = 'none'; } }
-        const bgPattern = document.getElementById('dynamic-bg-pattern'); if (bgPattern) { if (cLogo && cLogo.startsWith('data:image')) { bgPattern.style.backgroundImage = `url('${cLogo}')`; bgPattern.style.opacity = '0.08'; } else { bgPattern.style.backgroundImage = 'none'; } }
+        const nLong = dataObj?.srg_name_long || localStorage.getItem('srg_name_long') || "PT SUBUR RAYA GROUP"; 
+        const nShort = dataObj?.srg_name_short || localStorage.getItem('srg_name_short') || "PT SR Group"; 
+        const cLogo = dataObj?.srg_custom_logo || localStorage.getItem('srg_custom_logo') || ""; 
+        const cKop = dataObj?.srg_custom_kop || localStorage.getItem('srg_custom_kop') || "";
+        
+        document.getElementById('pt-kas-awal').value = dataObj?.srg_kas_awal || localStorage.getItem('srg_kas_awal') || ''; 
+        document.getElementById('pt-aset-awal').value = dataObj?.srg_aset_awal || localStorage.getItem('srg_aset_awal') || ''; 
+        document.getElementById('pt-hutang-awal').value = dataObj?.srg_hutang_awal || localStorage.getItem('srg_hutang_awal') || '';
+        
+        [document.getElementById('loginTitleText'), document.getElementById('globalPrintTitleLong')].forEach(el => { 
+            if(el) el.innerText = nLong.toUpperCase(); 
+        }); 
+        
+        [document.getElementById('navTitleText')].forEach(el => { 
+            if(el) el.innerText = nShort.toUpperCase(); 
+        });
+        
+        ['modalLogoContainer', 'loginLogoContainer', 'navLogoContainer', 'globalPrintLogoContainer'].forEach(id => { 
+            const el = document.getElementById(id); if (!el) return; 
+            if (cLogo && cLogo.startsWith('data:image')) { 
+                el.innerHTML = `<img src="${cLogo}" class="w-full h-full object-contain rounded-xl p-0.5">`; 
+                el.style.backgroundColor = "transparent"; el.style.borderWidth = "0"; 
+            } else { 
+                el.style.backgroundColor = "var(--srg-green)"; 
+                el.style.borderWidth = id === 'navLogoContainer' ? '0' : '4px'; 
+                el.innerHTML = id === 'navLogoContainer' ? `<span class="default-logo text-white text-xs">SR</span>` : `<span class="default-logo font-bold text-xl md:text-2xl text-[var(--srg-gold)]">SRG</span>`; 
+            } 
+        });
+        
+        const defKop = document.getElementById('globalDefaultKop'), imgKop = document.getElementById('globalCustomKopImg'); 
+        if (defKop && imgKop) { 
+            if (cKop && cKop.startsWith('data:image')) { 
+                imgKop.setAttribute('src', cKop); imgKop.classList.remove('hidden'); defKop.classList.add('hidden'); 
+            } else { 
+                imgKop.removeAttribute('src'); imgKop.classList.add('hidden'); defKop.classList.remove('hidden'); 
+            } 
+        }
+        
+        const inLong = document.getElementById('pt-name-long'); if(inLong) inLong.value = nLong; 
+        const inShort = document.getElementById('pt-name-short'); if(inShort) inShort.value = nShort; 
+        const pL = document.getElementById('preview-logo'); 
+        if(pL) { 
+            if (cLogo && cLogo.startsWith('data:image')) { pL.setAttribute('src', cLogo); pL.style.display = 'block'; } else { pL.removeAttribute('src'); pL.style.display = 'none'; } 
+        } 
+        const pK = document.getElementById('preview-kop'); 
+        if(pK) { 
+            if (cKop && cKop.startsWith('data:image')) { pK.setAttribute('src', cKop); pK.style.display = 'block'; } else { pK.removeAttribute('src'); pK.style.display = 'none'; } 
+        }
+        
+        const bgPattern = document.getElementById('dynamic-bg-pattern'); 
+        if (bgPattern) { 
+            if (cLogo && cLogo.startsWith('data:image')) { 
+                bgPattern.style.backgroundImage = `url('${cLogo}')`; bgPattern.style.opacity = '0.08'; 
+            } else { 
+                bgPattern.style.backgroundImage = 'none'; 
+            } 
+        }
     };
 
     window.saveBranding = async function() {
         document.getElementById('loadingOverlay').classList.remove('hidden');
-        const nLong = document.getElementById('pt-name-long').value; const nShort = document.getElementById('pt-name-short').value;
-        const pLogo = document.getElementById('preview-logo').getAttribute('src'); const pKop = document.getElementById('preview-kop').getAttribute('src');
-        let validLogo = (pLogo && pLogo.startsWith('data:image')) ? pLogo : ''; let validKop = (pKop && pKop.startsWith('data:image')) ? pKop : '';
-        const kasAwal = Number(document.getElementById('pt-kas-awal').value) || 0; const asetAwal = Number(document.getElementById('pt-aset-awal').value) || 0; const hutangAwal = Number(document.getElementById('pt-hutang-awal').value) || 0;
-        localStorage.setItem('srg_name_long', nLong); localStorage.setItem('srg_name_short', nShort); localStorage.setItem('srg_kas_awal', kasAwal); localStorage.setItem('srg_aset_awal', asetAwal); localStorage.setItem('srg_hutang_awal', hutangAwal);
-        if(validLogo) localStorage.setItem('srg_custom_logo', validLogo); else localStorage.removeItem('srg_custom_logo'); if(validKop) localStorage.setItem('srg_custom_kop', validKop); else localStorage.removeItem('srg_custom_kop');
-        if (supabaseClient) { try { const payload = { id: 'global_config', srg_name_long: nLong, srg_name_short: nShort, srg_custom_logo: validLogo, srg_custom_kop: validKop, srg_kas_awal: kasAwal, srg_aset_awal: asetAwal, srg_hutang_awal: hutangAwal }; await supabaseClient.from('app_settings').upsert(payload, { onConflict: 'id' }); } catch(e) {} }
-        await window.loadGlobalSettings(); window.addAuditLog('Ubah Profil', 'Admin memperbarui profil dan Saldo Awal'); document.getElementById('loadingOverlay').classList.add('hidden'); window.showSRGModal({title: "Branding Disimpan", message: "Profil visual dan saldo awal berhasil diterapkan."});
+        const nLong = document.getElementById('pt-name-long').value; 
+        const nShort = document.getElementById('pt-name-short').value;
+        const pLogo = document.getElementById('preview-logo').getAttribute('src'); 
+        const pKop = document.getElementById('preview-kop').getAttribute('src');
+        let validLogo = (pLogo && pLogo.startsWith('data:image')) ? pLogo : ''; 
+        let validKop = (pKop && pKop.startsWith('data:image')) ? pKop : '';
+        const kasAwal = Number(document.getElementById('pt-kas-awal').value) || 0; 
+        const asetAwal = Number(document.getElementById('pt-aset-awal').value) || 0; 
+        const hutangAwal = Number(document.getElementById('pt-hutang-awal').value) || 0;
+        
+        localStorage.setItem('srg_name_long', nLong); 
+        localStorage.setItem('srg_name_short', nShort); 
+        localStorage.setItem('srg_kas_awal', kasAwal); 
+        localStorage.setItem('srg_aset_awal', asetAwal); 
+        localStorage.setItem('srg_hutang_awal', hutangAwal);
+        if(validLogo) localStorage.setItem('srg_custom_logo', validLogo); else localStorage.removeItem('srg_custom_logo'); 
+        if(validKop) localStorage.setItem('srg_custom_kop', validKop); else localStorage.removeItem('srg_custom_kop');
+        
+        if (supabaseClient) { 
+            try { 
+                const payload = { id: 'global_config', srg_name_long: nLong, srg_name_short: nShort, srg_custom_logo: validLogo, srg_custom_kop: validKop, srg_kas_awal: kasAwal, srg_aset_awal: asetAwal, srg_hutang_awal: hutangAwal }; 
+                await supabaseClient.from('app_settings').upsert(payload, { onConflict: 'id' }); 
+            } catch(e) {} 
+        }
+        await window.loadGlobalSettings(); 
+        window.addAuditLog('Ubah Profil', 'Admin memperbarui profil dan Saldo Awal'); 
+        document.getElementById('loadingOverlay').classList.add('hidden'); 
+        window.showSRGModal({title: "Branding Disimpan", message: "Profil visual dan saldo awal berhasil diterapkan."});
     };
 
-    window.handleUpload = function(e, imgId) { const file = e.target.files[0]; if (!file) return; const imgEl = document.getElementById(imgId); const reader = new FileReader(); reader.onload = (event) => { const img = new Image(); img.onload = () => { const canvas = document.createElement('canvas'); let w = img.width, h = img.height; const maxW = imgId === 'preview-logo' ? 250 : 800; if (w > maxW) { h = Math.round((maxW / w) * h); w = maxW; } canvas.width = w; canvas.height = h; const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, w, h); const mimeType = imgId === 'preview-logo' ? 'image/png' : 'image/jpeg'; const base64 = canvas.toDataURL(mimeType, 0.7); imgEl.setAttribute('src', base64); imgEl.style.display = 'block'; }; img.src = event.target.result; }; reader.readAsDataURL(file); };
-    window.handleUploadStruk = function(e, pid) { const file = e.target.files[0]; if (!file) return; const imgEl = document.getElementById(pid); const reader = new FileReader(); reader.onload = (event) => { const img = new Image(); img.onload = () => { const canvas = document.createElement('canvas'); let w = img.width, h = img.height; const maxW = 400; if (w > maxW) { h = Math.round((maxW / w) * h); w = maxW; } canvas.width = w; canvas.height = h; const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, w, h); const base64 = canvas.toDataURL('image/jpeg', 0.5); imgEl.setAttribute('src', base64); imgEl.style.display = 'block'; document.getElementById('strukBase64').value = base64; }; img.src = event.target.result; }; reader.readAsDataURL(file); };
+    window.handleUpload = function(e, imgId) { 
+        const file = e.target.files[0]; if (!file) return; 
+        const imgEl = document.getElementById(imgId); 
+        const reader = new FileReader(); 
+        reader.onload = (event) => { 
+            const img = new Image(); 
+            img.onload = () => { 
+                const canvas = document.createElement('canvas'); 
+                let w = img.width, h = img.height; 
+                const maxW = imgId === 'preview-logo' ? 250 : 800; 
+                if (w > maxW) { h = Math.round((maxW / w) * h); w = maxW; } 
+                canvas.width = w; canvas.height = h; 
+                const ctx = canvas.getContext('2d'); 
+                ctx.drawImage(img, 0, 0, w, h); 
+                const mimeType = imgId === 'preview-logo' ? 'image/png' : 'image/jpeg'; 
+                const base64 = canvas.toDataURL(mimeType, 0.7); 
+                imgEl.setAttribute('src', base64); 
+                imgEl.style.display = 'block'; 
+            }; 
+            img.src = event.target.result; 
+        }; 
+        reader.readAsDataURL(file); 
+    };
 
+    window.handleUploadStruk = function(e, pid) { 
+        const file = e.target.files[0]; if (!file) return; 
+        const imgEl = document.getElementById(pid); 
+        const reader = new FileReader(); 
+        reader.onload = (event) => { 
+            const img = new Image(); 
+            img.onload = () => { 
+                const canvas = document.createElement('canvas'); 
+                let w = img.width, h = img.height; 
+                const maxW = 400; 
+                if (w > maxW) { h = Math.round((maxW / w) * h); w = maxW; } 
+                canvas.width = w; canvas.height = h; 
+                const ctx = canvas.getContext('2d'); 
+                ctx.drawImage(img, 0, 0, w, h); 
+                const base64 = canvas.toDataURL('image/jpeg', 0.5); 
+                imgEl.setAttribute('src', base64); 
+                imgEl.style.display = 'block'; 
+                document.getElementById('strukBase64').value = base64; 
+            }; 
+            img.src = event.target.result; 
+        }; 
+        reader.readAsDataURL(file); 
+    };
+
+    // Data Fetching
     window.fetchMitras = async function(isInit = false) {
-        let baseMitras = [ { id: 'base-1', username: "albarokahshop30", password: "mitrasubur1", display_name: "ALBAROKAHSHOP30", clean_name: "ALBAROKAHSHOP30", isUnit: false, pct_pt: 20, pct_mitra: 80, modal_awal: 0, piutang: 0 }, { id: 'base-2', username: "radiator tunggaksemi", password: "mitrasubur2", display_name: "RADIATOR TUNGGAKSEMI", clean_name: "RADIATOR TUNGGAKSEMI", isUnit: false, pct_pt: 20, pct_mitra: 80, modal_awal: 0, piutang: 0 }, { id: 'base-3', username: "bengkel subur 1", password: "mitrasubur1", display_name: "BENGKEL SUBUR 1\u200B", clean_name: "BENGKEL SUBUR 1", isUnit: true, pct_pt: 70, pct_mitra: 30, modal_awal: 0, piutang: 0 }, { id: 'base-4', username: "bengkel subur 2", password: "mitrasubur2", display_name: "BENGKEL SUBUR 2\u200B", clean_name: "BENGKEL SUBUR 2", isUnit: true, pct_pt: 70, pct_mitra: 30, modal_awal: 0, piutang: 0 } ];
-        let localMitras = []; try { localMitras = JSON.parse(localStorage.getItem('srg_mitras')) || []; } catch(e){}
-        if (localMitras.length > 0) { window.allMitras = localMitras; } else { let fetched = false; if (supabaseClient) { try { const { data } = await supabaseClient.from('mitras').select('*').order('display_name'); if (data && data.length > 0) { data.forEach(m => { m.clean_name = (m.display_name||'').replace(/\u200B/g,''); m.isUnit = (m.display_name||'').includes('\u200B'); }); window.allMitras = data; localStorage.setItem('srg_mitras', JSON.stringify(data)); fetched = true; } } catch(e) {} } if (!fetched) { window.allMitras = baseMitras; localStorage.setItem('srg_mitras', JSON.stringify(baseMitras)); } }
-        if (!isInit && window.userProfile) { window.populateMitraSelects(); window.renderMitraManagement(); }
+        let baseMitras = [ 
+            { id: 'base-1', username: "albarokahshop30", password: "mitrasubur1", display_name: "ALBAROKAHSHOP30", clean_name: "ALBAROKAHSHOP30", isUnit: false, pct_pt: 20, pct_mitra: 80, modal_awal: 0, piutang: 0 }, 
+            { id: 'base-2', username: "radiator tunggaksemi", password: "mitrasubur2", display_name: "RADIATOR TUNGGAKSEMI", clean_name: "RADIATOR TUNGGAKSEMI", isUnit: false, pct_pt: 20, pct_mitra: 80, modal_awal: 0, piutang: 0 }, 
+            { id: 'base-3', username: "bengkel subur 1", password: "mitrasubur1", display_name: "BENGKEL SUBUR 1\u200B", clean_name: "BENGKEL SUBUR 1", isUnit: true, pct_pt: 70, pct_mitra: 30, modal_awal: 0, piutang: 0 }, 
+            { id: 'base-4', username: "bengkel subur 2", password: "mitrasubur2", display_name: "BENGKEL SUBUR 2\u200B", clean_name: "BENGKEL SUBUR 2", isUnit: true, pct_pt: 70, pct_mitra: 30, modal_awal: 0, piutang: 0 } 
+        ];
+        let localMitras = []; 
+        try { localMitras = JSON.parse(localStorage.getItem('srg_mitras')) || []; } catch(e){}
+        
+        if (localMitras.length > 0) { 
+            window.allMitras = localMitras; 
+        } else { 
+            let fetched = false; 
+            if (supabaseClient) { 
+                try { 
+                    const { data } = await supabaseClient.from('mitras').select('*').order('display_name'); 
+                    if (data && data.length > 0) { 
+                        data.forEach(m => { 
+                            m.clean_name = (m.display_name||'').replace(/\u200B/g,''); 
+                            m.isUnit = (m.display_name||'').includes('\u200B'); 
+                        }); 
+                        window.allMitras = data; 
+                        localStorage.setItem('srg_mitras', JSON.stringify(data)); 
+                        fetched = true; 
+                    } 
+                } catch(e) {} 
+            } 
+            if (!fetched) { 
+                window.allMitras = baseMitras; 
+                localStorage.setItem('srg_mitras', JSON.stringify(baseMitras)); 
+            } 
+        }
+        if (!isInit && window.userProfile) { 
+            window.populateMitraSelects(); 
+            window.renderMitraManagement(); 
+        }
     };
 
     window.fetchTransactions = async function() {
-        let localTrans = []; try { localTrans = JSON.parse(localStorage.getItem('srg_transactions')) || []; } catch(e){}
-        if (localTrans.length > 0) { window.allTransactions = localTrans; } else { let fetched = false; if (supabaseClient) { try { const { data } = await supabaseClient.from('transactions').select('*').order('tanggal', {ascending:false}); if (data && data.length > 0) { window.allTransactions = data; localStorage.setItem('srg_transactions', JSON.stringify(data)); fetched = true; } } catch(e) {} } if (!fetched) { const dummy = [{ id: 'local-1', tanggal: new Date().toISOString().split('T')[0], mitra: 'ALBAROKAHSHOP30', omset: 5000000, modal: 2000000, ops: 500000, kasbon: 0, keterangan: 'Contoh Laporan', status: 'approved' }]; window.allTransactions = dummy; localStorage.setItem('srg_transactions', JSON.stringify(dummy)); } }
+        let localTrans = []; 
+        try { localTrans = JSON.parse(localStorage.getItem('srg_transactions')) || []; } catch(e){}
+        
+        if (localTrans.length > 0) { 
+            window.allTransactions = localTrans; 
+        } else { 
+            let fetched = false; 
+            if (supabaseClient) { 
+                try { 
+                    const { data } = await supabaseClient.from('transactions').select('*').order('tanggal', {ascending:false}); 
+                    if (data && data.length > 0) { 
+                        window.allTransactions = data; 
+                        localStorage.setItem('srg_transactions', JSON.stringify(data)); 
+                        fetched = true; 
+                    } 
+                } catch(e) {} 
+            } 
+            if (!fetched) { 
+                const dummy = [{ id: 'local-1', tanggal: new Date().toISOString().split('T')[0], mitra: 'ALBAROKAHSHOP30', omset: 5000000, modal: 2000000, ops: 500000, kasbon: 0, keterangan: 'Contoh Laporan', status: 'approved' }]; 
+                window.allTransactions = dummy; 
+                localStorage.setItem('srg_transactions', JSON.stringify(dummy)); 
+            } 
+        }
         if (window.userProfile) window.refreshDashboard();
     };
 
+    // Authentication
     window.handleLogin = async function(manualU, manualP, silent=false) {
-        const u = (manualU || document.getElementById('userInput').value).trim().toLowerCase(), p = (manualP || document.getElementById('passInput').value).trim(); if(!u || !p) return; document.getElementById('loadingOverlay').classList.remove('hidden');
+        const u = (manualU || document.getElementById('userInput').value).trim().toLowerCase();
+        const p = (manualP || document.getElementById('passInput').value).trim(); 
+        if(!u || !p) return; 
+        
+        document.getElementById('loadingOverlay').classList.remove('hidden');
         if (window.allMitras.length === 0) { await window.fetchMitras(true); }
-        if(u === 'admin' && p === 'adminsuburraya') window.loginSuccess('admin', 'Strategic Admin', u, p); else if(u === 'auditor' && p === 'auditor123') window.loginSuccess('auditor', 'Auditor Internal', u, p); else { const m = window.allMitras.find(mx => (mx.username||'').trim().toLowerCase() === u && mx.password === p); if(m) window.loginSuccess('mitra', m.clean_name, u, p); else if(!silent) window.showSRGModal({title:"Akses Ditolak", message:"ID Pengguna atau Kata Sandi salah."}); }
+        
+        if(u === 'admin' && p === 'adminsuburraya') {
+            window.loginSuccess('admin', 'Strategic Admin', u, p); 
+        } else if(u === 'auditor' && p === 'auditor123') {
+            window.loginSuccess('auditor', 'Auditor Internal', u, p); 
+        } else { 
+            const m = window.allMitras.find(mx => (mx.username||'').trim().toLowerCase() === u && mx.password === p); 
+            if(m) {
+                window.loginSuccess('mitra', m.clean_name, u, p); 
+            } else if(!silent) {
+                window.showSRGModal({title:"Akses Ditolak", message:"ID Pengguna atau Kata Sandi salah."}); 
+            }
+        }
         document.getElementById('loadingOverlay').classList.add('hidden');
     };
 
     window.loginSuccess = function(role, name, u, p) {
         window.userProfile = { appRole: role, appDisplayName: name };
-        if(document.getElementById('rememberMe')?.checked) { localStorage.setItem('srg_user', u); localStorage.setItem('srg_pass', p); }
-        document.getElementById('loginSection').classList.add('hidden'); document.getElementById('appSection').classList.remove('hidden');
-        if(document.getElementById('navUserName')) document.getElementById('navUserName').innerText = name; if(document.getElementById('navUserRole')) document.getElementById('navUserRole').innerText = role.toUpperCase();
-        window.initAppContent(); window.switchPage('dashboard'); window.addAuditLog('Akses Sistem', `${name} login ke aplikasi.`);
+        if(document.getElementById('rememberMe')?.checked) { 
+            localStorage.setItem('srg_user', u); localStorage.setItem('srg_pass', p); 
+        }
+        document.getElementById('loginSection').classList.add('hidden'); 
+        document.getElementById('appSection').classList.remove('hidden');
+        if(document.getElementById('navUserName')) document.getElementById('navUserName').innerText = name; 
+        if(document.getElementById('navUserRole')) document.getElementById('navUserRole').innerText = role.toUpperCase();
+        window.initAppContent(); 
+        window.switchPage('dashboard'); 
+        window.addAuditLog('Akses Sistem', `${name} login ke aplikasi.`);
     };
 
-    window.handleLogoutRequest = () => { window.showSRGModal({ title: "KELUAR?", message: "Yakin ingin menghapus sesi Anda dan keluar?", confirmText: "YA, KELUAR", showCancel: true, onConfirm: () => { localStorage.clear(); location.reload(); } }); };
+    window.handleLogoutRequest = () => { 
+        window.showSRGModal({ 
+            title: "KELUAR?", 
+            message: "Yakin ingin menghapus sesi Anda dan keluar?", 
+            confirmText: "YA, KELUAR", 
+            showCancel: true, 
+            onConfirm: () => { localStorage.clear(); location.reload(); } 
+        }); 
+    };
 
+    // Navigation & UI Routing
     window.switchPage = function(p) {
-        document.querySelectorAll('.page-content').forEach(el => el.classList.add('hidden')); const targetPage = document.getElementById('page-' + p); if(targetPage) targetPage.classList.remove('hidden');
-        document.querySelectorAll('.nav-btn').forEach(btn => { const isMatch = btn.id === 'nav-' + p; btn.className = isMatch ? 'text-xs px-3 py-2 nav-btn nav-btn-active whitespace-nowrap' : 'text-xs px-3 py-2 nav-btn nav-btn-inactive whitespace-nowrap'; });
-        const activeMobClass = ['text-[var(--srg-green)]', 'bg-slate-50/50', 'border-t-2', 'border-[var(--srg-green)]'], inactiveMobClass = ['text-slate-400'];
-        ['dashboard', 'input', 'brankas', 'mitra', 'rekap', 'bukubesar', 'profil', 'gudang'].forEach(pid => { const btn = document.getElementById('mob-nav-' + pid); if(!btn) return; if(pid === p) { btn.classList.remove(...inactiveMobClass); btn.classList.add(...activeMobClass); } else { btn.classList.remove(...activeMobClass); btn.classList.add(...inactiveMobClass); } });
-        if(p === 'dashboard') window.refreshDashboard(); if(p === 'rekap') window.refreshRekapDashboard(); if(p === 'brankas') window.renderBrankas(); if(p === 'input') window.handleAdminMitraSelect(); if(p === 'bukubesar') window.renderBukuBesar(); if(p === 'gudang') window.renderGudang(); window.toggleSidebarInputs(); window.toggleRekapInputs(); window.scrollTo(0,0);
+        document.querySelectorAll('.page-content').forEach(el => el.classList.add('hidden')); 
+        const targetPage = document.getElementById('page-' + p); 
+        if(targetPage) targetPage.classList.remove('hidden');
+        
+        document.querySelectorAll('.nav-btn').forEach(btn => { 
+            const isMatch = btn.id === 'nav-' + p; 
+            btn.className = isMatch ? 'text-xs px-3 py-2 nav-btn nav-btn-active whitespace-nowrap' : 'text-xs px-3 py-2 nav-btn nav-btn-inactive whitespace-nowrap'; 
+        });
+        
+        const activeMobClass = ['text-[var(--srg-green)]', 'bg-slate-50/50', 'border-t-2', 'border-[var(--srg-green)]'];
+        const inactiveMobClass = ['text-slate-400'];
+        ['dashboard', 'input', 'brankas', 'mitra', 'rekap', 'bukubesar', 'profil', 'gudang'].forEach(pid => { 
+            const btn = document.getElementById('mob-nav-' + pid); 
+            if(!btn) return; 
+            if(pid === p) { 
+                btn.classList.remove(...inactiveMobClass); btn.classList.add(...activeMobClass); 
+            } else { 
+                btn.classList.remove(...activeMobClass); btn.classList.add(...inactiveMobClass); 
+            } 
+        });
+        
+        if(p === 'dashboard') window.refreshDashboard(); 
+        if(p === 'rekap') window.refreshRekapDashboard(); 
+        if(p === 'brankas') window.renderBrankas(); 
+        if(p === 'input') window.handleAdminMitraSelect(); 
+        if(p === 'bukubesar') window.renderBukuBesar(); 
+        if(p === 'gudang') window.renderGudang(); 
+        window.toggleSidebarInputs(); window.toggleRekapInputs(); window.scrollTo(0,0);
     };
 
-    window.toggleRekapInputs = function() { const t = document.getElementById('rekapFilterType'); if(!t) return; const v = t.value; const rf = document.getElementById('r-range-fields'); if(rf) rf.classList.toggle('hidden', v !== 'range'); const mf = document.getElementById('r-month-fields'); if(mf) mf.classList.toggle('hidden', v !== 'month'); const yf = document.getElementById('r-year-fields'); if(yf) yf.classList.toggle('hidden', v !== 'year'); window.toggleSlipButton(); };
-    window.toggleSlipButton = function() { const btnSlip = document.getElementById('btnCetakSlip'), filterType = document.getElementById('rekapFilterType'), mitraVal = document.getElementById('rMitra'); if(!btnSlip || !filterType || !mitraVal) return; if(filterType.value === 'month' && mitraVal.value && mitraVal.value !== 'all_micro' && mitraVal.value !== 'all') { btnSlip.classList.remove('hidden'); btnSlip.classList.add('flex'); } else { btnSlip.classList.add('hidden'); btnSlip.classList.remove('flex'); } };
-    window.toggleSidebarInputs = function() { const t = document.getElementById('sidebarFilterType'); if(!t) return; const v = t.value; const rf = document.getElementById('s-range-inputs'); if(rf) rf.classList.toggle('hidden', v !== 'range'); const mf = document.getElementById('s-month-inputs'); if(mf) mf.classList.toggle('hidden', v !== 'month'); const yf = document.getElementById('s-year-inputs'); if(yf) yf.classList.toggle('hidden', v !== 'year'); };
+    window.toggleRekapInputs = function() { 
+        const t = document.getElementById('rekapFilterType'); if(!t) return; 
+        const v = t.value; 
+        const rf = document.getElementById('r-range-fields'); if(rf) rf.classList.toggle('hidden', v !== 'range'); 
+        const mf = document.getElementById('r-month-fields'); if(mf) mf.classList.toggle('hidden', v !== 'month'); 
+        const yf = document.getElementById('r-year-fields'); if(yf) yf.classList.toggle('hidden', v !== 'year'); 
+        window.toggleSlipButton(); 
+    };
 
-    window.setMacroFilter = (macro) => { window.currentMacro = macro; ['all', 'unit', 'mitra'].forEach(m => { const b = document.getElementById('tab-macro-' + m); if (b) { if(m === macro) { b.classList.add('bg-white', 'shadow-sm', 'text-[var(--srg-green)]', 'border', 'border-slate-200', 'font-extrabold'); b.classList.remove('text-slate-500', 'hover:text-slate-800', 'font-bold'); } else { b.classList.add('text-slate-500', 'hover:text-slate-800', 'font-bold'); b.classList.remove('bg-white', 'shadow-sm', 'text-[var(--srg-green)]', 'border', 'border-slate-200', 'font-extrabold'); } } }); const mC = document.getElementById('microFilterContainer'), mS = document.getElementById('mitraFilter'); if (!mC || !mS) return; if (macro === 'all') { mC.classList.add('hidden'); mC.classList.remove('flex'); mS.innerHTML = '<option value="all_micro">Semua</option>'; } else { mC.classList.remove('hidden'); mC.classList.add('flex'); mS.innerHTML = ''; if (macro === 'unit') { mS.add(new Option("Semua Unit Usaha PT", "all_micro")); window.allMitras.filter(m => m.isUnit).forEach(m => mS.add(new Option(m.clean_name, m.clean_name.toUpperCase()))); } else if (macro === 'mitra') { mS.add(new Option("Semua Mitra Usaha PT", "all_micro")); window.allMitras.filter(m => !m.isUnit).forEach(m => mS.add(new Option(m.clean_name, m.clean_name.toUpperCase()))); } } window.refreshDashboard(); };
-    window.setRekapMacroFilter = (macro) => { window.currentRekapMacro = macro; ['all', 'unit', 'mitra'].forEach(m => { const b = document.getElementById('tab-rekap-' + m); if (b) { if(m === macro) { b.classList.add('bg-white', 'shadow-sm', 'text-[var(--srg-green)]', 'border', 'border-slate-200', 'font-extrabold'); b.classList.remove('text-slate-500', 'hover:text-slate-800', 'font-bold'); } else { b.classList.add('text-slate-500', 'hover:text-slate-800', 'font-bold'); b.classList.remove('bg-white', 'shadow-sm', 'text-[var(--srg-green)]', 'border', 'border-slate-200', 'font-extrabold'); } } }); const mC = document.getElementById('rekapMicroContainer'), mS = document.getElementById('rMitra'); if (!mC || !mS) return; if (macro === 'all') { mC.classList.add('hidden'); mC.classList.remove('flex'); mS.innerHTML = '<option value="all_micro">Semua</option>'; } else { mC.classList.remove('hidden'); mC.classList.add('flex'); mS.innerHTML = '<option value="all_micro">Semua ' + (macro === 'unit' ? 'Unit PT' : 'Mitra PT') + '</option>'; const list = window.allMitras.filter(m => macro === 'unit' ? m.isUnit : !m.isUnit); list.forEach(m => mS.add(new Option(m.clean_name, m.clean_name.toUpperCase()))); } window.toggleSlipButton(); window.refreshRekapDashboard(); };
-    window.setSidebarMacroFilter = (macro) => { window.currentSidebarMacro = macro; ['all', 'unit', 'mitra'].forEach(m => { const b = document.getElementById('tab-sidebar-' + m); if (b) { if(m === macro) { b.classList.add('bg-white', 'shadow-sm', 'text-[var(--srg-green)]', 'border', 'border-slate-200', 'font-extrabold'); b.classList.remove('text-slate-500', 'hover:text-slate-800', 'font-bold'); } else { b.classList.add('text-slate-500', 'hover:text-slate-800', 'font-bold'); b.classList.remove('bg-white', 'shadow-sm', 'text-[var(--srg-green)]', 'border', 'border-slate-200', 'font-extrabold'); } } }); const mC = document.getElementById('sidebarMicroContainer'), mS = document.getElementById('f-mitra-monitor'); if (!mC || !mS) return; if (macro === 'all') { mC.classList.add('hidden'); mC.classList.remove('flex'); mS.innerHTML = '<option value="all_micro">Semua</option>'; } else { mC.classList.remove('hidden'); mC.classList.add('flex'); mS.innerHTML = '<option value="all_micro">Semua ' + (macro === 'unit' ? 'Unit PT' : 'Mitra PT') + '</option>'; const list = window.allMitras.filter(m => macro === 'unit' ? m.isUnit : !m.isUnit); list.forEach(m => mS.add(new Option(m.clean_name, m.clean_name.toUpperCase()))); } window.refreshSidebarHistory(); };
+    window.toggleSlipButton = function() { 
+        const btnSlip = document.getElementById('btnCetakSlip');
+        const filterType = document.getElementById('rekapFilterType');
+        const mitraVal = document.getElementById('rMitra'); 
+        if(!btnSlip || !filterType || !mitraVal) return; 
+        if(filterType.value === 'month' && mitraVal.value && mitraVal.value !== 'all_micro' && mitraVal.value !== 'all') { 
+            btnSlip.classList.remove('hidden'); btnSlip.classList.add('flex'); 
+        } else { 
+            btnSlip.classList.add('hidden'); btnSlip.classList.remove('flex'); 
+        } 
+    };
 
-    window.calculateMoMGrowth = function(data, metric) { const thirtyDaysAgo = new Date(); thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30); const sixtyDaysAgo = new Date(); sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60); let curr = 0, prev = 0; data.forEach(d => { const tD = new Date(d.tanggal); if(tD >= thirtyDaysAgo) curr += metric(d); else if(tD >= sixtyDaysAgo && tD < thirtyDaysAgo) prev += metric(d); }); if (prev === 0) return null; const g = ((curr - prev) / prev) * 100; return g > 0 ? { t: `▲ Naik ${g.toFixed(1)}%`, c: 'growth-up' } : { t: `▼ Turun ${Math.abs(g).toFixed(1)}%`, c: 'growth-down' }; };
+    window.toggleSidebarInputs = function() { 
+        const t = document.getElementById('sidebarFilterType'); if(!t) return; 
+        const v = t.value; 
+        const rf = document.getElementById('s-range-inputs'); if(rf) rf.classList.toggle('hidden', v !== 'range'); 
+        const mf = document.getElementById('s-month-inputs'); if(mf) mf.classList.toggle('hidden', v !== 'month'); 
+        const yf = document.getElementById('s-year-inputs'); if(yf) yf.classList.toggle('hidden', v !== 'year'); 
+    };
+
+    window.setMacroFilter = (macro) => { 
+        window.currentMacro = macro; 
+        ['all', 'unit', 'mitra'].forEach(m => { 
+            const b = document.getElementById('tab-macro-' + m); 
+            if (b) { 
+                if(m === macro) { 
+                    b.classList.add('bg-white', 'shadow-sm', 'text-[var(--srg-green)]', 'border', 'border-slate-200', 'font-extrabold'); 
+                    b.classList.remove('text-slate-500', 'hover:text-slate-800', 'font-bold'); 
+                } else { 
+                    b.classList.add('text-slate-500', 'hover:text-slate-800', 'font-bold'); 
+                    b.classList.remove('bg-white', 'shadow-sm', 'text-[var(--srg-green)]', 'border', 'border-slate-200', 'font-extrabold'); 
+                } 
+            } 
+        }); 
+        const mC = document.getElementById('microFilterContainer');
+        const mS = document.getElementById('mitraFilter'); 
+        if (!mC || !mS) return; 
+        if (macro === 'all') { 
+            mC.classList.add('hidden'); mC.classList.remove('flex'); mS.innerHTML = '<option value="all_micro">Semua</option>'; 
+        } else { 
+            mC.classList.remove('hidden'); mC.classList.add('flex'); mS.innerHTML = ''; 
+            if (macro === 'unit') { 
+                mS.add(new Option("Semua Unit Usaha PT", "all_micro")); 
+                window.allMitras.filter(m => m.isUnit).forEach(m => mS.add(new Option(m.clean_name, m.clean_name.toUpperCase()))); 
+            } else if (macro === 'mitra') { 
+                mS.add(new Option("Semua Mitra Usaha PT", "all_micro")); 
+                window.allMitras.filter(m => !m.isUnit).forEach(m => mS.add(new Option(m.clean_name, m.clean_name.toUpperCase()))); 
+            } 
+        } 
+        window.refreshDashboard(); 
+    };
+
+    window.setRekapMacroFilter = (macro) => { 
+        window.currentRekapMacro = macro; 
+        ['all', 'unit', 'mitra'].forEach(m => { 
+            const b = document.getElementById('tab-rekap-' + m); 
+            if (b) { 
+                if(m === macro) { 
+                    b.classList.add('bg-white', 'shadow-sm', 'text-[var(--srg-green)]', 'border', 'border-slate-200', 'font-extrabold'); 
+                    b.classList.remove('text-slate-500', 'hover:text-slate-800', 'font-bold'); 
+                } else { 
+                    b.classList.add('text-slate-500', 'hover:text-slate-800', 'font-bold'); 
+                    b.classList.remove('bg-white', 'shadow-sm', 'text-[var(--srg-green)]', 'border', 'border-slate-200', 'font-extrabold'); 
+                } 
+            } 
+        }); 
+        const mC = document.getElementById('rekapMicroContainer');
+        const mS = document.getElementById('rMitra'); 
+        if (!mC || !mS) return; 
+        if (macro === 'all') { 
+            mC.classList.add('hidden'); mC.classList.remove('flex'); mS.innerHTML = '<option value="all_micro">Semua</option>'; 
+        } else { 
+            mC.classList.remove('hidden'); mC.classList.add('flex'); mS.innerHTML = '<option value="all_micro">Semua ' + (macro === 'unit' ? 'Unit PT' : 'Mitra PT') + '</option>'; 
+            const list = window.allMitras.filter(m => macro === 'unit' ? m.isUnit : !m.isUnit); 
+            list.forEach(m => mS.add(new Option(m.clean_name, m.clean_name.toUpperCase()))); 
+        } 
+        window.toggleSlipButton(); window.refreshRekapDashboard(); 
+    };
+
+    window.setSidebarMacroFilter = (macro) => { 
+        window.currentSidebarMacro = macro; 
+        ['all', 'unit', 'mitra'].forEach(m => { 
+            const b = document.getElementById('tab-sidebar-' + m); 
+            if (b) { 
+                if(m === macro) { 
+                    b.classList.add('bg-white', 'shadow-sm', 'text-[var(--srg-green)]', 'border', 'border-slate-200', 'font-extrabold'); 
+                    b.classList.remove('text-slate-500', 'hover:text-slate-800', 'font-bold'); 
+                } else { 
+                    b.classList.add('text-slate-500', 'hover:text-slate-800', 'font-bold'); 
+                    b.classList.remove('bg-white', 'shadow-sm', 'text-[var(--srg-green)]', 'border', 'border-slate-200', 'font-extrabold'); 
+                } 
+            } 
+        }); 
+        const mC = document.getElementById('sidebarMicroContainer');
+        const mS = document.getElementById('f-mitra-monitor'); 
+        if (!mC || !mS) return; 
+        if (macro === 'all') { 
+            mC.classList.add('hidden'); mC.classList.remove('flex'); mS.innerHTML = '<option value="all_micro">Semua</option>'; 
+        } else { 
+            mC.classList.remove('hidden'); mC.classList.add('flex'); mS.innerHTML = '<option value="all_micro">Semua ' + (macro === 'unit' ? 'Unit PT' : 'Mitra PT') + '</option>'; 
+            const list = window.allMitras.filter(m => macro === 'unit' ? m.isUnit : !m.isUnit); 
+            list.forEach(m => mS.add(new Option(m.clean_name, m.clean_name.toUpperCase()))); 
+        } 
+        window.refreshSidebarHistory(); 
+    };
+
+    // Analytics & Charts
+    window.calculateMoMGrowth = function(data, metric) { 
+        const thirtyDaysAgo = new Date(); thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30); 
+        const sixtyDaysAgo = new Date(); sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60); 
+        let curr = 0, prev = 0; 
+        data.forEach(d => { 
+            const tD = new Date(d.tanggal); 
+            if(tD >= thirtyDaysAgo) curr += metric(d); 
+            else if(tD >= sixtyDaysAgo && tD < thirtyDaysAgo) prev += metric(d); 
+        }); 
+        if (prev === 0) return null; 
+        const g = ((curr - prev) / prev) * 100; 
+        return g > 0 ? { t: `▲ Naik ${g.toFixed(1)}%`, c: 'growth-up' } : { t: `▼ Turun ${Math.abs(g).toFixed(1)}%`, c: 'growth-down' }; 
+    };
 
     window.refreshDashboard = function() {
-        let data = [...window.allTransactions]; const isHQ = window.userProfile?.appRole !== 'mitra'; let mData = null; let targetType = 'all';
-        if (!isHQ) { const myName = window.userProfile.appDisplayName.replace(/\u200B/g, '').toUpperCase(); data = data.filter(t => (t.mitra||'').replace(/\u200B/g, '').toUpperCase() === myName); mData = window.allMitras.find(m => m.clean_name.toUpperCase() === myName); targetType = mData?.isUnit ? 'unit' : 'mitra'; document.getElementById('dashboardScope').innerText = "Kinerja Cabang Individu"; } 
-        else { const macro = window.currentMacro || 'all'; const micro = document.getElementById('mitraFilter')?.value || 'all_micro'; document.getElementById('dashboardScope').innerText = "Rekapitulasi Jaringan"; if (macro === 'unit' && micro === 'all_micro') { data = data.filter(t => window.allMitras.find(m => m.isUnit && m.display_name === t.mitra)); targetType = 'all_unit'; } else if (macro === 'mitra' && micro === 'all_micro') { data = data.filter(t => window.allMitras.find(m => !m.isUnit && m.display_name === t.mitra)); targetType = 'all_mitra'; } else if (micro !== 'all_micro') { data = data.filter(t => t.mitra.replace(/\u200B/g, '').toUpperCase() === micro); mData = window.allMitras.find(m => m.clean_name.toUpperCase() === micro); targetType = mData?.isUnit ? 'unit' : 'mitra'; } }
+        let data = [...window.allTransactions]; 
+        const isHQ = window.userProfile?.appRole !== 'mitra'; 
+        let mData = null; let targetType = 'all';
+        
+        if (!isHQ) { 
+            const myName = window.userProfile.appDisplayName.replace(/\u200B/g, '').toUpperCase(); 
+            data = data.filter(t => (t.mitra||'').replace(/\u200B/g, '').toUpperCase() === myName); 
+            mData = window.allMitras.find(m => m.clean_name.toUpperCase() === myName); 
+            targetType = mData?.isUnit ? 'unit' : 'mitra'; 
+            document.getElementById('dashboardScope').innerText = "Kinerja Cabang Individu"; 
+        } else { 
+            const macro = window.currentMacro || 'all'; 
+            const micro = document.getElementById('mitraFilter')?.value || 'all_micro'; 
+            document.getElementById('dashboardScope').innerText = "Rekapitulasi Jaringan"; 
+            if (macro === 'unit' && micro === 'all_micro') { 
+                data = data.filter(t => window.allMitras.find(m => m.isUnit && m.display_name === t.mitra)); 
+                targetType = 'all_unit'; 
+            } else if (macro === 'mitra' && micro === 'all_micro') { 
+                data = data.filter(t => window.allMitras.find(m => !m.isUnit && m.display_name === t.mitra)); 
+                targetType = 'all_mitra'; 
+            } else if (micro !== 'all_micro') { 
+                data = data.filter(t => t.mitra.replace(/\u200B/g, '').toUpperCase() === micro); 
+                mData = window.allMitras.find(m => m.clean_name.toUpperCase() === micro); 
+                targetType = mData?.isUnit ? 'unit' : 'mitra'; 
+            } 
+        }
         
         window.renderStatsGrid(data, 'dashboardStats', false, mData?.pct_pt||20, mData?.pct_mitra||80, targetType, mData, true);
-        window.renderLeaderboard(data); window.renderCharts(data); 
+        window.renderLeaderboard(data); 
+        window.renderCharts(data); 
         
         const tableBody = document.getElementById('tableBody');
         if(tableBody) {
             tableBody.innerHTML = data.slice(0, 15).map(t => {
-                const isPending = t.status === 'pending'; const statBadge = isPending ? `<span class="bg-yellow-50 text-yellow-600 px-1.5 py-0.5 rounded text-[8px] font-bold mt-1 inline-block">Menunggu</span>` : `<span class="bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded text-[8px] font-bold mt-1 inline-block">Selesai</span>`;
-                let actionBtns = ''; if (window.userProfile?.appRole === 'admin') { if (isPending) { actionBtns += `<button onclick="window.approveTransaction('${t.id}')" class="w-6 h-6 rounded bg-emerald-50 text-emerald-500 mr-1 text-[10px]"><i class="fas fa-check"></i></button><button onclick="window.handleEditRequest('${t.id}')" class="w-6 h-6 rounded bg-blue-50 text-blue-500 mr-1 text-[10px]"><i class="fas fa-edit"></i></button>`; } actionBtns += `<button onclick="window.handleDeleteRequest('${t.id}')" class="w-6 h-6 rounded bg-red-50 text-red-500 text-[10px]"><i class="fas fa-trash"></i></button>`; } else if (window.userProfile?.appRole === 'auditor') { actionBtns += `<button class="w-6 h-6 rounded bg-slate-100 text-slate-400 cursor-not-allowed text-[10px]"><i class="fas fa-lock"></i></button>`; }
+                const isPending = t.status === 'pending'; 
+                const statBadge = isPending ? `<span class="bg-yellow-50 text-yellow-600 px-1.5 py-0.5 rounded text-[8px] font-bold mt-1 inline-block">Menunggu</span>` : `<span class="bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded text-[8px] font-bold mt-1 inline-block">Selesai</span>`;
+                
+                let actionBtns = ''; 
+                if (window.userProfile?.appRole === 'admin') { 
+                    if (isPending) { 
+                        actionBtns += `<button onclick="window.approveTransaction('${t.id}')" class="w-6 h-6 rounded bg-emerald-50 text-emerald-500 mr-1 text-[10px]"><i class="fas fa-check"></i></button>`;
+                        actionBtns += `<button onclick="window.handleEditRequest('${t.id}')" class="w-6 h-6 rounded bg-blue-50 text-blue-500 mr-1 text-[10px]"><i class="fas fa-edit"></i></button>`; 
+                    } 
+                    actionBtns += `<button onclick="window.handleDeleteRequest('${t.id}')" class="w-6 h-6 rounded bg-red-50 text-red-500 text-[10px]"><i class="fas fa-trash"></i></button>`; 
+                } else if (window.userProfile?.appRole === 'auditor') { 
+                    actionBtns += `<button class="w-6 h-6 rounded bg-slate-100 text-slate-400 cursor-not-allowed text-[10px]"><i class="fas fa-lock"></i></button>`; 
+                }
+                
                 const strukBtn = t.struk_base64 ? `<button onclick="window.openStrukModal('${t.struk_base64}')" class="w-6 h-6 rounded bg-slate-100 ml-1 text-[10px]"><i class="fas fa-image"></i></button>` : '';
+                
                 return `<tr class="hover:bg-slate-50 transition-colors"><td class="text-slate-400 font-medium text-[10px] md:text-xs py-2.5 px-2 align-middle">${t.tanggal}</td><td class="font-bold text-slate-700 text-[10px] md:text-xs py-2.5 px-2 align-middle">${t.mitra.replace(/\u200B/g,'')}</td><td class="text-right text-emerald-600 font-black text-xs md:text-sm py-2.5 px-2 align-middle">${fmt(t.lb)}</td><td class="text-center text-[9px] md:text-[10px] text-slate-500 py-2.5 px-2 align-middle leading-tight"><span class="block truncate max-w-[150px] mx-auto font-medium">${t.keterangan || '-'}</span>${t.kasbon>0?`<span class="text-orange-500 font-bold block mt-0.5 text-[8px]">Kasbon: ${fmt(t.kasbon)}</span>`:''}${statBadge}</td><td class="text-center py-2.5 px-2 align-middle"><div class="flex justify-center items-center h-full">${actionBtns}${strukBtn}</div></td></tr>`;
             }).join('');
         }
     };
 
     window.renderStatsGrid = function(data, container, isRekap, pPT, pMitra, targetType, mData, showMoM) {
-        let totalEx = 0; window.allCentralExpenses.forEach(k => { if(k.jenis === 'out_ops') totalEx += (Number(k.nominal)||0); });
-        const s = data.reduce((a,b)=>{ if(b.status === 'pending' && isRekap) return a; const o = Number(b.omset)||0, m = Number(b.modal)||0, ops = Number(b.ops)||0, kas = Number(b.kasbon)||0; const lk = o-m, lb = lk-ops, csr = lb>0 ? Math.round(lb*0.05/100)*100 : 0, res = lb-csr; const currM = window.allMitras.find(mx => mx.clean_name.toUpperCase() === (b.mitra||'').replace(/\u200B/g,'').toUpperCase()); const cPT = currM ? currM.pct_pt : 20; const ptVal = Math.round(res*(cPT/100)/100)*100; const isU = currM ? currM.isUnit : false; return {o:a.o+o, m:a.m+m, ops:a.ops+ops, lk:a.lk+lk, res:a.res+res, csr:a.csr+csr, pt:a.pt+ptVal, bm:a.bm+(!isU?((res-ptVal)-kas):0), bu:a.bu+(isU?((res-ptVal)-kas):0)}; }, {o:0, m:0, ops:0, lk:0, res:0, csr:0, pt:0, bm:0, bu:0});
-        const momO = showMoM ? window.calculateMoMGrowth(window.allTransactions, d=>Number(d.omset)||0) : null; const momL = showMoM ? window.calculateMoMGrowth(window.allTransactions, d=>(Number(d.omset)-Number(d.modal)-Number(d.ops))) : null; const gO = momO ? `<span class="${momO.c} block mt-1">${momO.t}</span>` : ''; const gL = momL ? `<span class="${momL.c} block mt-1">${momL.t}</span>` : ''; let cards = []; const ptLabel = (targetType === 'unit' || targetType === 'mitra') ? `PEMBAGIAN PT (${pPT}%)` : (targetType === 'all_unit' ? 'TOTAL JATAH PT (DARI UNIT)' : (targetType === 'all_mitra' ? 'TOTAL JATAH PT (DARI MITRA)' : 'TOTAL JATAH PT'));
+        let totalEx = 0; 
+        window.allCentralExpenses.forEach(k => { if(k.jenis === 'out_ops') totalEx += (Number(k.nominal)||0); });
+        
+        const s = data.reduce((a,b)=>{ 
+            if(b.status === 'pending' && isRekap) return a; 
+            const o = Number(b.omset)||0, m = Number(b.modal)||0, ops = Number(b.ops)||0, kas = Number(b.kasbon)||0; 
+            const lk = o-m, lb = lk-ops, csr = lb>0 ? Math.round(lb*0.05/100)*100 : 0, res = lb-csr; 
+            const currM = window.allMitras.find(mx => mx.clean_name.toUpperCase() === (b.mitra||'').replace(/\u200B/g,'').toUpperCase()); 
+            const cPT = currM ? currM.pct_pt : 20; 
+            const ptVal = Math.round(res*(cPT/100)/100)*100; 
+            const isU = currM ? currM.isUnit : false; 
+            return {o:a.o+o, m:a.m+m, ops:a.ops+ops, lk:a.lk+lk, res:a.res+res, csr:a.csr+csr, pt:a.pt+ptVal, bm:a.bm+(!isU?((res-ptVal)-kas):0), bu:a.bu+(isU?((res-ptVal)-kas):0)}; 
+        }, {o:0, m:0, ops:0, lk:0, res:0, csr:0, pt:0, bm:0, bu:0});
+        
+        const momO = showMoM ? window.calculateMoMGrowth(window.allTransactions, d=>Number(d.omset)||0) : null; 
+        const momL = showMoM ? window.calculateMoMGrowth(window.allTransactions, d=>(Number(d.omset)-Number(d.modal)-Number(d.ops))) : null; 
+        const gO = momO ? `<span class="${momO.c} block mt-1">${momO.t}</span>` : ''; 
+        const gL = momL ? `<span class="${momL.c} block mt-1">${momL.t}</span>` : ''; 
+        
+        let cards = []; 
+        const ptLabel = (targetType === 'unit' || targetType === 'mitra') ? `PEMBAGIAN PT (${pPT}%)` : (targetType === 'all_unit' ? 'TOTAL JATAH PT (DARI UNIT)' : (targetType === 'all_mitra' ? 'TOTAL JATAH PT (DARI MITRA)' : 'TOTAL JATAH PT'));
 
-        if(container === 'rekapStats') { cards = [ {l:"Laba Bersih Akhir", v:fmt(s.res), t:"success", x:"text-emerald-800 font-black text-lg md:text-xl"}, {l:"CSR 5%", v:fmt(s.csr), t:"neutral", x:"text-slate-600 font-bold"}, {l:ptLabel, v:fmt(s.pt), t:"dark", x:"text-[var(--srg-gold)] font-black text-lg md:text-xl"} ]; if(targetType === 'all') { cards.push({l:"NETTO MITRA", v:fmt(s.bm), t:"gold", x:"text-orange-700 font-black text-lg md:text-xl"}); cards.push({l:"NETTO UNIT", v:fmt(s.bu), t:"success", x:"text-emerald-700 font-black text-lg md:text-xl"}); cards.push({l:"TRUE NET PROFIT PT", v:fmt(s.pt - totalEx), t:"dark", x:"text-emerald-400 font-black text-lg md:text-xl"}); } else if (targetType === 'all_unit') { cards.push({l:"NETTO JATAH UNIT", v:fmt(s.bu), t:"success", x:"text-emerald-700 font-black text-lg md:text-xl"}); } else if (targetType === 'all_mitra') { cards.push({l:"NETTO JATAH MITRA", v:fmt(s.bm), t:"gold", x:"text-orange-700 font-black text-lg md:text-xl"}); } else if (targetType === 'unit') { cards.push({l:`NETTO UNIT (${pMitra}%)`, v:fmt(s.bu), t:"success", x:"text-emerald-700 font-black text-lg md:text-xl"}); } else { cards.push({l:`NETTO MITRA (${pMitra}%)`, v:fmt(s.bm), t:"gold", x:"text-orange-700 font-black text-lg md:text-xl"}); } } else { cards = [ {l:"Total Omset", v:fmt(s.o)+gO, t:"neutral", x:"text-slate-800 font-black text-lg md:text-xl"}, {l:"Modal Produksi", v:fmt(s.m), t:"neutral", x:"text-red-500 font-bold"}, {l:"Biaya Ops", v:fmt(s.ops), t:"neutral", x:"text-slate-500 font-bold"}, {l:"Laba Kotor", v:fmt(s.lk), t:"success", x:"text-emerald-600 font-bold"}, {l:"Laba Bersih Akhir", v:fmt(s.res)+gL, t:"success", x:"text-emerald-800 font-black text-lg md:text-xl"}, {l:"CSR 5%", v:fmt(s.csr), t:"neutral", x:"text-slate-600 font-bold"}, {l:"Margin (%)", v:(s.o>0?((s.lk/s.o)*100).toFixed(1)+"%":"0%"), t:"neutral", x:"text-blue-600 font-black"}, {l:ptLabel, v:fmt(s.pt), t:"dark", x:"text-[var(--srg-gold)] font-black text-lg md:text-xl"} ]; if(targetType === 'all') { cards.push({l:"NETTO MITRA", v:fmt(s.bm), t:"gold", x:"text-orange-700 font-black text-lg md:text-xl"}); cards.push({l:"NETTO UNIT", v:fmt(s.bu), t:"success", x:"text-emerald-700 font-black text-lg md:text-xl"}); cards.push({l:"TRUE NET PROFIT PT", v:fmt(s.pt - totalEx), t:"dark", x:"text-emerald-400 font-black text-lg md:text-xl"}); } else if (targetType === 'all_unit') { cards.push({l:"NETTO JATAH UNIT", v:fmt(s.bu), t:"success", x:"text-emerald-700 font-black text-lg md:text-xl"}); } else if (targetType === 'all_mitra') { cards.push({l:"NETTO JATAH MITRA", v:fmt(s.bm), t:"gold", x:"text-orange-700 font-black text-lg md:text-xl"}); } else if (targetType === 'unit') { cards.push({l:`NETTO UNIT (${pMitra}%)`, v:fmt(s.bu), t:"success", x:"text-emerald-700 font-black text-lg md:text-xl"}); } else { cards.push({l:`NETTO MITRA (${pMitra}%)`, v:fmt(s.bm), t:"gold", x:"text-orange-700 font-black text-lg md:text-xl"}); } }
-        if((targetType === 'unit' || targetType === 'mitra') && mData) { if(mData.modal_awal > 0) cards.push({l:`MODAL AWAL PT`, v:fmt(mData.modal_awal), t:"neutral", x:"text-blue-700 font-black text-lg md:text-xl"}); if(mData.piutang > 0) cards.push({l:`PIUTANG MENGENDAP`, v:fmt(mData.piutang), t:"neutral", x:"text-red-600 font-black text-lg md:text-xl"}); }
-        const trgt = document.getElementById(container); if(trgt) trgt.innerHTML = cards.map(c => `<div class="premium-card p-4 md:p-5 stat-card-${c.t} flex flex-col justify-between h-full"><p class="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase mb-2">${c.l}</p><h3 class="${c.x}">${c.v}</h3></div>`).join('');
+        if(container === 'rekapStats') { 
+            cards = [ 
+                {l:"Laba Bersih Akhir", v:fmt(s.res), t:"success", x:"text-emerald-800 font-black text-lg md:text-xl"}, 
+                {l:"CSR 5%", v:fmt(s.csr), t:"neutral", x:"text-slate-600 font-bold"}, 
+                {l:ptLabel, v:fmt(s.pt), t:"dark", x:"text-[var(--srg-gold)] font-black text-lg md:text-xl"} 
+            ]; 
+            if(targetType === 'all') { 
+                cards.push({l:"NETTO MITRA", v:fmt(s.bm), t:"gold", x:"text-orange-700 font-black text-lg md:text-xl"}); 
+                cards.push({l:"NETTO UNIT", v:fmt(s.bu), t:"success", x:"text-emerald-700 font-black text-lg md:text-xl"}); 
+                cards.push({l:"TRUE NET PROFIT PT", v:fmt(s.pt - totalEx), t:"dark", x:"text-emerald-400 font-black text-lg md:text-xl"}); 
+            } else if (targetType === 'all_unit') { 
+                cards.push({l:"NETTO JATAH UNIT", v:fmt(s.bu), t:"success", x:"text-emerald-700 font-black text-lg md:text-xl"}); 
+            } else if (targetType === 'all_mitra') { 
+                cards.push({l:"NETTO JATAH MITRA", v:fmt(s.bm), t:"gold", x:"text-orange-700 font-black text-lg md:text-xl"}); 
+            } else if (targetType === 'unit') { 
+                cards.push({l:`NETTO UNIT (${pMitra}%)`, v:fmt(s.bu), t:"success", x:"text-emerald-700 font-black text-lg md:text-xl"}); 
+            } else { 
+                cards.push({l:`NETTO MITRA (${pMitra}%)`, v:fmt(s.bm), t:"gold", x:"text-orange-700 font-black text-lg md:text-xl"}); 
+            } 
+        } else { 
+            cards = [ 
+                {l:"Total Omset", v:fmt(s.o)+gO, t:"neutral", x:"text-slate-800 font-black text-lg md:text-xl"}, 
+                {l:"Modal Produksi", v:fmt(s.m), t:"neutral", x:"text-red-500 font-bold"}, 
+                {l:"Biaya Ops", v:fmt(s.ops), t:"neutral", x:"text-slate-500 font-bold"}, 
+                {l:"Laba Kotor", v:fmt(s.lk), t:"success", x:"text-emerald-600 font-bold"}, 
+                {l:"Laba Bersih Akhir", v:fmt(s.res)+gL, t:"success", x:"text-emerald-800 font-black text-lg md:text-xl"}, 
+                {l:"CSR 5%", v:fmt(s.csr), t:"neutral", x:"text-slate-600 font-bold"}, 
+                {l:"Margin (%)", v:(s.o>0?((s.lk/s.o)*100).toFixed(1)+"%":"0%"), t:"neutral", x:"text-blue-600 font-black"}, 
+                {l:ptLabel, v:fmt(s.pt), t:"dark", x:"text-[var(--srg-gold)] font-black text-lg md:text-xl"} 
+            ]; 
+            if(targetType === 'all') { 
+                cards.push({l:"NETTO MITRA", v:fmt(s.bm), t:"gold", x:"text-orange-700 font-black text-lg md:text-xl"}); 
+                cards.push({l:"NETTO UNIT", v:fmt(s.bu), t:"success", x:"text-emerald-700 font-black text-lg md:text-xl"}); 
+                cards.push({l:"TRUE NET PROFIT PT", v:fmt(s.pt - totalEx), t:"dark", x:"text-emerald-400 font-black text-lg md:text-xl"}); 
+            } else if (targetType === 'all_unit') { 
+                cards.push({l:"NETTO JATAH UNIT", v:fmt(s.bu), t:"success", x:"text-emerald-700 font-black text-lg md:text-xl"}); 
+            } else if (targetType === 'all_mitra') { 
+                cards.push({l:"NETTO JATAH MITRA", v:fmt(s.bm), t:"gold", x:"text-orange-700 font-black text-lg md:text-xl"}); 
+            } else if (targetType === 'unit') { 
+                cards.push({l:`NETTO UNIT (${pMitra}%)`, v:fmt(s.bu), t:"success", x:"text-emerald-700 font-black text-lg md:text-xl"}); 
+            } else { 
+                cards.push({l:`NETTO MITRA (${pMitra}%)`, v:fmt(s.bm), t:"gold", x:"text-orange-700 font-black text-lg md:text-xl"}); 
+            } 
+        }
+        
+        if((targetType === 'unit' || targetType === 'mitra') && mData) { 
+            if(mData.modal_awal > 0) cards.push({l:`MODAL AWAL PT`, v:fmt(mData.modal_awal), t:"neutral", x:"text-blue-700 font-black text-lg md:text-xl"}); 
+            if(mData.piutang > 0) cards.push({l:`PIUTANG MENGENDAP`, v:fmt(mData.piutang), t:"neutral", x:"text-red-600 font-black text-lg md:text-xl"}); 
+        }
+        
+        const trgt = document.getElementById(container); 
+        if(trgt) trgt.innerHTML = cards.map(c => `<div class="premium-card p-4 md:p-5 stat-card-${c.t} flex flex-col justify-between h-full"><p class="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase mb-2">${c.l}</p><h3 class="${c.x}">${c.v}</h3></div>`).join('');
     };
 
     window.renderLeaderboard = function(data) {
-        const wrapper = document.getElementById('leaderboardWrapper'); if (window.userProfile?.appRole === 'mitra') { if(wrapper) wrapper.classList.add('hidden'); return; }
-        const thirtyDaysAgo = new Date(); thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30); const sixtyDaysAgo = new Date(); sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60); const stats = {};
-        data.forEach(b => { if(b.status !== 'approved' && b.status) return; const m = b.mitra.replace(/\u200B/g,''); if(!stats[m]) stats[m] = { total: 0, curr: 0, prev: 0 }; const tD = new Date(b.tanggal); stats[m].total += b.lb; if (tD >= thirtyDaysAgo) stats[m].curr += b.lb; else if (tD >= sixtyDaysAgo && tD < thirtyDaysAgo) stats[m].prev += b.lb; });
+        const wrapper = document.getElementById('leaderboardWrapper'); 
+        if (window.userProfile?.appRole === 'mitra') { if(wrapper) wrapper.classList.add('hidden'); return; }
+        
+        const thirtyDaysAgo = new Date(); thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30); 
+        const sixtyDaysAgo = new Date(); sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60); 
+        const stats = {};
+        
+        data.forEach(b => { 
+            if(b.status !== 'approved' && b.status) return; 
+            const m = b.mitra.replace(/\u200B/g,''); 
+            if(!stats[m]) stats[m] = { total: 0, curr: 0, prev: 0 }; 
+            const tD = new Date(b.tanggal); 
+            stats[m].total += b.lb; 
+            if (tD >= thirtyDaysAgo) stats[m].curr += b.lb; 
+            else if (tD >= sixtyDaysAgo && tD < thirtyDaysAgo) stats[m].prev += b.lb; 
+        });
+        
         const sorted = Object.entries(stats).sort((a,b) => b[1].total - a[1].total).slice(0, 5);
         if(sorted.length === 0) { if(wrapper) wrapper.classList.add('hidden'); return; }
+        
         if(wrapper) wrapper.classList.remove('hidden');
         const lList = document.getElementById('leaderboardList');
-        if(lList) { lList.innerHTML = sorted.map((x,i) => { let ind = `<span class="text-[9px] text-slate-400 ml-2 font-semibold bg-slate-100 px-1.5 py-0.5 rounded">- Stabil</span>`; if (x[1].prev > 0) { const g = ((x[1].curr - x[1].prev) / x[1].prev) * 100; if (g > 0) ind = `<span class="text-[9px] text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded font-bold ml-2">▲ +${g.toFixed(1)}%</span>`; else if (g < 0) ind = `<span class="text-[9px] text-red-600 bg-red-50 px-1.5 py-0.5 rounded font-bold ml-2">▼ ${g.toFixed(1)}%</span>`; } else if (x[1].curr > 0 && x[1].prev === 0) { ind = `<span class="text-[9px] text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded font-bold ml-2">▲ Baru</span>`; } return `<div class="flex justify-between items-center text-xs md:text-sm border-b border-slate-100 pb-3 mb-3 last:border-0 last:mb-0 last:pb-0"><div class="flex items-center"><span class="font-bold text-slate-700">${i+1}. ${x[0]}</span>${ind}</div><span class="font-black text-[var(--srg-green)]">${fmt(x[1].total)}</span></div>`; }).join(''); }
+        if(lList) { 
+            lList.innerHTML = sorted.map((x,i) => { 
+                let ind = `<span class="text-[9px] text-slate-400 ml-2 font-semibold bg-slate-100 px-1.5 py-0.5 rounded">- Stabil</span>`; 
+                if (x[1].prev > 0) { 
+                    const g = ((x[1].curr - x[1].prev) / x[1].prev) * 100; 
+                    if (g > 0) ind = `<span class="text-[9px] text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded font-bold ml-2">▲ +${g.toFixed(1)}%</span>`; 
+                    else if (g < 0) ind = `<span class="text-[9px] text-red-600 bg-red-50 px-1.5 py-0.5 rounded font-bold ml-2">▼ ${g.toFixed(1)}%</span>`; 
+                } else if (x[1].curr > 0 && x[1].prev === 0) { 
+                    ind = `<span class="text-[9px] text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded font-bold ml-2">▲ Baru</span>`; 
+                } 
+                return `<div class="flex justify-between items-center text-xs md:text-sm border-b border-slate-100 pb-3 mb-3 last:border-0 last:mb-0 last:pb-0"><div class="flex items-center"><span class="font-bold text-slate-700">${i+1}. ${x[0]}</span>${ind}</div><span class="font-black text-[var(--srg-green)]">${fmt(x[1].total)}</span></div>`; 
+            }).join(''); 
+        }
     };
 
     window.renderCharts = function(data) {
-        if(!window.Chart) return; const validData = data.filter(d => d.status === 'approved' || !d.status); const sortedData = [...validData].sort((a,b) => new Date(a.tanggal) - new Date(b.tanggal));
-        const dates = sortedData.map(d => d.tanggal); const labaBersihs = sortedData.map(d => d.lb); const trendCtx = document.getElementById('trendChart');
-        if (trendCtx) { if(window.trendChartInstance) window.trendChartInstance.destroy(); window.trendChartInstance = new Chart(trendCtx, { type: 'line', data: { labels: dates, datasets: [{ label: 'Laba Bersih', data: labaBersihs, borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.1)', borderWidth: 3, fill: true, tension: 0.3, pointRadius: 4, pointBackgroundColor: '#ffffff', pointBorderColor: '#10b981' }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => fmt(ctx.raw) } } }, scales: { y: { beginAtZero: true, grid: { borderDash: [5, 5] }, ticks: { callback: v => 'Rp ' + (v/1000000).toFixed(1) + 'M', font: {size: 10} } }, x: { grid: { display: false }, ticks: {font: {size: 10}} } } } }); }
+        if(!window.Chart) return; 
+        const validData = data.filter(d => d.status === 'approved' || !d.status); 
+        const sortedData = [...validData].sort((a,b) => new Date(a.tanggal) - new Date(b.tanggal));
+        const dates = sortedData.map(d => d.tanggal); 
+        const labaBersihs = sortedData.map(d => d.lb); 
+        const trendCtx = document.getElementById('trendChart');
+        
+        if (trendCtx) { 
+            if(window.trendChartInstance) window.trendChartInstance.destroy(); 
+            window.trendChartInstance = new Chart(trendCtx, { 
+                type: 'line', 
+                data: { 
+                    labels: dates, 
+                    datasets: [{ label: 'Laba Bersih', data: labaBersihs, borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.1)', borderWidth: 3, fill: true, tension: 0.3, pointRadius: 4, pointBackgroundColor: '#ffffff', pointBorderColor: '#10b981' }] 
+                }, 
+                options: { 
+                    responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => fmt(ctx.raw) } } }, scales: { y: { beginAtZero: true, grid: { borderDash: [5, 5] }, ticks: { callback: v => 'Rp ' + (v/1000000).toFixed(1) + 'M', font: {size: 10} } }, x: { grid: { display: false }, ticks: {font: {size: 10}} } } 
+                } 
+            }); 
+        }
+        
         const s = validData.reduce((a, b) => ({ m: a.m + (Number(b.modal)||0), ops: a.ops + (Number(b.ops)||0), lb: a.lb + (Number(b.lb)||0) }), {m:0, ops:0, lb:0});
         const donutCtx = document.getElementById('donutChart');
-        if (donutCtx) { if(window.donutChartInstance) window.donutChartInstance.destroy(); window.donutChartInstance = new Chart(donutCtx, { type: 'doughnut', data: { labels: ['Modal Produksi', 'Biaya Operasional', 'Laba Bersih Akhir'], datasets: [{ data: [s.m, s.ops, s.lb], backgroundColor: ['#ef4444', '#94a3b8', '#10b981'], borderWidth: 2, hoverOffset: 4 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 10, font: { size: 10, family: "'Plus Jakarta Sans', sans-serif" } } }, tooltip: { callbacks: { label: (ctx) => " " + fmt(ctx.raw) } } } } }); }
+        if (donutCtx) { 
+            if(window.donutChartInstance) window.donutChartInstance.destroy(); 
+            window.donutChartInstance = new Chart(donutCtx, { 
+                type: 'doughnut', 
+                data: { labels: ['Modal Produksi', 'Biaya Operasional', 'Laba Bersih Akhir'], datasets: [{ data: [s.m, s.ops, s.lb], backgroundColor: ['#ef4444', '#94a3b8', '#10b981'], borderWidth: 2, hoverOffset: 4 }] }, 
+                options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 10, font: { size: 10, family: "'Plus Jakarta Sans', sans-serif" } } }, tooltip: { callbacks: { label: (ctx) => " " + fmt(ctx.raw) } } } } 
+            }); 
+        }
     };
 
     window.refreshRekapDashboard = function() {
@@ -503,10 +1201,19 @@
         const rM = opts.mitra, isAllUnit = rM === 'all_unit', isAllMitra = rM === 'all_mitra';
         const mD = window.allMitras.find(m => m.clean_name.toUpperCase() === rM.replace(/\u200B/g,'').toUpperCase());
         const tgt = isAllUnit ? 'all_unit' : (isAllMitra ? 'all_mitra' : (mD ? (mD.isUnit ? 'unit' : 'mitra') : 'all'));
+        
         window.renderStatsGrid(data, 'rekapStats', true, mD?.pct_pt||20, mD?.pct_mitra||80, tgt, mD, false);
         
         const rT = document.getElementById('rekapTable');
-        if(rT) { rT.innerHTML = data.map(t => { const clean = t.mitra.replace(/\u200B/g,''); const mDx = window.allMitras.find(mx => mx.display_name === t.mitra) || {pct_pt:20, pct_mitra:80}; const lb = (Number(t.omset)-Number(t.modal)) - Number(t.ops), csr = lb>0 ? Math.round(lb*0.05/100)*100 : 0, res = lb-csr; const jPt = Math.round(res*(mDx.pct_pt/100)/100)*100, kas = Number(t.kasbon)||0; return `<tr class="hover:bg-slate-50"><td class="text-slate-500 font-medium text-[10px] py-2.5 px-2 align-middle border-b border-slate-100">${t.tanggal}</td><td class="font-bold text-slate-700 text-[10px] py-2.5 px-2 align-middle border-b border-slate-100">${clean}</td><td class="text-right font-bold text-emerald-600 text-[10px] py-2.5 px-2 align-middle border-b border-slate-100">${fmt(lb)}</td><td class="text-right text-slate-500 text-[10px] py-2.5 px-2 align-middle border-b border-slate-100">${fmt(csr)}</td><td class="text-right font-bold text-[var(--srg-green)] text-[10px] py-2.5 px-2 align-middle border-b border-slate-100">${fmt(jPt)}</td><td class="text-right text-red-500 text-[10px] py-2.5 px-2 align-middle border-b border-slate-100">${fmt(kas)}</td><td class="text-right font-black text-orange-600 text-[10px] py-2.5 px-2 align-middle border-b border-slate-100">${fmt((res-jPt)-kas)}</td></tr>`; }).join(''); }
+        if(rT) { 
+            rT.innerHTML = data.map(t => { 
+                const clean = t.mitra.replace(/\u200B/g,''); 
+                const mDx = window.allMitras.find(mx => mx.display_name === t.mitra) || {pct_pt:20, pct_mitra:80}; 
+                const lb = (Number(t.omset)-Number(t.modal)) - Number(t.ops), csr = lb>0 ? Math.round(lb*0.05/100)*100 : 0, res = lb-csr; 
+                const jPt = Math.round(res*(mDx.pct_pt/100)/100)*100, kas = Number(t.kasbon)||0; 
+                return `<tr class="hover:bg-slate-50"><td class="text-slate-500 font-medium text-[10px] py-2.5 px-2 align-middle border-b border-slate-100">${t.tanggal}</td><td class="font-bold text-slate-700 text-[10px] py-2.5 px-2 align-middle border-b border-slate-100">${clean}</td><td class="text-right font-bold text-emerald-600 text-[10px] py-2.5 px-2 align-middle border-b border-slate-100">${fmt(lb)}</td><td class="text-right text-slate-500 text-[10px] py-2.5 px-2 align-middle border-b border-slate-100">${fmt(csr)}</td><td class="text-right font-bold text-[var(--srg-green)] text-[10px] py-2.5 px-2 align-middle border-b border-slate-100">${fmt(jPt)}</td><td class="text-right text-red-500 text-[10px] py-2.5 px-2 align-middle border-b border-slate-100">${fmt(kas)}</td><td class="text-right font-black text-orange-600 text-[10px] py-2.5 px-2 align-middle border-b border-slate-100">${fmt((res-jPt)-kas)}</td></tr>`; 
+            }).join(''); 
+        }
         window.toggleSlipButton();
     };
 
@@ -515,9 +1222,20 @@
         const mN = window.userProfile.appRole==='admin' ? (document.getElementById('f-mitra-monitor').value||'all_micro') : window.userProfile.appDisplayName;
         const opts = { start: document.getElementById('mStart').value, end: document.getElementById('mEnd').value, month: document.getElementById('mMonth').value, year: document.getElementById('mYear').value, mitra: mN };
         const data = window.getFilteredData(window.allTransactions, t, opts).filter(d => d.status === 'approved' || !d.status);
-        const s = data.reduce((a,b)=>{ const lb = (Number(b.omset)-Number(b.modal))-Number(b.ops), rs = lb-(lb>0?Math.round(lb*0.05/100)*100:0); const mDx = window.allMitras.find(mx=>mx.display_name===b.mitra), ptVal = Math.round(rs*((mDx?mDx.pct_pt:20)/100)/100)*100; return {o:a.o+Number(b.omset), lk:a.lk+lb, csr:a.csr+(lb-rs), pt:a.pt+ptVal, kas:a.kas+(Number(b.kasbon)||0), res:a.res+rs}; }, {o:0,lk:0,csr:0,pt:0,kas:0,res:0});
         
-        if(document.getElementById('hOmset')) document.getElementById('hOmset').innerText = fmt(s.o); if(document.getElementById('hLabaKotor')) document.getElementById('hLabaKotor').innerText = fmt(s.lk); if(document.getElementById('hCSR')) document.getElementById('hCSR').innerText = fmt(s.csr); if(document.getElementById('hPT')) document.getElementById('hPT').innerText = fmt(s.pt); if(document.getElementById('hPartner')) document.getElementById('hPartner').innerText = fmt((s.res-s.pt)-s.kas);
+        const s = data.reduce((a,b)=>{ 
+            const lb = (Number(b.omset)-Number(b.modal))-Number(b.ops); 
+            const rs = lb-(lb>0?Math.round(lb*0.05/100)*100:0); 
+            const mDx = window.allMitras.find(mx=>mx.display_name===b.mitra); 
+            const ptVal = Math.round(rs*((mDx?mDx.pct_pt:20)/100)/100)*100; 
+            return {o:a.o+Number(b.omset), lk:a.lk+lb, csr:a.csr+(lb-rs), pt:a.pt+ptVal, kas:a.kas+(Number(b.kasbon)||0), res:a.res+rs}; 
+        }, {o:0,lk:0,csr:0,pt:0,kas:0,res:0});
+        
+        if(document.getElementById('hOmset')) document.getElementById('hOmset').innerText = fmt(s.o); 
+        if(document.getElementById('hLabaKotor')) document.getElementById('hLabaKotor').innerText = fmt(s.lk); 
+        if(document.getElementById('hCSR')) document.getElementById('hCSR').innerText = fmt(s.csr); 
+        if(document.getElementById('hPT')) document.getElementById('hPT').innerText = fmt(s.pt); 
+        if(document.getElementById('hPartner')) document.getElementById('hPartner').innerText = fmt((s.res-s.pt)-s.kas);
     };
 
     window.getFilteredData = function(all, type, opts) {
@@ -533,38 +1251,166 @@
         return d;
     };
 
-    window.handleLogin = async function(manualU, manualP, silent=false) {
-        const u = (manualU || document.getElementById('userInput').value).trim().toLowerCase(), p = (manualP || document.getElementById('passInput').value).trim(); if(!u || !p) return; document.getElementById('loadingOverlay').classList.remove('hidden');
-        if (window.allMitras.length === 0) { await window.fetchMitras(true); }
-        if(u === 'admin' && p === 'adminsuburraya') window.loginSuccess('admin', 'Strategic Admin', u, p); else if(u === 'auditor' && p === 'auditor123') window.loginSuccess('auditor', 'Auditor Internal', u, p); else { const m = window.allMitras.find(mx => (mx.username||'').trim().toLowerCase() === u && mx.password === p); if(m) window.loginSuccess('mitra', m.clean_name, u, p); else if(!silent) window.showSRGModal({title:"Akses Ditolak", message:"ID Pengguna atau Kata Sandi salah."}); }
-        document.getElementById('loadingOverlay').classList.add('hidden');
+    // Master Transaksi (Input Laporan dll)
+    window.saveTransaction = async () => {
+        const tgl = document.getElementById('f-tgl').value;
+        const mitra = document.getElementById('f-mitra').value;
+        const omset = Number(document.getElementById('f-omset').value) || 0;
+        const modal = Number(document.getElementById('f-modal').value) || 0;
+        const ops = Number(document.getElementById('f-ops').value) || 0;
+        const kasbon = Number(document.getElementById('f-kasbon').value) || 0;
+        const ket = document.getElementById('f-ket').value;
+        const struk = document.getElementById('strukBase64').value;
+
+        if(!tgl || !mitra || omset <= 0) {
+            return window.showSRGModal({title:"Gagal", message:"Mohon lengkapi data wajib (Tanggal, Mitra, Omset)."});
+        }
+
+        const lb = (omset - modal) - ops;
+        const isHQ = window.userProfile?.appRole !== 'mitra';
+        const status = isHQ ? 'approved' : 'pending';
+
+        document.getElementById('loadingOverlay').classList.remove('hidden');
+        
+        const newTrans = {
+            id: 'local-' + Date.now(),
+            tanggal: tgl, mitra: mitra, omset: omset, modal: modal, ops: ops,
+            kasbon: kasbon, keterangan: ket, struk_base64: struk, lb: lb, status: status
+        };
+
+        try {
+            if (supabaseClient) {
+                const { data, error } = await supabaseClient.from('transactions').insert([newTrans]).select();
+                if (!error && data && data.length > 0) newTrans.id = data[0].id;
+            }
+            window.allTransactions.unshift(newTrans);
+            localStorage.setItem('srg_transactions', JSON.stringify(window.allTransactions));
+            
+            document.getElementById('transForm').reset();
+            document.getElementById('preview-struk').style.display = 'none';
+            document.getElementById('strukBase64').value = '';
+            document.getElementById('liveCalcArea').classList.add('hidden');
+            
+            window.refreshDashboard();
+            window.addAuditLog('Input Laporan', `Laporan baru ditambahkan untuk ${mitra.replace(/\u200B/g,'')}`);
+            
+            if(!isHQ) {
+                window.showSRGModal({title:"Berhasil", message:"Laporan Anda telah dikirim dan menunggu persetujuan (Approval) dari Manajemen Pusat."});
+            } else {
+                window.showSRGModal({title:"Tersimpan", message:"Laporan berhasil dicatat ke sistem."});
+            }
+        } catch(e) { console.error(e); } finally {
+            document.getElementById('loadingOverlay').classList.add('hidden');
+        }
     };
 
-    window.loginSuccess = function(role, name, u, p) {
-        window.userProfile = { appRole: role, appDisplayName: name };
-        if(document.getElementById('rememberMe')?.checked) { localStorage.setItem('srg_user', u); localStorage.setItem('srg_pass', p); }
-        document.getElementById('loginSection').classList.add('hidden'); document.getElementById('appSection').classList.remove('hidden');
-        if(document.getElementById('navUserName')) document.getElementById('navUserName').innerText = name; if(document.getElementById('navUserRole')) document.getElementById('navUserRole').innerText = role.toUpperCase();
-        window.initAppContent(); window.switchPage('dashboard'); window.addAuditLog('Akses Sistem', `${name} login ke aplikasi.`);
+    window.approveTransaction = async (id) => {
+        const idx = window.allTransactions.findIndex(t => t.id === id);
+        if(idx > -1) {
+            document.getElementById('loadingOverlay').classList.remove('hidden');
+            try {
+                if (supabaseClient && !id.toString().startsWith('local-')) {
+                    await supabaseClient.from('transactions').update({status: 'approved'}).eq('id', id);
+                }
+                window.allTransactions[idx].status = 'approved';
+                localStorage.setItem('srg_transactions', JSON.stringify(window.allTransactions));
+                window.refreshDashboard();
+                window.addAuditLog('Approval', `Menyetujui laporan ID: ${id}`);
+            } catch(e){} finally { document.getElementById('loadingOverlay').classList.add('hidden'); }
+        }
     };
 
-    window.handleLogoutRequest = () => { window.showSRGModal({ title: "KELUAR?", message: "Yakin ingin menghapus sesi Anda dan keluar?", confirmText: "YA, KELUAR", showCancel: true, onConfirm: () => { localStorage.clear(); location.reload(); } }); };
-
-    window.switchPage = function(p) {
-        document.querySelectorAll('.page-content').forEach(el => el.classList.add('hidden')); const targetPage = document.getElementById('page-' + p); if(targetPage) targetPage.classList.remove('hidden');
-        document.querySelectorAll('.nav-btn').forEach(btn => { const isMatch = btn.id === 'nav-' + p; btn.className = isMatch ? 'text-xs px-3 py-2 nav-btn nav-btn-active whitespace-nowrap' : 'text-xs px-3 py-2 nav-btn nav-btn-inactive whitespace-nowrap'; });
-        const activeMobClass = ['text-[var(--srg-green)]', 'bg-slate-50/50', 'border-t-2', 'border-[var(--srg-green)]'], inactiveMobClass = ['text-slate-400'];
-        ['dashboard', 'input', 'brankas', 'mitra', 'rekap', 'bukubesar', 'profil', 'gudang'].forEach(pid => { const btn = document.getElementById('mob-nav-' + pid); if(!btn) return; if(pid === p) { btn.classList.remove(...inactiveMobClass); btn.classList.add(...activeMobClass); } else { btn.classList.remove(...activeMobClass); btn.classList.add(...inactiveMobClass); } });
-        if(p === 'dashboard') window.refreshDashboard(); if(p === 'rekap') window.refreshRekapDashboard(); if(p === 'brankas') window.renderBrankas(); if(p === 'input') window.handleAdminMitraSelect(); if(p === 'bukubesar') window.renderBukuBesar(); if(p === 'gudang') window.renderGudang(); window.toggleSidebarInputs(); window.toggleRekapInputs(); window.scrollTo(0,0);
+    window.handleDeleteRequest = (id) => {
+        window.showSRGModal({
+            title: "Hapus Laporan?",
+            message: "Data laporan ini akan dihapus permanen.",
+            showCancel: true,
+            confirmText: "Hapus",
+            onConfirm: async () => {
+                document.getElementById('loadingOverlay').classList.remove('hidden');
+                try {
+                    if (supabaseClient && !id.toString().startsWith('local-')) {
+                        await supabaseClient.from('transactions').delete().eq('id', id);
+                    }
+                    window.allTransactions = window.allTransactions.filter(t => t.id !== id);
+                    localStorage.setItem('srg_transactions', JSON.stringify(window.allTransactions));
+                    window.refreshDashboard();
+                    window.closeSRGModal();
+                    window.addAuditLog('Hapus Data', `Menghapus laporan ID: ${id}`);
+                } catch(e){} finally { document.getElementById('loadingOverlay').classList.add('hidden'); }
+            }
+        });
     };
 
-    window.toggleRekapInputs = function() { const t = document.getElementById('rekapFilterType'); if(!t) return; const v = t.value; const rf = document.getElementById('r-range-fields'); if(rf) rf.classList.toggle('hidden', v !== 'range'); const mf = document.getElementById('r-month-fields'); if(mf) mf.classList.toggle('hidden', v !== 'month'); const yf = document.getElementById('r-year-fields'); if(yf) yf.classList.toggle('hidden', v !== 'year'); window.toggleSlipButton(); };
-    window.toggleSlipButton = function() { const btnSlip = document.getElementById('btnCetakSlip'), filterType = document.getElementById('rekapFilterType'), mitraVal = document.getElementById('rMitra'); if(!btnSlip || !filterType || !mitraVal) return; if(filterType.value === 'month' && mitraVal.value && mitraVal.value !== 'all_micro' && mitraVal.value !== 'all') { btnSlip.classList.remove('hidden'); btnSlip.classList.add('flex'); } else { btnSlip.classList.add('hidden'); btnSlip.classList.remove('flex'); } };
-    window.toggleSidebarInputs = function() { const t = document.getElementById('sidebarFilterType'); if(!t) return; const v = t.value; const rf = document.getElementById('s-range-inputs'); if(rf) rf.classList.toggle('hidden', v !== 'range'); const mf = document.getElementById('s-month-inputs'); if(mf) mf.classList.toggle('hidden', v !== 'month'); const yf = document.getElementById('s-year-inputs'); if(yf) yf.classList.toggle('hidden', v !== 'year'); };
+    window.handleEditRequest = (id) => {
+        window.showSRGModal({title:"Info", message:"Fitur edit laporan transaksi masih dalam pengembangan."});
+    };
 
-    window.setMacroFilter = (macro) => { window.currentMacro = macro; ['all', 'unit', 'mitra'].forEach(m => { const b = document.getElementById('tab-macro-' + m); if (b) { if(m === macro) { b.classList.add('bg-white', 'shadow-sm', 'text-[var(--srg-green)]', 'border', 'border-slate-200', 'font-extrabold'); b.classList.remove('text-slate-500', 'hover:text-slate-800', 'font-bold'); } else { b.classList.add('text-slate-500', 'hover:text-slate-800', 'font-bold'); b.classList.remove('bg-white', 'shadow-sm', 'text-[var(--srg-green)]', 'border', 'border-slate-200', 'font-extrabold'); } } }); const mC = document.getElementById('microFilterContainer'), mS = document.getElementById('mitraFilter'); if (!mC || !mS) return; if (macro === 'all') { mC.classList.add('hidden'); mC.classList.remove('flex'); mS.innerHTML = '<option value="all_micro">Semua</option>'; } else { mC.classList.remove('hidden'); mC.classList.add('flex'); mS.innerHTML = ''; if (macro === 'unit') { mS.add(new Option("Semua Unit Usaha PT", "all_micro")); window.allMitras.filter(m => m.isUnit).forEach(m => mS.add(new Option(m.clean_name, m.clean_name.toUpperCase()))); } else if (macro === 'mitra') { mS.add(new Option("Semua Mitra Usaha PT", "all_micro")); window.allMitras.filter(m => !m.isUnit).forEach(m => mS.add(new Option(m.clean_name, m.clean_name.toUpperCase()))); } } window.refreshDashboard(); };
-    window.setRekapMacroFilter = (macro) => { window.currentRekapMacro = macro; ['all', 'unit', 'mitra'].forEach(m => { const b = document.getElementById('tab-rekap-' + m); if (b) { if(m === macro) { b.classList.add('bg-white', 'shadow-sm', 'text-[var(--srg-green)]', 'border', 'border-slate-200', 'font-extrabold'); b.classList.remove('text-slate-500', 'hover:text-slate-800', 'font-bold'); } else { b.classList.add('text-slate-500', 'hover:text-slate-800', 'font-bold'); b.classList.remove('bg-white', 'shadow-sm', 'text-[var(--srg-green)]', 'border', 'border-slate-200', 'font-extrabold'); } } }); const mC = document.getElementById('rekapMicroContainer'), mS = document.getElementById('rMitra'); if (!mC || !mS) return; if (macro === 'all') { mC.classList.add('hidden'); mC.classList.remove('flex'); mS.innerHTML = '<option value="all_micro">Semua</option>'; } else { mC.classList.remove('hidden'); mC.classList.add('flex'); mS.innerHTML = '<option value="all_micro">Semua ' + (macro === 'unit' ? 'Unit PT' : 'Mitra PT') + '</option>'; const list = window.allMitras.filter(m => macro === 'unit' ? m.isUnit : !m.isUnit); list.forEach(m => mS.add(new Option(m.clean_name, m.clean_name.toUpperCase()))); } window.toggleSlipButton(); window.refreshRekapDashboard(); };
-    window.setSidebarMacroFilter = (macro) => { window.currentSidebarMacro = macro; ['all', 'unit', 'mitra'].forEach(m => { const b = document.getElementById('tab-sidebar-' + m); if (b) { if(m === macro) { b.classList.add('bg-white', 'shadow-sm', 'text-[var(--srg-green)]', 'border', 'border-slate-200', 'font-extrabold'); b.classList.remove('text-slate-500', 'hover:text-slate-800', 'font-bold'); } else { b.classList.add('text-slate-500', 'hover:text-slate-800', 'font-bold'); b.classList.remove('bg-white', 'shadow-sm', 'text-[var(--srg-green)]', 'border', 'border-slate-200', 'font-extrabold'); } } }); const mC = document.getElementById('sidebarMicroContainer'), mS = document.getElementById('f-mitra-monitor'); if (!mC || !mS) return; if (macro === 'all') { mC.classList.add('hidden'); mC.classList.remove('flex'); mS.innerHTML = '<option value="all_micro">Semua</option>'; } else { mC.classList.remove('hidden'); mC.classList.add('flex'); mS.innerHTML = '<option value="all_micro">Semua ' + (macro === 'unit' ? 'Unit PT' : 'Mitra PT') + '</option>'; const list = window.allMitras.filter(m => macro === 'unit' ? m.isUnit : !m.isUnit); list.forEach(m => mS.add(new Option(m.clean_name, m.clean_name.toUpperCase()))); } window.refreshSidebarHistory(); };
+    // Mitra Management Functions
+    window.toggleEntityType = () => {
+        const isUnit = document.querySelector('input[name="entityType"][value="unit"]').checked;
+        document.getElementById('label-m-pct-mitra').innerText = isUnit ? 'Jatah Unit Usaha (%)' : 'Jatah Mitra Usaha PT (%)';
+        document.getElementById('m-pct-pt').value = isUnit ? 70 : 20;
+        document.getElementById('m-pct-mitra').value = isUnit ? 30 : 80;
+    };
+
+    window.syncPct = (src) => {
+        if(src === 'pt') {
+            let v = Number(document.getElementById('m-pct-pt').value);
+            if(v > 100) v = 100; if(v < 0) v = 0;
+            document.getElementById('m-pct-mitra').value = 100 - v;
+        } else {
+            let v = Number(document.getElementById('m-pct-mitra').value);
+            if(v > 100) v = 100; if(v < 0) v = 0;
+            document.getElementById('m-pct-pt').value = 100 - v;
+        }
+    };
+
+    window.addNewMitra = async () => {
+        const isUnit = document.querySelector('input[name="entityType"][value="unit"]').checked;
+        const u = document.getElementById('m-user').value;
+        const p = document.getElementById('m-pass').value;
+        const n = document.getElementById('m-name').value;
+        const pctPT = Number(document.getElementById('m-pct-pt').value);
+        const pctMitra = Number(document.getElementById('m-pct-mitra').value);
+        const mAw = Number(document.getElementById('m-modal-awal').value) || 0;
+        const piut = Number(document.getElementById('m-piutang').value) || 0;
+        
+        if(window.allMitras.some(m => m.username === u)) {
+            return window.showSRGModal({title:"Gagal", message:"ID Login sudah dipakai. Gunakan ID lain."});
+        }
+
+        document.getElementById('loadingOverlay').classList.remove('hidden');
+        const dName = isUnit ? n + '\u200B' : n;
+        const newM = {
+            id: 'local-' + Date.now(),
+            username: u, password: p, display_name: dName, clean_name: n,
+            isUnit: isUnit, pct_pt: pctPT, pct_mitra: pctMitra,
+            modal_awal: mAw, piutang: piut
+        };
+
+        try {
+            if (supabaseClient) {
+                const { data, error } = await supabaseClient.from('mitras').insert([{
+                    username: u, password: p, display_name: dName,
+                    pct_pt: pctPT, pct_mitra: pctMitra, modal_awal: mAw, piutang: piut
+                }]).select();
+                if (!error && data && data.length > 0) newM.id = data[0].id;
+            }
+            window.allMitras.push(newM);
+            localStorage.setItem('srg_mitras', JSON.stringify(window.allMitras));
+            
+            document.getElementById('mitraForm').reset();
+            window.toggleEntityType();
+            window.populateMitraSelects();
+            window.renderMitraManagement();
+            
+            window.addAuditLog('Registrasi', `Mendaftarkan cabang baru: ${n}`);
+            window.showSRGModal({title:"Berhasil", message:`Entitas ${isUnit?'Unit':'Mitra'} baru berhasil ditambahkan!`});
+        } catch(e) { console.error(e); } finally {
+            document.getElementById('loadingOverlay').classList.add('hidden');
+        }
+    };
 
     window.switchBBTab = (tab) => {
         window.currentBBTab = tab;
@@ -653,56 +1499,423 @@
         window.openReviewModal('rekapTableWrapper', 'Rekapitulasi', periodeStr, targetName);
     };
 
-    window.handleAdminMitraSelect = () => { const f = document.getElementById('mitraOnlyFields'); if(f) f.classList.toggle('hidden', !document.getElementById('f-mitra').value); };
-    window.localInputPreview = () => { const o = Number(document.getElementById('f-omset').value), m = Number(document.getElementById('f-modal').value); const a = document.getElementById('liveCalcArea'); if(a) { a.classList.toggle('hidden', o<=0); document.getElementById('liveLabaKotor').innerText = fmt(o-m); } };
+    window.handlePrintSlip = () => {
+        const t = document.getElementById('rekapFilterType')?.value;
+        if(t !== 'month') return window.showSRGModal({title:"Info", message:"Pilih mode periode 'Satu Bulan' untuk mencetak slip."});
+        const monthVal = document.getElementById('rMonth').value;
+        const mitraVal = document.getElementById('rMitra').value;
+        if(!monthVal || !mitraVal || mitraVal === 'all_micro' || mitraVal === 'all_unit' || mitraVal === 'all_mitra') return window.showSRGModal({title:"Info", message:"Pilih satu Cabang/Mitra spesifik dan bulan yang valid."});
+
+        const mD = window.allMitras.find(m => m.clean_name.toUpperCase() === mitraVal.replace(/\u200B/g,'').toUpperCase());
+        if(!mD) return;
+
+        const data = window.getFilteredData(window.allTransactions, 'month', {month: monthVal, mitra: mitraVal}).filter(d => d.status === 'approved' || !d.status);
+        if(data.length === 0) return window.showSRGModal({title:"Info", message:"Tidak ada data transaksi valid (Disetujui) untuk bulan ini."});
+
+        const s = data.reduce((a,b)=>{
+            const o = Number(b.omset)||0, m = Number(b.modal)||0, ops = Number(b.ops)||0, kas = Number(b.kasbon)||0;
+            const lk = o-m, lb = lk-ops, csr = lb>0 ? Math.round(lb*0.05/100)*100 : 0, res = lb-csr;
+            const ptVal = Math.round(res*(mD.pct_pt/100)/100)*100;
+            return {o:a.o+o, m:a.m+m, ops:a.ops+ops, lk:a.lk+lk, res:a.res+res, csr:a.csr+csr, pt:a.pt+ptVal, kas:a.kas+kas};
+        }, {o:0, m:0, ops:0, lk:0, res:0, csr:0, pt:0, kas:0});
+
+        const porsiMitra = s.res - s.pt;
+        const nettoMitra = porsiMitra - s.kas;
+
+        let template = document.getElementById('hiddenSlipTemplate');
+        if(!template) {
+            template = document.createElement('div');
+            template.id = 'hiddenSlipTemplate';
+            template.className = 'hidden';
+            document.body.appendChild(template);
+        }
+
+        template.innerHTML = `
+            <div class="max-w-xl mx-auto p-8 bg-white border border-slate-200 rounded-xl shadow-sm text-slate-800">
+                <div class="text-center mb-6 border-b-2 border-slate-800 pb-4">
+                    <h2 class="text-2xl font-black uppercase tracking-widest mb-1">SLIP BAGI HASIL</h2>
+                    <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">${mD.isUnit ? 'UNIT USAHA PT' : 'MITRA USAHA PT'}</p>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-6 text-sm">
+                    <div>
+                        <p class="text-slate-500 font-bold mb-1">Diberikan Kepada:</p>
+                        <p class="font-black text-lg">${mD.clean_name}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-slate-500 font-bold mb-1">Periode Bulan:</p>
+                        <p class="font-black text-lg">${monthVal}</p>
+                    </div>
+                </div>
+                <table class="w-full text-sm mb-6 border-collapse">
+                    <tbody>
+                        <tr class="border-b border-slate-200"><td class="py-3 font-bold text-slate-600">Total Omset Kotor</td><td class="py-3 text-right font-black text-slate-800">${fmt(s.o)}</td></tr>
+                        <tr class="border-b border-slate-200"><td class="py-3 font-bold text-red-500">Total Modal Produksi (HPP)</td><td class="py-3 text-right font-black text-red-500">- ${fmt(s.m)}</td></tr>
+                        <tr class="border-b border-slate-200 bg-slate-50"><td class="py-3 px-2 font-black text-emerald-700">Laba Kotor</td><td class="py-3 px-2 text-right font-black text-emerald-700">${fmt(s.lk)}</td></tr>
+                        <tr class="border-b border-slate-200"><td class="py-3 font-bold text-red-500">Total Biaya Operasional</td><td class="py-3 text-right font-black text-red-500">- ${fmt(s.ops)}</td></tr>
+                        <tr class="border-b border-slate-800"><td class="py-3 font-bold text-slate-600">Alokasi CSR (5%)</td><td class="py-3 text-right font-black text-slate-600">- ${fmt(s.csr)}</td></tr>
+                        <tr class="border-b border-slate-200 bg-emerald-50"><td class="py-4 px-2 font-black text-slate-800">Laba Bersih Akhir</td><td class="py-4 px-2 text-right font-black text-emerald-800 text-lg">${fmt(s.res)}</td></tr>
+                        
+                        <tr class="border-b border-slate-200"><td class="py-3 font-bold text-[var(--srg-green)]">Porsi Jatah PT (${mD.pct_pt}%)</td><td class="py-3 text-right font-black text-[var(--srg-green)]">- ${fmt(s.pt)}</td></tr>
+                        <tr class="border-b border-slate-200"><td class="py-3 font-bold text-orange-600">Porsi Jatah Cabang (${mD.pct_mitra}%)</td><td class="py-3 text-right font-black text-orange-600">${fmt(porsiMitra)}</td></tr>
+                        <tr class="border-b border-slate-800"><td class="py-3 font-bold text-red-500">Potongan Kasbon / Tarikan</td><td class="py-3 text-right font-black text-red-500">- ${fmt(s.kas)}</td></tr>
+                    </tbody>
+                </table>
+                <div class="bg-slate-800 text-white p-5 rounded-xl flex justify-between items-center mb-8 shadow-lg">
+                    <span class="font-bold uppercase tracking-widest text-sm">Total Diterima (Netto)</span>
+                    <span class="font-black text-2xl">${fmt(nettoMitra)}</span>
+                </div>
+                <div class="text-center text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+                    <p>Dokumen ini dihasilkan secara otomatis oleh sistem.</p>
+                    <p>PT SUBUR RAYA GROUP</p>
+                </div>
+            </div>
+        `;
+
+        window.openReviewModal('hiddenSlipTemplate', 'slip', monthVal, mD.clean_name);
+    };
+
+    window.handleAdminMitraSelect = () => { 
+        const f = document.getElementById('mitraOnlyFields'); 
+        if(f) f.classList.toggle('hidden', !document.getElementById('f-mitra').value); 
+    };
+
+    window.localInputPreview = () => { 
+        const o = Number(document.getElementById('f-omset').value);
+        const m = Number(document.getElementById('f-modal').value); 
+        const a = document.getElementById('liveCalcArea'); 
+        if(a) { 
+            a.classList.toggle('hidden', o<=0); 
+            document.getElementById('liveLabaKotor').innerText = fmt(o-m); 
+        } 
+    };
     
-    window.handleSyncRequest = () => { document.getElementById('loadingOverlay').classList.remove('hidden'); Promise.all([window.fetchMitras(), window.fetchTransactions()]).then(() => { document.getElementById('loadingOverlay').classList.add('hidden'); window.showSRGModal({title:"SINKRONISASI", message:"Data terbaru telah dimuat dari server."}); }); };
+    window.populateMitraSelects = () => { 
+        const selects = ['f-mitra', 'f-mitra-monitor', 'rMitra', 'mitraFilter']; 
+        selects.forEach(id => { 
+            const el = document.getElementById(id); 
+            if (el) { 
+                const currentVal = el.value; 
+                el.innerHTML = ''; 
+                if (id !== 'f-mitra') el.add(new Option('Semua', id === 'rMitra' ? 'all_micro' : 'all')); 
+                window.allMitras.forEach(m => el.add(new Option(m.clean_name, m.clean_name))); 
+                if(currentVal) el.value = currentVal; 
+            } 
+        }); 
+    };
+
+    window.renderMitraManagement = () => { 
+        const unitBody = document.getElementById('unitTableBody'); 
+        const mitraBody = document.getElementById('mitraTableBody'); 
+        
+        const actionHtml = (m) => `<div class="flex items-center justify-center gap-1.5"><button onclick="window.handlePiutangModal('${m.id}', '${m.clean_name}', ${m.piutang})" title="Bayar Piutang" class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 text-[11px] flex items-center justify-center transition-colors"><i class="fas fa-hand-holding-usd"></i></button><button onclick="window.viewMitra('${m.id}')" title="Lihat Detail" class="w-7 h-7 rounded-lg bg-blue-50 text-blue-500 hover:bg-blue-100 text-[11px] flex items-center justify-center transition-colors"><i class="fas fa-eye"></i></button><button onclick="window.editMitra('${m.id}')" title="Edit" class="w-7 h-7 rounded-lg bg-amber-50 text-amber-500 hover:bg-amber-100 text-[11px] flex items-center justify-center transition-colors"><i class="fas fa-edit"></i></button><button onclick="window.deleteMitra('${m.id}')" title="Hapus" class="w-7 h-7 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 text-[11px] flex items-center justify-center transition-colors"><i class="fas fa-trash"></i></button></div>`; 
+        
+        if(unitBody) { 
+            unitBody.innerHTML = window.allMitras.filter(m => m.isUnit).map(m => `<tr class="hover:bg-slate-50"><td class="text-xs font-bold text-slate-700">${m.username}</td><td class="text-xs font-bold">${m.clean_name}<br><span class="text-[9px] text-slate-400">Modal: ${fmt(m.modal_awal)} | Piutang: <span class="text-red-500">${fmt(m.piutang)}</span></span></td><td class="text-xs font-bold text-[var(--srg-green)]">PT ${m.pct_pt}% : Unit ${m.pct_mitra}%</td><td class="text-xs text-slate-500">****</td><td class="text-center align-middle">${actionHtml(m)}</td></tr>`).join(''); 
+        } 
+        if(mitraBody) { 
+            mitraBody.innerHTML = window.allMitras.filter(m => !m.isUnit).map(m => `<tr class="hover:bg-slate-50"><td class="text-xs font-bold text-slate-700">${m.username}</td><td class="text-xs font-bold">${m.clean_name}<br><span class="text-[9px] text-slate-400">Modal: ${fmt(m.modal_awal)} | Piutang: <span class="text-red-500">${fmt(m.piutang)}</span></span></td><td class="text-xs font-bold text-[var(--srg-green)]">PT ${m.pct_pt}% : Mitra ${m.pct_mitra}%</td><td class="text-xs text-slate-500">****</td><td class="text-center align-middle">${actionHtml(m)}</td></tr>`).join(''); 
+        } 
+    };
+
+    window.viewMitra = (id) => { 
+        const m = window.allMitras.find(x => x.id === id); if(!m) return; 
+        window.showSRGModal({title: "Detail Info Akun", message: `<div class="text-left space-y-2 mt-2"><p><b>Nama Bisnis:</b> ${m.clean_name}</p><p><b>ID Login:</b> ${m.username}</p><p><b>Password:</b> ${m.password}</p><hr class="my-2"><p><b>Modal PT:</b> <span class="text-blue-600">${fmt(m.modal_awal)}</span></p><p><b>Sisa Piutang:</b> <span class="text-red-600">${fmt(m.piutang)}</span></p></div>`}); 
+    };
+
+    window.editMitra = (id) => { 
+        const m = window.allMitras.find(x => x.id === id); if(!m) return; 
+        document.getElementById('e-mitra-id').value = m.id; 
+        document.getElementById('e-name').value = m.clean_name; 
+        document.getElementById('e-user').value = m.username; 
+        document.getElementById('e-pass').value = m.password; 
+        document.getElementById('e-pct-pt').value = m.pct_pt; 
+        document.getElementById('e-pct-mitra').value = m.pct_mitra; 
+        document.getElementById('e-modal').value = m.modal_awal; 
+        document.getElementById('e-piutang').value = m.piutang; 
+        document.getElementById('editMitraModal').classList.add('active'); 
+    };
+
+    window.saveEditMitra = async () => { 
+        const id = document.getElementById('e-mitra-id').value; 
+        const name = document.getElementById('e-name').value; 
+        const user = document.getElementById('e-user').value; 
+        const pass = document.getElementById('e-pass').value; 
+        const pt = Number(document.getElementById('e-pct-pt').value); 
+        const mitra = Number(document.getElementById('e-pct-mitra').value); 
+        const modal = Number(document.getElementById('e-modal').value); 
+        const piutang = Number(document.getElementById('e-piutang').value); 
+        
+        if(!name || !user || !pass) return window.showSRGModal({title: "Gagal", message: "Data tidak boleh kosong."}); 
+        document.getElementById('loadingOverlay').classList.remove('hidden'); 
+        
+        try { 
+            const idx = window.allMitras.findIndex(x => x.id === id); 
+            if(idx > -1) { 
+                const isUnit = window.allMitras[idx].isUnit; 
+                const newDisplayName = isUnit ? name + '\u200B' : name; 
+                window.allMitras[idx].username = user; 
+                window.allMitras[idx].password = pass; 
+                window.allMitras[idx].clean_name = name; 
+                window.allMitras[idx].display_name = newDisplayName; 
+                window.allMitras[idx].pct_pt = pt; 
+                window.allMitras[idx].pct_mitra = mitra; 
+                window.allMitras[idx].modal_awal = modal; 
+                window.allMitras[idx].piutang = piutang; 
+                
+                if (supabaseClient && !id.toString().startsWith('base-')) { 
+                    await supabaseClient.from('mitras').update({ username: user, password: pass, display_name: newDisplayName, pct_pt: pt, pct_mitra: mitra, modal_awal: modal, piutang: piutang }).eq('id', id); 
+                } 
+                localStorage.setItem('srg_mitras', JSON.stringify(window.allMitras)); 
+                window.populateMitraSelects(); 
+                window.renderMitraManagement(); 
+                document.getElementById('editMitraModal').classList.remove('active'); 
+                window.addAuditLog('Edit Cabang', `Memperbarui data profil cabang ${name}`); 
+                window.showSRGModal({title: "Disimpan", message: "Perubahan data cabang berhasil disimpan."}); 
+            } 
+        } catch(e) { console.error(e); } finally { 
+            document.getElementById('loadingOverlay').classList.add('hidden'); 
+        } 
+    };
+
+    window.deleteMitra = (id) => { 
+        window.showSRGModal({
+            title: "Konfirmasi Hapus", 
+            message: "Yakin ingin menghapus entitas cabang ini secara permanen?", 
+            showCancel: true, 
+            confirmText: "Ya, Hapus", 
+            onConfirm: () => { 
+                window.allMitras = window.allMitras.filter(x => x.id !== id); 
+                localStorage.setItem('srg_mitras', JSON.stringify(window.allMitras)); 
+                window.renderMitraManagement(); 
+                window.closeSRGModal(); 
+                window.showSRGModal({title: "Berhasil", message: "Cabang berhasil dihapus dari sistem."}); 
+            }
+        }); 
+    };
+
+    window.handleSyncRequest = (btn) => { 
+        const icon = btn ? btn.querySelector('i') : document.querySelector('button[title="Sinkronisasi"] i'); 
+        if(icon) icon.classList.add('fa-spin'); 
+        document.getElementById('loadingOverlay').classList.remove('hidden'); 
+        Promise.all([window.fetchMitras(), window.fetchTransactions()]).then(() => { 
+            if(icon) icon.classList.remove('fa-spin'); 
+            document.getElementById('loadingOverlay').classList.add('hidden'); 
+            if(typeof window.refreshDashboard==='function') window.refreshDashboard(); 
+            if(typeof window.renderBukuBesar==='function') window.renderBukuBesar(); 
+            if(typeof window.renderGudang==='function') window.renderGudang(); 
+            window.showSRGModal({title:"SINKRONISASI BERHASIL", message:"Seluruh data terbaru telah berhasil dimuat dan antarmuka diperbarui."}); 
+        }).catch(e => { 
+            console.error(e); 
+            if(icon) icon.classList.remove('fa-spin'); 
+            document.getElementById('loadingOverlay').classList.add('hidden'); 
+            window.showSRGModal({title:"ERROR", message:"Gagal melakukan sinkronisasi dengan server."}); 
+        }); 
+    };
 
     window.saveBrankas = () => {
-        const j = document.getElementById('b-jenis').value; let jenis = 'out', kategori = 'ops';
-        if(j === 'out_aset') { kategori = 'aset'; } else if(j === 'out_prive') { kategori = 'prive'; } else if(j === 'in_fund') { jenis = 'in'; kategori = 'fund'; }
-        const d = { id: Date.now(), tanggal: document.getElementById('b-tgl').value, nominal: Number(document.getElementById('b-nominal').value), keterangan: document.getElementById('b-ket').value, jenis: jenis, kategori: kategori };
-        window.allCentralExpenses.push(d); localStorage.setItem('srg_brankas', JSON.stringify(window.allCentralExpenses));
-        document.getElementById('brankasForm').reset(); window.renderBrankas(); window.addAuditLog('Kas Induk', `Catat Kas ${jenis==='in'?'Masuk':'Keluar'}: ${d.keterangan}`);
+        const j = document.getElementById('b-jenis').value; 
+        let jenis = 'out', kategori = 'ops';
+        if(j === 'out_aset') { kategori = 'aset'; } 
+        else if(j === 'out_prive') { kategori = 'prive'; } 
+        else if(j === 'in_fund') { jenis = 'in'; kategori = 'fund'; }
+        
+        const d = { 
+            id: Date.now(), 
+            tanggal: document.getElementById('b-tgl').value, 
+            nominal: Number(document.getElementById('b-nominal').value), 
+            keterangan: document.getElementById('b-ket').value, 
+            jenis: jenis, 
+            kategori: kategori 
+        };
+        window.allCentralExpenses.push(d); 
+        localStorage.setItem('srg_brankas', JSON.stringify(window.allCentralExpenses));
+        document.getElementById('brankasForm').reset(); 
+        window.renderBrankas(); 
+        window.addAuditLog('Kas Induk', `Catat Kas ${jenis==='in'?'Masuk':'Keluar'}: ${d.keterangan}`);
     };
 
     window.renderBrankas = () => { 
         const b = document.getElementById('brankasTableBody'); 
         if(b) {
             b.innerHTML = window.allCentralExpenses.sort((a,b)=>new Date(b.tanggal)-new Date(a.tanggal)).map(b => {
-                const isMasuk = b.jenis === 'in'; const kBadge = b.kategori === 'ops' ? 'Operasional' : (b.kategori === 'aset' ? 'Aset' : (b.kategori === 'fund' ? 'Pendanaan' : 'Prive'));
+                const isMasuk = b.jenis === 'in'; 
+                const kBadge = b.kategori === 'ops' ? 'Operasional' : (b.kategori === 'aset' ? 'Aset' : (b.kategori === 'fund' ? 'Pendanaan' : 'Prive'));
                 return `<tr class="hover:bg-slate-50"><td>${b.tanggal}</td><td class="font-bold">${b.keterangan} <span class="text-[8px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded ml-1">${kBadge}</span></td><td class="text-right ${isMasuk ? 'text-emerald-600' : 'text-red-500'} font-black">${isMasuk ? '+' : '-'}${fmt(b.nominal)}</td><td class="text-center"><button onclick="window.allCentralExpenses=window.allCentralExpenses.filter(x=>x.id!==${b.id});localStorage.setItem('srg_brankas',JSON.stringify(window.allCentralExpenses));window.renderBrankas()" class="w-8 h-8 rounded bg-red-50 text-red-500 hover:bg-red-100"><i class="fas fa-trash"></i></button></td></tr>`;
             }).join('');
         }
     };
 
     window.exportToCSV = () => {
-        const opts = { start: document.getElementById('rStart')?.value, end: document.getElementById('rEnd')?.value, month: document.getElementById('rMonth')?.value, year: document.getElementById('rYear')?.value, mitra: document.getElementById('rMitra')?.value };
+        const opts = { 
+            start: document.getElementById('rStart')?.value, 
+            end: document.getElementById('rEnd')?.value, 
+            month: document.getElementById('rMonth')?.value, 
+            year: document.getElementById('rYear')?.value, 
+            mitra: document.getElementById('rMitra')?.value 
+        };
         const data = window.getFilteredData(window.allTransactions, document.getElementById('rekapFilterType').value, opts).filter(d => d.status === 'approved' || !d.status);
         let csv = "Tanggal,Cabang,Omset,Modal,Ops,Laba Bersih,CSR,PT,Kasbon,Netto\n";
-        data.forEach(t => { const mD=window.allMitras.find(m=>m.display_name===t.mitra)||{pct_pt:20}; const res=t.lb-(t.lb>0?Math.round(t.lb*0.05/100)*100:0); const jPt=Math.round(res*(mD.pct_pt/100)/100)*100; csv += `${t.tanggal},"${t.mitra.replace(/\u200B/g,'')}",${t.omset},${t.modal},${t.ops},${t.lb},${res===t.lb?0:t.lb-res},${jPt},${t.kasbon||0},${res-jPt-(t.kasbon||0)}\n`; });
-        const b = new Blob([csv], { type: 'text/csv' }); const u = URL.createObjectURL(b); const a = document.createElement("a"); a.href = u; a.download = `Rekap_SRG.csv`; a.click();
+        data.forEach(t => { 
+            const mD = window.allMitras.find(m=>m.display_name===t.mitra)||{pct_pt:20}; 
+            const res = t.lb-(t.lb>0?Math.round(t.lb*0.05/100)*100:0); 
+            const jPt = Math.round(res*(mD.pct_pt/100)/100)*100; 
+            csv += `${t.tanggal},"${t.mitra.replace(/\u200B/g,'')}",${t.omset},${t.modal},${t.ops},${t.lb},${res===t.lb?0:t.lb-res},${jPt},${t.kasbon||0},${res-jPt-(t.kasbon||0)}\n`; 
+        });
+        const b = new Blob([csv], { type: 'text/csv' }); 
+        const u = URL.createObjectURL(b); 
+        const a = document.createElement("a"); a.href = u; a.download = `Rekap_SRG.csv`; a.click();
     };
 
     window.handlePrintRequest = () => window.downloadRekapPDF();
 
-    // --- GUDANG HPP ---
-    window.switchInvTab = (t) => { ['master', 'mutasi'].forEach(tab => { document.getElementById(`tab-inv-${tab}`).className = (t === tab) ? "px-4 py-2 text-xs font-extrabold rounded-lg bg-[var(--srg-green)] text-[var(--srg-gold)] shadow-md" : "px-4 py-2 text-xs font-bold rounded-lg text-slate-500 hover:bg-slate-50"; document.getElementById(`inv-${tab}-area`).classList.toggle('hidden', t !== tab); }); window.renderGudang(); };
-    window.saveBarangBaru = () => { const sku = document.getElementById('inv-sku').value; const name = document.getElementById('inv-name').value; const price = Number(document.getElementById('inv-price').value); if(window.inventoryItems.some(i => i.sku === sku)) return; window.inventoryItems.push({ id: Date.now(), sku, name, price, stock: 0 }); localStorage.setItem('srg_inventory', JSON.stringify(window.inventoryItems)); document.getElementById('inv-sku').value = ''; document.getElementById('inv-name').value = ''; document.getElementById('inv-price').value = ''; window.renderGudang(); };
-    window.saveMutasiStok = () => { const tgl = document.getElementById('mut-tgl').value; const id = document.getElementById('mut-item').value; const type = document.getElementById('mut-type').value; const qty = Number(document.getElementById('mut-qty').value); const idx = window.inventoryItems.findIndex(i => i.id == id); if(idx === -1) return; if(type !== 'in' && window.inventoryItems[idx].stock < qty) return; window.inventoryItems[idx].stock += (type === 'in' ? qty : -qty); window.inventoryMovements.unshift({ id: Date.now(), tanggal: tgl, item_id: id, sku: window.inventoryItems[idx].sku, name: window.inventoryItems[idx].name, type, qty, note: type === 'in' ? 'Stok Masuk' : 'Stok Keluar' }); localStorage.setItem('srg_inventory', JSON.stringify(window.inventoryItems)); localStorage.setItem('srg_inv_movements', JSON.stringify(window.inventoryMovements)); document.getElementById('mut-qty').value = ''; window.renderGudang(); window.showSRGModal({title:"Sukses", message:"Mutasi stok tercatat."}); };
-    window.deleteBarang = (id) => { if(window.inventoryMovements.some(m => m.item_id == id)) return; window.inventoryItems = window.inventoryItems.filter(i => i.id != id); localStorage.setItem('srg_inventory', JSON.stringify(window.inventoryItems)); window.renderGudang(); };
-    window.renderGudang = () => { const sel = document.getElementById('mut-item'); if(sel) { sel.innerHTML = window.inventoryItems.map(i => `<option value="${i.id}">${i.sku} - ${i.name} (Stok: ${i.stock})</option>`).join(''); } let tVal = 0, tQty = 0, lStk = 0; const tbody = document.getElementById('inv-table-body'); if(tbody) { tbody.innerHTML = window.inventoryItems.map(i => { tVal += (i.stock * i.price); tQty += i.stock; if(i.stock < 10) lStk++; return `<tr class="hover:bg-slate-50"><td class="font-mono text-[10px] md:text-xs text-slate-500 py-2.5 px-2 border-b border-slate-100">${i.sku}</td><td class="font-bold text-[10px] md:text-xs py-2.5 px-2 border-b border-slate-100">${i.name}</td><td class="text-right text-[10px] md:text-xs py-2.5 px-2 border-b border-slate-100">${fmt(i.price)}</td><td class="text-center font-black ${i.stock<10?'text-red-500':'text-emerald-600'} text-[10px] md:text-xs py-2.5 px-2 border-b border-slate-100">${i.stock}</td><td class="text-right text-[10px] md:text-xs font-bold text-blue-600 py-2.5 px-2 border-b border-slate-100">${fmt(i.stock * i.price)}</td><td class="text-center py-2.5 px-2 border-b border-slate-100"><button onclick="window.deleteBarang(${i.id})" class="w-7 h-7 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 text-[10px]"><i class="fas fa-trash"></i></button></td></tr>`; }).join(''); } document.getElementById('inv-total-sku').innerText = window.inventoryItems.length; document.getElementById('inv-total-qty').innerText = tQty; document.getElementById('inv-total-val').innerText = fmt(tVal); document.getElementById('inv-low-stock').innerText = lStk; const mbody = document.getElementById('mut-table-body'); if(mbody) { mbody.innerHTML = window.inventoryMovements.map(m => { const color = m.type === 'in' ? 'text-emerald-600' : (m.type === 'out' ? 'text-blue-600' : 'text-red-500'); const sign = m.type === 'in' ? '+' : '-'; return `<tr class="hover:bg-slate-50"><td class="text-[9px] md:text-[10px] text-slate-500 py-2.5 px-2 border-b border-slate-100">${m.tanggal}</td><td class="py-2.5 px-2 border-b border-slate-100"><span class="${color} font-bold text-[9px] uppercase bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">${m.type}</span></td><td class="text-[10px] md:text-xs py-2.5 px-2 border-b border-slate-100"><b>${m.name}</b><br><span class="text-[8px] font-mono text-slate-400">${m.sku}</span></td><td class="text-center font-black ${color} text-[10px] md:text-xs py-2.5 px-2 border-b border-slate-100">${sign}${m.qty}</td><td class="text-[10px] md:text-xs text-slate-500 font-bold py-2.5 px-2 border-b border-slate-100">${m.note}</td></tr>`; }).join(''); } };
+    // Gudang & HPP
+    window.switchInvTab = (t) => { 
+        ['master', 'mutasi'].forEach(tab => { 
+            document.getElementById(`tab-inv-${tab}`).className = (t === tab) ? "px-4 py-2 text-xs font-extrabold rounded-lg bg-[var(--srg-green)] text-[var(--srg-gold)] shadow-md" : "px-4 py-2 text-xs font-bold rounded-lg text-slate-500 hover:bg-slate-50"; 
+            document.getElementById(`inv-${tab}-area`).classList.toggle('hidden', t !== tab); 
+        }); 
+        window.renderGudang(); 
+    };
 
-    // --- HPP KALKULATOR DALAM FORM ---
-    window.addHPPItem = () => { const list = document.getElementById('hppItemList'); const div = document.createElement('div'); div.className = "flex gap-2 items-center bg-slate-50 p-2 rounded border border-slate-200"; div.innerHTML = `<select onchange="window.calcHPPTotal()" class="premium-input flex-1 px-2 py-1.5 text-[10px] font-bold"><option value="">-- Pilih Item --</option>${window.inventoryItems.map(i=>`<option value="${i.id}" data-price="${i.price}">${i.name} (HPP: ${fmt(i.price)})</option>`).join('')}</select><input type="number" oninput="window.calcHPPTotal()" placeholder="Qty" min="1" value="1" class="premium-input w-16 px-2 py-1.5 text-[10px] font-bold text-center"><input type="number" oninput="window.calcHPPTotal()" placeholder="Jual (Rp)" class="premium-input w-24 px-2 py-1.5 text-[10px] font-bold text-right text-emerald-600"><button onclick="this.parentElement.remove(); window.calcHPPTotal()" class="text-red-500 hover:text-red-700 px-1"><i class="fas fa-times"></i></button>`; list.appendChild(div); };
-    window.calcHPPTotal = () => { let tModal = 0, tOmset = 0; const items = document.getElementById('hppItemList').children; for(let i=0; i<items.length; i++) { const sel = items[i].querySelector('select'); const qty = Number(items[i].querySelectorAll('input')[0].value)||0; const jual = Number(items[i].querySelectorAll('input')[1].value)||0; if(sel.value && sel.selectedOptions[0]) { const price = Number(sel.selectedOptions[0].getAttribute('data-price'))||0; tModal += (price * qty); tOmset += (jual * qty); } } document.getElementById('hppTotalModal').innerText = fmt(tModal); document.getElementById('hppTotalOmset').innerText = fmt(tOmset); return {tModal, tOmset}; };
-    window.applyHPP = () => { const vals = window.calcHPPTotal(); document.getElementById('f-omset').value = vals.tOmset > 0 ? vals.tOmset : ''; document.getElementById('f-modal').value = vals.tModal > 0 ? vals.tModal : ''; window.localInputPreview(); document.getElementById('hppModal').classList.remove('active'); };
+    window.saveBarangBaru = () => { 
+        const sku = document.getElementById('inv-sku').value; 
+        const name = document.getElementById('inv-name').value; 
+        const price = Number(document.getElementById('inv-price').value); 
+        if(window.inventoryItems.some(i => i.sku === sku)) return; 
+        window.inventoryItems.push({ id: Date.now(), sku, name, price, stock: 0 }); 
+        localStorage.setItem('srg_inventory', JSON.stringify(window.inventoryItems)); 
+        document.getElementById('inv-sku').value = ''; 
+        document.getElementById('inv-name').value = ''; 
+        document.getElementById('inv-price').value = ''; 
+        window.renderGudang(); 
+    };
 
-    // --- PIUTANG CABANG ---
-    window.handlePiutangModal = (id, name, piutang) => { if(piutang <= 0) { window.showSRGModal({title: "Info", message: "Cabang ini tidak memiliki piutang mengendap."}); return; } document.getElementById('p-mitra-id').value = id; document.getElementById('p-mitra-name').innerText = name; document.getElementById('p-mitra-sisa').innerText = fmt(piutang); document.getElementById('p-nominal').value = ''; document.getElementById('piutangModal').classList.add('active'); };
-    window.executeBayarPiutang = async () => { const id = document.getElementById('p-mitra-id').value; const nom = Number(document.getElementById('p-nominal').value); const dompet = document.getElementById('p-dompet').value; const m = window.allMitras.find(x => x.id === id); if(!m || nom <= 0 || nom > m.piutang) return; document.getElementById('loadingOverlay').classList.remove('hidden'); try { const sisa = m.piutang - nom; if (id && !id.toString().includes('local-') && supabaseClient) { await supabaseClient.from('mitras').update({ piutang: sisa }).eq('id', id); } m.piutang = sisa; localStorage.setItem('srg_mitras', JSON.stringify(window.allMitras)); const d = { id: Date.now(), tanggal: new Date().toISOString().split('T')[0], nominal: nom, keterangan: `Terima Cicilan Piutang - ${m.clean_name}`, jenis: 'in', kategori: 'aset' }; window.allCentralExpenses.push(d); localStorage.setItem('srg_brankas', JSON.stringify(window.allCentralExpenses)); window.renderMitraManagement(); window.renderBrankas(); document.getElementById('piutangModal').classList.remove('active'); window.addAuditLog('Pembayaran Piutang', `Menerima cicilan piutang dari ${m.clean_name}`); window.showSRGModal({title: "Berhasil", message: "Cicilan dicatat ke Kas Induk."}); } catch(e) {} finally { document.getElementById('loadingOverlay').classList.add('hidden'); } };
+    window.saveMutasiStok = () => { 
+        const tgl = document.getElementById('mut-tgl').value; 
+        const id = document.getElementById('mut-item').value; 
+        const type = document.getElementById('mut-type').value; 
+        const qty = Number(document.getElementById('mut-qty').value); 
+        const idx = window.inventoryItems.findIndex(i => i.id == id); 
+        if(idx === -1) return; 
+        if(type !== 'in' && window.inventoryItems[idx].stock < qty) return; 
+        window.inventoryItems[idx].stock += (type === 'in' ? qty : -qty); 
+        window.inventoryMovements.unshift({ id: Date.now(), tanggal: tgl, item_id: id, sku: window.inventoryItems[idx].sku, name: window.inventoryItems[idx].name, type, qty, note: type === 'in' ? 'Stok Masuk' : 'Stok Keluar' }); 
+        localStorage.setItem('srg_inventory', JSON.stringify(window.inventoryItems)); 
+        localStorage.setItem('srg_inv_movements', JSON.stringify(window.inventoryMovements)); 
+        document.getElementById('mut-qty').value = ''; 
+        window.renderGudang(); 
+        window.showSRGModal({title:"Sukses", message:"Mutasi stok tercatat."}); 
+    };
 
-    // --- 13. APP INITIALIZATION ---
+    window.deleteBarang = (id) => { 
+        if(window.inventoryMovements.some(m => m.item_id == id)) return; 
+        window.inventoryItems = window.inventoryItems.filter(i => i.id != id); 
+        localStorage.setItem('srg_inventory', JSON.stringify(window.inventoryItems)); 
+        window.renderGudang(); 
+    };
+
+    window.renderGudang = () => { 
+        const sel = document.getElementById('mut-item'); 
+        if(sel) { 
+            sel.innerHTML = window.inventoryItems.map(i => `<option value="${i.id}">${i.sku} - ${i.name} (Stok: ${i.stock})</option>`).join(''); 
+        } 
+        let tVal = 0, tQty = 0, lStk = 0; 
+        const tbody = document.getElementById('inv-table-body'); 
+        if(tbody) { 
+            tbody.innerHTML = window.inventoryItems.map(i => { 
+                tVal += (i.stock * i.price); tQty += i.stock; 
+                if(i.stock < 10) lStk++; 
+                return `<tr class="hover:bg-slate-50"><td class="font-mono text-[10px] md:text-xs text-slate-500 py-2.5 px-2 border-b border-slate-100">${i.sku}</td><td class="font-bold text-[10px] md:text-xs py-2.5 px-2 border-b border-slate-100">${i.name}</td><td class="text-right text-[10px] md:text-xs py-2.5 px-2 border-b border-slate-100">${fmt(i.price)}</td><td class="text-center font-black ${i.stock<10?'text-red-500':'text-emerald-600'} text-[10px] md:text-xs py-2.5 px-2 border-b border-slate-100">${i.stock}</td><td class="text-right text-[10px] md:text-xs font-bold text-blue-600 py-2.5 px-2 border-b border-slate-100">${fmt(i.stock * i.price)}</td><td class="text-center py-2.5 px-2 border-b border-slate-100"><button onclick="window.deleteBarang(${i.id})" class="w-7 h-7 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 text-[10px]"><i class="fas fa-trash"></i></button></td></tr>`; 
+            }).join(''); 
+        } 
+        document.getElementById('inv-total-sku').innerText = window.inventoryItems.length; 
+        document.getElementById('inv-total-qty').innerText = tQty; 
+        document.getElementById('inv-total-val').innerText = fmt(tVal); 
+        document.getElementById('inv-low-stock').innerText = lStk; 
+        
+        const mbody = document.getElementById('mut-table-body'); 
+        if(mbody) { 
+            mbody.innerHTML = window.inventoryMovements.map(m => { 
+                const color = m.type === 'in' ? 'text-emerald-600' : (m.type === 'out' ? 'text-blue-600' : 'text-red-500'); 
+                const sign = m.type === 'in' ? '+' : '-'; 
+                return `<tr class="hover:bg-slate-50"><td class="text-[9px] md:text-[10px] text-slate-500 py-2.5 px-2 border-b border-slate-100">${m.tanggal}</td><td class="py-2.5 px-2 border-b border-slate-100"><span class="${color} font-bold text-[9px] uppercase bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">${m.type}</span></td><td class="text-[10px] md:text-xs py-2.5 px-2 border-b border-slate-100"><b>${m.name}</b><br><span class="text-[8px] font-mono text-slate-400">${m.sku}</span></td><td class="text-center font-black ${color} text-[10px] md:text-xs py-2.5 px-2 border-b border-slate-100">${sign}${m.qty}</td><td class="text-[10px] md:text-xs text-slate-500 font-bold py-2.5 px-2 border-b border-slate-100">${m.note}</td></tr>`; 
+            }).join(''); 
+        } 
+    };
+
+    window.addHPPItem = () => { 
+        const list = document.getElementById('hppItemList'); 
+        const div = document.createElement('div'); 
+        div.className = "flex gap-2 items-center bg-slate-50 p-2 rounded border border-slate-200"; 
+        div.innerHTML = `<select onchange="window.calcHPPTotal()" class="premium-input flex-1 px-2 py-1.5 text-[10px] font-bold"><option value="">-- Pilih Item --</option>${window.inventoryItems.map(i=>`<option value="${i.id}" data-price="${i.price}">${i.name} (HPP: ${fmt(i.price)})</option>`).join('')}</select><input type="number" oninput="window.calcHPPTotal()" placeholder="Qty" min="1" value="1" class="premium-input w-16 px-2 py-1.5 text-[10px] font-bold text-center"><input type="number" oninput="window.calcHPPTotal()" placeholder="Jual (Rp)" class="premium-input w-24 px-2 py-1.5 text-[10px] font-bold text-right text-emerald-600"><button onclick="this.parentElement.remove(); window.calcHPPTotal()" class="text-red-500 hover:text-red-700 px-1"><i class="fas fa-times"></i></button>`; 
+        list.appendChild(div); 
+    };
+
+    window.calcHPPTotal = () => { 
+        let tModal = 0, tOmset = 0; 
+        const items = document.getElementById('hppItemList').children; 
+        for(let i=0; i<items.length; i++) { 
+            const sel = items[i].querySelector('select'); 
+            const qty = Number(items[i].querySelectorAll('input')[0].value)||0; 
+            const jual = Number(items[i].querySelectorAll('input')[1].value)||0; 
+            if(sel.value && sel.selectedOptions[0]) { 
+                const price = Number(sel.selectedOptions[0].getAttribute('data-price'))||0; 
+                tModal += (price * qty); tOmset += (jual * qty); 
+            } 
+        } 
+        document.getElementById('hppTotalModal').innerText = fmt(tModal); 
+        document.getElementById('hppTotalOmset').innerText = fmt(tOmset); 
+        return {tModal, tOmset}; 
+    };
+
+    window.applyHPP = () => { 
+        const vals = window.calcHPPTotal(); 
+        document.getElementById('f-omset').value = vals.tOmset > 0 ? vals.tOmset : ''; 
+        document.getElementById('f-modal').value = vals.tModal > 0 ? vals.tModal : ''; 
+        window.localInputPreview(); 
+        document.getElementById('hppModal').classList.remove('active'); 
+    };
+
+    window.handlePiutangModal = (id, name, piutang) => { 
+        if(piutang <= 0) { 
+            window.showSRGModal({title: "Info", message: "Cabang ini tidak memiliki piutang mengendap."}); return; 
+        } 
+        document.getElementById('p-mitra-id').value = id; 
+        document.getElementById('p-mitra-name').innerText = name; 
+        document.getElementById('p-mitra-sisa').innerText = fmt(piutang); 
+        document.getElementById('p-nominal').value = ''; 
+        document.getElementById('piutangModal').classList.add('active'); 
+    };
+
+    window.executeBayarPiutang = async () => { 
+        const id = document.getElementById('p-mitra-id').value; 
+        const nom = Number(document.getElementById('p-nominal').value); 
+        const dompet = document.getElementById('p-dompet').value; 
+        const m = window.allMitras.find(x => x.id === id); 
+        if(!m || nom <= 0 || nom > m.piutang) return; 
+        
+        document.getElementById('loadingOverlay').classList.remove('hidden'); 
+        try { 
+            const sisa = m.piutang - nom; 
+            if (id && !id.toString().includes('local-') && supabaseClient) { 
+                await supabaseClient.from('mitras').update({ piutang: sisa }).eq('id', id); 
+            } 
+            m.piutang = sisa; 
+            localStorage.setItem('srg_mitras', JSON.stringify(window.allMitras)); 
+            const d = { id: Date.now(), tanggal: new Date().toISOString().split('T')[0], nominal: nom, keterangan: `Terima Cicilan Piutang - ${m.clean_name}`, jenis: 'in', kategori: 'aset' }; 
+            window.allCentralExpenses.push(d); 
+            localStorage.setItem('srg_brankas', JSON.stringify(window.allCentralExpenses)); 
+            
+            window.renderMitraManagement(); window.renderBrankas(); 
+            document.getElementById('piutangModal').classList.remove('active'); 
+            window.addAuditLog('Pembayaran Piutang', `Menerima cicilan piutang dari ${m.clean_name}`); 
+            window.showSRGModal({title: "Berhasil", message: "Cicilan dicatat ke Kas Induk."}); 
+        } catch(e) {} finally { 
+            document.getElementById('loadingOverlay').classList.add('hidden'); 
+        } 
+    };
+
+    // Initializer
     window.initAppContent = () => {
         const role = window.userProfile?.appRole; const isHQ = (role === 'admin' || role === 'auditor');
         if(isHQ) { 
