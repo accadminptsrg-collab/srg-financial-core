@@ -1612,6 +1612,7 @@
                 const currentVal = el.value; 
                 el.innerHTML = ''; 
                 if (id !== 'f-mitra') el.add(new Option('Semua', id === 'rMitra' ? 'all_micro' : 'all')); 
+                else el.add(new Option('-- Pilih Cabang --', '')); 
                 window.allMitras.forEach(m => el.add(new Option(m.clean_name, m.clean_name))); 
                 if(currentVal) el.value = currentVal; 
             } 
@@ -1935,19 +1936,63 @@
         const role = window.userProfile?.appRole; const isHQ = (role === 'admin' || role === 'auditor');
         const adminMenuIds = ['nav-brankas', 'nav-mitra', 'nav-rekap', 'nav-profil', 'nav-bukubesar', 'nav-gudang', 'mob-nav-mitra', 'mob-nav-rekap', 'mob-admin-row', 'adminFilter', 'adminMonitorSelect', 'rekapAdminTarget'];
         
+        window.populateMitraSelects();
+        const fMitra = document.getElementById('f-mitra');
+        const formWrap = document.getElementById('inputFormWrapper');
+        const sidebarWrap = document.getElementById('inputSidebar');
+
         if(isHQ) { 
             adminMenuIds.forEach(id => { const el = document.getElementById(id); if(el) el.classList.remove('hidden'); }); 
-            const navInput = document.getElementById('navInputText'); if(navInput) navInput.innerText = 'Arsip Data'; const navInputIcon = document.getElementById('navInputIcon'); if(navInputIcon) navInputIcon.className = 'fas fa-archive mr-1.5';
-            const mobNavInputText = document.getElementById('mobNavInputText'); if(mobNavInputText) mobNavInputText.innerText = 'Arsip'; const mobNavInputIcon = document.getElementById('mobNavInputIcon'); if(mobNavInputIcon) mobNavInputIcon.className = 'fas fa-archive mb-1 text-lg';
-            const formWrap = document.getElementById('inputFormWrapper'); if(formWrap) { formWrap.classList.add('hidden'); formWrap.style.display = 'none'; }
-            const sidebarWrap = document.getElementById('inputSidebar'); if(sidebarWrap) { sidebarWrap.classList.remove('lg:col-span-5'); sidebarWrap.classList.add('lg:col-span-8', 'lg:col-start-3'); }
+            const navInput = document.getElementById('navInputText'); if(navInput) navInput.innerText = 'Entri & Arsip'; 
+            const navInputIcon = document.getElementById('navInputIcon'); if(navInputIcon) navInputIcon.className = 'fas fa-edit mr-1.5';
+            const mobNavInputText = document.getElementById('mobNavInputText'); if(mobNavInputText) mobNavInputText.innerText = 'Entri & Arsip'; 
+            const mobNavInputIcon = document.getElementById('mobNavInputIcon'); if(mobNavInputIcon) mobNavInputIcon.className = 'fas fa-edit mb-1 text-lg';
+            
+            // ADMIN: Tampilkan Form & Sidebar
+            if(formWrap) { 
+                formWrap.classList.remove('hidden'); 
+                formWrap.style.display = ''; 
+                formWrap.className = 'lg:col-span-7 premium-card p-5 md:p-8'; 
+            }
+            if(sidebarWrap) { 
+                sidebarWrap.classList.remove('hidden'); 
+                sidebarWrap.style.display = ''; 
+                sidebarWrap.className = 'lg:col-span-5 premium-card p-5 md:p-6 flex flex-col space-y-4'; 
+            }
+            
+            // Buka field Identitas Mitra untuk Admin agar bisa input manual
+            if(fMitra) {
+                fMitra.disabled = false;
+                fMitra.classList.remove('bg-slate-100', 'text-slate-500', 'cursor-not-allowed');
+                fMitra.value = '';
+                window.handleAdminMitraSelect();
+            }
         } else {
-            // Fix: Forcefully hide ALL admin menus for Mitras
+            // MITRA: Sembunyikan menu admin
             adminMenuIds.forEach(id => { const el = document.getElementById(id); if(el) el.classList.add('hidden'); }); 
-            const navInput = document.getElementById('navInputText'); if(navInput) navInput.innerText = 'Entri Data'; const navInputIcon = document.getElementById('navInputIcon'); if(navInputIcon) navInputIcon.className = 'fas fa-plus-circle mr-1.5';
-            const mobNavInputText = document.getElementById('mobNavInputText'); if(mobNavInputText) mobNavInputText.innerText = 'Entri'; const mobNavInputIcon = document.getElementById('mobNavInputIcon'); if(mobNavInputIcon) mobNavInputIcon.className = 'fas fa-plus-circle mb-1 text-lg';
-            const formWrap = document.getElementById('inputFormWrapper'); if(formWrap) { formWrap.classList.remove('hidden'); formWrap.style.display = ''; }
-            const sidebarWrap = document.getElementById('inputSidebar'); if(sidebarWrap) { sidebarWrap.classList.remove('lg:col-span-8', 'lg:col-start-3'); sidebarWrap.classList.add('lg:col-span-5'); }
+            const navInput = document.getElementById('navInputText'); if(navInput) navInput.innerText = 'Entri Data'; 
+            const navInputIcon = document.getElementById('navInputIcon'); if(navInputIcon) navInputIcon.className = 'fas fa-plus-circle mr-1.5';
+            const mobNavInputText = document.getElementById('mobNavInputText'); if(mobNavInputText) mobNavInputText.innerText = 'Entri'; 
+            const mobNavInputIcon = document.getElementById('mobNavInputIcon'); if(mobNavInputIcon) mobNavInputIcon.className = 'fas fa-plus-circle mb-1 text-lg';
+            
+            // MITRA: Hanya tampilkan Form input secara penuh, hilangkan Sidebar Kalkulasi
+            if(formWrap) { 
+                formWrap.classList.remove('hidden'); 
+                formWrap.style.display = ''; 
+                formWrap.className = 'lg:col-span-12 max-w-3xl mx-auto w-full premium-card p-5 md:p-8'; 
+            }
+            if(sidebarWrap) { 
+                sidebarWrap.classList.add('hidden'); 
+                sidebarWrap.style.display = 'none'; 
+            }
+            
+            // Kunci Field Identitas untuk Mitra/Unit (Otomatis & Tidak bisa diganti)
+            if(fMitra) {
+                fMitra.value = window.userProfile.appDisplayName.replace(/\u200B/g, '');
+                fMitra.disabled = true;
+                fMitra.classList.add('bg-slate-100', 'text-slate-500', 'cursor-not-allowed');
+                window.handleAdminMitraSelect();
+            }
         }
         ['nav-input', 'mob-nav-input'].forEach(id=>{ const el=document.getElementById(id); if(el) { el.classList.remove('hidden', '!hidden'); el.style.display = ''; } });
 
