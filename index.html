@@ -795,7 +795,8 @@
         } else { 
             const m = window.allMitras.find(mx => (mx.username||'').trim().toLowerCase() === u && mx.password === p); 
             if(m) {
-                window.loginSuccess('mitra', m.clean_name, u, p); 
+                // Menambahkan parameter isUnit ke fungsi loginSuccess
+                window.loginSuccess('mitra', m.clean_name, u, p, m.isUnit); 
             } else if(!silent) {
                 window.showSRGModal({title:"Akses Ditolak", message:"ID Pengguna atau Kata Sandi salah."}); 
             }
@@ -803,15 +804,22 @@
         document.getElementById('loadingOverlay').classList.add('hidden');
     };
 
-    window.loginSuccess = function(role, name, u, p) {
-        window.userProfile = { appRole: role, appDisplayName: name };
+    window.loginSuccess = function(role, name, u, p, isUnit=false) {
+        window.userProfile = { appRole: role, appDisplayName: name, isUnit: isUnit };
         if(document.getElementById('rememberMe')?.checked) { 
             localStorage.setItem('srg_user', u); localStorage.setItem('srg_pass', p); 
         }
         document.getElementById('loginSection').classList.add('hidden'); 
         document.getElementById('appSection').classList.remove('hidden');
         if(document.getElementById('navUserName')) document.getElementById('navUserName').innerText = name; 
-        if(document.getElementById('navUserRole')) document.getElementById('navUserRole').innerText = role.toUpperCase();
+        
+        // Logika label role (Mitra Usaha atau Unit Usaha)
+        let displayRole = role.toUpperCase();
+        if (role === 'mitra') {
+            displayRole = isUnit ? 'UNIT USAHA' : 'MITRA USAHA';
+        }
+        if(document.getElementById('navUserRole')) document.getElementById('navUserRole').innerText = displayRole;
+        
         window.initAppContent(); 
         window.switchPage('dashboard'); 
         window.addAuditLog('Akses Sistem', `${name} login ke aplikasi.`);
@@ -833,9 +841,16 @@
         const targetPage = document.getElementById('page-' + p); 
         if(targetPage) targetPage.classList.remove('hidden');
         
+        // Fix: Use classList to preserve hidden utility class instead of overwriting className
         document.querySelectorAll('.nav-btn').forEach(btn => { 
             const isMatch = btn.id === 'nav-' + p; 
-            btn.className = isMatch ? 'text-xs px-3 py-2 nav-btn nav-btn-active whitespace-nowrap' : 'text-xs px-3 py-2 nav-btn nav-btn-inactive whitespace-nowrap'; 
+            if (isMatch) {
+                btn.classList.add('nav-btn-active');
+                btn.classList.remove('nav-btn-inactive');
+            } else {
+                btn.classList.add('nav-btn-inactive');
+                btn.classList.remove('nav-btn-active');
+            }
         });
         
         const activeMobClass = ['text-[var(--srg-green)]', 'bg-slate-50/50', 'border-t-2', 'border-[var(--srg-green)]'];
@@ -1918,19 +1933,19 @@
     // Initializer
     window.initAppContent = () => {
         const role = window.userProfile?.appRole; const isHQ = (role === 'admin' || role === 'auditor');
+        const adminMenuIds = ['nav-brankas', 'nav-mitra', 'nav-rekap', 'nav-profil', 'nav-bukubesar', 'nav-gudang', 'mob-nav-mitra', 'mob-nav-rekap', 'mob-admin-row', 'adminFilter', 'adminMonitorSelect', 'rekapAdminTarget'];
+        
         if(isHQ) { 
-            ['nav-brankas','nav-mitra','nav-rekap','nav-profil','nav-bukubesar','nav-gudang','adminFilter','adminMonitorSelect','rekapAdminTarget'].forEach(id=>{ const el=document.getElementById(id); if(el) el.classList.remove('hidden'); }); 
+            adminMenuIds.forEach(id => { const el = document.getElementById(id); if(el) el.classList.remove('hidden'); }); 
             const navInput = document.getElementById('navInputText'); if(navInput) navInput.innerText = 'Arsip Data'; const navInputIcon = document.getElementById('navInputIcon'); if(navInputIcon) navInputIcon.className = 'fas fa-archive mr-1.5';
             const mobNavInputText = document.getElementById('mobNavInputText'); if(mobNavInputText) mobNavInputText.innerText = 'Arsip'; const mobNavInputIcon = document.getElementById('mobNavInputIcon'); if(mobNavInputIcon) mobNavInputIcon.className = 'fas fa-archive mb-1 text-lg';
-            const mobAdminRow = document.getElementById('mob-admin-row'); if(mobAdminRow) mobAdminRow.classList.remove('hidden');
             const formWrap = document.getElementById('inputFormWrapper'); if(formWrap) { formWrap.classList.add('hidden'); formWrap.style.display = 'none'; }
             const sidebarWrap = document.getElementById('inputSidebar'); if(sidebarWrap) { sidebarWrap.classList.remove('lg:col-span-5'); sidebarWrap.classList.add('lg:col-span-8', 'lg:col-start-3'); }
         } else {
+            // Fix: Forcefully hide ALL admin menus for Mitras
+            adminMenuIds.forEach(id => { const el = document.getElementById(id); if(el) el.classList.add('hidden'); }); 
             const navInput = document.getElementById('navInputText'); if(navInput) navInput.innerText = 'Entri Data'; const navInputIcon = document.getElementById('navInputIcon'); if(navInputIcon) navInputIcon.className = 'fas fa-plus-circle mr-1.5';
             const mobNavInputText = document.getElementById('mobNavInputText'); if(mobNavInputText) mobNavInputText.innerText = 'Entri'; const mobNavInputIcon = document.getElementById('mobNavInputIcon'); if(mobNavInputIcon) mobNavInputIcon.className = 'fas fa-plus-circle mb-1 text-lg';
-            const navBukuBesar = document.getElementById('nav-bukubesar'); if(navBukuBesar) navBukuBesar.classList.add('hidden');
-            const navGudang = document.getElementById('nav-gudang'); if(navGudang) navGudang.classList.add('hidden');
-            const mobAdminRow = document.getElementById('mob-admin-row'); if(mobAdminRow) mobAdminRow.classList.add('hidden');
             const formWrap = document.getElementById('inputFormWrapper'); if(formWrap) { formWrap.classList.remove('hidden'); formWrap.style.display = ''; }
             const sidebarWrap = document.getElementById('inputSidebar'); if(sidebarWrap) { sidebarWrap.classList.remove('lg:col-span-8', 'lg:col-start-3'); sidebarWrap.classList.add('lg:col-span-5'); }
         }
